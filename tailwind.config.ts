@@ -10,6 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        // Per PRD: "MUST use the Geist Sans font". Fallback to Inter if direct CDN linking is an issue per guidelines.
+        // For now, setting to Inter as per existing layout.tsx and Google Fonts guideline.
         body: ['Inter', 'sans-serif'],
         headline: ['Inter', 'sans-serif'],
         code: ['monospace'],

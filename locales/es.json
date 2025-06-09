@@ -1,0 +1,111 @@
+{
+  "appName": "PiPulse",
+  "sidebar": {
+    "dashboard": "Tablero",
+    "team": "Perspectivas del Equipo",
+    "node": "Análisis de Nodo",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "logout": "Cerrar Sesión",
+    "adPlaceholder": "Tu Anuncio Aquí"
+  },
+  "login": {
+    "welcome": "Bienvenido a PiPulse",
+    "button": "Iniciar Sesión con Pi",
+    "error": "Error al iniciar sesión. Por favor, inténtalo de nuevo."
+  },
+  "legal": {
+    "termsTitle": "Términos de Servicio",
+    "termsContent": "Este es el texto de marcador de posición para los Términos de Servicio. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. (Traducido)",
+    "privacyTitle": "Política de Privacidad",
+    "privacyContent": "Este es el texto de marcador de posición para la Política de Privacidad. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. (Traducido)",
+    "returnToLogin": "Volver al Inicio de Sesión"
+  },
+  "dashboard": {
+    "title": "Tablero",
+    "kpi_balance": "Saldo Total de Pi",
+    "kpi_rate": "Tasa de Minería Actual",
+    "kpi_team": "Miembros Activos del Equipo",
+    "balanceBreakdown": {
+      "title": "Desglose de Saldo",
+      "transferableToMainnet": "Transferible a Mainnet",
+      "fromYourTeamUnverified": "De tu Equipo (No Verificado)",
+      "currentlyInLockups": "Actualmente en Bloqueos",
+      "disclaimer": "Nota: El Pi no verificado de los miembros del equipo requiere que completen KYC. (Traducido)"
+    },
+    "unverifiedBalanceChart": {
+      "title": "Fluctuación de Saldo",
+      "yAxisLabel": "Cantidad de Pi",
+      "tooltipLabel": "Cantidad",
+      "periods": {
+        "threeMonths": "3M",
+        "sixMonths": "6M",
+        "twelveMonths": "12M"
+      }
+    },
+    "myBadges": {
+      "title": "Mis Insignias",
+      "earnedOn": "Obtenido el"
+    }
+  },
+  "teamInsights": {
+    "title": "Perspectivas del Equipo",
+    "loading": "Cargando miembros del equipo...",
+    "error": "Error al cargar los miembros del equipo. Por favor, inténtalo de nuevo.",
+    "empty": "Aún no has invitado a ningún miembro al equipo.",
+    "columns": {
+      "member": "Miembro",
+      "joinDate": "Fecha de Unión",
+      "status": "Estado",
+      "contribution": "Contribución"
+    },
+    "statusValues": {
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "pending": "Pendiente"
+    },
+    "contributionTooltip": "Pi no verificado contribuido por este miembro del equipo. Se vuelve transferible después de que completen KYC. (Traducido)"
+  },
+  "nodeAnalysis": {
+    "title": "Análisis de Nodo",
+    "isOperator": {
+      "uptime": "Tiempo de Actividad del Nodo",
+      "performanceScore": "Puntuación de Rendimiento",
+      "performanceHistory": "Historial de Rendimiento",
+      "yAxisLabel": "Puntuación"
+    },
+    "isNotOperator": {
+      "title": "Conviértete en un Operador de Nodo",
+      "description": "Ayuda a asegurar la Red Pi y gana recompensas ejecutando un nodo. Haz clic a continuación para obtener más información y comenzar. (Traducido)",
+      "button": "Más Información en el Sitio Oficial de Pi Network"
+    }
+  },
+  "profile": {
+    "title": "Editar Perfil",
+    "displayName": "Nombre para Mostrar",
+    "bio": "Biografía",
+    "profilePicture": "Foto de Perfil",
+    "saveButton": "Guardar Perfil",
+    "saving": "Guardando...",
+    "successToast": "¡Perfil Guardado!",
+    "errorToast": "¡Error al guardar!"
+  },
+  "settings": {
+    "title": "Configuración de la Aplicación",
+    "theme": {
+      "label": "Tema",
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Sistema"
+    },
+    "language": {
+      "label": "Idioma",
+      "en": "Inglés",
+      "es": "Español"
+    }
+  },
+  "shared": {
+    "loading": "Cargando...",
+    "error": "Ocurrió un error"
+  }
+}

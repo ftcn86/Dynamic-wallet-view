@@ -1,0 +1,206 @@
+"use client"
+
+import { Banknote, Gauge, Users, Award, FileText, BarChart3 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useTranslation } from '@/hooks/useTranslation';
+import { KPICard } from '@/components/shared/KPICard';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { mockTeam, mockChartData } from '@/data/mocks'; // Assuming mockTeam and mockChartData are available
+import { Badge as UiBadge } from '@/components/ui/badge'; // Renaming to avoid conflict
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import Image from 'next/image';
+import type { Badge } from '@/data/schemas';
+import { ResponsiveContainer, BarChart, XAxis, YAxis, Tooltip as RechartsTooltip, Legend, Bar } from 'recharts';
+import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart';
+import { useState } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { format } from 'date-fns';
+
+
+function BalanceBreakdownCard() {
+  const { user } = useAuth();
+  const { t } = useTranslation();
+
+  if (!user) return null;
+
+  return (
+    <Card className="shadow-lg">
+      <CardHeader>
+        <CardTitle className="font-headline">{t('dashboard.balanceBreakdown.title')}</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {Object.entries(user.balanceBreakdown).map(([key, value]) => (
+          <div key={key} className="flex justify-between items-center">
+            <span className="text-sm text-muted-foreground">{t(`dashboard.balanceBreakdown.${key}`)}</span>
+            <span className="font-medium">{Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })} Pi</span>
+          </div>
+        ))}
+      </CardContent>
+      <CardFooter>
+        <p className="text-xs text-muted-foreground">{t('dashboard.balanceBreakdown.disclaimer')}</p>
+      </CardFooter>
+    </Card>
+  );
+}
+
+function UnverifiedBalanceChart() {
+  const { t } = useTranslation();
+  const [timePeriod, setTimePeriod] = useState<keyof typeof mockChartData>('6M');
+  
+  const chartData = mockChartData[timePeriod];
+
+  const chartConfig = {
+    balance: {
+      label: t('dashboard.unverifiedBalanceChart.tooltipLabel'),
+      color: "hsl(var(--primary))",
+    },
+  };
+  
+  return (
+    <Card className="shadow-lg">
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle className="font-headline">{t('dashboard.unverifiedBalanceChart.title')}</CardTitle>
+        <Select value={timePeriod} onValueChange={(value: keyof typeof mockChartData) => setTimePeriod(value)}>
+          <SelectTrigger className="w-[100px]">
+            <SelectValue placeholder={t('dashboard.unverifiedBalanceChart.periods.sixMonths')} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="3M">{t('dashboard.unverifiedBalanceChart.periods.threeMonths')}</SelectItem>
+            <SelectItem value="6M">{t('dashboard.unverifiedBalanceChart.periods.sixMonths')}</SelectItem>
+            <SelectItem value="12M">{t('dashboard.unverifiedBalanceChart.periods.twelveMonths')}</SelectItem>
+          </SelectContent>
+        </Select>
+      </CardHeader>
+      <CardContent>
+        <ChartContainer config={chartConfig} className="h-[300px] w-full">
+          <BarChart data={chartData} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
+            <XAxis dataKey="date" tickFormatter={(value) => format(new Date(value), 'MMM yy')} />
+            <YAxis label={{ value: t('dashboard.unverifiedBalanceChart.yAxisLabel'), angle: -90, position: 'insideLeft' }} />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Legend />
+            <Bar dataKey="balance" fill="var(--color-balance)" radius={4} />
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
+  );
+}
+
+
+function BadgeDetailsDialog({ badge, children }: { badge: Badge, children: React.ReactNode }) {
+  const { t } = useTranslation();
+  return (
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <div className="flex justify-center mb-4">
+            <Image src={badge.iconUrl} alt={badge.name} width={96} height={96} className="rounded-lg" data-ai-hint={badge.dataAiHint} />
+          </div>
+          <DialogTitle className="text-center text-xl font-headline">{badge.name}</DialogTitle>
+          <DialogDescription className="text-center">
+            {badge.description}
+          </DialogDescription>
+        </DialogHeader>
+        {badge.earned && badge.earnedDate && (
+          <div className="mt-4 text-center text-sm text-muted-foreground">
+            {t('dashboard.myBadges.earnedOn')}: {format(new Date(badge.earnedDate), 'MMMM d, yyyy')}
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+
+function MyBadges() {
+  const { user } = useAuth();
+  const { t } = useTranslation();
+
+  if (!user || !user.badges) return null;
+
+  return (
+    <Card className="shadow-lg">
+      <CardHeader>
+        <CardTitle className="font-headline">{t('dashboard.myBadges.title')}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
+          {user.badges.map((badge) => (
+            <BadgeDetailsDialog badge={badge} key={badge.id}>
+              <button className="flex flex-col items-center space-y-2 group focus:outline-none focus:ring-2 focus:ring-primary rounded-md p-1">
+                 <Image
+                    src={badge.iconUrl}
+                    alt={badge.name}
+                    width={64}
+                    height={64}
+                    className={`rounded-lg transition-all duration-300 group-hover:scale-110 ${badge.earned ? '' : 'grayscale opacity-50'}`}
+                    data-ai-hint={badge.dataAiHint}
+                  />
+                <span className={`text-xs text-center ${badge.earned ? 'font-medium' : 'text-muted-foreground'}`}>
+                  {badge.name}
+                </span>
+              </button>
+            </BadgeDetailsDialog>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+
+export default function DashboardPage() {
+  const { user } = useAuth();
+  const { t } = useTranslation();
+
+  if (!user) {
+    return ( // Should be handled by layout, but as a fallback
+      <div className="flex h-full items-center justify-center">
+        <p>{t('shared.loading')}</p>
+      </div>
+    );
+  }
+
+  const activeTeamMembers = mockTeam.filter(m => m.status === 'active').length;
+  const totalTeamMembers = mockTeam.length;
+
+  return (
+    <div className="space-y-6">
+      <h1 className="text-3xl font-bold font-headline">{t('dashboard.title')}</h1>
+      
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <KPICard
+          title={t('dashboard.kpi_balance')}
+          value={user.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}) + ' Pi'}
+          icon={<Banknote />}
+        />
+        <KPICard
+          title={t('dashboard.kpi_rate')}
+          value={`${user.miningRate.toFixed(4)} Pi/hr`}
+          icon={<Gauge />}
+        />
+        <KPICard
+          title={t('dashboard.kpi_team')}
+          value={`${activeTeamMembers} / ${totalTeamMembers}`}
+          icon={<Users />}
+        />
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <BalanceBreakdownCard />
+        <UnverifiedBalanceChart />
+      </div>
+      
+      <MyBadges />
+
+    </div>
+  );
+}

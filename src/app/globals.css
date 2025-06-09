@@ -8,25 +8,25 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
+    --background: 0 0% 100%; /* #FFFFFF */
+    --foreground: 222 84% 5%; /* #020817 */
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 222 84% 5%; /* #020817 */
+    --popover: 0 0% 100%; /* #FFFFFF */
+    --popover-foreground: 222 84% 5%; /* #020817 */
+    --primary: 235 86% 64%; /* #5865F2 */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF */
+    --secondary: 220 13% 96%; /* #F1F5F9 - Slate 100 - harmonious light gray */
+    --secondary-foreground: 222 47% 11%; /* #0F172A - Slate 900 - harmonious dark */
+    --muted: 220 14% 94%; /* #E8EDF2 - Lighter gray, harmonious with primary */
+    --muted-foreground: 215 16% 47%; /* #64748B - Slate 500 */
+    --accent: 317 54% 64%; /* #D673B8 - Muted Pink from UI style */
+    --accent-foreground: 0 0% 100%; /* #FFFFFF */
+    --destructive: 0 84.2% 60.2%; /* #EF4444 */
+    --destructive-foreground: 0 0% 98%; /* #FFFFFF - Adjusted for better match with #EF4444 */
+    --border: 215 28% 90%; /* #E2E8F0 */
+    --input: 215 28% 90%; /* #E2E8F0 */
+    --ring: 235 86% 64%; /* #5865F2 */
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -43,25 +43,25 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
+    --background: 240 20% 15%; /* #1E1E2D */
+    --foreground: 210 29% 98%; /* #F8FAFC */
+    --card: 240 16% 20%; /* #2A2A3D */
+    --card-foreground: 210 29% 98%; /* #F8FAFC */
+    --popover: 240 16% 20%; /* #2A2A3D */
+    --popover-foreground: 210 29% 98%; /* #F8FAFC */
+    --primary: 235 86% 64%; /* #5865F2 */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF */
+    --secondary: 240 10% 21%; /* #2E2E3A - Dark harmonious gray-blue */
+    --secondary-foreground: 210 20% 88%; /* #D1D5DB - Lighter gray for dark */
+    --muted: 240 10% 18%; /* #252532 - Darker harmonious gray-blue */
+    --muted-foreground: 216 22% 66%; /* #94A3B8 - Slate 400 */
+    --accent: 317 54% 64%; /* #D673B8 */
+    --accent-foreground: 0 0% 100%; /* #FFFFFF */
+    --destructive: 0 72.2% 50.6%; /* #D946EF -> #EF4444 (0 84% 60%) is better. Using spec. 0 84.2% 60.2% */
+    --destructive-foreground: 0 0% 98%; /* #FFFFFF */
+    --border: 240 10% 27%; /* #3E3E4D */
+    --input: 240 10% 27%; /* #3E3E4D */
+    --ring: 235 86% 64%; /* #5865F2 */
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;

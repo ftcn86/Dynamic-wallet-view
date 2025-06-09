@@ -1,0 +1,111 @@
+{
+  "appName": "PiPulse",
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "team": "Team Insights",
+    "node": "Node Analysis",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "adPlaceholder": "Your Ad Here"
+  },
+  "login": {
+    "welcome": "Welcome to PiPulse",
+    "button": "Login with Pi",
+    "error": "Login failed. Please try again."
+  },
+  "legal": {
+    "termsTitle": "Terms of Service",
+    "termsContent": "This is the placeholder text for the Terms of Service. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "privacyTitle": "Privacy Policy",
+    "privacyContent": "This is the placeholder text for the Privacy Policy. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
+    "returnToLogin": "Return to Login"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "kpi_balance": "Total Pi Balance",
+    "kpi_rate": "Current Mining Rate",
+    "kpi_team": "Active Team Members",
+    "balanceBreakdown": {
+      "title": "Balance Breakdown",
+      "transferableToMainnet": "Transferable to Mainnet",
+      "fromYourTeamUnverified": "From Your Team (Unverified)",
+      "currentlyInLockups": "Currently in Lockups",
+      "disclaimer": "Note: Unverified Pi from team members requires them to complete KYC."
+    },
+    "unverifiedBalanceChart": {
+      "title": "Balance Fluctuation",
+      "yAxisLabel": "Pi Amount",
+      "tooltipLabel": "Amount",
+      "periods": {
+        "threeMonths": "3M",
+        "sixMonths": "6M",
+        "twelveMonths": "12M"
+      }
+    },
+    "myBadges": {
+      "title": "My Badges",
+      "earnedOn": "Earned on"
+    }
+  },
+  "teamInsights": {
+    "title": "Team Insights",
+    "loading": "Loading team members...",
+    "error": "Failed to load team members. Please try again.",
+    "empty": "You have not invited any team members yet.",
+    "columns": {
+      "member": "Member",
+      "joinDate": "Join Date",
+      "status": "Status",
+      "contribution": "Contribution"
+    },
+    "statusValues": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending"
+    },
+    "contributionTooltip": "Unverified Pi contributed by this team member. Becomes transferable after they complete KYC."
+  },
+  "nodeAnalysis": {
+    "title": "Node Analysis",
+    "isOperator": {
+      "uptime": "Node Uptime",
+      "performanceScore": "Performance Score",
+      "performanceHistory": "Performance History",
+      "yAxisLabel": "Score"
+    },
+    "isNotOperator": {
+      "title": "Become a Node Operator",
+      "description": "Help secure the Pi Network and earn rewards by running a node. Click below to learn more and get started.",
+      "button": "Learn More on Pi Network Official Site"
+    }
+  },
+  "profile": {
+    "title": "Edit Profile",
+    "displayName": "Display Name",
+    "bio": "Bio",
+    "profilePicture": "Profile Picture",
+    "saveButton": "Save Profile",
+    "saving": "Saving...",
+    "successToast": "Profile Saved!",
+    "errorToast": "Save failed!"
+  },
+  "settings": {
+    "title": "Application Settings",
+    "theme": {
+      "label": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language": {
+      "label": "Language",
+      "en": "English",
+      "es": "Español"
+    }
+  },
+  "shared": {
+    "loading": "Loading...",
+    "error": "An error occurred"
+  }
+}
