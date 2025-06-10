@@ -258,13 +258,9 @@ export default function DashboardPage() {
         <UnverifiedPiDetailCard />
       </div>
       
+      <UnverifiedBalanceChart />
       <MiningFocusCard />
       <TeamActivityCard />
-
-      <div className="grid gap-6 lg:grid-cols-1"> 
-        <UnverifiedBalanceChart />
-      </div>
-      
       <MyBadges />
 
     </div>
