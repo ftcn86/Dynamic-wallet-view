@@ -201,7 +201,7 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <h1 className="text-3xl font-bold font-headline">{t('dashboard.title')}</h1>
       
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <KPICard
           title={t('dashboard.kpi_balance')}
           value={user.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}) + ' Pi'}
@@ -270,3 +270,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+
