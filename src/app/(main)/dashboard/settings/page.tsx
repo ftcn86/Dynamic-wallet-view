@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useTheme } from "next-themes";
@@ -14,12 +15,17 @@ export default function SettingsPage() {
   const { language, setLanguage } = useLanguage();
   const { t } = useTranslation();
 
-  type LanguageKey = 'en' | 'es';
+  type LanguageKey = 'en' | 'es' | 'fr' | 'ru' | 'pt' | 'ja' | 'zh';
   type ThemeKey = 'light' | 'dark' | 'system';
 
   const languageOptions: { value: LanguageKey; label: string }[] = [
     { value: 'en', label: t('settings.language.en') },
     { value: 'es', label: t('settings.language.es') },
+    { value: 'fr', label: t('settings.language.fr') },
+    { value: 'ru', label: t('settings.language.ru') },
+    { value: 'pt', label: t('settings.language.pt') },
+    { value: 'ja', label: t('settings.language.ja') },
+    { value: 'zh', label: t('settings.language.zh') },
   ];
 
   const themeOptions: { value: ThemeKey; label: string; icon: JSX.Element }[] = [
@@ -78,3 +84,4 @@ export default function SettingsPage() {
     </div>
   );
 }
+

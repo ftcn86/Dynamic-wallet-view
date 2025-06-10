@@ -259,7 +259,12 @@
     "language": {
       "label": "Language",
       "en": "English",
-      "es": "Español"
+      "es": "Español",
+      "fr": "French",
+      "ru": "Russian",
+      "pt": "Portuguese",
+      "ja": "Japanese",
+      "zh": "Chinese"
     }
   },
   "shared": {

@@ -1,9 +1,10 @@
+
 "use client"
 
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type LanguageCode = 'en' | 'es';
+type LanguageCode = 'en' | 'es' | 'fr' | 'ru' | 'pt' | 'ja' | 'zh';
 
 interface LanguageContextType {
   language: LanguageCode;
@@ -19,7 +20,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const storedLanguage = localStorage.getItem(APP_LANGUAGE_KEY) as LanguageCode | null;
-    if (storedLanguage && (storedLanguage === 'en' || storedLanguage === 'es')) {
+    if (storedLanguage && ['en', 'es', 'fr', 'ru', 'pt', 'ja', 'zh'].includes(storedLanguage)) {
       setLanguage(storedLanguage);
     }
   }, []);
@@ -43,3 +44,4 @@ export function useLanguage() {
   }
   return context;
 }
+

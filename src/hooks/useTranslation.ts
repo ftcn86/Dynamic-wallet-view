@@ -4,12 +4,22 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import en from '@/../locales/en.json';
 import es from '@/../locales/es.json';
+import fr from '@/../locales/fr.json';
+import ru from '@/../locales/ru.json';
+import pt from '@/../locales/pt.json';
+import ja from '@/../locales/ja.json';
+import zh from '@/../locales/zh.json';
 import { useCallback } from 'react';
 import type { LegalSection } from '@/data/schemas';
 
 const translations = {
   en,
   es,
+  fr,
+  ru,
+  pt,
+  ja,
+  zh,
 };
 
 // Helper to get nested values.
@@ -30,7 +40,7 @@ export function useTranslation() {
       value = getNestedValue(englishLangFile, key);
       if (value === undefined) {
         console.error(`Translation key "${key}" not found in English either.`);
-        return undefined; 
+        return undefined;
       }
     }
     return value;
@@ -53,10 +63,10 @@ export function useTranslation() {
       console.warn(`Translation for key "${key}" is not a string or not found. Using key as fallback for string replacement.`);
       translation = key; // Fallback to key for string operations
     }
-    
+
     if (params) {
       Object.keys(params).forEach(paramKey => {
-        const regex = new RegExp(`{{${paramKey}}}`, 'g');
+        const regex = new RegExp(`{{\\s*${paramKey}\\s*}}`, 'g'); // Added \\s* to allow for spaces within {{ }}
         translation = translation!.replace(regex, String(params[paramKey]));
       });
     }
