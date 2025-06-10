@@ -3,7 +3,6 @@
 
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge as UiBadge } from '@/components/ui/badge'; // Renamed to UiBadge to avoid conflict
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -12,9 +11,12 @@ import { mockApiCall } from '@/lib/api';
 import { mockTeam } from '@/data/mocks';
 import type { TeamMember, KycStatus } from '@/data/schemas';
 import { format } from 'date-fns';
-import { Info, Users, ArrowUpDown, ArrowUp, ArrowDown, ShieldCheck, ShieldAlert, ShieldX } from 'lucide-react';
+import { Info, Users, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { KycStatusBadge } from '@/components/shared/KycStatusBadge'; // Import the extracted component
+import { Badge as UiBadge } from '@/components/ui/badge';
+
 
 type SortableKeys = keyof Pick<TeamMember, 'name' | 'joinDate' | 'status' | 'unverifiedPiContribution' | 'teamMemberActiveMiningHours_LastWeek' | 'teamMemberActiveMiningHours_LastMonth' | 'kycStatus'>;
 
@@ -22,37 +24,6 @@ interface SortConfig {
   key: SortableKeys | null;
   direction: 'ascending' | 'descending';
 }
-
-function KycStatusBadge({ status }: { status: KycStatus | undefined }) {
-  const { t } = useTranslation();
-  if (!status) return null;
-
-  let variant: 'success' | 'warning' | 'secondary' | 'destructive' = 'secondary';
-  let IconComponent: React.ElementType = ShieldX; // Default to ShieldX
-
-  switch (status) {
-    case 'completed':
-      variant = 'success';
-      IconComponent = ShieldCheck;
-      break;
-    case 'pending':
-      variant = 'warning';
-      IconComponent = ShieldAlert;
-      break;
-    case 'not_completed':
-      variant = 'secondary'; 
-      IconComponent = ShieldX;
-      break;
-  }
-
-  return (
-    <UiBadge variant={variant} className="flex items-center gap-1.5">
-      <IconComponent className="h-3.5 w-3.5" />
-      {t(`teamInsights.kycStatusValues.${status}`)}
-    </UiBadge>
-  );
-}
-
 
 function TeamMemberRow({ member }: { member: TeamMember }) {
   const { t } = useTranslation();
@@ -70,7 +41,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
       </TableCell>
       <TableCell>{format(new Date(member.joinDate), 'MMM dd, yyyy')}</TableCell>
       <TableCell>
-        <UiBadge // Using UiBadge
+        <UiBadge
           variant={
             member.status === 'active' ? 'success' :
             member.status === 'pending' ? 'warning' :
@@ -179,7 +150,6 @@ export default function TeamInsightsPage() {
       setIsLoading(true);
       setError(null);
       try {
-        // Set failureChance to 0 to prevent simulated API failures for this call
         const data = await mockApiCall({ data: [...mockTeam], failureChance: 0 }); 
         setTeamMembers(data);
       } catch (err) {
@@ -216,12 +186,12 @@ export default function TeamInsightsPage() {
           comparison = valA - valB;
         } else if (typeof valA === 'string' && typeof valB === 'string') {
           comparison = valA.localeCompare(valB);
-        } else if (valA instanceof Date && valB instanceof Date) { // Should be string from mock, but good practice
+        } else if (valA instanceof Date && valB instanceof Date) { 
             comparison = new Date(valA).getTime() - new Date(valB).getTime();
-        } else if (typeof valA === 'object' && typeof valB === 'object' && valA !== null && valB !== null && 'getTime' in valA && 'getTime' in valB) { // Date objects
+        } else if (typeof valA === 'object' && typeof valB === 'object' && valA !== null && valB !== null && 'getTime' in valA && 'getTime' in valB) { 
             comparison = (valA as Date).getTime() - (valB as Date).getTime();
-        } else { // Fallback for other types or mixed types
-             const strA = String(valA ?? ''); // Convert null/undefined to empty string for comparison
+        } else { 
+             const strA = String(valA ?? ''); 
              const strB = String(valB ?? '');
              comparison = strA.localeCompare(strB);
         }
@@ -275,7 +245,7 @@ export default function TeamInsightsPage() {
                      currentDirection={sortConfig.direction}
                      onClick={() => requestSort('status')}
                   >
-                    {t('teamInsights.columns.status')} {/* Mining Status */}
+                    {t('teamInsights.columns.status')} 
                   </SortableTableHead>
                   <SortableTableHead
                      sortKey="kycStatus"
@@ -283,7 +253,7 @@ export default function TeamInsightsPage() {
                      currentDirection={sortConfig.direction}
                      onClick={() => requestSort('kycStatus')}
                   >
-                    {t('teamInsights.columns.kycStatus')} {/* KYC Status */}
+                    {t('teamInsights.columns.kycStatus')} 
                   </SortableTableHead>
                   <SortableTableHead
                      sortKey="unverifiedPiContribution"
@@ -326,4 +296,3 @@ export default function TeamInsightsPage() {
     </div>
   );
 }
-
