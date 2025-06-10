@@ -27,6 +27,7 @@ export interface User {
   weeklyMiningDaysTarget?: number;
   activeMiningDays_LastMonth?: number;
   monthlyMiningDaysTarget?: number;
+  termsAccepted?: boolean; // New field for T&C acceptance
 }
 
 export interface Badge {
@@ -76,4 +77,3 @@ export interface LegalSection {
   title: string;
   content: string;
 }
-

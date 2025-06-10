@@ -72,6 +72,7 @@ export const mockUser: User = {
   weeklyMiningDaysTarget: 7,
   activeMiningDays_LastMonth: Math.min(25, daysInPreviousMonth - 2),
   monthlyMiningDaysTarget: daysInPreviousMonth,
+  termsAccepted: false, // Initialize as false for new users
 };
 
 export const mockTeam: TeamMember[] = [

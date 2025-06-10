@@ -140,7 +140,14 @@
       }
     ],
     "piosLicenseTitle": "Licence PiOS",
-    "piosLicenseContent": "La Licence Open Source Pi (PiOS) permet aux développeurs de la communauté Pi de créer des applications et des outils Pi pour l'écosystème Pi. Les développeurs sont libres d'utiliser la licence pour s'appuyer sur le travail d'autrui et pour que leurs créations soient utilisées et développées par d'autres au sein de l'écosystème Pi.\n\nLa licence PiOS accorde une utilisation illimitée du logiciel uniquement au sein de l'écosystème Pi. La vente du logiciel, ou de tout logiciel incorporant un logiciel sous licence PiOS ou ses dérivés, contre de la monnaie fiduciaire est interdite. La vente contre la crypto-monnaie Pi est autorisée. La licence interdit également explicitement l'utilisation du logiciel pour créer tout produit qui pourrait être considéré comme concurrent de Pi Network.\n\nLisez la licence complète [ici](https://github.com/pi-apps/PiOS/blob/main/LICENSE.md)."
+    "piosLicenseContent": "La Licence Open Source Pi (PiOS) permet aux développeurs de la communauté Pi de créer des applications et des outils Pi pour l'écosystème Pi. Les développeurs sont libres d'utiliser la licence pour s'appuyer sur le travail d'autrui et pour que leurs créations soient utilisées et développées par d'autres au sein de l'écosystème Pi.\n\nLa licence PiOS accorde une utilisation illimitée du logiciel uniquement au sein de l'écosystème Pi. La vente du logiciel, ou de tout logiciel incorporant un logiciel sous licence PiOS ou ses dérivés, contre de la monnaie fiduciaire est interdite. La vente contre la crypto-monnaie Pi est autorisée. La licence interdit également explicitement l'utilisation du logiciel pour créer tout produit qui pourrait être considéré comme concurrent de Pi Network.\n\nLisez la licence complète [ici](https://github.com/pi-apps/PiOS/blob/main/LICENSE.md).",
+    "acceptTerms": {
+      "title": "Consultez Nos Conditions",
+      "description": "Avant de continuer, veuillez consulter et accepter nos Conditions d'utilisation et notre Politique de confidentialité.",
+      "message": "En cliquant sur 'J'accepte et je continue', vous reconnaissez avoir lu, compris et accepté d'être lié par nos Conditions d'utilisation et notre Politique de confidentialité. Vous pouvez consulter ces documents en cliquant sur les liens ci-dessous.",
+      "acceptButton": "J'accepte et je continue",
+      "logoutButton": "Déconnexion"
+    }
   },
   "dashboard": {
     "title": "Tableau de bord",
@@ -294,5 +301,3 @@
     "retryButton": "Réessayer"
   }
 }
-
-    

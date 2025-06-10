@@ -140,7 +140,14 @@
       }
     ],
     "piosLicenseTitle": "PiOS 许可证",
-    "piosLicenseContent": "Pi开源 (PiOS) 许可证允许Pi社区开发者为Pi生态系统创建Pi应用程序和工具。开发者可以自由使用该许可证在他人工作的基础上进行构建，并让他们的创作在Pi生态系统内被他人使用和构建。\n\nPiOS许可证仅在Pi生态系统内授予软件的无限制使用权。禁止以法定货币出售该软件或任何包含PiOS许可软件或其衍生品的软件。允许以Pi加密货币出售。该许可证还明确禁止使用该软件创建任何可能被视为与Pi网络竞争的产品。\n\n在此处阅读完整许可证 [链接](https://github.com/pi-apps/PiOS/blob/main/LICENSE.md)。"
+    "piosLicenseContent": "Pi开源 (PiOS) 许可证允许Pi社区开发者为Pi生态系统创建Pi应用程序和工具。开发者可以自由使用该许可证在他人工作的基础上进行构建，并让他们的创作在Pi生态系统内被他人使用和构建。\n\nPiOS许可证仅在Pi生态系统内授予软件的无限制使用权。禁止以法定货币出售该软件或任何包含PiOS许可软件或其衍生品的软件。允许以Pi加密货币出售。该许可证还明确禁止使用该软件创建任何可能被视为与Pi网络竞争的产品。\n\n在此处阅读完整许可证 [链接](https://github.com/pi-apps/PiOS/blob/main/LICENSE.md)。",
+    "acceptTerms": {
+      "title": "查看我们的条款",
+      "description": "在继续之前，请查看并接受我们的服务条款和隐私政策。",
+      "message": "点击“我接受并继续”，即表示您已阅读、理解并同意受我们的服务条款和隐私政策的约束。您可以通过点击以下链接查看这些文件。",
+      "acceptButton": "我接受并继续",
+      "logoutButton": "登出"
+    }
   },
   "dashboard": {
     "title": "仪表板",
@@ -294,5 +301,3 @@
     "retryButton": "重试"
   }
 }
-
-    

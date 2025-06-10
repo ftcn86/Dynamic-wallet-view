@@ -140,7 +140,14 @@
       }
     ],
     "piosLicenseTitle": "Licença PiOS",
-    "piosLicenseContent": "A Licença Pi Open Source (PiOS) permite que os Desenvolvedores da Comunidade Pi criem Aplicativos Pi e ferramentas para o Ecossistema Pi. Os desenvolvedores são livres para usar a licença para construir sobre o trabalho de outros e para que suas criações sejam usadas e construídas por outros dentro do Ecossistema Pi.\n\nA licença PiOS concede o uso irrestrito do software apenas dentro do Ecossistema Pi. A venda do software, ou qualquer software que incorpore software licenciado pela PiOS ou seus derivados, por moeda fiduciária é proibida. A venda por criptomoeda Pi é permitida. A licença também proíbe explicitamente o uso do software para criar qualquer produto que possa ser considerado concorrente da Pi Network.\n\nLeia a licença completa [aqui](https://github.com/pi-apps/PiOS/blob/main/LICENSE.md)."
+    "piosLicenseContent": "A Licença Pi Open Source (PiOS) permite que os Desenvolvedores da Comunidade Pi criem Aplicativos Pi e ferramentas para o Ecossistema Pi. Os desenvolvedores são livres para usar a licença para construir sobre o trabalho de outros e para que suas criações sejam usadas e construídas por outros dentro do Ecossistema Pi.\n\nA licença PiOS concede o uso irrestrito do software apenas dentro do Ecossistema Pi. A venda do software, ou qualquer software que incorpore software licenciado pela PiOS ou seus derivados, por moeda fiduciária é proibida. A venda por criptomoeda Pi é permitida. A licença também proíbe explicitamente o uso do software para criar qualquer produto que possa ser considerado concorrente da Pi Network.\n\nLeia a licença completa [aqui](https://github.com/pi-apps/PiOS/blob/main/LICENSE.md).",
+    "acceptTerms": {
+      "title": "Revise Nossos Termos",
+      "description": "Antes de prosseguir, revise e aceite nossos Termos de Serviço e Política de Privacidade.",
+      "message": "Ao clicar em 'Eu Aceito e Continuo', você reconhece que leu, entendeu e concorda em ficar vinculado aos nossos Termos de Serviço e Política de Privacidade. Você pode revisar esses documentos clicando nos links abaixo.",
+      "acceptButton": "Eu Aceito e Continuo",
+      "logoutButton": "Sair"
+    }
   },
   "dashboard": {
     "title": "Painel",
@@ -294,5 +301,3 @@
     "retryButton": "Tentar Novamente"
   }
 }
-
-    

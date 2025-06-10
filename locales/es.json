@@ -140,7 +140,14 @@
       }
     ],
     "piosLicenseTitle": "Licencia PiOS",
-    "piosLicenseContent": "La Licencia de Código Abierto de Pi (PiOS) permite a los Desarrolladores de la Comunidad Pi crear Aplicaciones Pi y herramientas para el Ecosistema Pi. Los desarrolladores son libres de usar la licencia para construir sobre el trabajo de otros, y para que sus creaciones sean usadas y construidas por otros dentro del Ecosistema Pi.\n\nLa licencia PiOS otorga el uso irrestricto del software solo dentro del Ecosistema Pi. Se prohíbe la venta del software, o cualquier software que incorpore software licenciado por PiOS o sus derivados, por moneda fiduciaria. Se permite la venta por criptomoneda Pi. La licencia también prohíbe explícitamente el uso del software para crear cualquier producto que pueda considerarse competencia de Pi Network.\n\nLea la licencia completa [aquí](https://github.com/pi-apps/PiOS/blob/main/LICENSE.md)."
+    "piosLicenseContent": "La Licencia de Código Abierto de Pi (PiOS) permite a los Desarrolladores de la Comunidad Pi crear Aplicaciones Pi y herramientas para el Ecosistema Pi. Los desarrolladores son libres de usar la licencia para construir sobre el trabajo de otros, y para que sus creaciones sean usadas y construidas por otros dentro del Ecosistema Pi.\n\nLa licencia PiOS otorga el uso irrestricto del software solo dentro del Ecosistema Pi. Se prohíbe la venta del software, o cualquier software que incorpore software licenciado por PiOS o sus derivados, por moneda fiduciaria. Se permite la venta por criptomoneda Pi. La licencia también prohíbe explícitamente el uso del software para crear cualquier producto que pueda considerarse competencia de Pi Network.\n\nLea la licencia completa [aquí](https://github.com/pi-apps/PiOS/blob/main/LICENSE.md).",
+    "acceptTerms": {
+      "title": "Revise Nuestros Términos",
+      "description": "Antes de continuar, por favor revise y acepte nuestros Términos de Servicio y Política de Privacidad.",
+      "message": "Al hacer clic en 'Acepto y Continuo', usted reconoce que ha leído, entendido y acepta estar sujeto a nuestros Términos de Servicio y Política de Privacidad. Puede revisar estos documentos haciendo clic en los enlaces a continuación.",
+      "acceptButton": "Acepto y Continuo",
+      "logoutButton": "Cerrar Sesión"
+    }
   },
   "dashboard": {
     "title": "Tablero",
@@ -294,5 +301,3 @@
     "retryButton": "Intentar de Nuevo"
   }
 }
-
-    
