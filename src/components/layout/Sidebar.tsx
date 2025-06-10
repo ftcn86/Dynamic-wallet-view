@@ -47,17 +47,26 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { SidebarNavLink } from './SidebarNavLink';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { PI_TEAM_CHAT_URL } from '@/lib/constants';
+import { PI_TEAM_CHAT_URL, PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY } from '@/lib/constants';
+
 
 export function Sidebar() {
-  const { user, logout } = useAuth();
+  const { user, logout: authLogout } = useAuth(); // Renamed to avoid conflict
   const { t } = useTranslation();
   const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const isMobile = useIsMobile();
 
-  const handleLogout = () => {
-    logout();
+  const performLogout = () => {
+    // If device login was enabled by the user, set a hint flag in localStorage
+    // so the login page can offer the (placeholder) device login button.
+    if (user?.deviceLoginEnabled && typeof window !== 'undefined') {
+      localStorage.setItem(PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY, 'true');
+    } else if (typeof window !== 'undefined') {
+      // Explicitly remove if not enabled, or if user is null (though latter shouldn't happen here)
+      localStorage.removeItem(PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY);
+    }
+    authLogout();
     router.push('/login');
   };
 
@@ -71,7 +80,7 @@ export function Sidebar() {
 
   const handleOpenChat = () => {
     window.open(PI_TEAM_CHAT_URL, '_blank');
-    handleNavigation(); // Also collapse sidebar on mobile if chat is opened
+    handleNavigation(); 
   };
 
   if (!user) return null;
@@ -112,7 +121,6 @@ export function Sidebar() {
                 "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10",
                 isCollapsed && "justify-center"
               )}
-              onClick={handleNavigation} 
             >
               <MessageSquare className="h-5 w-5" />
               {!isCollapsed && <span className="truncate">{t('sidebar.chat')}</span>}
@@ -196,10 +204,34 @@ export function Sidebar() {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => { handleNavigation(); handleLogout(); }} className="flex items-center gap-2 text-destructive focus:text-destructive focus:bg-destructive/10">
-              <LogOut className="h-4 w-4" />
-              <span>{t('sidebar.logout')}</span>
-            </DropdownMenuItem>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <button className="w-full flex items-center gap-2 px-2 py-1.5 text-sm rounded-sm text-destructive focus:bg-destructive/10 hover:bg-destructive/10 outline-none relative select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                  <LogOut className="h-4 w-4" />
+                  <span>{t('sidebar.logout')}</span>
+                </button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>{t('sidebar.logoutConfirm.title')}</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {t('sidebar.logoutConfirm.description')}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>{t('sidebar.logoutConfirm.cancelButton')}</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      handleNavigation(); // Collapse sidebar on mobile if open
+                      performLogout();
+                    }}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    {t('sidebar.logoutConfirm.confirmButton')}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

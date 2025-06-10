@@ -1,6 +1,6 @@
 
 {
-  "appName": "Visualização Dinâmica da Carteira Pi",
+  "appName": "PiPulse",
   "sidebar": {
     "dashboard": "Painel",
     "team": "Informações da Equipe",
@@ -16,27 +16,39 @@
       "description": "Você está prestes a ser redirecionado para o Chat oficial da Equipe Pi em uma nova aba. Deseja continuar?",
       "confirmButton": "Abrir Chat",
       "cancelButton": "Cancelar"
+    },
+    "logoutConfirm": {
+      "title": "Confirmar Logout",
+      "description": "Tem certeza de que deseja sair? Você precisará se autenticar novamente com sua conta da Pi Network para fazer login novamente.",
+      "confirmButton": "Sair",
+      "cancelButton": "Cancelar"
     }
   },
   "login": {
-    "welcome": "Bem-vindo à Visualização Dinâmica da Carteira Pi",
+    "welcome": "Bem-vindo à PiPulse",
     "button": "Login com Pi",
-    "error": "Falha no login. Por favor, tente novamente."
+    "error": "Falha no login. Por favor, tente novamente.",
+    "piAuthInfo": "Isso irá autenticá-lo usando sua conta da Pi Network.",
+    "deviceLogin": {
+      "button": "Entrar com Dispositivo",
+      "placeholderTitle": "Login com Dispositivo (Em Breve)",
+      "placeholderDescription": "Este recurso permitirá que você faça login rapidamente usando a biometria do seu dispositivo após a configuração inicial. Ainda não implementado."
+    }
   },
   "legal": {
     "termsTitle": "Termos de Serviço",
     "termsSections": [
       {
         "title": "Termos de Serviço - Introdução",
-        "content": "Data de Vigência: 26 de outubro de 2023\n\nBem-vindo à Visualização Dinâmica da Carteira Pi! Estes Termos de Serviço ('Termos') regem o seu uso do aplicativo Visualização Dinâmica da Carteira Pi e quaisquer serviços relacionados (coletivamente, o 'Serviço'). Ao acessar ou usar nosso Serviço, você concorda em ficar vinculado a estes Termos."
+        "content": "Data de Vigência: 26 de outubro de 2023\n\nBem-vindo à PiPulse! Estes Termos de Serviço ('Termos') regem o seu uso do aplicativo PiPulse e quaisquer serviços relacionados (coletivamente, o 'Serviço'). Ao acessar ou usar nosso Serviço, você concorda em ficar vinculado a estes Termos."
       },
       {
         "title": "1. Aceitação dos Termos",
-        "content": "Ao usar a Visualização Dinâmica da Carteira Pi, você confirma que leu, entendeu e concorda com estes Termos. Se você não concorda com qualquer parte destes Termos, você não deve usar o Serviço."
+        "content": "Ao usar a PiPulse, você confirma que leu, entendeu e concorda com estes Termos. Se você não concorda com qualquer parte destes Termos, você não deve usar o Serviço."
       },
       {
         "title": "2. Descrição do Serviço",
-        "content": "A Visualização Dinâmica da Carteira Pi é um aplicativo de terceiros projetado para fornecer aos usuários um painel para visualizar suas métricas relacionadas à Rede Pi, incluindo saldo de Pi, taxa de mineração, informações de membros da equipe e desempenho do nó. A Visualização Dinâmica da Carteira Pi não é um aplicativo oficial da Rede Pi e não é uma carteira. Ele não armazena suas chaves privadas nem facilita transações de Pi."
+        "content": "A PiPulse é um aplicativo de terceiros projetado para fornecer aos usuários um painel para visualizar suas métricas relacionadas à Rede Pi, incluindo saldo de Pi, taxa de mineração, informações de membros da equipe e desempenho do nó. A PiPulse não é um aplicativo oficial da Rede Pi e não é uma carteira. Ele não armazena suas chaves privadas nem facilita transações de Pi."
       },
       {
         "title": "3. Uso do Serviço",
@@ -44,19 +56,19 @@
       },
       {
         "title": "4. Precisão dos Dados e Dados Fictícios",
-        "content": "Atualmente, a Visualização Dinâmica da Carteira Pi utiliza dados fictícios (mock data) para fins de demonstração e desenvolvimento. Em um ambiente ativo conectado à Rede Pi, a precisão dos dados exibidos dependeria das informações disponibilizadas pelas APIs da Rede Pi e dos dados aos quais você autoriza o acesso. A Visualização Dinâmica da Carteira Pi não garante a precisão absoluta ou a pontualidade dos dados originados da Rede Pi."
+        "content": "Atualmente, a PiPulse utiliza dados fictícios (mock data) para fins de demonstração e desenvolvimento. Em um ambiente ativo conectado à Rede Pi, a precisão dos dados exibidos dependeria das informações disponibilizadas pelas APIs da Rede Pi e dos dados aos quais você autoriza o acesso. A PiPulse não garante a precisão absoluta ou a pontualidade dos dados originados da Rede Pi."
       },
       {
         "title": "5. Isenção de Garantias",
-        "content": "O Serviço é fornecido 'como está' e 'conforme disponível' sem quaisquer garantias de qualquer tipo, expressas ou implícitas. A Visualização Dinâmica da Carteira Pi não garante que o Serviço será ininterrupto, livre de erros ou completamente seguro. A Visualização Dinâmica da Carteira Pi não é afiliada à Equipe Principal Pi (Pi Core Team) ou à Rede Pi."
+        "content": "O Serviço é fornecido 'como está' e 'conforme disponível' sem quaisquer garantias de qualquer tipo, expressas ou implícitas. A PiPulse não garante que o Serviço será ininterrupto, livre de erros ou completamente seguro. A PiPulse não é afiliada à Equipe Principal Pi (Pi Core Team) ou à Rede Pi."
       },
       {
         "title": "6. Limitação de Responsabilidade",
-        "content": "Na extensão máxima permitida por lei, a Visualização Dinâmica da Carteira Pi não será responsável por quaisquer danos indiretos, incidentais, especiais, consequenciais ou punitivos, ou qualquer perda de lucros ou receitas, incorridos direta ou indiretamente, ou qualquer perda de dados, uso, fundo de comércio ou outras perdas intangíveis, resultantes de (a) seu acesso ou uso ou incapacidade de acessar ou usar o Serviço; (b) qualquer conduta ou conteúdo de terceiros no Serviço; ou (c) acesso, uso ou alteração não autorizados de suas transmissões ou conteúdo, mesmo que a Visualização Dinâmica da Carteira Pi tenha sido avisada da possibilidade de tais danos."
+        "content": "Na extensão máxima permitida por lei, a PiPulse não será responsável por quaisquer danos indiretos, incidentais, especiais, consequenciais ou punitivos, ou qualquer perda de lucros ou receitas, incorridos direta ou indiretamente, ou qualquer perda de dados, uso, fundo de comércio ou outras perdas intangíveis, resultantes de (a) seu acesso ou uso ou incapacidade de acessar ou usar o Serviço; (b) qualquer conduta ou conteúdo de terceiros no Serviço; ou (c) acesso, uso ou alteração não autorizados de suas transmissões ou conteúdo, mesmo que a PiPulse tenha sido avisada da possibilidade de tais danos."
       },
       {
         "title": "7. Propriedade Intelectual",
-        "content": "O nome Visualização Dinâmica da Carteira Pi, o logotipo e todos os nomes, logotipos, nomes de produtos e serviços, designs e slogans relacionados são marcas comerciais da Visualização Dinâmica da Carteira Pi ou de seus licenciadores. Pi Network e o logotipo Pi são marcas comerciais da Pi Community Company. Este Serviço não é endossado ou afiliado à Rede Pi."
+        "content": "O nome PiPulse, o logotipo e todos os nomes, logotipos, nomes de produtos e serviços, designs e slogans relacionados são marcas comerciais da PiPulse ou de seus licenciadores. Pi Network e o logotipo Pi são marcas comerciais da Pi Community Company. Este Serviço não é endossado ou afiliado à Rede Pi."
       },
       {
         "title": "8. Alterações nos Termos",
@@ -71,35 +83,35 @@
     "privacySections": [
       {
         "title": "Política de Privacidade - Introdução",
-        "content": "Data de Vigência: 26 de outubro de 2023\n\nA Visualização Dinâmica da Carteira Pi ('nós', 'nos' ou 'nosso') está comprometida em proteger sua privacidade. Esta Política de Privacidade explica como lidamos com as informações quando você usa nosso aplicativo Visualização Dinâmica da Carteira Pi (o 'Serviço')."
+        "content": "Data de Vigência: 26 de outubro de 2023\n\nA PiPulse ('nós', 'nos' ou 'nosso') está comprometida em proteger sua privacidade. Esta Política de Privacidade explica como lidamos com as informações quando você usa nosso aplicativo PiPulse (o 'Serviço')."
       },
       {
         "title": "1. Nosso Relacionamento com a Rede Pi",
-        "content": "A Visualização Dinâmica da Carteira Pi é um aplicativo independente de terceiros. NÃO é um aplicativo oficial da Rede Pi ou da Equipe Principal Pi. Esta política descreve o tratamento de dados pela Visualização Dinâmica da Carteira Pi, não pela própria Rede Pi. Para as práticas de privacidade da Rede Pi, consulte a política de privacidade oficial deles."
+        "content": "A PiPulse é um aplicativo independente de terceiros. NÃO é um aplicativo oficial da Rede Pi ou da Equipe Principal Pi. Esta política descreve o tratamento de dados pela PiPulse, não pela própria Rede Pi. Para as práticas de privacidade da Rede Pi, consulte a política de privacidade oficial deles."
       },
       {
         "title": "2. Informações que Lidamos",
-        "content": "Quando você usa a Visualização Dinâmica da Carteira Pi, o aplicativo é projetado para exibir informações relacionadas à sua conta da Rede Pi, que podem incluir:\n- Seu saldo de Pi e sua discriminação (por exemplo, transferível, não verificado, bloqueios).\n- Sua taxa de mineração de Pi atual.\n- Informações sobre os membros da sua equipe (por exemplo, nome, status, contribuição), conforme potencialmente disponibilizadas pelas APIs da Rede Pi.\n- Dados de desempenho do nó (se você for um operador de nó e esses dados estiverem acessíveis).\n- Informações de perfil que você pode fornecer diretamente na Visualização Dinâmica da Carteira Pi (por exemplo, nome de exibição, biografia).\n\n**Nota Importante sobre a Versão Atual:** A versão atual da Visualização Dinâmica da Carteira Pi usa DADOS FICTÍCIOS (simulados) para todos os recursos. Nenhuma conexão real com sua conta da Rede Pi é feita, e nenhum dado real da Rede Pi é buscado ou armazenado pela Visualização Dinâmica da Carteira Pi."
+        "content": "Quando você usa a PiPulse, o aplicativo é projetado para exibir informações relacionadas à sua conta da Rede Pi, que podem incluir:\n- Seu saldo de Pi e sua discriminação (por exemplo, transferível, não verificado, bloqueios).\n- Sua taxa de mineração de Pi atual.\n- Informações sobre os membros da sua equipe (por exemplo, nome, status, contribuição), conforme potencialmente disponibilizadas pelas APIs da Rede Pi.\n- Dados de desempenho do nó (se você for um operador de nó e esses dados estiverem acessíveis).\n- Informações de perfil que você pode fornecer diretamente na PiPulse (por exemplo, nome de exibição, biografia).\n\n**Nota Importante sobre a Versão Atual:** A versão atual da PiPulse usa DADOS FICTÍCIOS (simulados) para todos os recursos. Nenhuma conexão real com sua conta da Rede Pi é feita, e nenhum dado real da Rede Pi é buscado ou armazenado pela PiPulse."
       },
       {
         "title": "3. Como Usaríamos as Informações (Se Conectado a Dados Reais)",
-        "content": "Se a Visualização Dinâmica da Carteira Pi estivesse conectada a dados reais da Rede Pi (o que atualmente não está), las informações seriam usadas exclusivamente para:\n- Fornecer a você os recursos do painel: exibindo suas métricas relacionadas a Pi, informações da equipe e análise de nós.\n- Permitir que você personalize sua experiência no aplicativo (por exemplo, tema, idioma).\nNão venderíamos suas informações pessoais. O acesso aos seus dados da Rede Pi exigiria sua autorização explícita através dos mecanismos oficiais da Rede Pi."
+        "content": "Se a PiPulse estivesse conectada a dados reais da Rede Pi (o que atualmente não está), las informações seriam usadas exclusivamente para:\n- Fornecer a você os recursos do painel: exibindo suas métricas relacionadas a Pi, informações da equipe e análise de nós.\n- Permitir que você personalize sua experiência no aplicativo (por exemplo, tema, idioma).\nNão venderíamos suas informações pessoais. O acesso aos seus dados da Rede Pi exigiria sua autorização explícita através dos mecanismos oficiais da Rede Pi."
       },
       {
         "title": "4. Armazenamento e Segurança de Dados",
-        "content": "A Visualização Dinâmica da Carteira Pi é projetada como um visualizador ou interface. Não armazenaria dados sensíveis da Rede Pi, como chaves privadas. As preferences do aplicativo (tema, idioma) são armazenadas localmente no seu dispositivo. Se lidássemos com dados reais, implementaríamos medidas de segurança razoáveis para proteger as informações exibidas."
+        "content": "A PiPulse é projetada como um visualizador ou interface. Não armazenaria dados sensíveis da Rede Pi, como chaves privadas. As preferences do aplicativo (tema, idioma) são armazenadas localmente no seu dispositivo. Se lidássemos com dados reais, implementaríamos medidas de segurança razoáveis para proteger as informações exibidas."
       },
       {
         "title": "5. Serviços de Terceiros e Anúncios",
-        "content": "A Visualização Dinâmica da Carteira Pi não compartilha seus dados específicos da Rede Pi com anunciantes terceirizados. O aplicativo pode conter elementos de espaço reservado para anúncios que não são funcionais na versão fictícia atual e não rastreiam você."
+        "content": "A PiPulse não compartilha seus dados específicos da Rede Pi com anunciantes terceirizados. O aplicativo pode conter elementos de espaço reservado para anúncios que não são funcionais na versão fictícia atual e não rastreiam você."
       },
       {
         "title": "6. Suas Escolhas e Direitos",
-        "content": "O controle sobre seus dados da Rede Pi reside em sua conta da Rede Pi e sua plataforma oficial. A Visualização Dinâmica da Carteira Pi, como um visualizador de terceiros, exibiria apenas dados com base nas permissões que você concede através da Rede Pi. As informações de perfil inseridas diretamente na Visualização Dinâmica da Carteira Pi podem ser gerenciadas por você dentro do aplicativo."
+        "content": "O controle sobre seus dados da Rede Pi reside em sua conta da Rede Pi e sua plataforma oficial. A PiPulse, como um visualizador de terceiros, exibiria apenas dados com base nas permissões que você concede através da Rede Pi. As informações de perfil inseridas diretamente na PiPulse podem ser gerenciadas por você dentro do aplicativo."
       },
       {
         "title": "7. Privacidade das Crianças",
-        "content": "A Visualização Dinâmica da Carteira Pi não se destina ao uso por crianças menores de 13 anos (ou a idade relevante em sua jurisdição). Não coletamos intencionalmente informações pessoais de crianças."
+        "content": "A PiPulse não se destina ao uso por crianças menores de 13 anos (ou a idade relevante em sua jurisdição). Não coletamos intencionalmente informações pessoais de crianças."
       },
       {
         "title": "8. Alterações nesta Política de Privacidade",
@@ -116,15 +128,15 @@
     "helpSections": [
       {
         "title": "Bem-vindo à Ajuda e Suporte!",
-        "content": "**O que é a Visualização Dinâmica da Carteira Pi?**\nA Visualização Dinâmica da Carteira Pi é um aplicativo de terceiros projetado para oferecer uma interface dinâmica e fácil de usar para visualizar suas métricas relacionadas à Rede Pi. Isso inclui seu saldo de Pi, taxa de mineração atual, informações sobre a atividade de sua equipe e dados de desempenho se você operar um Nó Pi."
+        "content": "**O que é a PiPulse?**\nA PiPulse é um aplicativo de terceiros projetado para oferecer uma interface dinâmica e fácil de usar para visualizar suas métricas relacionadas à Rede Pi. Isso inclui seu saldo de Pi, taxa de mineração atual, informações sobre a atividade de sua equipe e dados de desempenho se você operar um Nó Pi."
       },
       {
-        "title": "A Visualização Dinâmica da Carteira Pi é um aplicativo oficial da Rede Pi?",
-        "content": "Não, a Visualização Dinâmica da Carteira Pi é um aplicativo independente desenvolvido por entusiastas. Não é oficialmente afiliado, endossado ou patrocinado pela Equipe Principal Pi (Pi Core Team) ou pela Rede Pi."
+        "title": "A PiPulse é um aplicativo oficial da Rede Pi?",
+        "content": "Não, a PiPulse é um aplicativo independente desenvolvido por entusiastas. Não é oficialmente afiliado, endossado ou patrocinado pela Equipe Principal Pi (Pi Core Team) ou pela Rede Pi."
       },
       {
-        "title": "Qual a precisão dos dados mostrados na Visualização Dinâmica da Carteira Pi?",
-        "content": "Atualmente, a Visualização Dinâmica da Carteira Pi usa DADOS FICTÍCIOS (SIMULADOS) para todos os seus recursos. Isso é para fins de demonstração e desenvolvimento. Em uma versão futura destinada ao uso real, a precisão dos dados dependeria das informações fornecidas pelas APIs oficiais da Rede Pi e das permissões que você conceder."
+        "title": "Qual a precisão dos dados mostrados na PiPulse?",
+        "content": "Atualmente, a PiPulse usa DADOS FICTÍCIOS (SIMULADOS) para todos os seus recursos. Isso é para fins de demonstração e desenvolvimento. Em uma versão futura destinada ao uso real, a precisão dos dados dependeria das informações fornecidas pelas APIs oficiais da Rede Pi e das permissões que você conceder."
       },
       {
         "title": "Visão Geral dos Principais Recursos",
@@ -132,11 +144,11 @@
       },
       {
         "title": "Solução de Problemas Comuns",
-        "content": "*   **Aplicativo não carrega ou mostra erros:** Como a Visualização Dinâmica da Carteira Pi atualmente usa dados fictícios, erros persistentes podem indicar um problema com o próprio aplicativo. Por favor, tente atualizar. Se os problemas persistirem, entre em contato com o suporte.\n*   **Os dados parecem incorretos:** Lembre-se, todos os dados nesta versão são simulados. Eles não refletem sua conta real da Rede Pi."
+        "content": "*   **Aplicativo não carrega ou mostra erros:** Como a PiPulse atualmente usa dados fictícios, erros persistentes podem indicar um problema com o próprio aplicativo. Por favor, tente atualizar. Se os problemas persistirem, entre em contato com o suporte.\n*   **Os dados parecem incorretos:** Lembre-se, todos os dados nesta versão são simulados. Eles não refletem sua conta real da Rede Pi."
       },
       {
         "title": "Contatando o Suporte",
-        "content": "Se você tiver perguntas específicas sobre o aplicativo Visualização Dinâmica da Carteira Pi, encontrar bugs ou tiver feedback, envie um e-mail para support@example.com.\n\nPara quaisquer perguntas ou problemas relacionados à sua conta real da Rede Pi, mineração, KYC ou políticas oficiais da Rede Pi, consulte os canais de suporte fornecidos pela Rede Pi (por exemplo, suporte no aplicativo oficial Pi, site oficial da Rede Pi e canais da comunidade)."
+        "content": "Se você tiver perguntas específicas sobre o aplicativo PiPulse, encontrar bugs ou tiver feedback, envie um e-mail para support@example.com.\n\nPara quaisquer perguntas ou problemas relacionados à sua conta real da Rede Pi, mineração, KYC ou políticas oficiais da Rede Pi, consulte os canais de suporte fornecidos pela Rede Pi (por exemplo, suporte no aplicativo oficial Pi, site oficial da Rede Pi e canais da comunidade)."
       }
     ],
     "piosLicenseTitle": "Licença PiOS",
@@ -288,6 +300,14 @@
       "pt": "Português",
       "ja": "Japonês",
       "zh": "Chinês"
+    },
+    "security": {
+        "title": "Configurações de Segurança",
+        "deviceLogin": {
+            "label": "Ativar Login Rápido com Dispositivo",
+            "description": "Use a biometria ou o bloqueio de tela do seu dispositivo para um login mais rápido.",
+            "note": "Este recurso é uma simulação. O login biométrico real não está implementado."
+        }
     }
   },
   "shared": {

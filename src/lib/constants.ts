@@ -12,5 +12,7 @@ export const PI_NODE_INFO_URL = "https://pi.network/node-mobile/";
 export const PI_APP_MINING_URL = "pi://mine"; // Placeholder for Pi App mining section
 export const PI_TEAM_CHAT_URL = "https://pi.app/official-chat"; // Placeholder URL for Pi Team Chat
 
-// Add other constants here as needed
+// LocalStorage Keys
+export const PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY = 'piPulseDeviceLoginEnabledHint';
 
+// Add other constants here as needed
