@@ -19,7 +19,7 @@ import {
   HelpCircle,
   FileText,
   ShieldCheck,
-  MessageSquare, // Added Chat Icon
+  MessageSquare,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -31,12 +31,23 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { SidebarNavLink } from './SidebarNavLink';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { PI_TEAM_CHAT_URL } from '@/lib/constants'; // Added Chat URL constant
+import { PI_TEAM_CHAT_URL } from '@/lib/constants';
 
 export function Sidebar() {
   const { user, logout } = useAuth();
@@ -56,6 +67,11 @@ export function Sidebar() {
     if (isMobile && !isCollapsed) {
       setIsCollapsed(true);
     }
+  };
+
+  const handleOpenChat = () => {
+    window.open(PI_TEAM_CHAT_URL, '_blank');
+    handleNavigation(); // Also collapse sidebar on mobile if chat is opened
   };
 
   if (!user) return null;
@@ -88,21 +104,36 @@ export function Sidebar() {
         <SidebarNavLink href="/dashboard/node" icon={<Network />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
           {t('sidebar.node')}
         </SidebarNavLink>
-        {/* External Chat Link */}
-        <a
-          href={PI_TEAM_CHAT_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cn(
-            "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10",
-            isCollapsed && "justify-center"
-          )}
-          onClick={handleNavigation} 
-        >
-          <MessageSquare className="h-5 w-5" />
-          {!isCollapsed && <span className="truncate">{t('sidebar.chat')}</span>}
-          {isCollapsed && <span className="sr-only">{t('sidebar.chat')}</span>}
-        </a>
+        
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <button
+              className={cn(
+                "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10",
+                isCollapsed && "justify-center"
+              )}
+              onClick={handleNavigation} 
+            >
+              <MessageSquare className="h-5 w-5" />
+              {!isCollapsed && <span className="truncate">{t('sidebar.chat')}</span>}
+              {isCollapsed && <span className="sr-only">{t('sidebar.chat')}</span>}
+            </button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>{t('sidebar.chatRedirect.title')}</AlertDialogTitle>
+              <AlertDialogDescription>
+                {t('sidebar.chatRedirect.description')}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>{t('sidebar.chatRedirect.cancelButton')}</AlertDialogCancel>
+              <AlertDialogAction onClick={handleOpenChat}>
+                {t('sidebar.chatRedirect.confirmButton')}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </nav>
 
       <div className={cn("px-4 py-4", isCollapsed && "px-2 py-2")}>

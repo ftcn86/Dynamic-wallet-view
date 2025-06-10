@@ -10,7 +10,13 @@
     "settings": "Paramètres",
     "logout": "Déconnexion",
     "adPlaceholder": "Votre publicité ici",
-    "help": "Aide"
+    "help": "Aide",
+    "chatRedirect": {
+      "title": "Ouvrir le Chat d'Équipe ?",
+      "description": "Vous êtes sur le point d'être redirigé vers le Chat officiel de l'Équipe Pi dans un nouvel onglet. Voulez-vous continuer ?",
+      "confirmButton": "Ouvrir le Chat",
+      "cancelButton": "Annuler"
+    }
   },
   "login": {
     "welcome": "Bienvenue sur PiPulse",
@@ -132,7 +138,9 @@
         "title": "Contacter le Support",
         "content": "Si vous avez des questions spécifiques à l'application PiPulse, rencontrez des bugs ou avez des commentaires, veuillez nous envoyer un e-mail à support@example.com.\n\nPour toute question ou problème concernant votre compte Réseau Pi réel, le minage, le KYC ou les politiques officielles du Réseau Pi, veuillez vous référer aux canaux de support fournis par le Réseau Pi (par exemple, support intégré à l'application officielle Pi, site Web officiel du Réseau Pi et canaux communautaires)."
       }
-    ]
+    ],
+    "piosLicenseTitle": "Licence PiOS",
+    "piosLicenseContent": "La Licence Open Source Pi (PiOS) permet aux développeurs de la communauté Pi de créer des applications et des outils Pi pour l'écosystème Pi. Les développeurs sont libres d'utiliser la licence pour s'appuyer sur le travail d'autrui et pour que leurs créations soient utilisées et développées par d'autres au sein de l'écosystème Pi.\n\nLa licence PiOS accorde une utilisation illimitée du logiciel uniquement au sein de l'écosystème Pi. La vente du logiciel, ou de tout logiciel incorporant un logiciel sous licence PiOS ou ses dérivés, contre de la monnaie fiduciaire est interdite. La vente contre la crypto-monnaie Pi est autorisée. La licence interdit également explicitement l'utilisation du logiciel pour créer tout produit qui pourrait être considéré comme concurrent de Pi Network.\n\nLisez la licence complète [ici](https://github.com/pi-apps/PiOS/blob/main/LICENSE.md)."
   },
   "dashboard": {
     "title": "Tableau de bord",

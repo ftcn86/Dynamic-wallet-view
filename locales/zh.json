@@ -10,7 +10,13 @@
     "settings": "设置",
     "logout": "登出",
     "adPlaceholder": "你的广告位",
-    "help": "帮助"
+    "help": "帮助",
+    "chatRedirect": {
+      "title": "打开团队聊天？",
+      "description": "您即将被重定向到新的标签页中的官方Pi团队聊天。要继续吗？",
+      "confirmButton": "打开聊天",
+      "cancelButton": "取消"
+    }
   },
   "login": {
     "welcome": "欢迎来到PiPulse",
@@ -42,7 +48,7 @@
       },
       {
         "title": "5. 免责声明",
-        "content": "本服务按“原样”和“可用”提供，不作任何明示或暗示的保证。PiPulse不保证本服务不会中断、没有错误或完全安全。PiPulse与Pi核心团队或Pi网络无关。"
+        "content": "本服务按“原样”和“可用”提供，不作任何明示或暗示的保证。PiPulse不保证本服务不会中断、沒有错误或完全安全。PiPulse与Pi核心团队或Pi网络无关。"
       },
       {
         "title": "6. 责任限制",
@@ -132,7 +138,9 @@
         "title": "联系支持",
         "content": "如果您对PiPulse应用程序有特定问题、遇到错误或有反馈，请发送电子邮件至 support@example.com。\n\n有关您的实际Pi网络帐户、挖矿、KYC或Pi网络官方政策的任何问题或疑问，请参阅Pi网络提供的支持渠道（例如，官方Pi应用程序中的应用内支持、Pi网络官方网站和社区渠道）。"
       }
-    ]
+    ],
+    "piosLicenseTitle": "PiOS 许可证",
+    "piosLicenseContent": "Pi开源 (PiOS) 许可证允许Pi社区开发者为Pi生态系统创建Pi应用程序和工具。开发者可以自由使用该许可证在他人工作的基础上进行构建，并让他们的创作在Pi生态系统内被他人使用和构建。\n\nPiOS许可证仅在Pi生态系统内授予软件的无限制使用权。禁止以法定货币出售该软件或任何包含PiOS许可软件或其衍生品的软件。允许以Pi加密货币出售。该许可证还明确禁止使用该软件创建任何可能被视为与Pi网络竞争的产品。\n\n在此处阅读完整许可证 [链接](https://github.com/pi-apps/PiOS/blob/main/LICENSE.md)。"
   },
   "dashboard": {
     "title": "仪表板",

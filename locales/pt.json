@@ -10,7 +10,13 @@
     "settings": "Configurações",
     "logout": "Sair",
     "adPlaceholder": "Seu Anúncio Aqui",
-    "help": "Ajuda"
+    "help": "Ajuda",
+    "chatRedirect": {
+      "title": "Abrir Chat da Equipe?",
+      "description": "Você está prestes a ser redirecionado para o Chat oficial da Equipe Pi em uma nova aba. Deseja continuar?",
+      "confirmButton": "Abrir Chat",
+      "cancelButton": "Cancelar"
+    }
   },
   "login": {
     "welcome": "Bem-vindo à PiPulse",
@@ -77,7 +83,7 @@
       },
       {
         "title": "3. Como Usaríamos as Informações (Se Conectado a Dados Reais)",
-        "content": "Se a PiPulse estivesse conectada a dados reais da Rede Pi (o que atualmente não está), as informações seriam usadas exclusivamente para:\n- Fornecer a você os recursos do painel: exibindo suas métricas relacionadas a Pi, informações da equipe e análise de nós.\n- Permitir que você personalize sua experiência no aplicativo (por exemplo, tema, idioma).\nNão venderíamos suas informações pessoais. O acesso aos seus dados da Rede Pi exigiria sua autorização explícita através dos mecanismos oficiais da Rede Pi."
+        "content": "Se a PiPulse estivesse conectada a dados reais da Rede Pi (o que atualmente não está), las informações seriam usadas exclusivamente para:\n- Fornecer a você os recursos do painel: exibindo suas métricas relacionadas a Pi, informações da equipe e análise de nós.\n- Permitir que você personalize sua experiência no aplicativo (por exemplo, tema, idioma).\nNão venderíamos suas informações pessoais. O acesso aos seus dados da Rede Pi exigiria sua autorização explícita através dos mecanismos oficiais da Rede Pi."
       },
       {
         "title": "4. Armazenamento e Segurança de Dados",
@@ -132,7 +138,9 @@
         "title": "Contatando o Suporte",
         "content": "Se você tiver perguntas específicas sobre o aplicativo PiPulse, encontrar bugs ou tiver feedback, envie um e-mail para support@example.com.\n\nPara quaisquer perguntas ou problemas relacionados à sua conta real da Rede Pi, mineração, KYC ou políticas oficiais da Rede Pi, consulte os canais de suporte fornecidos pela Rede Pi (por exemplo, suporte no aplicativo oficial Pi, site oficial da Rede Pi e canais da comunidade)."
       }
-    ]
+    ],
+    "piosLicenseTitle": "Licença PiOS",
+    "piosLicenseContent": "A Licença Pi Open Source (PiOS) permite que os Desenvolvedores da Comunidade Pi criem Aplicativos Pi e ferramentas para o Ecossistema Pi. Os desenvolvedores são livres para usar a licença para construir sobre o trabalho de outros e para que suas criações sejam usadas e construídas por outros dentro do Ecossistema Pi.\n\nA licença PiOS concede o uso irrestrito do software apenas dentro do Ecossistema Pi. A venda do software, ou qualquer software que incorpore software licenciado pela PiOS ou seus derivados, por moeda fiduciária é proibida. A venda por criptomoeda Pi é permitida. A licença também proíbe explicitamente o uso do software para criar qualquer produto que possa ser considerado concorrente da Pi Network.\n\nLeia a licença completa [aqui](https://github.com/pi-apps/PiOS/blob/main/LICENSE.md)."
   },
   "dashboard": {
     "title": "Painel",
