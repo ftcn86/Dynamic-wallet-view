@@ -33,11 +33,10 @@ export default function PrivacyPage() {
         <CardFooter>
           <Button variant="outline" onClick={handleReturn}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            {t('legal.returnToLogin')}
+            {user ? t('legal.returnAction') : t('legal.returnToLogin')}
           </Button>
         </CardFooter>
       </Card>
     </div>
   );
 }
-
