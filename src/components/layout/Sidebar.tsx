@@ -19,6 +19,7 @@ import {
   HelpCircle,
   FileText,
   ShieldCheck,
+  Gavel, // Or another icon for license if preferred
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -34,14 +35,14 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { SidebarNavLink } from './SidebarNavLink';
 import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile'; // Import useIsMobile
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export function Sidebar() {
   const { user, logout } = useAuth();
   const { t } = useTranslation();
   const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const isMobile = useIsMobile(); // Use the hook
+  const isMobile = useIsMobile();
 
   const handleLogout = () => {
     logout();
@@ -52,7 +53,7 @@ export function Sidebar() {
 
   const handleNavigation = () => {
     if (isMobile && !isCollapsed) {
-      setIsCollapsed(true); // Collapse if mobile and expanded
+      setIsCollapsed(true);
     }
   };
 
@@ -147,6 +148,12 @@ export function Sidebar() {
                 <span>{t('legal.privacyTitle')}</span>
               </Link>
             </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/legal/pios-license" className="flex items-center gap-2" onClick={handleNavigation}>
+                <FileText className="h-4 w-4" /> 
+                <span>{t('legal.piosLicenseTitle')}</span>
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => { handleNavigation(); handleLogout(); }} className="flex items-center gap-2 text-destructive focus:text-destructive focus:bg-destructive/10">
               <LogOut className="h-4 w-4" />
@@ -158,3 +165,5 @@ export function Sidebar() {
     </div>
   );
 }
+
+    

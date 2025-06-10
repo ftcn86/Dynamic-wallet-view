@@ -131,7 +131,9 @@
         "title": "Contacting Support",
         "content": "If you have questions specific to the PiPulse application, encounter bugs, or have feedback, please email us at support@pipulse.example.com.\n\nFor any questions or issues regarding your actual Pi Network account, mining, KYC, or official Pi Network policies, please refer to the support channels provided by the Pi Network (e.g., in-app support in the official Pi app, official Pi Network website and community channels)."
       }
-    ]
+    ],
+    "piosLicenseTitle": "PiOS License",
+    "piosLicenseContent": "[Please copy the full PiOS License text here. This content will be displayed on the PiOS License page. Ensure proper markdown formatting for readability if the license text contains sections, paragraphs, or lists.]"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -227,3 +229,5 @@
     "retryButton": "Try Again"
   }
 }
+
+    

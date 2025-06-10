@@ -131,7 +131,9 @@
         "title": "Contactar al Soporte: (Traducido)",
         "content": "Si tienes preguntas específicas sobre la aplicación PiPulse, encuentras errores o tienes comentarios, por favor envíanos un correo electrónico a support@pipulse.example.com.\n\nPara cualquier pregunta o problema relacionado con tu cuenta real de la Red Pi, minería, KYC o políticas oficiales de la Red Pi, consulta los canales de soporte proporcionados por la Red Pi (por ejemplo, soporte dentro de la aplicación oficial de Pi, sitio web oficial de la Red Pi y canales comunitarios)."
       }
-    ]
+    ],
+    "piosLicenseTitle": "Licencia PiOS",
+    "piosLicenseContent": "[Por favor, copia el texto completo de la Licencia PiOS aquí. Este contenido se mostrará en la página de la Licencia PiOS. Asegúrate de usar el formato markdown adecuado para la legibilidad si el texto de la licencia contiene secciones, párrafos o listas.]"
   },
   "dashboard": {
     "title": "Tablero",
@@ -227,3 +229,5 @@
     "retryButton": "Intentar de Nuevo"
   }
 }
+
+    
