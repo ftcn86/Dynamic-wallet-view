@@ -5,6 +5,7 @@
     "dashboard": "Tableau de bord",
     "team": "Aperçus de l'équipe",
     "node": "Analyse des nœuds",
+    "chat": "Chat d'équipe",
     "profile": "Profil",
     "settings": "Paramètres",
     "logout": "Déconnexion",
@@ -64,7 +65,7 @@
     "privacySections": [
       {
         "title": "Politique de Confidentialité - Introduction",
-        "content": "Date d'entrée en vigueur : 26 octobre 2023\n\nPiPulse ('nous', 'notre' ou 'nos') s'engage à protéger votre vie privée. Cette Politique de Confidentialité explique comment nous traitons les informations lorsque vous utilisez notre application PiPulse (le 'Service')."
+        "content": "Date d'entrée en vigueur : 26 octobre 2023\n\nPiPulse ('nous', 'notre' ou 'nos') s'engage à proteger votre vie privée. Cette Politique de Confidentialité explique comment nous traitons les informations lorsque vous utilisez notre application PiPulse (le 'Service')."
       },
       {
         "title": "1. Notre Relation avec le Réseau Pi",
