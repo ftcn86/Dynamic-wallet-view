@@ -1,8 +1,10 @@
+
 "use client"
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import en from '@/../locales/en.json';
 import es from '@/../locales/es.json';
+import { useCallback } from 'react';
 
 const translations = {
   en,
@@ -20,7 +22,7 @@ function getNestedValue(obj: any, path: string): string | undefined {
 export function useTranslation() {
   const { language } = useLanguage();
 
-  const t = (key: string, params?: Record<string, string | number>): string => {
+  const t = useCallback((key: string, params?: Record<string, string | number>): string => {
     const langFile = translations[language] || translations.en;
     let translation = getNestedValue(langFile, key);
 
@@ -40,7 +42,8 @@ export function useTranslation() {
       });
     }
     return translation!;
-  };
+  }, [language]); // t function is now memoized and only changes when language changes
 
   return { t, currentLanguage: language };
 }
+
