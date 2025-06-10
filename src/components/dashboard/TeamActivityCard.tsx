@@ -118,7 +118,7 @@ export function TeamActivityCard() {
               <Award className="mr-2 h-5 w-5 text-amber-500" />
               {t('dashboard.teamActivity.newlyEarnedBadges')}
             </h3>
-            <div className="grid grid-cols-3 gap-3 sm:grid-cols-3">
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3">
               {earnedGamificationBadges.map(badge => (
                 <div key={badge.id} className="flex flex-col items-center text-center p-2 rounded-lg border bg-card hover:bg-muted/50 transition-colors">
                   <Image src={badge.iconUrl} alt={badge.name} width={48} height={48} className="rounded-md mb-1" data-ai-hint={badge.dataAiHint || 'badge icon'}/>
