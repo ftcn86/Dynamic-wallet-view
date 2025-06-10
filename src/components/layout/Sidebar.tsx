@@ -1,3 +1,4 @@
+
 "use client"
 
 import Image from 'next/image';
@@ -76,13 +77,17 @@ export function Sidebar() {
         </SidebarNavLink>
       </nav>
 
-      <div className="mt-auto border-t p-4 space-y-4 shrink-0">
+      {/* Ad Placeholder - New Position */}
+      <div className={cn("px-4 py-4", isCollapsed && "px-2 py-2")}>
          <div className={cn(
             "rounded-lg bg-muted p-3 text-center text-sm text-muted-foreground",
              isCollapsed && "p-2"
             )}>
             {isCollapsed ? <DollarSign className="h-5 w-5 mx-auto" /> : t('sidebar.adPlaceholder')}
          </div>
+      </div>
+      
+      <div className="mt-auto border-t p-4 shrink-0"> {/* Removed space-y-4 as profile is now the only direct child */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className={cn("flex h-auto w-full items-center gap-2 p-2 text-left", isCollapsed && "justify-center p-0 aspect-square")}>
