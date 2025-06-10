@@ -4,6 +4,7 @@
 import type { Dispatch, ReactNode, SetStateAction} from 'react';
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { User } from '@/data/schemas';
+// mockUser is not needed here for default state if we're relying on localStorage or login to populate.
 
 interface AuthContextType {
   user: User | null;
@@ -14,17 +15,17 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const PI_PULSE_USER_KEY = 'piPulseUser';
+
 // Helper for deep equality check for User object
 const areUsersEqual = (userA: User | null, userB: User | null): boolean => {
   if (userA === userB) return true; // Same reference or both null
   if (!userA || !userB) return false; // One is null, other isn't
 
   // Using JSON.stringify for a simple deep comparison suitable for this app's User schema.
-  // For more complex objects (e.g., with functions, Dates, undefined), a more robust library would be needed.
   try {
     return JSON.stringify(userA) === JSON.stringify(userB);
   } catch (error) {
-    // Fallback in case stringification fails (e.g., circular references, though not expected here)
     console.error("Error comparing user objects:", error);
     return false;
   }
@@ -32,15 +33,22 @@ const areUsersEqual = (userA: User | null, userB: User | null): boolean => {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, _setUserInternal] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true); // True until initial auth status is determined
+  const [isLoading, setIsLoading] = useState(true); // True until initial auth status is determined from localStorage
 
   useEffect(() => {
-    // Simulate determining initial authentication status (e.g., checking a token)
-    // For this mock app, we just set loading to false after a short delay.
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 200); // Simulate a quick check
-    return () => clearTimeout(timer);
+    // Simulate determining initial authentication status by checking localStorage
+    try {
+      const storedUserItem = localStorage.getItem(PI_PULSE_USER_KEY);
+      if (storedUserItem) {
+        const storedUser = JSON.parse(storedUserItem) as User;
+        _setUserInternal(storedUser);
+      }
+    } catch (error) {
+      console.error("Error loading user from localStorage:", error);
+      // If parsing fails or any error, ensure localStorage item is cleared to prevent cycles
+      localStorage.removeItem(PI_PULSE_USER_KEY);
+    }
+    setIsLoading(false);
   }, []); // Empty dependency array ensures this runs only once on mount
 
   const setUser: Dispatch<SetStateAction<User | null>> = useCallback((newUserValue) => {
@@ -49,18 +57,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         ? (newUserValue as (prevState: User | null) => User | null)(currentUser)
         : newUserValue;
 
-      // Only update if the new user is actually different from the current one
+      // Only update and persist if the new user is actually different from the current one
       if (!areUsersEqual(currentUser, resolvedNewUser)) {
+        try {
+          if (resolvedNewUser) {
+            localStorage.setItem(PI_PULSE_USER_KEY, JSON.stringify(resolvedNewUser));
+          } else {
+            localStorage.removeItem(PI_PULSE_USER_KEY);
+          }
+        } catch (error) {
+          console.error("Error saving user to localStorage:", error);
+        }
         return resolvedNewUser;
       }
-      return currentUser; // Return current state to prevent re-render
+      return currentUser; // Return current state to prevent re-render and re-save
     });
   }, []);
 
 
   const logout = useCallback(() => {
-    setUser(null);
-    // setIsLoading(false); // isLoading should already be false after initial load
+    setUser(null); // This will call the updated setUser, which handles removing from localStorage
   }, [setUser]);
 
   return (
