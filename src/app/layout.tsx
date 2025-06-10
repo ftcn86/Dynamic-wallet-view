@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
@@ -6,7 +7,7 @@ import { LanguageProvider } from '@/contexts/LanguageContext';
 import { ThemeProvider } from '@/components/theme-provider'; // To be created
 
 export const metadata: Metadata = {
-  title: 'PiPulse',
+  title: 'Dynamic Pi Wallet View',
   description: 'Dynamic Pi Wallet View',
 };
 
@@ -42,3 +43,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+    
