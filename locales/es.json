@@ -9,8 +9,7 @@
     "settings": "Configuración",
     "logout": "Cerrar Sesión",
     "adPlaceholder": "Tu Anuncio Aquí",
-    "help": "Ayuda",
-    "piosLicense": "Licencia PiOS"
+    "help": "Ayuda"
   },
   "login": {
     "welcome": "Bienvenido a PiPulse",
@@ -24,9 +23,7 @@
     "privacyContent": "Este es el texto de marcador de posición para la Política de Privacidad. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. (Traducido)",
     "returnToLogin": "Volver al Inicio de Sesión",
     "helpTitle": "Ayuda y Soporte",
-    "helpContent": "Encuentra respuestas a preguntas frecuentes y obtén soporte para PiPulse. Si necesitas más ayuda, por favor contacta a nuestro equipo de soporte en support@pipulse.example.com. (Traducido)",
-    "piosLicenseTitle": "Licencia PiOS",
-    "piosLicenseContent": "PiPulse está licenciado bajo la Licencia Pi Open Source (PiOS). Por favor, consulta el texto completo de la licencia para más detalles. La Licencia PiOS promueve la colaboración y el desarrollo abierto dentro del ecosistema de Pi Network. (Traducido)"
+    "helpContent": "Encuentra respuestas a preguntas frecuentes y obtén soporte para PiPulse. Si necesitas más ayuda, por favor contacta a nuestro equipo de soporte en support@pipulse.example.com. (Traducido)"
   },
   "dashboard": {
     "title": "Tablero",
@@ -116,3 +113,4 @@
     "error": "Ocurrió un error"
   }
 }
+

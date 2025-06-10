@@ -141,12 +141,6 @@ export function Sidebar() {
                 <span>{t('legal.privacyTitle')}</span>
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/legal/pios-license" className="flex items-center gap-2">
-                <FileText className="h-4 w-4" /> 
-                <span>{t('sidebar.piosLicense')}</span>
-              </Link>
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-2 text-destructive focus:text-destructive focus:bg-destructive/10">
               <LogOut className="h-4 w-4" />
@@ -158,3 +152,4 @@ export function Sidebar() {
     </div>
   );
 }
+
