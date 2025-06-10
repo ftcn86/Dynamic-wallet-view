@@ -35,7 +35,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           variant={
             member.status === 'active' ? 'success' :
             member.status === 'pending' ? 'warning' :
-            'secondary' // for 'inactive'
+            'secondary'
           }
         >
           {t(`teamInsights.statusValues.${member.status}`)}
@@ -106,7 +106,7 @@ export default function TeamInsightsPage() {
       }
     }
     fetchTeamMembers();
-  }, [t]);
+  }, []); // Changed dependency to empty array
 
   return (
     <div className="space-y-6">

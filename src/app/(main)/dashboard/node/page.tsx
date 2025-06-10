@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useState } from 'react';
@@ -36,7 +37,7 @@ function NodeOperatorView() {
       }
     }
     fetchData();
-  }, [t]);
+  }, []); // Changed dependency to empty array
 
   if (isLoading) {
     return (
@@ -131,3 +132,4 @@ export default function NodeAnalysisPage() {
     </div>
   );
 }
+
