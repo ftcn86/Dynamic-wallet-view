@@ -141,9 +141,16 @@
     "balanceBreakdown": {
       "title": "Desglose de Saldo",
       "transferableToMainnet": "Transferible a Mainnet",
-      "fromYourTeamUnverified": "De tu Equipo (No Verificado)",
+      "totalUnverifiedPi": "Pi Total No Verificado",
       "currentlyInLockups": "Actualmente en Bloqueos",
-      "disclaimer": "Nota: El Pi no verificado de los miembros del equipo requiere que completen KYC. (Traducido)"
+      "disclaimer": "Nota: El Pi no verificado requiere que los miembros asociados completen KYC para volverse transferible."
+    },
+    "unverifiedPiDetail": {
+      "title": "Fuentes de Pi No Verificado",
+      "fromReferralTeam": "Del Equipo de Referidos",
+      "fromSecurityCircle": "Del Círculo de Seguridad",
+      "fromOtherBonuses": "De Otros Bonos",
+      "disclaimer": "Estas cantidades se vuelven transferibles a medida que tus conexiones completan KYC u otras condiciones se cumplen."
     },
     "unverifiedBalanceChart": {
       "title": "Fluctuación de Saldo",

@@ -141,9 +141,16 @@
     "balanceBreakdown": {
       "title": "Balance Breakdown",
       "transferableToMainnet": "Transferable to Mainnet",
-      "fromYourTeamUnverified": "From Your Team (Unverified)",
+      "totalUnverifiedPi": "Total Unverified Pi",
       "currentlyInLockups": "Currently in Lockups",
-      "disclaimer": "Note: Unverified Pi from team members requires them to complete KYC."
+      "disclaimer": "Note: Unverified Pi requires associated members to complete KYC to become transferable."
+    },
+    "unverifiedPiDetail": {
+      "title": "Unverified Pi Sources",
+      "fromReferralTeam": "From Referral Team",
+      "fromSecurityCircle": "From Security Circle",
+      "fromOtherBonuses": "From Other Bonuses",
+      "disclaimer": "These amounts become transferable as your connections complete KYC or other conditions are met."
     },
     "unverifiedBalanceChart": {
       "title": "Balance Fluctuation",

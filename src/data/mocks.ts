@@ -1,7 +1,6 @@
 
 import type { User, TeamMember, NodeData, MockChartData, Badge, KycStatus } from './schemas';
 
-// Define new gamification badges
 const gamificationBadges: Badge[] = [
   { id: 'b_wmara', name: 'Weekly Mining Marathoner', description: 'You were a true marathoner, mining consistently last week!', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: 'runner clock', earnedDate: '2024-06-20T10:00:00Z' },
   { id: 'b_mmded', name: 'Monthly Mining Dedication', description: 'Your dedication to mining last month was outstanding!', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: 'calendar medal', earnedDate: '2024-05-31T10:00:00Z' },
@@ -10,6 +9,11 @@ const gamificationBadges: Badge[] = [
   { id: 'b_otp', name: 'Outpaced the Pack', description: 'You significantly outpaced your team\'s average mining activity!', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: 'person ahead', earnedDate: '2024-06-20T10:00:00Z' },
   { id: 'b_atl', name: 'Active Team Leader', description: 'Your team is highly active! Great job fostering a motivated mining community.', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: 'team spark', earnedDate: '2024-06-20T10:00:00Z' },
 ];
+
+const unverifiedFromReferralTeam = 2000.50;
+const unverifiedFromSecurityCircle = 1000.2890;
+const unverifiedFromOtherBonuses = 456.0000;
+const totalUnverified = unverifiedFromReferralTeam + unverifiedFromSecurityCircle + unverifiedFromOtherBonuses;
 
 
 export const mockUser: User = {
@@ -23,27 +27,30 @@ export const mockUser: User = {
   isNodeOperator: true,
   balanceBreakdown: {
     transferableToMainnet: 5678.1234,
-    fromYourTeamUnverified: 3456.7890,
+    totalUnverifiedPi: totalUnverified, // Updated field
     currentlyInLockups: 3210.7665,
+  },
+  unverifiedPiDetails: { // New field
+    fromReferralTeam: unverifiedFromReferralTeam,
+    fromSecurityCircle: unverifiedFromSecurityCircle,
+    fromOtherBonuses: unverifiedFromOtherBonuses,
   },
   badges: [
     { id: 'b001', name: 'Early Adopter', description: 'Joined Pi Network in its early stages.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2020-05-15T10:00:00Z', dataAiHint: "award medal" },
     { id: 'b002', name: 'Node Runner', description: 'Successfully operates a Pi Node.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2021-11-01T10:00:00Z', dataAiHint: "server computer" },
     { id: 'b003', name: 'Team Builder', description: 'Invited 10+ active members to their team.', iconUrl: 'https://placehold.co/128x128.png', earned: true, dataAiHint: "team people", earnedDate: '2023-02-10T10:00:00Z' },
     { id: 'b004', name: 'KYC Verified', description: 'Successfully completed KYC verification.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2022-01-20T10:00:00Z', dataAiHint: "verified checkmark" },
-    // Add some earned gamification badges
-    { ...gamificationBadges[0], earned: true }, // Weekly Mining Marathoner
-    { ...gamificationBadges[2], earned: true }, // Team's Weekly Top Miner
-    { ...gamificationBadges[5], earned: false }, // Active Team Leader (not earned for demo diversity)
-    gamificationBadges[1], // Monthly Mining Dedication (not earned)
-    gamificationBadges[3], // Team's Monthly Mining Champion (not earned)
-    gamificationBadges[4], // Outpaced the Pack (not earned)
+    { ...gamificationBadges[0], earned: true }, 
+    { ...gamificationBadges[2], earned: true }, 
+    { ...gamificationBadges[5], earned: false }, 
+    gamificationBadges[1], 
+    gamificationBadges[3], 
+    gamificationBadges[4], 
   ],
   weeklyMiningProgress: 3.7,
   weeklyMiningTarget: 5,
   monthlyMiningProgress: 18.2,
   monthlyMiningTarget: 25,
-  // New gamification data
   userActiveMiningHours_LastWeek: 22,
   userActiveMiningHours_LastMonth: 85,
 };
@@ -106,9 +113,8 @@ export const mockChartData: MockChartData = {
   ],
 };
 
-// Export new badges so they can be referenced if needed, though they are also included in mockUser.badges
 export const GAMIFICATION_BADGE_IDS = gamificationBadges.map(b => b.id);
 export const ALL_MOCK_BADGES = [
-  ...mockUser.badges.filter(b => !GAMIFICATION_BADGE_IDS.includes(b.id)), // existing unique badges
-  ...gamificationBadges // ensure all gamification badges definitions are available
+  ...mockUser.badges.filter(b => !GAMIFICATION_BADGE_IDS.includes(b.id)), 
+  ...gamificationBadges 
 ];

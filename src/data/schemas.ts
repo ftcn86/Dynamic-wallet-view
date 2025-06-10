@@ -10,15 +10,19 @@ export interface User {
   isNodeOperator: boolean;
   balanceBreakdown: {
     transferableToMainnet: number;
-    fromYourTeamUnverified: number;
+    totalUnverifiedPi: number; // Renamed from fromYourTeamUnverified
     currentlyInLockups: number;
+  };
+  unverifiedPiDetails: { // New field for detailed breakdown
+    fromReferralTeam: number;
+    fromSecurityCircle: number;
+    fromOtherBonuses: number;
   };
   badges: Badge[];
   weeklyMiningProgress?: number;
   weeklyMiningTarget?: number;
   monthlyMiningProgress?: number;
   monthlyMiningTarget?: number;
-  // New fields for gamification
   userActiveMiningHours_LastWeek?: number;
   userActiveMiningHours_LastMonth?: number;
 }
@@ -27,9 +31,9 @@ export interface Badge {
   id: string;
   name: string;
   description: string;
-  iconUrl: string; // URL to the badge image
+  iconUrl: string;
   earned: boolean;
-  earnedDate?: string; // ISO date string
+  earnedDate?: string;
   dataAiHint?: string;
 }
 
@@ -39,25 +43,23 @@ export interface TeamMember {
   id: string;
   name: string;
   avatarUrl: string;
-  joinDate: string; // ISO date string
+  joinDate: string;
   status: 'active' | 'inactive' | 'pending';
   unverifiedPiContribution: number;
-  // New fields for gamification
   teamMemberActiveMiningHours_LastWeek?: number;
   teamMemberActiveMiningHours_LastMonth?: number;
-  kycStatus?: KycStatus; // Added KYC status
+  kycStatus?: KycStatus;
 }
 
 export interface NodeData {
   nodeId: string;
-  uptimePercentage: number; // e.g., 99.95
-  performanceScore: number; // e.g., 850 (out of 1000)
-  performanceHistory: Array<{ date: string; score: number }>; // For chart
+  uptimePercentage: number;
+  performanceScore: number;
+  performanceHistory: Array<{ date: string; score: number }>;
 }
 
-// For Balance Fluctuation Chart
 export interface BalanceChartDataPoint {
-  date: string; // e.g., "2023-01-01"
+  date: string;
   balance: number;
 }
 

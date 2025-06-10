@@ -17,14 +17,15 @@ import {
 } from "@/components/ui/dialog";
 import Image from 'next/image';
 import type { Badge } from '@/data/schemas';
-import { BarChart } from 'recharts';
-import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart'; // Removed unused: ResponsiveContainer, XAxis, YAxis, Legend, Bar
+
+import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart';
 import { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from 'date-fns';
 import { MiningFocusCard } from '@/components/dashboard/MiningFocusCard';
-import { TeamActivityCard } from '@/components/dashboard/TeamActivityCard'; // New Card
-
+import { TeamActivityCard } from '@/components/dashboard/TeamActivityCard';
+import { UnverifiedPiDetailCard } from '@/components/dashboard/UnverifiedPiDetailCard'; // New import
+import * as RechartsPrimitive from "recharts"; // For BarChart elements
 
 function BalanceBreakdownCard() {
   const { user } = useAuth();
@@ -82,22 +83,18 @@ function UnverifiedBalanceChart() {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
-          <BarChart data={chartData} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
+          <RechartsPrimitive.BarChart data={chartData} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
             <ChartTooltip content={<ChartTooltipContent />} />
-            {/* Re-added XAxis, YAxis, Legend, Bar as they are necessary for BarChart */}
             <RechartsPrimitive.XAxis dataKey="date" tickFormatter={(value) => format(new Date(value), 'MMM yy')} />
             <RechartsPrimitive.YAxis label={{ value: t('dashboard.unverifiedBalanceChart.yAxisLabel'), angle: -90, position: 'insideLeft' }} />
             <RechartsPrimitive.Legend />
             <RechartsPrimitive.Bar dataKey="balance" fill="var(--color-balance)" radius={4} />
-          </BarChart>
+          </RechartsPrimitive.BarChart>
         </ChartContainer>
       </CardContent>
     </Card>
   );
 }
-// Need to import Recharts primitives for the BarChart if they are not exported from ui/chart
-import * as RechartsPrimitive from "recharts";
-
 
 function BadgeDetailsDialog({ badge, children }: { badge: Badge, children: React.ReactNode }) {
   const { t } = useTranslation();
@@ -201,10 +198,11 @@ export default function DashboardPage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <BalanceBreakdownCard />
-        <MiningFocusCard />
+        <UnverifiedPiDetailCard />
       </div>
       
-      <TeamActivityCard /> {/* New Card */}
+      <MiningFocusCard />
+      <TeamActivityCard />
 
       <div className="grid gap-6 lg:grid-cols-1"> 
         <UnverifiedBalanceChart />
