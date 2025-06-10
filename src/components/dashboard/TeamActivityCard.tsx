@@ -1,4 +1,3 @@
-
 "use client"
 
 import Link from 'next/link';
@@ -6,26 +5,25 @@ import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import type { TeamMember, Badge as BadgeType } from '@/data/schemas';
-import { mockTeam, GAMIFICATION_BADGE_IDS } from '@/data/mocks'; // Assuming mockTeam is available
+import { mockTeam, GAMIFICATION_BADGE_IDS } from '@/data/mocks'; 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Trophy, Users, ChevronRight, Award } from 'lucide-react';
-import { Badge as UiBadge } from '@/components/ui/badge';
+import { Trophy, ChevronRight, Award } from 'lucide-react';
+// Removed Users icon as it was not used in the final design of this card.
 
 const MAX_LEADERBOARD_ENTRIES = 10;
-const DISPLAY_RECENT_BADGES_COUNT = 3; // Number of recent/relevant badges to show
+const DISPLAY_RECENT_BADGES_COUNT = 3;
 
 export function TeamActivityCard() {
   const { user } = useAuth();
   const { t } = useTranslation();
   // In a real app, team data would come via props or context, not directly from mocks.
-  const team = mockTeam;
+  const team = mockTeam; // Assuming mockTeam is available and updated with activity hours
 
   if (!user) return null;
 
-  // Process team for leaderboard (weekly activity)
   const leaderboard = team
     .filter(member => member.status === 'active' && typeof member.teamMemberActiveMiningHours_LastWeek === 'number')
     .map(member => ({
@@ -35,24 +33,26 @@ export function TeamActivityCard() {
     .sort((a, b) => b.activity - a.activity);
 
   const displayLeaderboard = leaderboard.slice(0, MAX_LEADERBOARD_ENTRIES);
-  const userRank = leaderboard.findIndex(member => member.name === user.name) + 1; // Simplified: assumes user is in team list for ranking
-  // A more robust way to include user if they are part of the "team" concept for ranking:
-  // const userInLeaderboard = leaderboard.find(m => m.id === user.id); // if user is also a 'TeamMember'
-  // For this mock, we'll use user's specific data
-  const userWeeklyActivity = user.userActiveMiningHours_LastWeek ?? 0;
-
-  let userDisplayedRank = userRank > 0 ? userRank : leaderboard.length + 1; // if not in list, implies lower rank
   
-  // More accurate user rank calculation considering user's own activity
-  let userPositionInFullList = [...leaderboard.map(m => ({name: m.name, activity: m.activity})), {name: user.name, activity: userWeeklyActivity }]
-                                .sort((a,b) => b.activity - a.activity)
-                                .findIndex(u => u.name === user.name) +1;
+  const userWeeklyActivity = user.userActiveMiningHours_LastWeek ?? 0;
+  const userMonthlyActivity = user.userActiveMiningHours_LastMonth ?? 0;
+
+  // Calculate user's rank in the full list including their own activity
+  const fullActivityList = [
+    ...leaderboard.map(m => ({ name: m.name, activity: m.activity, id: m.id })), 
+    { name: user.name, activity: userWeeklyActivity, id: user.id }
+  ];
+  
+  // Deduplicate in case user is also in mockTeam (e.g. for testing, though ideally user is separate)
+  const uniqueActivityList = Array.from(new Map(fullActivityList.map(item => [item.id, item])).values())
+                              .sort((a,b) => b.activity - a.activity);
+  
+  const userRankInFullList = uniqueActivityList.findIndex(u => u.id === user.id) +1;
 
 
-  // Get earned gamification badges
   const earnedGamificationBadges = user.badges
     .filter(badge => badge.earned && GAMIFICATION_BADGE_IDS.includes(badge.id))
-    .sort((a, b) => new Date(b.earnedDate || 0).getTime() - new Date(a.earnedDate || 0).getTime()) // Sort by most recent
+    .sort((a, b) => new Date(b.earnedDate || 0).getTime() - new Date(a.earnedDate || 0).getTime()) 
     .slice(0, DISPLAY_RECENT_BADGES_COUNT);
 
 
@@ -64,7 +64,7 @@ export function TeamActivityCard() {
           {t('dashboard.teamActivity.title')}
         </CardTitle>
         <CardDescription>
-          {t('dashboard.teamActivity.yourActivity')}: {userWeeklyActivity} {t('dashboard.teamActivity.hoursSuffix')} ({t('dashboard.teamActivity.lastWeek')}), {user.userActiveMiningHours_LastMonth ?? 0} {t('dashboard.teamActivity.hoursSuffix')} ({t('dashboard.teamActivity.lastMonth')})
+          {t('dashboard.teamActivity.yourActivity')}: {userWeeklyActivity} {t('dashboard.teamActivity.hoursSuffix')} ({t('dashboard.teamActivity.lastWeek')}), {userMonthlyActivity} {t('dashboard.teamActivity.hoursSuffix')} ({t('dashboard.teamActivity.lastMonth')})
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -86,7 +86,7 @@ export function TeamActivityCard() {
                 </TableHeader>
                 <TableBody>
                   {displayLeaderboard.map((member, index) => (
-                    <TableRow key={member.id} className={member.name === user.name ? 'bg-primary/10' : ''}>
+                    <TableRow key={member.id} className={member.id === user.id ? 'bg-primary/10' : ''}>
                       <TableCell className="font-medium text-center">{index + 1}</TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
@@ -107,9 +107,10 @@ export function TeamActivityCard() {
              team.length === 0 ? <p className="text-sm text-muted-foreground">{t('dashboard.teamActivity.noTeamMembers')}</p> 
                                : <p className="text-sm text-muted-foreground">{t('dashboard.teamActivity.noActivity')}</p>
           )}
-          {leaderboard.length > MAX_LEADERBOARD_ENTRIES && userPositionInFullList > MAX_LEADERBOARD_ENTRIES && (
+          {/* Show user's rank if they are not in the displayed top 10 and there are more than 10 members */}
+          {leaderboard.length > MAX_LEADERBOARD_ENTRIES && userRankInFullList > MAX_LEADERBOARD_ENTRIES && (
             <p className="text-sm text-muted-foreground mt-2 text-center">
-              {t('dashboard.teamActivity.yourRank', { rank: userPositionInFullList, hours: userWeeklyActivity })}
+              {t('dashboard.teamActivity.yourRank', { rank: userRankInFullList, hours: userWeeklyActivity })}
             </p>
           )}
         </div>

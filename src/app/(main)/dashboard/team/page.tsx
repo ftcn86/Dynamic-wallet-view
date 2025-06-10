@@ -1,9 +1,8 @@
-
 "use client"
 
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
+import { Badge as UiBadge } from '@/components/ui/badge'; // Renamed to UiBadge to avoid conflict
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -28,7 +27,7 @@ function KycStatusBadge({ status }: { status: KycStatus | undefined }) {
   if (!status) return null;
 
   let variant: 'success' | 'warning' | 'secondary' | 'destructive' = 'secondary';
-  let IconComponent: React.ElementType = ShieldX;
+  let IconComponent: React.ElementType = ShieldX; // Default to ShieldX
 
   switch (status) {
     case 'completed':
@@ -40,16 +39,16 @@ function KycStatusBadge({ status }: { status: KycStatus | undefined }) {
       IconComponent = ShieldAlert;
       break;
     case 'not_completed':
-      variant = 'secondary'; // Or 'destructive' if you want to make it more prominent
+      variant = 'secondary'; 
       IconComponent = ShieldX;
       break;
   }
 
   return (
-    <Badge variant={variant} className="flex items-center gap-1.5">
+    <UiBadge variant={variant} className="flex items-center gap-1.5">
       <IconComponent className="h-3.5 w-3.5" />
       {t(`teamInsights.kycStatusValues.${status}`)}
-    </Badge>
+    </UiBadge>
   );
 }
 
@@ -70,7 +69,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
       </TableCell>
       <TableCell>{format(new Date(member.joinDate), 'MMM dd, yyyy')}</TableCell>
       <TableCell>
-        <Badge
+        <UiBadge // Using UiBadge
           variant={
             member.status === 'active' ? 'success' :
             member.status === 'pending' ? 'warning' :
@@ -78,7 +77,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           }
         >
           {t(`teamInsights.statusValues.${member.status}`)}
-        </Badge>
+        </UiBadge>
       </TableCell>
       <TableCell>
         <KycStatusBadge status={member.kycStatus} />
@@ -215,10 +214,12 @@ export default function TeamInsightsPage() {
           comparison = valA - valB;
         } else if (typeof valA === 'string' && typeof valB === 'string') {
           comparison = valA.localeCompare(valB);
-        } else if (valA instanceof Date && valB instanceof Date) {
-            comparison = valA.getTime() - valB.getTime();
-        } else {
-             const strA = String(valA ?? '');
+        } else if (valA instanceof Date && valB instanceof Date) { // Should be string from mock, but good practice
+            comparison = new Date(valA).getTime() - new Date(valB).getTime();
+        } else if (typeof valA === 'object' && typeof valB === 'object' && valA !== null && valB !== null && 'getTime' in valA && 'getTime' in valB) { // Date objects
+            comparison = (valA as Date).getTime() - (valB as Date).getTime();
+        } else { // Fallback for other types or mixed types
+             const strA = String(valA ?? ''); // Convert null/undefined to empty string for comparison
              const strB = String(valB ?? '');
              comparison = strA.localeCompare(strB);
         }
@@ -272,7 +273,7 @@ export default function TeamInsightsPage() {
                      currentDirection={sortConfig.direction}
                      onClick={() => requestSort('status')}
                   >
-                    {t('teamInsights.columns.status')}
+                    {t('teamInsights.columns.status')} {/* Mining Status */}
                   </SortableTableHead>
                   <SortableTableHead
                      sortKey="kycStatus"
@@ -280,7 +281,7 @@ export default function TeamInsightsPage() {
                      currentDirection={sortConfig.direction}
                      onClick={() => requestSort('kycStatus')}
                   >
-                    {t('teamInsights.columns.kycStatus')}
+                    {t('teamInsights.columns.kycStatus')} {/* KYC Status */}
                   </SortableTableHead>
                   <SortableTableHead
                      sortKey="unverifiedPiContribution"
