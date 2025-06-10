@@ -21,6 +21,18 @@ const today = new Date();
 const previousMonth = subMonths(today, 1);
 const daysInPreviousMonth = getDaysInMonth(previousMonth);
 
+export const mockNodeData: NodeData = {
+  nodeId: 'nodeXYZ789',
+  uptimePercentage: 99.85,
+  performanceScore: 920,
+  performanceHistory: [
+    { date: '2024-03-01', score: 880 },
+    { date: '2024-04-01', score: 900 },
+    { date: '2024-05-01', score: 910 },
+    { date: '2024-06-01', score: 920 },
+  ],
+};
+
 export const mockUser: User = {
   id: 'user123',
   username: 'pioneer1',
@@ -30,6 +42,7 @@ export const mockUser: User = {
   totalBalance: 12345.6789,
   miningRate: 0.2512,
   isNodeOperator: true,
+  nodeUptimePercentage: mockNodeData.uptimePercentage, // Added for node operators
   balanceBreakdown: {
     transferableToMainnet: 5678.1234,
     totalUnverifiedPi: totalUnverified,
@@ -75,17 +88,6 @@ export const mockTeam: TeamMember[] = [
   { id: 'team011', name: 'Laura Mine', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2023-08-15T10:00:00Z', status: 'active', unverifiedPiContribution: 40.0, teamMemberActiveMiningHours_LastWeek: 12, teamMemberActiveMiningHours_LastMonth: 50, kycStatus: 'not_completed' },
 ];
 
-export const mockNodeData: NodeData = {
-  nodeId: 'nodeXYZ789',
-  uptimePercentage: 99.85,
-  performanceScore: 920,
-  performanceHistory: [
-    { date: '2024-03-01', score: 880 },
-    { date: '2024-04-01', score: 900 },
-    { date: '2024-05-01', score: 910 },
-    { date: '2024-06-01', score: 920 },
-  ],
-};
 
 export const mockChartData: MockChartData = {
   '3M': [

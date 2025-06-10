@@ -138,6 +138,7 @@
     "kpi_balance": "Saldo Total de Pi",
     "kpi_rate": "Taxa de Mineração Atual",
     "kpi_team": "Membros Ativos da Equipe",
+    "kpi_node_uptime": "Tempo de Atividade do Nó",
     "balanceBreakdown": {
       "title": "Detalhamento do Saldo",
       "transferableToMainnet": "Transferível para Mainnet",

@@ -1,7 +1,8 @@
 
 "use client"
 
-import { Banknote, Gauge, Users as UsersIcon } from 'lucide-react';
+import Link from 'next/link';
+import { Banknote, Gauge, Users as UsersIcon, Server } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { KPICard } from '@/components/shared/KPICard';
@@ -195,6 +196,15 @@ export default function DashboardPage() {
           value={`${user.miningRate.toFixed(4)} Pi/hr`}
           icon={<Gauge />}
         />
+        {user.isNodeOperator && user.nodeUptimePercentage !== undefined && (
+          <Link href="/dashboard/node" className="block">
+            <KPICard
+              title={t('dashboard.kpi_node_uptime')}
+              value={`${user.nodeUptimePercentage.toFixed(2)}%`}
+              icon={<Server />}
+            />
+          </Link>
+        )}
         <KPICard
           title={t('dashboard.kpi_team')}
           value={`${activeTeamMembers} / ${totalTeamMembers}`}

@@ -138,6 +138,7 @@
     "kpi_balance": "Общий баланс Pi",
     "kpi_rate": "Текущая скорость майнинга",
     "kpi_team": "Активные члены команды",
+    "kpi_node_uptime": "Время безотказной работы узла",
     "balanceBreakdown": {
       "title": "Разбивка баланса",
       "transferableToMainnet": "Переводимый на Mainnet",

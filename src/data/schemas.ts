@@ -8,6 +8,7 @@ export interface User {
   totalBalance: number;
   miningRate: number;
   isNodeOperator: boolean;
+  nodeUptimePercentage?: number; // Added
   balanceBreakdown: {
     transferableToMainnet: number;
     totalUnverifiedPi: number;
@@ -75,3 +76,4 @@ export interface LegalSection {
   title: string;
   content: string;
 }
+

@@ -138,6 +138,7 @@
     "kpi_balance": "Total Pi Balance",
     "kpi_rate": "Current Mining Rate",
     "kpi_team": "Active Team Members",
+    "kpi_node_uptime": "Node Uptime",
     "balanceBreakdown": {
       "title": "Balance Breakdown",
       "transferableToMainnet": "Transferable to Mainnet",

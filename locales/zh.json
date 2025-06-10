@@ -138,6 +138,7 @@
     "kpi_balance": "Pi总余额",
     "kpi_rate": "当前挖矿率",
     "kpi_team": "活跃团队成员",
+    "kpi_node_uptime": "节点正常运行时间",
     "balanceBreakdown": {
       "title": "余额明细",
       "transferableToMainnet": "可转至主网",

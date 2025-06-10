@@ -138,6 +138,7 @@
     "kpi_balance": "総Pi残高",
     "kpi_rate": "現在のマイニングレート",
     "kpi_team": "アクティブなチームメンバー",
+    "kpi_node_uptime": "ノード稼働時間",
     "balanceBreakdown": {
       "title": "残高内訳",
       "transferableToMainnet": "メインネットへ送金可能",

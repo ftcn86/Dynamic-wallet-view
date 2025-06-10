@@ -138,6 +138,7 @@
     "kpi_balance": "Solde Pi Total",
     "kpi_rate": "Taux de Minage Actuel",
     "kpi_team": "Membres Actifs de l'Équipe",
+    "kpi_node_uptime": "Temps de fonctionnement du nœud",
     "balanceBreakdown": {
       "title": "Répartition du Solde",
       "transferableToMainnet": "Transférable vers Mainnet",
