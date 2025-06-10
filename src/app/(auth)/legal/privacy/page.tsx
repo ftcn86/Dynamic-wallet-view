@@ -8,9 +8,15 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { useAuth } from '@/contexts/AuthContext';
 import { ArrowLeft } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
+interface LegalSection {
+  title: string;
+  content: string;
+}
 
 export default function PrivacyPage() {
-  const { t } = useTranslation();
+  const { t, getRawTranslation } = useTranslation();
   const { user } = useAuth();
   const router = useRouter();
 
@@ -22,14 +28,30 @@ export default function PrivacyPage() {
     }
   };
 
+  const pageTitle = t('legal.privacyTitle');
+  const privacySections = getRawTranslation('legal.privacySections') as LegalSection[] || [];
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <Card className="w-full max-w-2xl shadow-xl">
         <CardHeader>
-          <CardTitle className="text-2xl font-headline">{t('legal.privacyTitle')}</CardTitle>
+          <CardTitle className="text-2xl font-headline">{pageTitle}</CardTitle>
         </CardHeader>
-        <CardContent className="prose dark:prose-invert max-h-[60vh] overflow-y-auto">
-          <ReactMarkdown>{t('legal.privacyContent')}</ReactMarkdown>
+        <CardContent className="max-h-[70vh] overflow-y-auto">
+          {privacySections.length > 0 ? (
+            <Accordion type="single" collapsible className="w-full">
+              {privacySections.map((section, index) => (
+                <AccordionItem value={`item-${index}`} key={index}>
+                  <AccordionTrigger>{section.title}</AccordionTrigger>
+                  <AccordionContent className="prose dark:prose-invert max-w-none px-1 pb-4">
+                    <ReactMarkdown>{section.content}</ReactMarkdown>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          ) : (
+            <p>{t('shared.loading')}</p>
+          )}
         </CardContent>
         <CardFooter>
           <Button variant="outline" onClick={handleReturn}>

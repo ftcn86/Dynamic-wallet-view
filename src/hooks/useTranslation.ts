@@ -11,10 +11,8 @@ const translations = {
   es,
 };
 
-type TranslationKeys = keyof typeof en; // Assuming 'en' has all keys
-
 // Helper to get nested values. Example: t('dashboard.title')
-function getNestedValue(obj: any, path: string): string | undefined {
+function getNestedValue(obj: any, path: string): any { // Return type changed to any
   return path.split('.').reduce((acc, part) => acc && acc[part], obj);
 }
 
@@ -22,17 +20,31 @@ function getNestedValue(obj: any, path: string): string | undefined {
 export function useTranslation() {
   const { language } = useLanguage();
 
-  const t = useCallback((key: string, params?: Record<string, string | number>): string => {
+  const getRawTranslation = useCallback((key: string): any => {
     const langFile = translations[language] || translations.en;
-    let translation = getNestedValue(langFile, key);
+    let value = getNestedValue(langFile, key);
 
-    if (translation === undefined) {
+    if (value === undefined) {
       console.warn(`Translation key "${key}" not found for language "${language}". Falling back to English.`);
-      translation = getNestedValue(translations.en, key);
-      if (translation === undefined) {
+      value = getNestedValue(translations.en, key);
+      if (value === undefined) {
         console.error(`Translation key "${key}" not found in English either.`);
-        return key; // Return key itself if not found anywhere
+        // For arrays/objects, returning an empty array or object might be safer than the key
+        // For now, if it's truly not found, it will return undefined from getNestedValue,
+        // and components should handle this (e.g. || [] for arrays)
+        return undefined;
       }
+    }
+    return value;
+  }, [language]);
+
+  const t = useCallback((key: string, params?: Record<string, string | number>): string => {
+    let translation = getRawTranslation(key);
+
+    if (typeof translation !== 'string') {
+      console.warn(`Translation for key "${key}" is not a string or not found. Using key as fallback for string replacement.`);
+      // Fallback to key for string operations if it's not a string (e.g. array/object or undefined)
+      translation = key;
     }
     
     if (params) {
@@ -42,8 +54,7 @@ export function useTranslation() {
       });
     }
     return translation!;
-  }, [language]); // t function is now memoized and only changes when language changes
+  }, [language, getRawTranslation]);
 
-  return { t, currentLanguage: language };
+  return { t, currentLanguage: language, getRawTranslation };
 }
-
