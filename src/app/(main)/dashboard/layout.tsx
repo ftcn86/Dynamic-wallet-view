@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, type ReactNode } from 'react';
@@ -7,16 +8,20 @@ import { Sidebar } from '@/components/layout/Sidebar';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading } = useAuth(); // isLoading is for initial auth check
   const router = useRouter();
 
   useEffect(() => {
+    // If initial auth check is done (isLoading is false) AND there's no user, redirect to login
     if (!isLoading && !user) {
       router.replace('/login');
     }
   }, [user, isLoading, router]);
 
-  if (isLoading || !user) {
+  // Show loading spinner if:
+  // 1. Initial auth check is in progress (isLoading is true)
+  // 2. Initial auth check is done (isLoading is false) BUT there's still no user (e.g., about to redirect, or after logout)
+  if (isLoading || (!isLoading && !user)) {
     return (
       <div className="flex h-screen items-center justify-center">
         <LoadingSpinner size={48} />
@@ -24,6 +29,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     );
   }
 
+  // If initial auth check is done AND user exists, render the layout
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />

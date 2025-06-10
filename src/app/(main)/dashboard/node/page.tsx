@@ -34,11 +34,10 @@ function NodeOperatorView() {
         setError(t('shared.error'));
       } finally {
         setIsLoading(false);
-        console.log('NodeAnalysisPage (NodeOperatorView): fetchData finally block reached, isLoading should be false.');
       }
     }
     fetchData();
-  }, []); 
+  }, []); // Empty dependency array: fetch data once on mount
 
   if (isLoading) {
     return (
@@ -133,4 +132,3 @@ export default function NodeAnalysisPage() {
     </div>
   );
 }
-

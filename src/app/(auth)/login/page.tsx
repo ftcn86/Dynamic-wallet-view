@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from 'react';
@@ -13,18 +14,17 @@ import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { ShieldQuestion } from 'lucide-react'; // Pi Network like icon
 
 export default function LoginPage() {
-  const { setUser, setIsLoading: setAuthIsLoading, isLoading: authIsLoading } = useAuth();
+  const { setUser, isLoading: isAuthContextLoading } = useAuth(); // isLoading here is for initial app auth check
   const { t } = useTranslation();
   const router = useRouter();
   const { toast } = useToast();
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false); // Local state for login button
 
   const handleLogin = async () => {
     setIsLoggingIn(true);
-    setAuthIsLoading(true);
     try {
       const user = await mockApiCall({ data: mockUser });
-      setUser(user);
+      setUser(user); // Will use the stabilized setUser from AuthContext
       router.push('/dashboard');
     } catch (error) {
       toast({
@@ -33,7 +33,6 @@ export default function LoginPage() {
       });
     } finally {
       setIsLoggingIn(false);
-      setAuthIsLoading(false);
     }
   };
 
@@ -51,10 +50,10 @@ export default function LoginPage() {
           <Button
             className="w-full"
             onClick={handleLogin}
-            disabled={isLoggingIn || authIsLoading}
+            disabled={isLoggingIn || isAuthContextLoading} // Disable if logging in or initial auth check is happening
             size="lg"
           >
-            {isLoggingIn || authIsLoading ? (
+            {isLoggingIn ? ( // Spinner only depends on local isLoggingIn state
               <LoadingSpinner className="mr-2 h-5 w-5" />
             ) : null}
             {t('login.button')}
