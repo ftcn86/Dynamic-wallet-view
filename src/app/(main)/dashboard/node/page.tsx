@@ -10,11 +10,12 @@ import type { NodeData } from '@/data/schemas';
 import { KPICard } from '@/components/shared/KPICard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { LineChart, TrendingUp, Server, AlertTriangle, ExternalLink } from 'lucide-react';
+import { TrendingUp, Server, ExternalLink } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ResponsiveContainer, LineChart as RechartsLineChart, XAxis, YAxis, Tooltip as RechartsTooltip, Legend, Line } from 'recharts';
 import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart';
 import { format } from 'date-fns';
+import { PI_NODE_INFO_URL } from '@/lib/constants';
 
 
 function NodeOperatorView() {
@@ -31,13 +32,13 @@ function NodeOperatorView() {
         const data = await mockApiCall({ data: mockNodeData });
         setNodeData(data);
       } catch (err) {
-        setError(t('shared.error'));
+        setError(t('shared.error')); // This error will be caught by the new dashboard error.tsx if not handled here
       } finally {
         setIsLoading(false);
       }
     }
     fetchData();
-  }, []); // Empty dependency array: fetch data once on mount
+  }, [t]); 
 
   if (isLoading) {
     return (
@@ -51,7 +52,7 @@ function NodeOperatorView() {
     );
   }
 
-  if (error) return null; // Changed to return null on error
+  if (error) return null; 
   if (!nodeData) return null;
 
   const chartConfig = {
@@ -108,7 +109,7 @@ function BecomeANodeOperatorPrompt() {
       </CardHeader>
       <CardContent>
         <Button asChild size="lg">
-          <a href="https://pi.network/node-mobile/" target="_blank" rel="noopener noreferrer">
+          <a href={PI_NODE_INFO_URL} target="_blank" rel="noopener noreferrer">
             {t('nodeAnalysis.isNotOperator.button')}
             <ExternalLink className="ml-2 h-4 w-4" />
           </a>
@@ -132,4 +133,3 @@ export default function NodeAnalysisPage() {
     </div>
   );
 }
-

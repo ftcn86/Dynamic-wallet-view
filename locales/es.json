@@ -219,5 +219,11 @@
   "shared": {
     "loading": "Cargando...",
     "error": "Ocurrió un error"
+  },
+  "dashboardError": {
+    "title": "Algo Salió Mal",
+    "description": "Encontramos un problema al cargar esta parte del tablero. Por favor, inténtalo de nuevo.",
+    "detailsLabel": "Detalles del error",
+    "retryButton": "Intentar de Nuevo"
   }
 }

@@ -1,3 +1,4 @@
+
 export interface User {
   id: string;
   username: string; // Added username for login/display if different from name
@@ -22,6 +23,7 @@ export interface Badge {
   iconUrl: string; // URL to the badge image
   earned: boolean;
   earnedDate?: string; // ISO date string
+  dataAiHint?: string; // Added for AI hint consistency
 }
 
 export interface TeamMember {
@@ -50,4 +52,9 @@ export interface MockChartData {
   '3M': BalanceChartDataPoint[];
   '6M': BalanceChartDataPoint[];
   '12M': BalanceChartDataPoint[];
+}
+
+export interface LegalSection {
+  title: string;
+  content: string;
 }

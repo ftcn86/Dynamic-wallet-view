@@ -9,14 +9,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { ArrowLeft } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-
-interface LegalSection {
-  title: string;
-  content: string;
-}
+// LegalSection type is now imported from schemas
+// import type { LegalSection } from '@/data/schemas';
 
 export default function TermsPage() {
-  const { t, getRawTranslation } = useTranslation();
+  const { t, getLegalSections } = useTranslation(); // Use getLegalSections
   const { user } = useAuth();
   const router = useRouter();
 
@@ -29,7 +26,7 @@ export default function TermsPage() {
   };
 
   const pageTitle = t('legal.termsTitle');
-  const termsSections = getRawTranslation('legal.termsSections') as LegalSection[] || [];
+  const termsSections = getLegalSections('legal.termsSections'); // Fetch typed sections
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
@@ -50,7 +47,7 @@ export default function TermsPage() {
               ))}
             </Accordion>
           ) : (
-            <p>{t('shared.loading')}</p>
+            <p>{t('shared.loading')}</p> // Or a more specific "Content not available"
           )}
         </CardContent>
         <CardFooter>

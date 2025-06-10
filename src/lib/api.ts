@@ -1,4 +1,6 @@
 
+import { MOCK_API_MIN_LATENCY, MOCK_API_MAX_LATENCY, MOCK_API_FAILURE_CHANCE } from '@/lib/constants';
+
 export interface MockApiCallOptions<T> {
   data: T;
   minLatency?: number;
@@ -8,9 +10,9 @@ export interface MockApiCallOptions<T> {
 
 export function mockApiCall<T>({
   data,
-  minLatency = 500,
-  maxLatency = 1500,
-  failureChance = 0.1,
+  minLatency = MOCK_API_MIN_LATENCY,
+  maxLatency = MOCK_API_MAX_LATENCY,
+  failureChance = MOCK_API_FAILURE_CHANCE,
 }: MockApiCallOptions<T>): Promise<T> {
   return new Promise((resolve, reject) => {
     if (data === null || data === undefined) {
