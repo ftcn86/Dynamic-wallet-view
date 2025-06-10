@@ -198,12 +198,18 @@
       "status": "Status",
       "contribution": "Contribution",
       "activityLastWeek": "Activity (Last Week)",
-      "activityLastMonth": "Activity (Last Month)"
+      "activityLastMonth": "Activity (Last Month)",
+      "kycStatus": "KYC Status"
     },
     "statusValues": {
       "active": "Active",
       "inactive": "Inactive",
       "pending": "Pending"
+    },
+    "kycStatusValues": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "not_completed": "Not Completed"
     },
     "contributionTooltip": "Unverified Pi contributed by this team member. Becomes transferable after they complete KYC."
   },

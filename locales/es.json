@@ -198,12 +198,18 @@
       "status": "Estado",
       "contribution": "Contribución",
       "activityLastWeek": "Actividad (Semana Pasada)",
-      "activityLastMonth": "Actividad (Mes Pasado)"
+      "activityLastMonth": "Actividad (Mes Pasado)",
+      "kycStatus": "Estado KYC"
     },
     "statusValues": {
       "active": "Activo",
       "inactive": "Inactivo",
       "pending": "Pendiente"
+    },
+    "kycStatusValues": {
+      "completed": "Completado",
+      "pending": "Pendiente",
+      "not_completed": "No Completado"
     },
     "contributionTooltip": "Pi no verificado contribuido por este miembro del equipo. Se vuelve transferible después de que completen KYC. (Traducido)"
   },

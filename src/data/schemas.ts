@@ -30,8 +30,10 @@ export interface Badge {
   iconUrl: string; // URL to the badge image
   earned: boolean;
   earnedDate?: string; // ISO date string
-  dataAiHint?: string; 
+  dataAiHint?: string;
 }
+
+export type KycStatus = 'completed' | 'pending' | 'not_completed';
 
 export interface TeamMember {
   id: string;
@@ -43,6 +45,7 @@ export interface TeamMember {
   // New fields for gamification
   teamMemberActiveMiningHours_LastWeek?: number;
   teamMemberActiveMiningHours_LastMonth?: number;
+  kycStatus?: KycStatus; // Added KYC status
 }
 
 export interface NodeData {
