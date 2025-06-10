@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect } from 'react'; // Added useEffect
+import { useEffect } from 'react'; 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -9,21 +9,21 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { FileText, ShieldCheck, LogOut, CheckCircle } from 'lucide-react';
-import { LoadingSpinner } from '@/components/shared/LoadingSpinner'; // Added LoadingSpinner
+import { LoadingSpinner } from '@/components/shared/LoadingSpinner'; 
 
 export default function AcceptTermsPage() {
-  const { user, setUser, logout, isLoading } = useAuth(); // Added isLoading
+  const { user, setUser, logout, isLoading } = useAuth(); 
   const { t } = useTranslation();
   const router = useRouter();
 
   useEffect(() => {
     if (isLoading) {
-      return; // Wait for auth state to load
+      return; 
     }
 
     if (user && user.termsAccepted) {
       router.replace('/dashboard');
-    } else if (!user) { // If no user after loading, redirect to login
+    } else if (!user) { 
       router.replace('/login');
     }
   }, [user, isLoading, router]);
@@ -31,10 +31,6 @@ export default function AcceptTermsPage() {
   const handleAccept = () => {
     if (user) {
       setUser({ ...user, termsAccepted: true });
-      // The useEffect in DashboardLayout will handle redirecting to /dashboard
-      // or router.push('/dashboard') could be added here if direct navigation is preferred.
-      // For now, relying on AuthContext update and layout's effect.
-      // To be safe and explicit:
       router.push('/dashboard');
     }
   };
@@ -44,9 +40,6 @@ export default function AcceptTermsPage() {
     router.push('/login');
   };
 
-  // Show loading spinner if auth state is loading, or if user is already good to go (accepted terms),
-  // or if there's no user (which means useEffect will redirect to login).
-  // Render the page content only if user exists and terms are NOT accepted yet.
   if (isLoading || (user && user.termsAccepted) || (!isLoading && !user)) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
@@ -55,7 +48,6 @@ export default function AcceptTermsPage() {
     );
   }
 
-  // If we reach here, isLoading is false, user exists, and user.termsAccepted is false.
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <Card className="w-full max-w-lg shadow-xl">
@@ -72,12 +64,12 @@ export default function AcceptTermsPage() {
           </p>
           <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-3 justify-center">
             <Button variant="link" asChild className="justify-start sm:justify-center">
-              <Link href="/legal/terms" target="_blank" rel="noopener noreferrer">
+              <Link href="/legal/terms">
                 <FileText className="mr-2 h-4 w-4" /> {t('legal.termsTitle')}
               </Link>
             </Button>
             <Button variant="link" asChild className="justify-start sm:justify-center">
-              <Link href="/legal/privacy" target="_blank" rel="noopener noreferrer">
+              <Link href="/legal/privacy">
                 <ShieldCheck className="mr-2 h-4 w-4" /> {t('legal.privacyTitle')}
               </Link>
             </Button>
