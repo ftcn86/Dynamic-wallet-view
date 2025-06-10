@@ -19,7 +19,6 @@ import {
   HelpCircle,
   FileText,
   ShieldCheck,
-  Award, // Or FileText for PiOS License if Award is too much
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -35,12 +34,14 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { SidebarNavLink } from './SidebarNavLink';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile'; // Import useIsMobile
 
 export function Sidebar() {
   const { user, logout } = useAuth();
   const { t } = useTranslation();
   const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const isMobile = useIsMobile(); // Use the hook
 
   const handleLogout = () => {
     logout();
@@ -49,7 +50,13 @@ export function Sidebar() {
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
 
-  if (!user) return null; // Sidebar should not be visible if user is not logged in
+  const handleNavigation = () => {
+    if (isMobile && !isCollapsed) {
+      setIsCollapsed(true); // Collapse if mobile and expanded
+    }
+  };
+
+  if (!user) return null;
 
   return (
     <div
@@ -59,7 +66,7 @@ export function Sidebar() {
       )}
     >
       <div className="flex h-16 items-center border-b px-4 shrink-0">
-        <Link href="/dashboard" className="flex items-center gap-2 font-semibold text-lg">
+        <Link href="/dashboard" className="flex items-center gap-2 font-semibold text-lg" onClick={handleNavigation}>
           <ShieldQuestion className="h-7 w-7 text-primary" />
           {!isCollapsed && <span className="font-headline">{t('appName')}</span>}
         </Link>
@@ -70,18 +77,17 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-grow px-4 py-4 space-y-1 overflow-y-auto">
-        <SidebarNavLink href="/dashboard" icon={<LayoutDashboard />} isCollapsed={isCollapsed}>
+        <SidebarNavLink href="/dashboard" icon={<LayoutDashboard />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
           {t('sidebar.dashboard')}
         </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/team" icon={<Users />} isCollapsed={isCollapsed}>
+        <SidebarNavLink href="/dashboard/team" icon={<Users />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
           {t('sidebar.team')}
         </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/node" icon={<Network />} isCollapsed={isCollapsed}>
+        <SidebarNavLink href="/dashboard/node" icon={<Network />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
           {t('sidebar.node')}
         </SidebarNavLink>
       </nav>
 
-      {/* Ad Placeholder - New Position */}
       <div className={cn("px-4 py-4", isCollapsed && "px-2 py-2")}>
          <div className={cn(
             "rounded-lg bg-muted p-3 text-center text-sm text-muted-foreground",
@@ -111,38 +117,38 @@ export function Sidebar() {
             <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href="/dashboard/profile" className="flex items-center gap-2">
+              <Link href="/dashboard/profile" className="flex items-center gap-2" onClick={handleNavigation}>
                 <UserCircle className="h-4 w-4" />
                 <span>{t('sidebar.profile')}</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/dashboard/settings" className="flex items-center gap-2">
+              <Link href="/dashboard/settings" className="flex items-center gap-2" onClick={handleNavigation}>
                 <Settings className="h-4 w-4" />
                 <span>{t('sidebar.settings')}</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href="/legal/help" className="flex items-center gap-2">
+              <Link href="/legal/help" className="flex items-center gap-2" onClick={handleNavigation}>
                 <HelpCircle className="h-4 w-4" />
                 <span>{t('sidebar.help')}</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/legal/terms" className="flex items-center gap-2">
+              <Link href="/legal/terms" className="flex items-center gap-2" onClick={handleNavigation}>
                 <FileText className="h-4 w-4" />
                 <span>{t('legal.termsTitle')}</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/legal/privacy" className="flex items-center gap-2">
+              <Link href="/legal/privacy" className="flex items-center gap-2" onClick={handleNavigation}>
                 <ShieldCheck className="h-4 w-4" />
                 <span>{t('legal.privacyTitle')}</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-2 text-destructive focus:text-destructive focus:bg-destructive/10">
+            <DropdownMenuItem onClick={() => { handleNavigation(); handleLogout(); }} className="flex items-center gap-2 text-destructive focus:text-destructive focus:bg-destructive/10">
               <LogOut className="h-4 w-4" />
               <span>{t('sidebar.logout')}</span>
             </DropdownMenuItem>
@@ -152,4 +158,3 @@ export function Sidebar() {
     </div>
   );
 }
-

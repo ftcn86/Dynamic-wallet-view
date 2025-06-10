@@ -1,19 +1,21 @@
+
 "use client"
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
-import React from 'react'; // Added React import
+import React from 'react';
 
 interface SidebarNavLinkProps {
   href: string;
   children: ReactNode;
   icon?: ReactNode;
   isCollapsed?: boolean;
+  onNavigate?: () => void; // New prop
 }
 
-export function SidebarNavLink({ href, children, icon, isCollapsed }: SidebarNavLinkProps) {
+export function SidebarNavLink({ href, children, icon, isCollapsed, onNavigate }: SidebarNavLinkProps) {
   const pathname = usePathname();
   const isActive = pathname === href || (href !== '/dashboard' && pathname.startsWith(href));
 
@@ -26,6 +28,7 @@ export function SidebarNavLink({ href, children, icon, isCollapsed }: SidebarNav
         isCollapsed && "justify-center"
       )}
       aria-current={isActive ? "page" : undefined}
+      onClick={onNavigate} // Call onNavigate when the link is clicked
     >
       {icon && React.cloneElement(icon as React.ReactElement, { className: "h-5 w-5" })}
       {!isCollapsed && <span className="truncate">{children}</span>}
