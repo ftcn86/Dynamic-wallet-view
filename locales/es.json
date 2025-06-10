@@ -168,6 +168,23 @@
       "keepGoing": "¡Sigue así!",
       "greatProgress": "¡Gran progreso!",
       "teamEncouragement": "¡Anima a tu equipo a mantenerse activo! Sus contribuciones ayudan a crecer la red."
+    },
+    "teamActivity": {
+      "title": "Rally de Minería del Equipo",
+      "yourActivity": "Tu Actividad",
+      "lastWeek": "Semana Pasada",
+      "lastMonth": "Mes Pasado",
+      "hoursSuffix": "hrs",
+      "teamRallyWeekly": "Rally Semanal del Equipo",
+      "teamRallyTop10": "Rally Semanal del Equipo (Top 10)",
+      "rank": "Rango",
+      "member": "Miembro",
+      "hours": "Horas",
+      "yourRank": "Tu Rango: #{{rank}} ({{hours}} hrs)",
+      "viewFullTeamReport": "Ver Informe Completo del Equipo",
+      "newlyEarnedBadges": "Logros Recientes",
+      "noTeamMembers": "Aún no hay miembros en el equipo para mostrar actividad.",
+      "noActivity": "No hay datos de actividad para mostrar para el equipo."
     }
   },
   "teamInsights": {
@@ -179,7 +196,9 @@
       "member": "Miembro",
       "joinDate": "Fecha de Unión",
       "status": "Estado",
-      "contribution": "Contribución"
+      "contribution": "Contribución",
+      "activityLastWeek": "Actividad (Semana Pasada)",
+      "activityLastMonth": "Actividad (Mes Pasado)"
     },
     "statusValues": {
       "active": "Activo",

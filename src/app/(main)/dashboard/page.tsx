@@ -1,13 +1,12 @@
 
 "use client"
 
-import { Banknote, Gauge, Users as UsersIcon, Award, FileText, BarChart3, Target } from 'lucide-react';
+import { Banknote, Gauge, Users as UsersIcon } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { KPICard } from '@/components/shared/KPICard';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { mockTeam, mockChartData } from '@/data/mocks'; 
-import { Badge as UiBadge } from '@/components/ui/badge'; 
 import {
   Dialog,
   DialogContent,
@@ -18,12 +17,13 @@ import {
 } from "@/components/ui/dialog";
 import Image from 'next/image';
 import type { Badge } from '@/data/schemas';
-import { ResponsiveContainer, BarChart, XAxis, YAxis, Tooltip as RechartsTooltip, Legend, Bar } from 'recharts';
-import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart';
+import { BarChart } from 'recharts';
+import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart'; // Removed unused: ResponsiveContainer, XAxis, YAxis, Legend, Bar
 import { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from 'date-fns';
 import { MiningFocusCard } from '@/components/dashboard/MiningFocusCard';
+import { TeamActivityCard } from '@/components/dashboard/TeamActivityCard'; // New Card
 
 
 function BalanceBreakdownCard() {
@@ -83,17 +83,20 @@ function UnverifiedBalanceChart() {
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <BarChart data={chartData} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
-            <XAxis dataKey="date" tickFormatter={(value) => format(new Date(value), 'MMM yy')} />
-            <YAxis label={{ value: t('dashboard.unverifiedBalanceChart.yAxisLabel'), angle: -90, position: 'insideLeft' }} />
             <ChartTooltip content={<ChartTooltipContent />} />
-            <Legend />
-            <Bar dataKey="balance" fill="var(--color-balance)" radius={4} />
+            {/* Re-added XAxis, YAxis, Legend, Bar as they are necessary for BarChart */}
+            <RechartsPrimitive.XAxis dataKey="date" tickFormatter={(value) => format(new Date(value), 'MMM yy')} />
+            <RechartsPrimitive.YAxis label={{ value: t('dashboard.unverifiedBalanceChart.yAxisLabel'), angle: -90, position: 'insideLeft' }} />
+            <RechartsPrimitive.Legend />
+            <RechartsPrimitive.Bar dataKey="balance" fill="var(--color-balance)" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>
     </Card>
   );
 }
+// Need to import Recharts primitives for the BarChart if they are not exported from ui/chart
+import * as RechartsPrimitive from "recharts";
 
 
 function BadgeDetailsDialog({ badge, children }: { badge: Badge, children: React.ReactNode }) {
@@ -201,6 +204,8 @@ export default function DashboardPage() {
         <MiningFocusCard />
       </div>
       
+      <TeamActivityCard /> {/* New Card */}
+
       <div className="grid gap-6 lg:grid-cols-1"> 
         <UnverifiedBalanceChart />
       </div>

@@ -168,6 +168,23 @@
       "keepGoing": "Keep up the great work!",
       "greatProgress": "Making great progress!",
       "teamEncouragement": "Encourage your team to stay active! Their contributions help the network grow."
+    },
+    "teamActivity": {
+      "title": "Team Mining Rally",
+      "yourActivity": "Your Activity",
+      "lastWeek": "Last Week",
+      "lastMonth": "Last Month",
+      "hoursSuffix": "hrs",
+      "teamRallyWeekly": "Weekly Team Rally",
+      "teamRallyTop10": "Weekly Team Rally (Top 10)",
+      "rank": "Rank",
+      "member": "Member",
+      "hours": "Hours",
+      "yourRank": "Your Rank: #{{rank}} ({{hours}} hrs)",
+      "viewFullTeamReport": "View Full Team Report",
+      "newlyEarnedBadges": "Recent Achievements",
+      "noTeamMembers": "No team members to display activity for yet.",
+      "noActivity": "No activity data to display for the team."
     }
   },
   "teamInsights": {
@@ -179,7 +196,9 @@
       "member": "Member",
       "joinDate": "Join Date",
       "status": "Status",
-      "contribution": "Contribution"
+      "contribution": "Contribution",
+      "activityLastWeek": "Activity (Last Week)",
+      "activityLastMonth": "Activity (Last Month)"
     },
     "statusValues": {
       "active": "Active",

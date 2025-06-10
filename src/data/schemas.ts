@@ -1,7 +1,7 @@
 
 export interface User {
   id: string;
-  username: string; // Added username for login/display if different from name
+  username: string;
   name: string;
   avatarUrl: string;
   bio: string;
@@ -18,6 +18,9 @@ export interface User {
   weeklyMiningTarget?: number;
   monthlyMiningProgress?: number;
   monthlyMiningTarget?: number;
+  // New fields for gamification
+  userActiveMiningHours_LastWeek?: number;
+  userActiveMiningHours_LastMonth?: number;
 }
 
 export interface Badge {
@@ -27,7 +30,7 @@ export interface Badge {
   iconUrl: string; // URL to the badge image
   earned: boolean;
   earnedDate?: string; // ISO date string
-  dataAiHint?: string; // Added for AI hint consistency
+  dataAiHint?: string; 
 }
 
 export interface TeamMember {
@@ -37,6 +40,9 @@ export interface TeamMember {
   joinDate: string; // ISO date string
   status: 'active' | 'inactive' | 'pending';
   unverifiedPiContribution: number;
+  // New fields for gamification
+  teamMemberActiveMiningHours_LastWeek?: number;
+  teamMemberActiveMiningHours_LastMonth?: number;
 }
 
 export interface NodeData {
@@ -58,7 +64,6 @@ export interface MockChartData {
   '12M': BalanceChartDataPoint[];
 }
 
-// Make sure this is defined, used in legal pages
 export interface LegalSection {
   title: string;
   content: string;

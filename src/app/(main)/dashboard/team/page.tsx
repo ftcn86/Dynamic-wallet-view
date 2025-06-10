@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,8 +12,17 @@ import { mockApiCall } from '@/lib/api';
 import { mockTeam } from '@/data/mocks';
 import type { TeamMember } from '@/data/schemas';
 import { format } from 'date-fns';
-import { Info, Users } from 'lucide-react';
+import { Info, Users, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button'; // For sortable headers
+import { cn } from '@/lib/utils';
+
+type SortableKeys = keyof Pick<TeamMember, 'name' | 'joinDate' | 'status' | 'unverifiedPiContribution' | 'teamMemberActiveMiningHours_LastWeek' | 'teamMemberActiveMiningHours_LastMonth'>;
+
+interface SortConfig {
+  key: SortableKeys | null;
+  direction: 'ascending' | 'descending';
+}
 
 function TeamMemberRow({ member }: { member: TeamMember }) {
   const { t } = useTranslation();
@@ -56,9 +65,42 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           </TooltipProvider>
         </div>
       </TableCell>
+      <TableCell className="text-right">{member.teamMemberActiveMiningHours_LastWeek ?? 0} hrs</TableCell>
+      <TableCell className="text-right">{member.teamMemberActiveMiningHours_LastMonth ?? 0} hrs</TableCell>
     </TableRow>
   );
 }
+
+function SortableTableHead({
+  children,
+  onClick,
+  sortKey,
+  currentSortKey,
+  currentDirection,
+  className
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+  sortKey: SortableKeys;
+  currentSortKey: SortableKeys | null;
+  currentDirection: 'ascending' | 'descending';
+  className?: string;
+}) {
+  const isSorted = currentSortKey === sortKey;
+  return (
+    <TableHead className={cn("cursor-pointer hover:bg-muted/50", className)} onClick={onClick}>
+      <div className="flex items-center gap-2">
+        {children}
+        {isSorted ? (
+          currentDirection === 'ascending' ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+        ) : (
+          <ArrowUpDown className="h-3 w-3 opacity-50" />
+        )}
+      </div>
+    </TableHead>
+  );
+}
+
 
 function TeamMembersTableSkeleton() {
   const { t } = useTranslation();
@@ -70,6 +112,8 @@ function TeamMembersTableSkeleton() {
           <TableHead>{t('teamInsights.columns.joinDate')}</TableHead>
           <TableHead>{t('teamInsights.columns.status')}</TableHead>
           <TableHead className="text-right">{t('teamInsights.columns.contribution')}</TableHead>
+          <TableHead className="text-right">{t('teamInsights.columns.activityLastWeek')}</TableHead>
+          <TableHead className="text-right">{t('teamInsights.columns.activityLastMonth')}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -79,6 +123,8 @@ function TeamMembersTableSkeleton() {
             <TableCell><Skeleton className="h-4 w-24" /></TableCell>
             <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
             <TableCell className="text-right"><Skeleton className="h-4 w-16" /></TableCell>
+            <TableCell className="text-right"><Skeleton className="h-4 w-12" /></TableCell>
+            <TableCell className="text-right"><Skeleton className="h-4 w-12" /></TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -91,13 +137,15 @@ export default function TeamInsightsPage() {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'teamMemberActiveMiningHours_LastWeek', direction: 'descending' });
 
   useEffect(() => {
     async function fetchTeamMembers() {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await mockApiCall({ data: mockTeam });
+        // Simulate API call, in a real app this would fetch data
+        const data = await mockApiCall({ data: [...mockTeam] }); // Use a copy for sorting
         setTeamMembers(data);
       } catch (err) {
         setError(t('teamInsights.error'));
@@ -106,7 +154,43 @@ export default function TeamInsightsPage() {
       }
     }
     fetchTeamMembers();
-  }, []); // Empty dependency array: fetch data once on mount
+  }, [t]);
+
+  const requestSort = (key: SortableKeys) => {
+    let direction: 'ascending' | 'descending' = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+  
+  const sortedTeamMembers = useMemo(() => {
+    let sortableItems = [...teamMembers];
+    if (sortConfig.key !== null) {
+      sortableItems.sort((a, b) => {
+        const valA = a[sortConfig.key!];
+        const valB = b[sortConfig.key!];
+
+        let comparison = 0;
+        if (typeof valA === 'number' && typeof valB === 'number') {
+          comparison = valA - valB;
+        } else if (typeof valA === 'string' && typeof valB === 'string') {
+          comparison = valA.localeCompare(valB);
+        } else if (valA instanceof Date && valB instanceof Date) {
+            comparison = valA.getTime() - valB.getTime();
+        } else {
+            // Fallback for mixed or other types - treat as strings or maintain order
+             const strA = String(valA ?? '');
+             const strB = String(valB ?? '');
+             comparison = strA.localeCompare(strB);
+        }
+        
+        return sortConfig.direction === 'ascending' ? comparison : comparison * -1;
+      });
+    }
+    return sortableItems;
+  }, [teamMembers, sortConfig]);
+
 
   return (
     <div className="space-y-6">
@@ -121,21 +205,68 @@ export default function TeamInsightsPage() {
         <CardContent>
           {isLoading && <TeamMembersTableSkeleton />}
           {!isLoading && error && <p className="text-destructive text-center py-8">{error}</p>}
-          {!isLoading && !error && teamMembers.length === 0 && (
+          {!isLoading && !error && sortedTeamMembers.length === 0 && (
             <p className="text-muted-foreground text-center py-8">{t('teamInsights.empty')}</p>
           )}
-          {!isLoading && !error && teamMembers.length > 0 && (
+          {!isLoading && !error && sortedTeamMembers.length > 0 && (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t('teamInsights.columns.member')}</TableHead>
-                  <TableHead>{t('teamInsights.columns.joinDate')}</TableHead>
-                  <TableHead>{t('teamInsights.columns.status')}</TableHead>
-                  <TableHead className="text-right">{t('teamInsights.columns.contribution')}</TableHead>
+                  <SortableTableHead
+                    sortKey="name"
+                    currentSortKey={sortConfig.key}
+                    currentDirection={sortConfig.direction}
+                    onClick={() => requestSort('name')}
+                  >
+                    {t('teamInsights.columns.member')}
+                  </SortableTableHead>
+                  <SortableTableHead
+                     sortKey="joinDate"
+                     currentSortKey={sortConfig.key}
+                     currentDirection={sortConfig.direction}
+                     onClick={() => requestSort('joinDate')}
+                  >
+                    {t('teamInsights.columns.joinDate')}
+                  </SortableTableHead>
+                  <SortableTableHead
+                     sortKey="status"
+                     currentSortKey={sortConfig.key}
+                     currentDirection={sortConfig.direction}
+                     onClick={() => requestSort('status')}
+                  >
+                    {t('teamInsights.columns.status')}
+                  </SortableTableHead>
+                  <SortableTableHead
+                     sortKey="unverifiedPiContribution"
+                     currentSortKey={sortConfig.key}
+                     currentDirection={sortConfig.direction}
+                     onClick={() => requestSort('unverifiedPiContribution')}
+                     className="text-right"
+                  >
+                    {t('teamInsights.columns.contribution')}
+                  </SortableTableHead>
+                  <SortableTableHead
+                     sortKey="teamMemberActiveMiningHours_LastWeek"
+                     currentSortKey={sortConfig.key}
+                     currentDirection={sortConfig.direction}
+                     onClick={() => requestSort('teamMemberActiveMiningHours_LastWeek')}
+                     className="text-right"
+                  >
+                    {t('teamInsights.columns.activityLastWeek')}
+                  </SortableTableHead>
+                  <SortableTableHead
+                     sortKey="teamMemberActiveMiningHours_LastMonth"
+                     currentSortKey={sortConfig.key}
+                     currentDirection={sortConfig.direction}
+                     onClick={() => requestSort('teamMemberActiveMiningHours_LastMonth')}
+                     className="text-right"
+                  >
+                    {t('teamInsights.columns.activityLastMonth')}
+                  </SortableTableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {teamMembers.map((member) => (
+                {sortedTeamMembers.map((member) => (
                   <TeamMemberRow key={member.id} member={member} />
                 ))}
               </TableBody>

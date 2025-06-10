@@ -1,4 +1,16 @@
-import type { User, TeamMember, NodeData, MockChartData } from './schemas';
+
+import type { User, TeamMember, NodeData, MockChartData, Badge } from './schemas';
+
+// Define new gamification badges
+const gamificationBadges: Badge[] = [
+  { id: 'b_wmara', name: 'Weekly Mining Marathoner', description: 'You were a true marathoner, mining consistently last week!', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: 'runner clock', earnedDate: '2024-06-20T10:00:00Z' },
+  { id: 'b_mmded', name: 'Monthly Mining Dedication', description: 'Your dedication to mining last month was outstanding!', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: 'calendar medal', earnedDate: '2024-05-31T10:00:00Z' },
+  { id: 'b_twtm', name: 'Team\'s Weekly Top Miner', description: 'You led your team in mining activity last week! Awesome effort.', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: 'leader numberOne', earnedDate: '2024-06-20T10:00:00Z' },
+  { id: 'b_tmmc', name: 'Team\'s Monthly Mining Champion', description: 'You were the mining champion of your team last month! Incredible!', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: 'trophy star', earnedDate: '2024-05-31T10:00:00Z' },
+  { id: 'b_otp', name: 'Outpaced the Pack', description: 'You significantly outpaced your team\'s average mining activity!', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: 'person ahead', earnedDate: '2024-06-20T10:00:00Z' },
+  { id: 'b_atl', name: 'Active Team Leader', description: 'Your team is highly active! Great job fostering a motivated mining community.', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: 'team spark', earnedDate: '2024-06-20T10:00:00Z' },
+];
+
 
 export const mockUser: User = {
   id: 'user123',
@@ -17,20 +29,37 @@ export const mockUser: User = {
   badges: [
     { id: 'b001', name: 'Early Adopter', description: 'Joined Pi Network in its early stages.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2020-05-15T10:00:00Z', dataAiHint: "award medal" },
     { id: 'b002', name: 'Node Runner', description: 'Successfully operates a Pi Node.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2021-11-01T10:00:00Z', dataAiHint: "server computer" },
-    { id: 'b003', name: 'Team Builder', description: 'Invited 10+ active members to their team.', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: "team people" },
+    { id: 'b003', name: 'Team Builder', description: 'Invited 10+ active members to their team.', iconUrl: 'https://placehold.co/128x128.png', earned: true, dataAiHint: "team people", earnedDate: '2023-02-10T10:00:00Z' },
     { id: 'b004', name: 'KYC Verified', description: 'Successfully completed KYC verification.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2022-01-20T10:00:00Z', dataAiHint: "verified checkmark" },
+    // Add some earned gamification badges
+    { ...gamificationBadges[0], earned: true }, // Weekly Mining Marathoner
+    { ...gamificationBadges[2], earned: true }, // Team's Weekly Top Miner
+    { ...gamificationBadges[5], earned: false }, // Active Team Leader (not earned for demo diversity)
+    gamificationBadges[1], // Monthly Mining Dedication (not earned)
+    gamificationBadges[3], // Team's Monthly Mining Champion (not earned)
+    gamificationBadges[4], // Outpaced the Pack (not earned)
   ],
   weeklyMiningProgress: 3.7,
   weeklyMiningTarget: 5,
   monthlyMiningProgress: 18.2,
   monthlyMiningTarget: 25,
+  // New gamification data
+  userActiveMiningHours_LastWeek: 22,
+  userActiveMiningHours_LastMonth: 85,
 };
 
 export const mockTeam: TeamMember[] = [
-  { id: 'team001', name: 'Bob Miner', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2022-03-10T10:00:00Z', status: 'active', unverifiedPiContribution: 120.5 },
-  { id: 'team002', name: 'Charlie User', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2022-08-20T10:00:00Z', status: 'inactive', unverifiedPiContribution: 55.0 },
-  { id: 'team003', name: 'Diana Node', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2023-01-05T10:00:00Z', status: 'pending', unverifiedPiContribution: 0 },
-  { id: 'team004', name: 'Edward Pi', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2021-12-15T10:00:00Z', status: 'active', unverifiedPiContribution: 250.75 },
+  { id: 'team001', name: 'Bob Miner', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2022-03-10T10:00:00Z', status: 'active', unverifiedPiContribution: 120.5, teamMemberActiveMiningHours_LastWeek: 25, teamMemberActiveMiningHours_LastMonth: 90 },
+  { id: 'team002', name: 'Charlie User', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2022-08-20T10:00:00Z', status: 'active', unverifiedPiContribution: 55.0, teamMemberActiveMiningHours_LastWeek: 18, teamMemberActiveMiningHours_LastMonth: 70 },
+  { id: 'team003', name: 'Diana Node', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2023-01-05T10:00:00Z', status: 'active', unverifiedPiContribution: 0, teamMemberActiveMiningHours_LastWeek: 20, teamMemberActiveMiningHours_LastMonth: 75 },
+  { id: 'team004', name: 'Edward Pi', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2021-12-15T10:00:00Z', status: 'active', unverifiedPiContribution: 250.75, teamMemberActiveMiningHours_LastWeek: 23, teamMemberActiveMiningHours_LastMonth: 88 },
+  { id: 'team005', name: 'Fiona Coin', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2023-02-01T10:00:00Z', status: 'active', unverifiedPiContribution: 90.0, teamMemberActiveMiningHours_LastWeek: 15, teamMemberActiveMiningHours_LastMonth: 60 },
+  { id: 'team006', name: 'George Chain', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2023-03-15T10:00:00Z', status: 'inactive', unverifiedPiContribution: 30.0, teamMemberActiveMiningHours_LastWeek: 5, teamMemberActiveMiningHours_LastMonth: 20 },
+  { id: 'team007', name: 'Hannah Block', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2023-04-01T10:00:00Z', status: 'active', unverifiedPiContribution: 150.25, teamMemberActiveMiningHours_LastWeek: 28, teamMemberActiveMiningHours_LastMonth: 100 },
+  { id: 'team008', name: 'Ian Crypto', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2023-05-10T10:00:00Z', status: 'pending', unverifiedPiContribution: 0, teamMemberActiveMiningHours_LastWeek: 0, teamMemberActiveMiningHours_LastMonth: 0 },
+  { id: 'team009', name: 'Julia Token', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2023-06-20T10:00:00Z', status: 'active', unverifiedPiContribution: 75.5, teamMemberActiveMiningHours_LastWeek: 19, teamMemberActiveMiningHours_LastMonth: 65 },
+  { id: 'team010', name: 'Kevin Ledger', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2023-07-01T10:00:00Z', status: 'active', unverifiedPiContribution: 110.0, teamMemberActiveMiningHours_LastWeek: 21, teamMemberActiveMiningHours_LastMonth: 80 },
+  { id: 'team011', name: 'Laura Mine', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2023-08-15T10:00:00Z', status: 'active', unverifiedPiContribution: 40.0, teamMemberActiveMiningHours_LastWeek: 12, teamMemberActiveMiningHours_LastMonth: 50 },
 ];
 
 export const mockNodeData: NodeData = {
@@ -74,3 +103,10 @@ export const mockChartData: MockChartData = {
     { date: '2024-06-01', balance: 12345 },
   ],
 };
+
+// Export new badges so they can be referenced if needed, though they are also included in mockUser.badges
+export const GAMIFICATION_BADGE_IDS = gamificationBadges.map(b => b.id);
+export const ALL_MOCK_BADGES = [
+  ...mockUser.badges.filter(b => !GAMIFICATION_BADGE_IDS.includes(b.id)), // existing unique badges
+  ...gamificationBadges // ensure all gamification badges definitions are available
+];
