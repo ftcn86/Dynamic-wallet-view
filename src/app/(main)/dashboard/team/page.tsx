@@ -103,10 +103,11 @@ export default function TeamInsightsPage() {
         setError(t('teamInsights.error'));
       } finally {
         setIsLoading(false);
+        console.log('TeamInsightsPage: fetchTeamMembers finally block reached, isLoading should be false.');
       }
     }
     fetchTeamMembers();
-  }, []); // Changed dependency to empty array
+  }, []); 
 
   return (
     <div className="space-y-6">

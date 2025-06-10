@@ -34,10 +34,11 @@ function NodeOperatorView() {
         setError(t('shared.error'));
       } finally {
         setIsLoading(false);
+        console.log('NodeAnalysisPage (NodeOperatorView): fetchData finally block reached, isLoading should be false.');
       }
     }
     fetchData();
-  }, []); // Changed dependency to empty array
+  }, []); 
 
   if (isLoading) {
     return (
