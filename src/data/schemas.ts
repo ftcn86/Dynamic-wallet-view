@@ -16,6 +16,7 @@ export interface User {
   unverifiedPiDetails: { // New field for detailed breakdown
     fromReferralTeam: number;
     fromSecurityCircle: number;
+    fromNodeRewards: number; // Added Node Rewards
     fromOtherBonuses: number;
   };
   badges: Badge[];

@@ -149,6 +149,7 @@
       "title": "Unverified Pi Sources",
       "fromReferralTeam": "From Referral Team",
       "fromSecurityCircle": "From Security Circle",
+      "fromNodeRewards": "From Node Rewards",
       "fromOtherBonuses": "From Other Bonuses",
       "disclaimer": "These amounts become transferable as your connections complete KYC or other conditions are met."
     },

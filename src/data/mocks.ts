@@ -12,8 +12,9 @@ const gamificationBadges: Badge[] = [
 
 const unverifiedFromReferralTeam = 2000.50;
 const unverifiedFromSecurityCircle = 1000.2890;
+const unverifiedFromNodeRewards = 750.00; // Added Node Rewards
 const unverifiedFromOtherBonuses = 456.0000;
-const totalUnverified = unverifiedFromReferralTeam + unverifiedFromSecurityCircle + unverifiedFromOtherBonuses;
+const totalUnverified = unverifiedFromReferralTeam + unverifiedFromSecurityCircle + unverifiedFromNodeRewards + unverifiedFromOtherBonuses;
 
 
 export const mockUser: User = {
@@ -33,6 +34,7 @@ export const mockUser: User = {
   unverifiedPiDetails: { // New field
     fromReferralTeam: unverifiedFromReferralTeam,
     fromSecurityCircle: unverifiedFromSecurityCircle,
+    fromNodeRewards: unverifiedFromNodeRewards,
     fromOtherBonuses: unverifiedFromOtherBonuses,
   },
   badges: [
