@@ -1,5 +1,5 @@
 
-import type { User, TeamMember, NodeData, MockChartData, Badge, KycStatus } from './schemas';
+import type { User, TeamMember, NodeData, MockChartData, Badge, KycStatus, BalanceChartDataPoint } from './schemas';
 import { getDaysInMonth, subMonths } from 'date-fns';
 
 const gamificationBadges: Badge[] = [
@@ -17,7 +17,6 @@ const unverifiedFromNodeRewards = 750.00;
 const unverifiedFromOtherBonuses = 456.0000;
 const totalUnverified = unverifiedFromReferralTeam + unverifiedFromSecurityCircle + unverifiedFromNodeRewards + unverifiedFromOtherBonuses;
 
-// Determine days in previous month for mock data target
 const today = new Date();
 const previousMonth = subMonths(today, 1);
 const daysInPreviousMonth = getDaysInMonth(previousMonth);
@@ -56,10 +55,10 @@ export const mockUser: User = {
   ],
   userActiveMiningHours_LastWeek: 22,
   userActiveMiningHours_LastMonth: 85,
-  activeMiningDays_LastWeek: 6,      // Example: User mined 6 full days last week
-  weeklyMiningDaysTarget: 7,         // Target is always 7 days for a week
-  activeMiningDays_LastMonth: Math.min(25, daysInPreviousMonth - 2), // Example: Mined 25 days or 2 less than previous month
-  monthlyMiningDaysTarget: daysInPreviousMonth, // Target is days in previous month
+  activeMiningDays_LastWeek: 6,
+  weeklyMiningDaysTarget: 7,
+  activeMiningDays_LastMonth: Math.min(25, daysInPreviousMonth - 2),
+  monthlyMiningDaysTarget: daysInPreviousMonth,
 };
 
 export const mockTeam: TeamMember[] = [
@@ -90,31 +89,31 @@ export const mockNodeData: NodeData = {
 
 export const mockChartData: MockChartData = {
   '3M': [
-    { date: '2024-04-01', balance: 12000 },
-    { date: '2024-05-01', balance: 12150 },
-    { date: '2024-06-01', balance: 12345 },
+    { date: '2024-04-01', transferable: 5200, unverified: 4500 },
+    { date: '2024-05-01', transferable: 5500, unverified: 4300 },
+    { date: '2024-06-01', transferable: mockUser.balanceBreakdown.transferableToMainnet, unverified: mockUser.balanceBreakdown.totalUnverifiedPi },
   ],
   '6M': [
-    { date: '2024-01-01', balance: 11500 },
-    { date: '2024-02-01', balance: 11600 },
-    { date: '2024-03-01', balance: 11800 },
-    { date: '2024-04-01', balance: 12000 },
-    { date: '2024-05-01', balance: 12150 },
-    { date: '2024-06-01', balance: 12345 },
+    { date: '2024-01-01', transferable: 4800, unverified: 4800 },
+    { date: '2024-02-01', transferable: 5000, unverified: 4700 },
+    { date: '2024-03-01', transferable: 5100, unverified: 4600 },
+    { date: '2024-04-01', transferable: 5200, unverified: 4500 },
+    { date: '2024-05-01', transferable: 5500, unverified: 4300 },
+    { date: '2024-06-01', transferable: mockUser.balanceBreakdown.transferableToMainnet, unverified: mockUser.balanceBreakdown.totalUnverifiedPi },
   ],
   '12M': [
-    { date: '2023-07-01', balance: 10000 },
-    { date: '2023-08-01', balance: 10200 },
-    { date: '2023-09-01', balance: 10500 },
-    { date: '2023-10-01', balance: 10800 },
-    { date: '2023-11-01', balance: 11000 },
-    { date: '2023-12-01', balance: 11200 },
-    { date: '2024-01-01', balance: 11500 },
-    { date: '2024-02-01', balance: 11600 },
-    { date: '2024-03-01', balance: 11800 },
-    { date: '2024-04-01', balance: 12000 },
-    { date: '2024-05-01', balance: 12150 },
-    { date: '2024-06-01', balance: 12345 },
+    { date: '2023-07-01', transferable: 3000, unverified: 5500 },
+    { date: '2023-08-01', transferable: 3200, unverified: 5400 },
+    { date: '2023-09-01', transferable: 3500, unverified: 5300 },
+    { date: '2023-10-01', transferable: 3800, unverified: 5200 },
+    { date: '2023-11-01', transferable: 4200, unverified: 5000 },
+    { date: '2023-12-01', transferable: 4500, unverified: 4900 },
+    { date: '2024-01-01', transferable: 4800, unverified: 4800 },
+    { date: '2024-02-01', transferable: 5000, unverified: 4700 },
+    { date: '2024-03-01', transferable: 5100, unverified: 4600 },
+    { date: '2024-04-01', transferable: 5200, unverified: 4500 },
+    { date: '2024-05-01', transferable: 5500, unverified: 4300 },
+    { date: '2024-06-01', transferable: mockUser.balanceBreakdown.transferableToMainnet, unverified: mockUser.balanceBreakdown.totalUnverifiedPi },
   ],
 };
 
@@ -123,5 +122,3 @@ export const ALL_MOCK_BADGES = [
   ...mockUser.badges.filter(b => !GAMIFICATION_BADGE_IDS.includes(b.id)),
   ...gamificationBadges
 ];
-
-    

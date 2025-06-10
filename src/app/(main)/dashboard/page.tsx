@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import Image from 'next/image';
 import type { Badge } from '@/data/schemas';
+import type { ChartConfig } from '@/components/ui/chart';
 
 import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart';
 import { useState } from 'react';
@@ -24,8 +25,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { format } from 'date-fns';
 import { MiningFocusCard } from '@/components/dashboard/MiningFocusCard';
 import { TeamActivityCard } from '@/components/dashboard/TeamActivityCard';
-import { UnverifiedPiDetailCard } from '@/components/dashboard/UnverifiedPiDetailCard'; // New import
-import * as RechartsPrimitive from "recharts"; // For BarChart elements
+import { UnverifiedPiDetailCard } from '@/components/dashboard/UnverifiedPiDetailCard';
+import * as RechartsPrimitive from "recharts";
 
 function BalanceBreakdownCard() {
   const { user } = useAuth();
@@ -60,11 +61,15 @@ function UnverifiedBalanceChart() {
   const chartData = mockChartData[timePeriod];
 
   const chartConfig = {
-    balance: {
-      label: t('dashboard.unverifiedBalanceChart.tooltipLabel'),
+    transferable: {
+      label: t('dashboard.unverifiedBalanceChart.tooltipLabelTransferable'),
       color: "hsl(var(--primary))",
     },
-  };
+    unverified: {
+      label: t('dashboard.unverifiedBalanceChart.tooltipLabelUnverified'),
+      color: "hsl(var(--accent))",
+    },
+  } satisfies ChartConfig;
   
   return (
     <Card className="shadow-lg">
@@ -88,7 +93,8 @@ function UnverifiedBalanceChart() {
             <RechartsPrimitive.XAxis dataKey="date" tickFormatter={(value) => format(new Date(value), 'MMM yy')} />
             <RechartsPrimitive.YAxis label={{ value: t('dashboard.unverifiedBalanceChart.yAxisLabel'), angle: -90, position: 'insideLeft' }} />
             <RechartsPrimitive.Legend />
-            <RechartsPrimitive.Bar dataKey="balance" fill="var(--color-balance)" radius={4} />
+            <RechartsPrimitive.Bar dataKey="transferable" fill="var(--color-transferable)" radius={4} name={t('dashboard.unverifiedBalanceChart.tooltipLabelTransferable')} />
+            <RechartsPrimitive.Bar dataKey="unverified" fill="var(--color-unverified)" radius={4} name={t('dashboard.unverifiedBalanceChart.tooltipLabelUnverified')} />
           </RechartsPrimitive.BarChart>
         </ChartContainer>
       </CardContent>

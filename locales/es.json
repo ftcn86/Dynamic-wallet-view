@@ -157,6 +157,8 @@
       "title": "Fluctuación de Saldo",
       "yAxisLabel": "Cantidad de Pi",
       "tooltipLabel": "Cantidad",
+      "tooltipLabelTransferable": "Transferible",
+      "tooltipLabelUnverified": "No Verificado",
       "periods": {
         "threeMonths": "3M",
         "sixMonths": "6M",

@@ -20,12 +20,12 @@ export interface User {
     fromOtherBonuses: number;
   };
   badges: Badge[];
-  userActiveMiningHours_LastWeek?: number; // Kept for other potential uses (e.g. team activity card)
-  userActiveMiningHours_LastMonth?: number; // Kept for other potential uses
-  activeMiningDays_LastWeek?: number; // New: Tracks active mining days in the last week
-  weeklyMiningDaysTarget?: number; // New: Target for active mining days in a week
-  activeMiningDays_LastMonth?: number; // New: Tracks active mining days in the last month
-  monthlyMiningDaysTarget?: number; // New: Target for active mining days in a month
+  userActiveMiningHours_LastWeek?: number;
+  userActiveMiningHours_LastMonth?: number;
+  activeMiningDays_LastWeek?: number;
+  weeklyMiningDaysTarget?: number;
+  activeMiningDays_LastMonth?: number;
+  monthlyMiningDaysTarget?: number;
 }
 
 export interface Badge {
@@ -61,7 +61,8 @@ export interface NodeData {
 
 export interface BalanceChartDataPoint {
   date: string;
-  balance: number;
+  transferable: number;
+  unverified: number;
 }
 
 export interface MockChartData {

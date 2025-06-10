@@ -157,6 +157,8 @@
       "title": "Balance Fluctuation",
       "yAxisLabel": "Pi Amount",
       "tooltipLabel": "Amount",
+      "tooltipLabelTransferable": "Transferable",
+      "tooltipLabelUnverified": "Unverified",
       "periods": {
         "threeMonths": "3M",
         "sixMonths": "6M",
