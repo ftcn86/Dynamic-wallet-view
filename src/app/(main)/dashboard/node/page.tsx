@@ -51,7 +51,7 @@ function NodeOperatorView() {
     );
   }
 
-  if (error) return <p className="text-destructive">{error}</p>;
+  if (error) return null; // Changed to return null on error
   if (!nodeData) return null;
 
   const chartConfig = {
@@ -132,3 +132,4 @@ export default function NodeAnalysisPage() {
     </div>
   );
 }
+
