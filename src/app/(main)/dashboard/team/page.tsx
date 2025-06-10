@@ -14,7 +14,7 @@ import { format } from 'date-fns';
 import { Info, Users, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
-import { KycStatusBadge } from '@/components/shared/KycStatusBadge'; // Import the extracted component
+import { KycStatusBadge } from '@/components/shared/KycStatusBadge'; 
 import { Badge as UiBadge } from '@/components/ui/badge';
 
 
@@ -60,7 +60,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                <Info className="h-4 w-4 text-accent cursor-help" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>{t('teamInsights.contributionTooltip')}</p>
@@ -96,9 +96,9 @@ function SortableTableHead({
       <div className="flex items-center gap-2">
         {children}
         {isSorted ? (
-          currentDirection === 'ascending' ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+          currentDirection === 'ascending' ? <ArrowUp className="h-3 w-3 text-primary" /> : <ArrowDown className="h-3 w-3 text-primary" />
         ) : (
-          <ArrowUpDown className="h-3 w-3 opacity-50" />
+          <ArrowUpDown className="h-3 w-3 opacity-50 text-muted-foreground" />
         )}
       </div>
     </TableHead>
@@ -181,7 +181,6 @@ export default function TeamInsightsPage() {
         if (valB === undefined || valB === null) comparison = 1;
         
         if (comparison !== 0 && (valA === undefined || valA === null || valB === undefined || valB === null)) {
-          // Handle undefined/null by pushing them to one end
         } else if (typeof valA === 'number' && typeof valB === 'number') {
           comparison = valA - valB;
         } else if (typeof valA === 'string' && typeof valB === 'string') {
@@ -209,7 +208,7 @@ export default function TeamInsightsPage() {
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Users className="h-6 w-6" />
+            <Users className="h-6 w-6 text-primary" />
             {t('teamInsights.title')}
           </CardTitle>
         </CardHeader>

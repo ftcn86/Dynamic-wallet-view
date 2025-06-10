@@ -4,7 +4,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Shield, Gift, ListTree, Server } from 'lucide-react'; // Added Server icon
+import { Users, Shield, Gift, ListTree, Server } from 'lucide-react'; 
 
 interface UnverifiedPiSource {
   key: keyof NonNullable<ReturnType<typeof useAuth>['user']>['unverifiedPiDetails'];
@@ -31,19 +31,19 @@ export function UnverifiedPiDetailCard() {
     {
       key: 'fromSecurityCircle',
       labelKey: 'dashboard.unverifiedPiDetail.fromSecurityCircle',
-      icon: <Shield className="h-5 w-5 text-primary/80" />,
+      icon: <Shield className="h-5 w-5 text-green-600" />,
       value: fromSecurityCircle,
     },
     {
       key: 'fromNodeRewards',
       labelKey: 'dashboard.unverifiedPiDetail.fromNodeRewards',
-      icon: <Server className="h-5 w-5 text-primary/80" />, // Added Server icon for Node Rewards
+      icon: <Server className="h-5 w-5 text-blue-500" />, 
       value: fromNodeRewards,
     },
     {
       key: 'fromOtherBonuses',
       labelKey: 'dashboard.unverifiedPiDetail.fromOtherBonuses',
-      icon: <Gift className="h-5 w-5 text-primary/80" />,
+      icon: <Gift className="h-5 w-5 text-yellow-500" />,
       value: fromOtherBonuses,
     },
   ];

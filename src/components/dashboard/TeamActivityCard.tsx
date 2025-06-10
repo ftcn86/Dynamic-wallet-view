@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Trophy, ChevronRight, Award } from 'lucide-react';
-// Removed Users icon as it was not used in the final design of this card.
 
 const MAX_LEADERBOARD_ENTRIES = 10;
 const DISPLAY_RECENT_BADGES_COUNT = 3;
@@ -20,8 +19,7 @@ const DISPLAY_RECENT_BADGES_COUNT = 3;
 export function TeamActivityCard() {
   const { user } = useAuth();
   const { t } = useTranslation();
-  // In a real app, team data would come via props or context, not directly from mocks.
-  const team = mockTeam; // Assuming mockTeam is available and updated with activity hours
+  const team = mockTeam; 
 
   if (!user) return null;
 
@@ -38,19 +36,16 @@ export function TeamActivityCard() {
   const userWeeklyActivity = user.userActiveMiningHours_LastWeek ?? 0;
   const userMonthlyActivity = user.userActiveMiningHours_LastMonth ?? 0;
 
-  // Calculate user's rank in the full list including their own activity
   const fullActivityList = [
     ...leaderboard.map(m => ({ name: m.name, activity: m.activity, id: m.id })),
     { name: user.name, activity: userWeeklyActivity, id: user.id }
   ];
 
-  // Deduplicate in case user is also in mockTeam (e.g. for testing, though ideally user is separate)
   const uniqueActivityList = Array.from(new Map(fullActivityList.map(item => [item.id, item])).values())
                               .sort((a,b) => b.activity - a.activity);
 
   const userRankInFullList = uniqueActivityList.findIndex(u => u.id === user.id) +1;
 
-  // Safely access badges, defaulting to an empty array if undefined or null
   const userBadges = user.badges || [];
 
   const earnedGamificationBadges = userBadges
@@ -110,7 +105,6 @@ export function TeamActivityCard() {
              team.length === 0 ? <p className="text-sm text-muted-foreground">{t('dashboard.teamActivity.noTeamMembers')}</p>
                                : <p className="text-sm text-muted-foreground">{t('dashboard.teamActivity.noActivity')}</p>
           )}
-          {/* Show user's rank if they are not in the displayed top 10 and there are more than 10 members */}
           {leaderboard.length > MAX_LEADERBOARD_ENTRIES && userRankInFullList > MAX_LEADERBOARD_ENTRIES && (
             <p className="text-sm text-muted-foreground mt-2 text-center">
               {t('dashboard.teamActivity.yourRank', { rank: userRankInFullList, hours: userWeeklyActivity })}
@@ -140,7 +134,7 @@ export function TeamActivityCard() {
         <Button asChild variant="outline" className="w-full">
           <Link href="/dashboard/team">
             {t('dashboard.teamActivity.viewFullTeamReport')}
-            <ChevronRight className="ml-2 h-4 w-4" />
+            <ChevronRight className="ml-2 h-4 w-4 text-primary" />
           </Link>
         </Button>
       </CardFooter>

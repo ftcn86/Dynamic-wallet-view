@@ -53,7 +53,7 @@ export default function AcceptTermsPage() {
       <Card className="w-full max-w-lg shadow-xl">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <FileText size={36} />
+            <FileText size={36} className="text-primary" />
           </div>
           <CardTitle className="text-2xl font-headline">{t('legal.acceptTerms.title')}</CardTitle>
           <CardDescription>{t('legal.acceptTerms.description')}</CardDescription>
@@ -65,22 +65,22 @@ export default function AcceptTermsPage() {
           <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-3 justify-center">
             <Button variant="link" asChild className="justify-start sm:justify-center">
               <Link href="/legal/terms">
-                <FileText className="mr-2 h-4 w-4" /> {t('legal.termsTitle')}
+                <FileText className="mr-2 h-4 w-4 text-primary" /> {t('legal.termsTitle')}
               </Link>
             </Button>
             <Button variant="link" asChild className="justify-start sm:justify-center">
               <Link href="/legal/privacy">
-                <ShieldCheck className="mr-2 h-4 w-4" /> {t('legal.privacyTitle')}
+                <ShieldCheck className="mr-2 h-4 w-4 text-primary" /> {t('legal.privacyTitle')}
               </Link>
             </Button>
           </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:justify-between">
           <Button variant="outline" onClick={handleLogout} className="w-full sm:w-auto">
-            <LogOut className="mr-2 h-4 w-4" /> {t('legal.acceptTerms.logoutButton')}
+            <LogOut className="mr-2 h-4 w-4 text-destructive" /> {t('legal.acceptTerms.logoutButton')}
           </Button>
           <Button onClick={handleAccept} className="w-full sm:w-auto">
-            <CheckCircle className="mr-2 h-4 w-4" /> {t('legal.acceptTerms.acceptButton')}
+            <CheckCircle className="mr-2 h-4 w-4 text-green-500" /> {t('legal.acceptTerms.acceptButton')}
           </Button>
         </CardFooter>
       </Card>

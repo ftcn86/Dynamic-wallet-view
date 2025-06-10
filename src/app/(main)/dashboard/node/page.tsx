@@ -32,7 +32,7 @@ function NodeOperatorView() {
         const data = await mockApiCall({ data: mockNodeData });
         setNodeData(data);
       } catch (err) {
-        setError(t('shared.error')); // This error will be caught by the new dashboard error.tsx if not handled here
+        setError(t('shared.error')); 
       } finally {
         setIsLoading(false);
       }
@@ -68,12 +68,12 @@ function NodeOperatorView() {
         <KPICard
           title={t('nodeAnalysis.isOperator.uptime')}
           value={`${nodeData.uptimePercentage.toFixed(2)}%`}
-          icon={<Server />}
+          icon={<Server className="h-5 w-5 text-primary" />}
         />
         <KPICard
           title={t('nodeAnalysis.isOperator.performanceScore')}
           value={nodeData.performanceScore.toString()}
-          icon={<TrendingUp />}
+          icon={<TrendingUp className="h-5 w-5 text-accent" />}
         />
       </div>
       <Card className="shadow-lg">
@@ -111,7 +111,7 @@ function BecomeANodeOperatorPrompt() {
         <Button asChild size="lg">
           <a href={PI_NODE_INFO_URL} target="_blank" rel="noopener noreferrer">
             {t('nodeAnalysis.isNotOperator.button')}
-            <ExternalLink className="ml-2 h-4 w-4" />
+            <ExternalLink className="ml-2 h-4 w-4 text-primary-foreground" />
           </a>
         </Button>
       </CardContent>
@@ -124,7 +124,7 @@ export default function NodeAnalysisPage() {
   const { user } = useAuth();
   const { t } = useTranslation();
 
-  if (!user) return <p>{t('shared.loading')}</p>; // Should be handled by layout
+  if (!user) return <p>{t('shared.loading')}</p>; 
 
   return (
     <div className="space-y-6">

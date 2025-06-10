@@ -205,7 +205,7 @@ export default function DashboardPage() {
         <KPICard
           title={t('dashboard.kpi_balance')}
           value={user.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}) + ' Pi'}
-          icon={<Banknote />}
+          icon={<Banknote className="h-5 w-5 text-primary" />}
         />
 
         <AlertDialog>
@@ -214,7 +214,7 @@ export default function DashboardPage() {
               <KPICard
                 title={t('dashboard.kpi_rate')}
                 value={`${user.miningRate.toFixed(4)} Pi/hr`}
-                icon={<Gauge />}
+                icon={<Gauge className="h-5 w-5 text-accent" />}
               />
             </div>
           </AlertDialogTrigger>
@@ -239,7 +239,7 @@ export default function DashboardPage() {
             <KPICard
               title={t('dashboard.kpi_node_uptime')}
               value={`${user.nodeUptimePercentage.toFixed(2)}%`}
-              icon={<Server />}
+              icon={<Server className="h-5 w-5 text-primary" />}
             />
           </Link>
         )}
@@ -248,7 +248,7 @@ export default function DashboardPage() {
           <KPICard
             title={t('dashboard.kpi_team')}
             value={`${activeTeamMembers} / ${totalTeamMembers}`}
-            icon={<UsersIcon />}
+            icon={<UsersIcon className="h-5 w-5 text-accent" />}
           />
         </Link>
       </div>
@@ -270,4 +270,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-

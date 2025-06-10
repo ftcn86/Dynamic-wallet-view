@@ -51,19 +51,16 @@ import { PI_TEAM_CHAT_URL, PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY } from '@/lib/
 
 
 export function Sidebar() {
-  const { user, logout: authLogout } = useAuth(); // Renamed to avoid conflict
+  const { user, logout: authLogout } = useAuth();
   const { t } = useTranslation();
   const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const isMobile = useIsMobile();
 
   const performLogout = () => {
-    // If device login was enabled by the user, set a hint flag in localStorage
-    // so the login page can offer the (placeholder) device login button.
     if (user?.deviceLoginEnabled && typeof window !== 'undefined') {
       localStorage.setItem(PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY, 'true');
     } else if (typeof window !== 'undefined') {
-      // Explicitly remove if not enabled, or if user is null (though latter shouldn't happen here)
       localStorage.removeItem(PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY);
     }
     authLogout();
@@ -98,19 +95,19 @@ export function Sidebar() {
           {!isCollapsed && <span className="font-headline">{t('appName')}</span>}
         </Link>
         <Button variant="ghost" size="icon" className={cn("ml-auto h-8 w-8", isCollapsed && "mx-auto my-1")} onClick={toggleSidebar}>
-          {isCollapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
+          {isCollapsed ? <ChevronRight className="h-5 w-5 text-muted-foreground" /> : <ChevronLeft className="h-5 w-5 text-muted-foreground" />}
           <span className="sr-only">Toggle sidebar</span>
         </Button>
       </div>
 
       <nav className="flex-grow px-4 py-4 space-y-1 overflow-y-auto">
-        <SidebarNavLink href="/dashboard" icon={<LayoutDashboard />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
+        <SidebarNavLink href="/dashboard" icon={<LayoutDashboard className="text-primary/90" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
           {t('sidebar.dashboard')}
         </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/team" icon={<Users />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
+        <SidebarNavLink href="/dashboard/team" icon={<Users className="text-primary/90" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
           {t('sidebar.team')}
         </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/node" icon={<Network />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
+        <SidebarNavLink href="/dashboard/node" icon={<Network className="text-primary/90" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
           {t('sidebar.node')}
         </SidebarNavLink>
         
@@ -122,7 +119,7 @@ export function Sidebar() {
                 isCollapsed && "justify-center"
               )}
             >
-              <MessageSquare className="h-5 w-5" />
+              <MessageSquare className="h-5 w-5 text-accent" />
               {!isCollapsed && <span className="truncate">{t('sidebar.chat')}</span>}
               {isCollapsed && <span className="sr-only">{t('sidebar.chat')}</span>}
             </button>
@@ -147,9 +144,9 @@ export function Sidebar() {
       <div className={cn("px-4 py-4", isCollapsed && "px-2 py-2")}>
          <div className={cn(
             "rounded-lg bg-muted p-3 text-center text-sm text-muted-foreground",
-             isCollapsed && "p-2"
+             isCollapsed && "p-2 flex justify-center items-center" 
             )}>
-            {isCollapsed ? <DollarSign className="h-5 w-5 mx-auto" /> : t('sidebar.adPlaceholder')}
+            {isCollapsed ? <DollarSign className="h-5 w-5 text-green-500" /> : t('sidebar.adPlaceholder')}
          </div>
       </div>
       
@@ -174,32 +171,32 @@ export function Sidebar() {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href="/dashboard/profile" className="flex items-center gap-2" onClick={handleNavigation}>
-                <UserCircle className="h-4 w-4" />
+                <UserCircle className="h-4 w-4 text-primary" />
                 <span>{t('sidebar.profile')}</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/dashboard/settings" className="flex items-center gap-2" onClick={handleNavigation}>
-                <Settings className="h-4 w-4" />
+                <Settings className="h-4 w-4 text-primary" />
                 <span>{t('sidebar.settings')}</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href="/legal/help" className="flex items-center gap-2" onClick={handleNavigation}>
-                <HelpCircle className="h-4 w-4" />
+                <HelpCircle className="h-4 w-4 text-accent" />
                 <span>{t('legal.helpTitle')}</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/legal/terms" className="flex items-center gap-2" onClick={handleNavigation}>
-                <FileText className="h-4 w-4" />
+                <FileText className="h-4 w-4 text-accent" />
                 <span>{t('legal.termsTitle')}</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/legal/privacy" className="flex items-center gap-2" onClick={handleNavigation}>
-                <ShieldCheck className="h-4 w-4" />
+                <ShieldCheck className="h-4 w-4 text-accent" />
                 <span>{t('legal.privacyTitle')}</span>
               </Link>
             </DropdownMenuItem>
@@ -207,7 +204,7 @@ export function Sidebar() {
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <button className="w-full flex items-center gap-2 px-2 py-1.5 text-sm rounded-sm text-destructive focus:bg-destructive/10 hover:bg-destructive/10 outline-none relative select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                  <LogOut className="h-4 w-4" />
+                  <LogOut className="h-4 w-4 text-destructive" />
                   <span>{t('sidebar.logout')}</span>
                 </button>
               </AlertDialogTrigger>
@@ -222,7 +219,7 @@ export function Sidebar() {
                   <AlertDialogCancel>{t('sidebar.logoutConfirm.cancelButton')}</AlertDialogCancel>
                   <AlertDialogAction
                     onClick={() => {
-                      handleNavigation(); // Collapse sidebar on mobile if open
+                      handleNavigation(); 
                       performLogout();
                     }}
                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"

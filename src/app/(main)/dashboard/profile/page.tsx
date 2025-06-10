@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from 'react';
@@ -21,7 +22,6 @@ export default function ProfilePage() {
 
   const [displayName, setDisplayName] = useState(user?.name || '');
   const [bio, setBio] = useState(user?.bio || '');
-  // Profile picture uploader is a complex feature, using current avatar as placeholder.
   const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl || 'https://placehold.co/128x128.png');
   const [isSaving, setIsSaving] = useState(false);
 
@@ -31,10 +31,9 @@ export default function ProfilePage() {
     e.preventDefault();
     setIsSaving(true);
     try {
-      // Simulate API call to save profile
       const updatedUserData = { ...user, name: displayName, bio, avatarUrl };
       await mockApiCall({ data: updatedUserData });
-      setUser(updatedUserData); // Update context
+      setUser(updatedUserData); 
       toast({
         title: t('profile.successToast'),
       });
@@ -53,7 +52,10 @@ export default function ProfilePage() {
       <h1 className="text-3xl font-bold font-headline">{t('profile.title')}</h1>
       <Card className="max-w-2xl mx-auto shadow-lg">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2"><UserCircle2 />{t('profile.title')}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <UserCircle2 className="text-primary" />
+            {t('profile.title')}
+          </CardTitle>
           <CardDescription>Update your personal information.</CardDescription>
         </CardHeader>
         <CardContent>
@@ -64,7 +66,6 @@ export default function ProfilePage() {
                 <AvatarImage src={avatarUrl} alt={displayName} data-ai-hint="person face" />
                 <AvatarFallback>{displayName.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
-              {/* Basic file input, no actual upload logic for this mock */}
               <Input 
                 id="avatar-upload" 
                 type="file" 

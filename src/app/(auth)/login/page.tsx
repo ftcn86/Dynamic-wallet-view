@@ -24,7 +24,6 @@ export default function LoginPage() {
   const [showDeviceLoginHint, setShowDeviceLoginHint] = useState(false);
 
   useEffect(() => {
-    // Check if the device login hint should be shown
     if (typeof window !== 'undefined') {
         const hintEnabled = localStorage.getItem(PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY) === 'true';
         setShowDeviceLoginHint(hintEnabled);
@@ -46,8 +45,6 @@ export default function LoginPage() {
       const freshMockUser = { 
         ...defaultMockUser, 
         termsAccepted: user?.termsAccepted || false,
-        // Preserve deviceLoginEnabled if it was set in a previous session stored in localStorage
-        // This ensures if the mockUser default is false, but user had it true, it's kept.
         deviceLoginEnabled: user?.deviceLoginEnabled || defaultMockUser.deviceLoginEnabled || false 
       };
       const loggedInUser = await mockApiCall({ data: freshMockUser });
@@ -90,8 +87,8 @@ export default function LoginPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <ShieldQuestion size={36} />
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+            <ShieldQuestion size={36} className="text-primary" />
           </div>
           <CardTitle className="text-3xl font-headline">{t('appName')}</CardTitle>
           <CardDescription>{t('login.welcome')}</CardDescription>
@@ -117,7 +114,7 @@ export default function LoginPage() {
               onClick={handleDeviceLoginPlaceholder}
               size="lg"
             >
-              <Fingerprint className="mr-2 h-5 w-5" />
+              <Fingerprint className="mr-2 h-5 w-5 text-primary/80" />
               {t('login.deviceLogin.button')}
             </Button>
           )}

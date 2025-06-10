@@ -63,7 +63,7 @@ export default function LegalPageLayout({ pageTitleKey, sectionsKey, contentKey,
         </CardContent>
         <CardFooter>
           <Button variant="outline" onClick={handleReturn}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ArrowLeft className="mr-2 h-4 w-4 text-primary" />
             {user ? t('legal.returnAction') : t('legal.returnToLogin')}
           </Button>
         </CardFooter>
