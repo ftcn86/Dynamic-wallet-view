@@ -1,6 +1,7 @@
 
 "use client";
 
+import { useEffect } from 'react'; // Added useEffect
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -8,25 +9,32 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { FileText, ShieldCheck, LogOut, CheckCircle } from 'lucide-react';
+import { LoadingSpinner } from '@/components/shared/LoadingSpinner'; // Added LoadingSpinner
 
 export default function AcceptTermsPage() {
-  const { user, setUser, logout } = useAuth();
+  const { user, setUser, logout, isLoading } = useAuth(); // Added isLoading
   const { t } = useTranslation();
   const router = useRouter();
 
-  if (user && user.termsAccepted) {
-    router.replace('/dashboard'); // Should not happen if logic is correct, but as a safeguard
-    return null;
-  }
-  if (!user && typeof window !== 'undefined') { // Ensure this check runs client-side
-     router.replace('/login'); // Should not happen if user is not logged in
-     return null;
-  }
+  useEffect(() => {
+    if (isLoading) {
+      return; // Wait for auth state to load
+    }
 
+    if (user && user.termsAccepted) {
+      router.replace('/dashboard');
+    } else if (!user) { // If no user after loading, redirect to login
+      router.replace('/login');
+    }
+  }, [user, isLoading, router]);
 
   const handleAccept = () => {
     if (user) {
       setUser({ ...user, termsAccepted: true });
+      // The useEffect in DashboardLayout will handle redirecting to /dashboard
+      // or router.push('/dashboard') could be added here if direct navigation is preferred.
+      // For now, relying on AuthContext update and layout's effect.
+      // To be safe and explicit:
       router.push('/dashboard');
     }
   };
@@ -36,6 +44,18 @@ export default function AcceptTermsPage() {
     router.push('/login');
   };
 
+  // Show loading spinner if auth state is loading, or if user is already good to go (accepted terms),
+  // or if there's no user (which means useEffect will redirect to login).
+  // Render the page content only if user exists and terms are NOT accepted yet.
+  if (isLoading || (user && user.termsAccepted) || (!isLoading && !user)) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
+        <LoadingSpinner size={48} />
+      </div>
+    );
+  }
+
+  // If we reach here, isLoading is false, user exists, and user.termsAccepted is false.
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <Card className="w-full max-w-lg shadow-xl">
