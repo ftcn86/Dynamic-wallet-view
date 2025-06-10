@@ -16,12 +16,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import Image from 'next/image';
 import type { Badge } from '@/data/schemas';
 import type { ChartConfig } from '@/components/ui/chart';
-
+import { PI_APP_MINING_URL } from '@/lib/constants';
 import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from 'date-fns';
 import { MiningFocusCard } from '@/components/dashboard/MiningFocusCard';
@@ -170,6 +182,10 @@ export default function DashboardPage() {
   const { user } = useAuth();
   const { t } = useTranslation();
 
+  const handleRedirectToPiApp = () => {
+    window.open(PI_APP_MINING_URL, '_blank');
+  };
+
   if (!user) {
     return ( 
       <div className="flex h-full items-center justify-center">
@@ -191,11 +207,33 @@ export default function DashboardPage() {
           value={user.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}) + ' Pi'}
           icon={<Banknote />}
         />
-        <KPICard
-          title={t('dashboard.kpi_rate')}
-          value={`${user.miningRate.toFixed(4)} Pi/hr`}
-          icon={<Gauge />}
-        />
+
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <div className="cursor-pointer">
+              <KPICard
+                title={t('dashboard.kpi_rate')}
+                value={`${user.miningRate.toFixed(4)} Pi/hr`}
+                icon={<Gauge />}
+              />
+            </div>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>{t('dashboard.miningRateRedirect.title')}</AlertDialogTitle>
+              <AlertDialogDescription>
+                {t('dashboard.miningRateRedirect.description')}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>{t('dashboard.miningRateRedirect.cancelButton')}</AlertDialogCancel>
+              <AlertDialogAction onClick={handleRedirectToPiApp}>
+                {t('dashboard.miningRateRedirect.confirmButton')}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+        
         {user.isNodeOperator && user.nodeUptimePercentage !== undefined && (
           <Link href="/dashboard/node" className="block">
             <KPICard
@@ -205,11 +243,14 @@ export default function DashboardPage() {
             />
           </Link>
         )}
-        <KPICard
-          title={t('dashboard.kpi_team')}
-          value={`${activeTeamMembers} / ${totalTeamMembers}`}
-          icon={<UsersIcon />}
-        />
+
+        <Link href="/dashboard/team" className="block">
+          <KPICard
+            title={t('dashboard.kpi_team')}
+            value={`${activeTeamMembers} / ${totalTeamMembers}`}
+            icon={<UsersIcon />}
+          />
+        </Link>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

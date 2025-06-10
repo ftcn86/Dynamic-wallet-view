@@ -9,5 +9,7 @@ export const MOCK_API_FAILURE_CHANCE = 0.1; // 0.0 to 1.0 (e.g., 0.1 for 10% cha
 
 // External URLs
 export const PI_NODE_INFO_URL = "https://pi.network/node-mobile/";
+export const PI_APP_MINING_URL = "pi://mine"; // Placeholder for Pi App mining section
 
 // Add other constants here as needed
+

@@ -1,6 +1,6 @@
 
 {
-  "appName": "Vue Dynamique du Portefeuille Pi",
+  "appName": "PiPulse",
   "sidebar": {
     "dashboard": "Tableau de bord",
     "team": "Aperçus de l'équipe",
@@ -12,7 +12,7 @@
     "help": "Aide"
   },
   "login": {
-    "welcome": "Bienvenue sur Vue Dynamique du Portefeuille Pi",
+    "welcome": "Bienvenue sur PiPulse",
     "button": "Se connecter avec Pi",
     "error": "Échec de la connexion. Veuillez réessayer."
   },
@@ -21,15 +21,15 @@
     "termsSections": [
       {
         "title": "Conditions d'utilisation - Introduction",
-        "content": "Date d'entrée en vigueur : 26 octobre 2023\n\nBienvenue sur Vue Dynamique du Portefeuille Pi ! Ces Conditions d'utilisation ('Conditions') régissent votre utilisation de l'application Vue Dynamique du Portefeuille Pi et de tous les services associés (collectivement, le 'Service'). En accédant ou en utilisant notre Service, vous acceptez d'être lié par ces Conditions."
+        "content": "Date d'entrée en vigueur : 26 octobre 2023\n\nBienvenue sur PiPulse ! Ces Conditions d'utilisation ('Conditions') régissent votre utilisation de l'application PiPulse et de tous les services associés (collectivement, le 'Service'). En accédant ou en utilisant notre Service, vous acceptez d'être lié par ces Conditions."
       },
       {
         "title": "1. Acceptation des Conditions",
-        "content": "En utilisant Vue Dynamique du Portefeuille Pi, vous confirmez avoir lu, compris et accepté ces Conditions. Si vous n'êtes pas d'accord avec une partie de ces Conditions, vous ne devez pas utiliser le Service."
+        "content": "En utilisant PiPulse, vous confirmez avoir lu, compris et accepté ces Conditions. Si vous n'êtes pas d'accord avec une partie de ces Conditions, vous ne devez pas utiliser le Service."
       },
       {
         "title": "2. Description du Service",
-        "content": "Vue Dynamique du Portefeuille Pi est une application tierce conçue pour fournir aux utilisateurs un tableau de bord pour visualiser leurs métriques liées au Réseau Pi, y compris le solde Pi, le taux de minage, les informations des membres de l'équipe et les performances des nœuds. Vue Dynamique du Portefeuille Pi n'est pas une application officielle du Réseau Pi et n'est pas un portefeuille. Elle ne stocke pas vos clés privées ni ne facilite les transactions Pi."
+        "content": "PiPulse est une application tierce conçue pour fournir aux utilisateurs un tableau de bord pour visualiser leurs métriques liées au Réseau Pi, y compris le solde Pi, le taux de minage, les informations des membres de l'équipe et les performances des nœuds. PiPulse n'est pas une application officielle du Réseau Pi et n'est pas un portefeuille. Elle ne stocke pas vos clés privées ni ne facilite les transactions Pi."
       },
       {
         "title": "3. Utilisation du Service",
@@ -37,19 +37,19 @@
       },
       {
         "title": "4. Exactitude des Données et Données Fictives",
-        "content": "Actuellement, Vue Dynamique du Portefeuille Pi utilise des données fictives à des fins de démonstration et de développement. Dans un environnement réel connecté au Réseau Pi, l'exactitude des données affichées dépendrait des informations mises à disposition par les API du Réseau Pi et des données auxquelles vous autorisez l'accès. Vue Dynamique du Portefeuille Pi ne garantit pas l'exactitude absolue ou l'actualité des données provenant du Réseau Pi."
+        "content": "Actuellement, PiPulse utilise des données fictives à des fins de démonstration et de développement. Dans un environnement réel connecté au Réseau Pi, l'exactitude des données affichées dépendrait des informations mises à disposition par les API du Réseau Pi et des données auxquelles vous autorisez l'accès. PiPulse ne garantit pas l'exactitude absolue ou l'actualité des données provenant du Réseau Pi."
       },
       {
         "title": "5. Exclusion de Garanties",
-        "content": "Le Service est fourni 'tel quel' et 'tel que disponible' sans aucune garantie d'aucune sorte, expresse ou implicite. Vue Dynamique du Portefeuille Pi ne garantit pas que le Service sera ininterrompu, sans erreur ou complètement sécurisé. Vue Dynamique du Portefeuille Pi n'est pas affilié à l'Équipe Centrale Pi (Pi Core Team) ni au Réseau Pi."
+        "content": "Le Service est fourni 'tel quel' et 'tel que disponible' sans aucune garantie d'aucune sorte, expresse ou implicite. PiPulse ne garantit pas que le Service sera ininterrompu, sans erreur ou complètement sécurisé. PiPulse n'est pas affilié à l'Équipe Centrale Pi (Pi Core Team) ni au Réseau Pi."
       },
       {
         "title": "6. Limitation de Responsabilité",
-        "content": "Dans toute la mesure permise par la loi, Vue Dynamique du Portefeuille Pi ne sera pas responsable des dommages indirects, accessoires, spéciaux, consécutifs ou punitifs, ni de toute perte de profits ou de revenus, qu'ils soient encourus directement ou indirectement, ni de toute perte de données, d'utilisation, de clientèle ou d'autres pertes immatérielles, résultant de (a) votre accès ou utilisation ou incapacité d'accéder ou d'utiliser le Service ; (b) toute conduite ou contenu de tout tiers sur le Service ; ou (c) l'accès, l'utilisation ou l'altération non autorisés de vos transmissions ou contenus, même si Vue Dynamique du Portefeuille Pi a été informé de la possibilité de tels dommages."
+        "content": "Dans toute la mesure permise par la loi, PiPulse ne sera pas responsable des dommages indirects, accessoires, spéciaux, consécutifs ou punitifs, ni de toute perte de profits ou de revenus, qu'ils soient encourus directement ou indirectement, ni de toute perte de données, d'utilisation, de clientèle ou d'autres pertes immatérielles, résultant de (a) votre accès ou utilisation ou incapacité d'accéder ou d'utiliser le Service ; (b) toute conduite ou contenu de tout tiers sur le Service ; ou (c) l'accès, l'utilisation ou l'altération non autorisés de vos transmissions ou contenus, même si PiPulse a été informé de la possibilité de tels dommages."
       },
       {
         "title": "7. Propriété Intellectuelle",
-        "content": "Le nom Vue Dynamique du Portefeuille Pi, le logo et tous les noms, logos, noms de produits et services, conceptions et slogans associés sont des marques commerciales de Vue Dynamique du Portefeuille Pi ou de ses concédants de licence. Pi Network et le logo Pi sont des marques commerciales de Pi Community Company. Ce Service n'est ni approuvé ni affilié au Réseau Pi."
+        "content": "Le nom PiPulse, le logo et tous les noms, logos, noms de produits et services, conceptions et slogans associés sont des marques commerciales de PiPulse ou de ses concédants de licence. Pi Network et le logo Pi sont des marques commerciales de Pi Community Company. Ce Service n'est ni approuvé ni affilié au Réseau Pi."
       },
       {
         "title": "8. Modifications des Conditions",
@@ -64,35 +64,35 @@
     "privacySections": [
       {
         "title": "Politique de Confidentialité - Introduction",
-        "content": "Date d'entrée en vigueur : 26 octobre 2023\n\nVue Dynamique du Portefeuille Pi ('nous', 'notre' ou 'nos') s'engage à protéger votre vie privée. Cette Politique de Confidentialité explique comment nous traitons les informations lorsque vous utilisez notre application Vue Dynamique du Portefeuille Pi (le 'Service')."
+        "content": "Date d'entrée en vigueur : 26 octobre 2023\n\nPiPulse ('nous', 'notre' ou 'nos') s'engage à protéger votre vie privée. Cette Politique de Confidentialité explique comment nous traitons les informations lorsque vous utilisez notre application PiPulse (le 'Service')."
       },
       {
         "title": "1. Notre Relation avec le Réseau Pi",
-        "content": "Vue Dynamique du Portefeuille Pi est une application tierce indépendante. Ce N'EST PAS une application officielle du Réseau Pi ou de l'Équipe Centrale Pi. Cette politique décrit le traitement des données par Vue Dynamique du Portefeuille Pi, et non par le Réseau Pi lui-même. Pour les pratiques de confidentialité du Réseau Pi, veuillez consulter leur politique de confidentialité officielle."
+        "content": "PiPulse est une application tierce indépendante. Ce N'EST PAS une application officielle du Réseau Pi ou de l'Équipe Centrale Pi. Cette politique décrit le traitement des données par PiPulse, et non par le Réseau Pi lui-même. Pour les pratiques de confidentialité du Réseau Pi, veuillez consulter leur politique de confidentialité officielle."
       },
       {
         "title": "2. Informations que Nous Traitons",
-        "content": "Lorsque vous utilisez Vue Dynamique du Portefeuille Pi, l'application est conçue pour afficher des informations relatives à votre compte Réseau Pi, qui peuvent inclure :\n- Votre solde Pi et sa répartition (par exemple, transférable, non vérifié, verrouillages).\n- Votre taux de minage Pi actuel.\n- Des informations sur les membres de votre équipe (par exemple, nom, statut, contribution), telles que potentiellement mises à disposition par les API du Réseau Pi.\n- Données de performance des nœuds (si vous êtes un opérateur de nœud et que ces données sont accessibles).\n- Informations de profil que vous pourriez fournir directement dans Vue Dynamique du Portefeuille Pi (par exemple, nom d'affichage, biographie).\n\n**Note Importante sur la Version Actuelle :** La version actuelle de Vue Dynamique du Portefeuille Pi utilise des DONNÉES FICTIVES (simulées) pour toutes ses fonctionnalités. Aucune connexion réelle à votre compte Réseau Pi n'est établie, et aucune donnée réelle du Réseau Pi n'est récupérée ou stockée par Vue Dynamique du Portefeuille Pi."
+        "content": "Lorsque vous utilisez PiPulse, l'application est conçue pour afficher des informations relatives à votre compte Réseau Pi, qui peuvent inclure :\n- Votre solde Pi et sa répartition (par exemple, transférable, non vérifié, verrouillages).\n- Votre taux de minage Pi actuel.\n- Des informations sur les membres de votre équipe (par exemple, nom, statut, contribution), telles que potentiellement mises à disposition par les API du Réseau Pi.\n- Données de performance des nœuds (si vous êtes un opérateur de nœud et que ces données sont accessibles).\n- Informations de profil que vous pourriez fournir directement dans PiPulse (par exemple, nom d'affichage, biographie).\n\n**Note Importante sur la Version Actuelle :** La version actuelle de PiPulse utilise des DONNÉES FICTIVES (simulées) pour toutes ses fonctionnalités. Aucune connexion réelle à votre compte Réseau Pi n'est établie, et aucune donnée réelle du Réseau Pi n'est récupérée ou stockée par PiPulse."
       },
       {
         "title": "3. Comment Nous Utiliserions les Informations (Si Connectées à des Données Réelles)",
-        "content": "Si Vue Dynamique du Portefeuille Pi était connecté à des données réelles du Réseau Pi (ce qui n'est actuellement pas le cas), les informations seraient utilisées uniquement pour :\n- Vous fournir les fonctionnalités du tableau de bord : affichage de vos métriques liées à Pi, aperçus de l'équipe et analyse des nœuds.\n- Vous permettre de personnaliser votre expérience applicative (par exemple, thème, langue).\nNous ne vendrions pas vos informations personnelles. L'accès à vos données du Réseau Pi nécessiterait votre autorisation explicite via les mécanismes officiels du Réseau Pi."
+        "content": "Si PiPulse était connecté à des données réelles du Réseau Pi (ce qui n'est actuellement pas le cas), les informations seraient utilisées uniquement pour :\n- Vous fournir les fonctionnalités du tableau de bord : affichage de vos métriques liées à Pi, aperçus de l'équipe et analyse des nœuds.\n- Vous permettre de personnaliser votre expérience applicative (par exemple, thème, langue).\nNous ne vendrions pas vos informations personnelles. L'accès à vos données du Réseau Pi nécessiterait votre autorisation explicite via les mécanismes officiels du Réseau Pi."
       },
       {
         "title": "4. Stockage et Sécurité des Données",
-        "content": "Vue Dynamique du Portefeuille Pi est conçu comme un visualiseur ou une interface. Il ne stockerait pas de données sensibles du Réseau Pi comme les clés privées. Les préférences de l'application (thème, langue) sont stockées localement sur votre appareil. Si nous traitions des données réelles, nous mettrions en œuvre des mesures de sécurité raisonnables pour protéger les informations affichées."
+        "content": "PiPulse est conçu comme un visualiseur ou une interface. Il ne stockerait pas de données sensibles du Réseau Pi comme les clés privées. Les préférences de l'application (thème, langue) sont stockées localement sur votre appareil. Si nous traitions des données réelles, nous mettrions en œuvre des mesures de sécurité raisonnables pour protéger les informations affichées."
       },
       {
         "title": "5. Services Tiers et Publicités",
-        "content": "Vue Dynamique du Portefeuille Pi ne partage pas vos données spécifiques au Réseau Pi avec des annonceurs tiers. L'application peut contenir des éléments de remplacement pour des publicités qui ne sont pas fonctionnels dans la version fictive actuelle et ne vous suivent pas."
+        "content": "PiPulse ne partage pas vos données spécifiques au Réseau Pi avec des annonceurs tiers. L'application peut contenir des éléments de remplacement pour des publicités qui ne sont pas fonctionnels dans la version fictive actuelle et ne vous suivent pas."
       },
       {
         "title": "6. Vos Choix et Droits",
-        "content": "Le contrôle de vos données du Réseau Pi réside dans votre compte Réseau Pi et sa plateforme officielle. Vue Dynamique du Portefeuille Pi, en tant que visualiseur tiers, n'afficherait des données qu'en fonction des autorisations que vous accordez via le Réseau Pi. Les informations de profil saisies directement dans Vue Dynamique du Portefeuille Pi peuvent être gérées par vous au sein de l'application."
+        "content": "Le contrôle de vos données du Réseau Pi réside dans votre compte Réseau Pi et sa plateforme officielle. PiPulse, en tant que visualiseur tiers, n'afficherait des données qu'en fonction des autorisations que vous accordez via le Réseau Pi. Les informations de profil saisies directement dans PiPulse peuvent être gérées par vous au sein de l'application."
       },
       {
         "title": "7. Confidentialité des Enfants",
-        "content": "Vue Dynamique du Portefeuille Pi n'est pas destiné à être utilisé par des enfants de moins de 13 ans (ou l'âge pertinent dans votre juridiction). Nous ne collectons pas sciemment d'informations personnelles auprès des enfants."
+        "content": "PiPulse n'est pas destiné à être utilisé par des enfants de moins de 13 ans (ou l'âge pertinent dans votre juridiction). Nous ne collectons pas sciemment d'informations personnelles auprès des enfants."
       },
       {
         "title": "8. Modifications de cette Politique de Confidentialité",
@@ -109,15 +109,15 @@
     "helpSections": [
       {
         "title": "Bienvenue à l'Aide et Support !",
-        "content": "**Qu'est-ce que Vue Dynamique du Portefeuille Pi ?**\nVue Dynamique du Portefeuille Pi est une application tierce conçue pour offrir une interface dynamique et conviviale pour visualiser vos métriques liées au Réseau Pi. Cela inclut votre solde Pi, votre taux de minage actuel, des aperçus de l'activité de votre équipe et des données de performance si vous exploitez un Nœud Pi."
+        "content": "**Qu'est-ce que PiPulse ?**\nPiPulse est une application tierce conçue pour offrir une interface dynamique et conviviale pour visualiser vos métriques liées au Réseau Pi. Cela inclut votre solde Pi, votre taux de minage actuel, des aperçus de l'activité de votre équipe et des données de performance si vous exploitez un Nœud Pi."
       },
       {
-        "title": "Vue Dynamique du Portefeuille Pi est-elle une application officielle du Réseau Pi ?",
-        "content": "Non, Vue Dynamique du Portefeuille Pi est une application indépendante développée par des passionnés. Elle n'est officiellement affiliée, approuvée ou sponsorisée ni par l'Équipe Centrale Pi (Pi Core Team) ni par le Réseau Pi."
+        "title": "PiPulse est-elle une application officielle du Réseau Pi ?",
+        "content": "Non, PiPulse est une application indépendante développée par des passionnés. Elle n'est officiellement affiliée, approuvée ou sponsorisée ni par l'Équipe Centrale Pi (Pi Core Team) ni par le Réseau Pi."
       },
       {
-        "title": "Quelle est la précision des données affichées dans Vue Dynamique du Portefeuille Pi ?",
-        "content": "Actuellement, Vue Dynamique du Portefeuille Pi utilise des DONNÉES FICTIVES (SIMULÉES) pour toutes ses fonctionnalités. Ceci à des fins de démonstration et de développement. Dans une future version destinée à une utilisation réelle, la précision des données dépendrait des informations fournies par les API officielles du Réseau Pi et des autorisations que vous accordez."
+        "title": "Quelle est la précision des données affichées dans PiPulse ?",
+        "content": "Actuellement, PiPulse utilise des DONNÉES FICTIVES (SIMULÉES) pour toutes ses fonctionnalités. Ceci à des fins de démonstration et de développement. Dans une future version destinée à une utilisation réelle, la précision des données dépendrait des informations fournies par les API officielles du Réseau Pi et des autorisations que vous accordez."
       },
       {
         "title": "Aperçu des Fonctionnalités Clés",
@@ -125,11 +125,11 @@
       },
       {
         "title": "Dépannage des Problèmes Courants",
-        "content": "*   **L'application ne se charge pas ou affiche des erreurs :** Comme Vue Dynamique du Portefeuille Pi utilise actuellement des données fictives, des erreurs persistantes pourraient indiquer un problème avec l'application elle-même. Veuillez essayer de rafraîchir. Si les problèmes persistent, contactez le support.\n*   **Les données semblent incorrectes :** N'oubliez pas que toutes les données de cette version sont simulées. Elles ne reflètent pas votre compte Réseau Pi réel."
+        "content": "*   **L'application ne se charge pas ou affiche des erreurs :** Comme PiPulse utilise actuellement des données fictives, des erreurs persistantes pourraient indiquer un problème avec l'application elle-même. Veuillez essayer de rafraîchir. Si les problèmes persistent, contactez le support.\n*   **Les données semblent incorrectes :** N'oubliez pas que toutes les données de cette version sont simulées. Elles ne reflètent pas votre compte Réseau Pi réel."
       },
       {
         "title": "Contacter le Support",
-        "content": "Si vous avez des questions spécifiques à l'application Vue Dynamique du Portefeuille Pi, rencontrez des bugs ou avez des commentaires, veuillez nous envoyer un e-mail à support@example.com.\n\nPour toute question ou problème concernant votre compte Réseau Pi réel, le minage, le KYC ou les politiques officielles du Réseau Pi, veuillez vous référer aux canaux de support fournis par le Réseau Pi (par exemple, support intégré à l'application officielle Pi, site Web officiel du Réseau Pi et canaux communautaires)."
+        "content": "Si vous avez des questions spécifiques à l'application PiPulse, rencontrez des bugs ou avez des commentaires, veuillez nous envoyer un e-mail à support@example.com.\n\nPour toute question ou problème concernant votre compte Réseau Pi réel, le minage, le KYC ou les politiques officielles du Réseau Pi, veuillez vous référer aux canaux de support fournis par le Réseau Pi (par exemple, support intégré à l'application officielle Pi, site Web officiel du Réseau Pi et canaux communautaires)."
       }
     ]
   },
@@ -197,6 +197,12 @@
       "newlyEarnedBadges": "Succès Récents",
       "noTeamMembers": "Aucun membre d'équipe à afficher pour l'activité pour le moment.",
       "noActivity": "Aucune donnée d'activité à afficher pour l'équipe."
+    },
+    "miningRateRedirect": {
+      "title": "Rediriger vers l'application Pi ?",
+      "description": "Vous allez être redirigé vers l'application Pi Network pour gérer votre session de minage. Continuer ?",
+      "confirmButton": "Continuer vers l'application Pi",
+      "cancelButton": "Annuler"
     }
   },
   "teamInsights": {
