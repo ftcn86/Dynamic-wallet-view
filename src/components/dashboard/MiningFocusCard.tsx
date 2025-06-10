@@ -6,7 +6,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Target, TrendingUp, Users } from 'lucide-react';
+import { Target, TrendingUp, Users, Clock } from 'lucide-react'; // Added Clock icon
 
 export function MiningFocusCard() {
   const { user } = useAuth();
@@ -15,17 +15,17 @@ export function MiningFocusCard() {
   if (!user) return null;
 
   const {
-    weeklyMiningProgress = 0,
-    weeklyMiningTarget = 0,
-    monthlyMiningProgress = 0,
-    monthlyMiningTarget = 0,
+    userActiveMiningHours_LastWeek = 0,
+    weeklyMiningTargetHours = 0,
+    userActiveMiningHours_LastMonth = 0,
+    monthlyMiningTargetHours = 0,
   } = user;
 
-  const weeklyProgressPercent = weeklyMiningTarget > 0 ? (weeklyMiningProgress / weeklyMiningTarget) * 100 : 0;
-  const monthlyProgressPercent = monthlyMiningTarget > 0 ? (monthlyMiningProgress / monthlyMiningTarget) * 100 : 0;
+  const weeklyProgressPercent = weeklyMiningTargetHours > 0 ? (userActiveMiningHours_LastWeek / weeklyMiningTargetHours) * 100 : 0;
+  const monthlyProgressPercent = monthlyMiningTargetHours > 0 ? (userActiveMiningHours_LastMonth / monthlyMiningTargetHours) * 100 : 0;
 
-  const isWeeklyGoalMet = weeklyMiningProgress >= weeklyMiningTarget && weeklyMiningTarget > 0;
-  const isMonthlyGoalMet = monthlyMiningProgress >= monthlyMiningTarget && monthlyMiningTarget > 0;
+  const isWeeklyGoalMet = weeklyMiningTargetHours > 0 && userActiveMiningHours_LastWeek >= weeklyMiningTargetHours;
+  const isMonthlyGoalMet = monthlyMiningTargetHours > 0 && userActiveMiningHours_LastMonth >= monthlyMiningTargetHours;
 
   return (
     <Card className="shadow-lg">
@@ -37,33 +37,39 @@ export function MiningFocusCard() {
         <CardDescription>{t('dashboard.miningFocus.description')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {weeklyMiningTarget > 0 && (
+        {weeklyMiningTargetHours > 0 && (
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <h3 className="text-sm font-medium text-muted-foreground">{t('dashboard.miningFocus.weeklyGoal')}</h3>
+              <h3 className="text-sm font-medium text-muted-foreground flex items-center">
+                <Clock className="mr-1.5 h-4 w-4" /> 
+                {t('dashboard.miningFocus.weeklyGoal')}
+              </h3>
               {isWeeklyGoalMet && <Badge variant="success">{t('dashboard.miningFocus.goalAchieved')}</Badge>}
             </div>
             <Progress value={weeklyProgressPercent} aria-label={t('dashboard.miningFocus.weeklyGoal')} />
             <p className="text-sm text-muted-foreground text-right">
-              {weeklyMiningProgress.toFixed(2)} / {weeklyMiningTarget.toFixed(2)} Pi
+              {userActiveMiningHours_LastWeek.toFixed(0)} / {weeklyMiningTargetHours.toFixed(0)} {t('dashboard.teamActivity.hoursSuffix')}
             </p>
-            {!isWeeklyGoalMet && weeklyMiningTarget > 0 && (
+            {!isWeeklyGoalMet && weeklyMiningTargetHours > 0 && (
               <p className="text-xs text-primary text-center">{t('dashboard.miningFocus.keepGoing')}</p>
             )}
           </div>
         )}
 
-        {monthlyMiningTarget > 0 && (
+        {monthlyMiningTargetHours > 0 && (
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <h3 className="text-sm font-medium text-muted-foreground">{t('dashboard.miningFocus.monthlyGoal')}</h3>
+              <h3 className="text-sm font-medium text-muted-foreground flex items-center">
+                <Clock className="mr-1.5 h-4 w-4" />
+                {t('dashboard.miningFocus.monthlyGoal')}
+              </h3>
               {isMonthlyGoalMet && <Badge variant="success">{t('dashboard.miningFocus.goalAchieved')}</Badge>}
             </div>
             <Progress value={monthlyProgressPercent} aria-label={t('dashboard.miningFocus.monthlyGoal')} />
             <p className="text-sm text-muted-foreground text-right">
-              {monthlyMiningProgress.toFixed(2)} / {monthlyMiningTarget.toFixed(2)} Pi
+              {userActiveMiningHours_LastMonth.toFixed(0)} / {monthlyMiningTargetHours.toFixed(0)} {t('dashboard.teamActivity.hoursSuffix')}
             </p>
-            {!isMonthlyGoalMet && monthlyMiningTarget > 0 && (
+            {!isMonthlyGoalMet && monthlyMiningTargetHours > 0 && (
                <p className="text-xs text-primary text-center">{t('dashboard.miningFocus.greatProgress')}</p>
             )}
           </div>

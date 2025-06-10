@@ -170,8 +170,8 @@
     "miningFocus": {
       "title": "Enfoque de Minería",
       "description": "¡Sigue tus metas de minería personales y mantente motivado!",
-      "weeklyGoal": "Meta Semanal",
-      "monthlyGoal": "Meta Mensual",
+      "weeklyGoal": "Meta Semanal (Horas)",
+      "monthlyGoal": "Meta Mensual (Horas)",
       "goalAchieved": "¡Meta Alcanzada!",
       "keepGoing": "¡Sigue así!",
       "greatProgress": "¡Gran progreso!",

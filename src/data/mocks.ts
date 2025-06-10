@@ -12,7 +12,7 @@ const gamificationBadges: Badge[] = [
 
 const unverifiedFromReferralTeam = 2000.50;
 const unverifiedFromSecurityCircle = 1000.2890;
-const unverifiedFromNodeRewards = 750.00; // Added Node Rewards
+const unverifiedFromNodeRewards = 750.00; 
 const unverifiedFromOtherBonuses = 456.0000;
 const totalUnverified = unverifiedFromReferralTeam + unverifiedFromSecurityCircle + unverifiedFromNodeRewards + unverifiedFromOtherBonuses;
 
@@ -28,10 +28,10 @@ export const mockUser: User = {
   isNodeOperator: true,
   balanceBreakdown: {
     transferableToMainnet: 5678.1234,
-    totalUnverifiedPi: totalUnverified, // Updated field
+    totalUnverifiedPi: totalUnverified,
     currentlyInLockups: 3210.7665,
   },
-  unverifiedPiDetails: { // New field
+  unverifiedPiDetails: { 
     fromReferralTeam: unverifiedFromReferralTeam,
     fromSecurityCircle: unverifiedFromSecurityCircle,
     fromNodeRewards: unverifiedFromNodeRewards,
@@ -49,15 +49,11 @@ export const mockUser: User = {
     gamificationBadges[3], 
     gamificationBadges[4], 
   ],
-  weeklyMiningProgress: 3.7,
-  weeklyMiningTarget: 5,
-  monthlyMiningProgress: 18.2,
-  monthlyMiningTarget: 25,
   userActiveMiningHours_LastWeek: 22,
   userActiveMiningHours_LastMonth: 85,
+  weeklyMiningTargetHours: 25, 
+  monthlyMiningTargetHours: 100,
 };
-
-const kycStatuses: KycStatus[] = ['completed', 'pending', 'not_completed'];
 
 export const mockTeam: TeamMember[] = [
   { id: 'team001', name: 'Bob Miner', avatarUrl: 'https://placehold.co/40x40.png', joinDate: '2022-03-10T10:00:00Z', status: 'active', unverifiedPiContribution: 120.5, teamMemberActiveMiningHours_LastWeek: 25, teamMemberActiveMiningHours_LastMonth: 90, kycStatus: 'completed' },

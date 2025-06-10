@@ -10,22 +10,20 @@ export interface User {
   isNodeOperator: boolean;
   balanceBreakdown: {
     transferableToMainnet: number;
-    totalUnverifiedPi: number; // Renamed from fromYourTeamUnverified
+    totalUnverifiedPi: number;
     currentlyInLockups: number;
   };
-  unverifiedPiDetails: { // New field for detailed breakdown
+  unverifiedPiDetails: {
     fromReferralTeam: number;
     fromSecurityCircle: number;
-    fromNodeRewards: number; // Added Node Rewards
+    fromNodeRewards: number;
     fromOtherBonuses: number;
   };
   badges: Badge[];
-  weeklyMiningProgress?: number;
-  weeklyMiningTarget?: number;
-  monthlyMiningProgress?: number;
-  monthlyMiningTarget?: number;
   userActiveMiningHours_LastWeek?: number;
   userActiveMiningHours_LastMonth?: number;
+  weeklyMiningTargetHours?: number;
+  monthlyMiningTargetHours?: number;
 }
 
 export interface Badge {
