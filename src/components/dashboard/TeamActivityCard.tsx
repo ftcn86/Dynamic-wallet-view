@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from 'next/link';
@@ -5,7 +6,7 @@ import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import type { TeamMember, Badge as BadgeType } from '@/data/schemas';
-import { mockTeam, GAMIFICATION_BADGE_IDS } from '@/data/mocks'; 
+import { mockTeam, GAMIFICATION_BADGE_IDS } from '@/data/mocks';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -33,26 +34,28 @@ export function TeamActivityCard() {
     .sort((a, b) => b.activity - a.activity);
 
   const displayLeaderboard = leaderboard.slice(0, MAX_LEADERBOARD_ENTRIES);
-  
+
   const userWeeklyActivity = user.userActiveMiningHours_LastWeek ?? 0;
   const userMonthlyActivity = user.userActiveMiningHours_LastMonth ?? 0;
 
   // Calculate user's rank in the full list including their own activity
   const fullActivityList = [
-    ...leaderboard.map(m => ({ name: m.name, activity: m.activity, id: m.id })), 
+    ...leaderboard.map(m => ({ name: m.name, activity: m.activity, id: m.id })),
     { name: user.name, activity: userWeeklyActivity, id: user.id }
   ];
-  
+
   // Deduplicate in case user is also in mockTeam (e.g. for testing, though ideally user is separate)
   const uniqueActivityList = Array.from(new Map(fullActivityList.map(item => [item.id, item])).values())
                               .sort((a,b) => b.activity - a.activity);
-  
+
   const userRankInFullList = uniqueActivityList.findIndex(u => u.id === user.id) +1;
 
+  // Safely access badges, defaulting to an empty array if undefined or null
+  const userBadges = user.badges || [];
 
-  const earnedGamificationBadges = user.badges
+  const earnedGamificationBadges = userBadges
     .filter(badge => badge.earned && GAMIFICATION_BADGE_IDS.includes(badge.id))
-    .sort((a, b) => new Date(b.earnedDate || 0).getTime() - new Date(a.earnedDate || 0).getTime()) 
+    .sort((a, b) => new Date(b.earnedDate || 0).getTime() - new Date(a.earnedDate || 0).getTime())
     .slice(0, DISPLAY_RECENT_BADGES_COUNT);
 
 
@@ -70,8 +73,8 @@ export function TeamActivityCard() {
       <CardContent className="space-y-6">
         <div>
           <h3 className="text-md font-semibold mb-2">
-            {leaderboard.length > MAX_LEADERBOARD_ENTRIES 
-              ? t('dashboard.teamActivity.teamRallyTop10') 
+            {leaderboard.length > MAX_LEADERBOARD_ENTRIES
+              ? t('dashboard.teamActivity.teamRallyTop10')
               : t('dashboard.teamActivity.teamRallyWeekly')}
           </h3>
           {displayLeaderboard.length > 0 ? (
@@ -104,7 +107,7 @@ export function TeamActivityCard() {
               </Table>
             </div>
           ) : (
-             team.length === 0 ? <p className="text-sm text-muted-foreground">{t('dashboard.teamActivity.noTeamMembers')}</p> 
+             team.length === 0 ? <p className="text-sm text-muted-foreground">{t('dashboard.teamActivity.noTeamMembers')}</p>
                                : <p className="text-sm text-muted-foreground">{t('dashboard.teamActivity.noActivity')}</p>
           )}
           {/* Show user's rank if they are not in the displayed top 10 and there are more than 10 members */}
