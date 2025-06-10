@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { useTranslation } from '@/hooks/useTranslation';
 import { useAuth } from '@/contexts/AuthContext';
 import { ArrowLeft } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 
 export default function TermsPage() {
   const { t } = useTranslation();
@@ -28,7 +29,7 @@ export default function TermsPage() {
           <CardTitle className="text-2xl font-headline">{t('legal.termsTitle')}</CardTitle>
         </CardHeader>
         <CardContent className="prose dark:prose-invert max-h-[60vh] overflow-y-auto">
-          <p>{t('legal.termsContent')}</p>
+          <ReactMarkdown>{t('legal.termsContent')}</ReactMarkdown>
         </CardContent>
         <CardFooter>
           <Button variant="outline" onClick={handleReturn}>
