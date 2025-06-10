@@ -1,14 +1,8 @@
-"use client"
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
 export default function HomePage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.replace('/login');
-  }, [router]);
-
-  return null; // Or a loading spinner
+  redirect('/login');
+  // The redirect function throws an error to stop rendering,
+  // so nothing further is executed and no explicit return is typically needed.
 }
