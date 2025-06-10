@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useState } from 'react';
@@ -17,10 +18,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 function TeamMemberRow({ member }: { member: TeamMember }) {
   const { t } = useTranslation();
 
-  let badgeVariant: 'default' | 'secondary' | 'destructive' | 'outline' = 'secondary';
-  if (member.status === 'active') badgeVariant = 'default'; // Default is primary-like green
-  if (member.status === 'pending') badgeVariant = 'outline'; // Yellowish
-
   return (
     <TableRow>
       <TableCell>
@@ -34,11 +31,13 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
       </TableCell>
       <TableCell>{format(new Date(member.joinDate), 'MMM dd, yyyy')}</TableCell>
       <TableCell>
-        <Badge variant={badgeVariant} className={
-          member.status === 'active' ? 'bg-green-500 hover:bg-green-600 text-white' :
-          member.status === 'pending' ? 'bg-yellow-400 hover:bg-yellow-500 text-black' :
-          'bg-gray-400 hover:bg-gray-500 text-white' // inactive
-        }>
+        <Badge
+          variant={
+            member.status === 'active' ? 'success' :
+            member.status === 'pending' ? 'warning' :
+            'secondary' // for 'inactive'
+          }
+        >
           {t(`teamInsights.statusValues.${member.status}`)}
         </Badge>
       </TableCell>
@@ -147,3 +146,4 @@ export default function TeamInsightsPage() {
     </div>
   );
 }
+
