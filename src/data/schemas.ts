@@ -14,6 +14,10 @@ export interface User {
     currentlyInLockups: number;
   };
   badges: Badge[];
+  weeklyMiningProgress?: number;
+  weeklyMiningTarget?: number;
+  monthlyMiningProgress?: number;
+  monthlyMiningTarget?: number;
 }
 
 export interface Badge {
@@ -54,6 +58,7 @@ export interface MockChartData {
   '12M': BalanceChartDataPoint[];
 }
 
+// Make sure this is defined, used in legal pages
 export interface LegalSection {
   title: string;
   content: string;

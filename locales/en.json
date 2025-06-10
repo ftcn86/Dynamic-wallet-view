@@ -131,9 +131,7 @@
         "title": "Contacting Support",
         "content": "If you have questions specific to the Dynamic Pi Wallet View application, encounter bugs, or have feedback, please email us at support@example.com.\n\nFor any questions or issues regarding your actual Pi Network account, mining, KYC, or official Pi Network policies, please refer to the support channels provided by the Pi Network (e.g., in-app support in the official Pi app, official Pi Network website and community channels)."
       }
-    ],
-    "piosLicenseTitle": "PiOS License",
-    "piosLicenseContent": "[Please copy the full PiOS License text here]"
+    ]
   },
   "dashboard": {
     "title": "Dashboard",
@@ -160,6 +158,16 @@
     "myBadges": {
       "title": "My Badges",
       "earnedOn": "Earned on"
+    },
+    "miningFocus": {
+      "title": "Mining Focus",
+      "description": "Track your personal mining goals and stay motivated!",
+      "weeklyGoal": "Weekly Goal",
+      "monthlyGoal": "Monthly Goal",
+      "goalAchieved": "Goal Achieved!",
+      "keepGoing": "Keep up the great work!",
+      "greatProgress": "Making great progress!",
+      "teamEncouragement": "Encourage your team to stay active! Their contributions help the network grow."
     }
   },
   "teamInsights": {
@@ -229,5 +237,3 @@
     "retryButton": "Try Again"
   }
 }
-
-    

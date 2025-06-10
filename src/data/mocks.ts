@@ -1,4 +1,4 @@
-import type { User, TeamMember, NodeData, MockChartData, Badge } from './schemas';
+import type { User, TeamMember, NodeData, MockChartData } from './schemas';
 
 export const mockUser: User = {
   id: 'user123',
@@ -15,11 +15,15 @@ export const mockUser: User = {
     currentlyInLockups: 3210.7665,
   },
   badges: [
-    { id: 'b001', name: 'Early Adopter', description: 'Joined Pi Network in its early stages.', iconUrl: 'https://placehold.co/128x128/5865F2/FFFFFF.png?text=E', earned: true, earnedDate: '2020-05-15T10:00:00Z', dataAiHint: "award medal" },
-    { id: 'b002', name: 'Node Runner', description: 'Successfully operates a Pi Node.', iconUrl: 'https://placehold.co/128x128/34D399/FFFFFF.png?text=N', earned: true, earnedDate: '2021-11-01T10:00:00Z', dataAiHint: "server computer" },
-    { id: 'b003', name: 'Team Builder', description: 'Invited 10+ active members to their team.', iconUrl: 'https://placehold.co/128x128/F59E0B/FFFFFF.png?text=T', earned: false, dataAiHint: "team people" },
-    { id: 'b004', name: 'KYC Verified', description: 'Successfully completed KYC verification.', iconUrl: 'https://placehold.co/128x128/10B981/FFFFFF.png?text=V', earned: true, earnedDate: '2022-01-20T10:00:00Z', dataAiHint: "verified checkmark" },
+    { id: 'b001', name: 'Early Adopter', description: 'Joined Pi Network in its early stages.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2020-05-15T10:00:00Z', dataAiHint: "award medal" },
+    { id: 'b002', name: 'Node Runner', description: 'Successfully operates a Pi Node.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2021-11-01T10:00:00Z', dataAiHint: "server computer" },
+    { id: 'b003', name: 'Team Builder', description: 'Invited 10+ active members to their team.', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: "team people" },
+    { id: 'b004', name: 'KYC Verified', description: 'Successfully completed KYC verification.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2022-01-20T10:00:00Z', dataAiHint: "verified checkmark" },
   ],
+  weeklyMiningProgress: 3.7,
+  weeklyMiningTarget: 5,
+  monthlyMiningProgress: 18.2,
+  monthlyMiningTarget: 25,
 };
 
 export const mockTeam: TeamMember[] = [

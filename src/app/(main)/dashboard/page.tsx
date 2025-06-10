@@ -1,12 +1,13 @@
+
 "use client"
 
-import { Banknote, Gauge, Users, Award, FileText, BarChart3 } from 'lucide-react';
+import { Banknote, Gauge, Users as UsersIcon, Award, FileText, BarChart3, Target } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { KPICard } from '@/components/shared/KPICard';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { mockTeam, mockChartData } from '@/data/mocks'; // Assuming mockTeam and mockChartData are available
-import { Badge as UiBadge } from '@/components/ui/badge'; // Renaming to avoid conflict
+import { mockTeam, mockChartData } from '@/data/mocks'; 
+import { Badge as UiBadge } from '@/components/ui/badge'; 
 import {
   Dialog,
   DialogContent,
@@ -22,6 +23,7 @@ import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/
 import { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from 'date-fns';
+import { MiningFocusCard } from '@/components/dashboard/MiningFocusCard';
 
 
 function BalanceBreakdownCard() {
@@ -102,7 +104,7 @@ function BadgeDetailsDialog({ badge, children }: { badge: Badge, children: React
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <div className="flex justify-center mb-4">
-            <Image src={badge.iconUrl} alt={badge.name} width={96} height={96} className="rounded-lg" data-ai-hint={badge.dataAiHint} />
+            <Image src={badge.iconUrl} alt={badge.name} width={96} height={96} className="rounded-lg" data-ai-hint={badge.dataAiHint || 'badge icon'} />
           </div>
           <DialogTitle className="text-center text-xl font-headline">{badge.name}</DialogTitle>
           <DialogDescription className="text-center">
@@ -142,7 +144,7 @@ function MyBadges() {
                     width={64}
                     height={64}
                     className={`rounded-lg transition-all duration-300 group-hover:scale-110 ${badge.earned ? '' : 'grayscale opacity-50'}`}
-                    data-ai-hint={badge.dataAiHint}
+                    data-ai-hint={badge.dataAiHint || 'badge icon'}
                   />
                 <span className={`text-xs text-center ${badge.earned ? 'font-medium' : 'text-muted-foreground'}`}>
                   {badge.name}
@@ -162,7 +164,7 @@ export default function DashboardPage() {
   const { t } = useTranslation();
 
   if (!user) {
-    return ( // Should be handled by layout, but as a fallback
+    return ( 
       <div className="flex h-full items-center justify-center">
         <p>{t('shared.loading')}</p>
       </div>
@@ -190,12 +192,16 @@ export default function DashboardPage() {
         <KPICard
           title={t('dashboard.kpi_team')}
           value={`${activeTeamMembers} / ${totalTeamMembers}`}
-          icon={<Users />}
+          icon={<UsersIcon />}
         />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <BalanceBreakdownCard />
+        <MiningFocusCard />
+      </div>
+      
+      <div className="grid gap-6 lg:grid-cols-1"> 
         <UnverifiedBalanceChart />
       </div>
       
