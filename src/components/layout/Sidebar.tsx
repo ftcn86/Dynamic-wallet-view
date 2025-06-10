@@ -16,6 +16,10 @@ import {
   ChevronRight,
   ShieldQuestion,
   DollarSign,
+  HelpCircle,
+  FileText,
+  ShieldCheck,
+  Award, // Or FileText for PiOS License if Award is too much
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -87,7 +91,7 @@ export function Sidebar() {
          </div>
       </div>
       
-      <div className="mt-auto border-t p-4 shrink-0"> {/* Removed space-y-4 as profile is now the only direct child */}
+      <div className="mt-auto border-t p-4 shrink-0">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className={cn("flex h-auto w-full items-center gap-2 p-2 text-left", isCollapsed && "justify-center p-0 aspect-square")}>
@@ -104,7 +108,7 @@ export function Sidebar() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="top" align={isCollapsed ? "center" : "end"} className="w-56">
-            <DropdownMenuLabel>{t('sidebar.profile')}</DropdownMenuLabel>
+            <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href="/dashboard/profile" className="flex items-center gap-2">
@@ -116,6 +120,31 @@ export function Sidebar() {
               <Link href="/dashboard/settings" className="flex items-center gap-2">
                 <Settings className="h-4 w-4" />
                 <span>{t('sidebar.settings')}</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href="/legal/help" className="flex items-center gap-2">
+                <HelpCircle className="h-4 w-4" />
+                <span>{t('sidebar.help')}</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/legal/terms" className="flex items-center gap-2">
+                <FileText className="h-4 w-4" />
+                <span>{t('legal.termsTitle')}</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/legal/privacy" className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4" />
+                <span>{t('legal.privacyTitle')}</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/legal/pios-license" className="flex items-center gap-2">
+                <FileText className="h-4 w-4" /> 
+                <span>{t('sidebar.piosLicense')}</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
