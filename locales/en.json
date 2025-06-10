@@ -170,8 +170,9 @@
     "miningFocus": {
       "title": "Mining Focus",
       "description": "Track your personal mining goals and stay motivated!",
-      "weeklyGoal": "Weekly Goal (Hours)",
-      "monthlyGoal": "Monthly Goal (Hours)",
+      "weeklyGoal": "Weekly Goal (Days)",
+      "monthlyGoal": "Monthly Goal (Days)",
+      "daysSuffix": "days",
       "goalAchieved": "Goal Achieved!",
       "keepGoing": "Keep up the great work!",
       "greatProgress": "Making great progress!",

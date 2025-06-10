@@ -49,10 +49,12 @@ export const mockUser: User = {
     gamificationBadges[3], 
     gamificationBadges[4], 
   ],
-  userActiveMiningHours_LastWeek: 22,
-  userActiveMiningHours_LastMonth: 85,
-  weeklyMiningTargetHours: 25, 
-  monthlyMiningTargetHours: 100,
+  userActiveMiningHours_LastWeek: 22, // Still used for Team Activity Card
+  userActiveMiningHours_LastMonth: 85, // Still used for Team Activity Card
+  activeMiningDays_LastWeek: 4,      // New: User mined 4 full days last week
+  weeklyMiningDaysTarget: 5,         // New: Target is 5 full mining days for the week
+  activeMiningDays_LastMonth: 18,    // New: User mined 18 full days last month
+  monthlyMiningDaysTarget: 20,       // New: Target is 20 full mining days for the month
 };
 
 export const mockTeam: TeamMember[] = [
