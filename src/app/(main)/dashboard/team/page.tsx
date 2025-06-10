@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
@@ -178,7 +179,8 @@ export default function TeamInsightsPage() {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await mockApiCall({ data: [...mockTeam] }); 
+        // Set failureChance to 0 to prevent simulated API failures for this call
+        const data = await mockApiCall({ data: [...mockTeam], failureChance: 0 }); 
         setTeamMembers(data);
       } catch (err) {
         setError(t('teamInsights.error'));
@@ -324,3 +326,4 @@ export default function TeamInsightsPage() {
     </div>
   );
 }
+
