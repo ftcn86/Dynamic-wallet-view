@@ -1,5 +1,6 @@
 
 import type { User, TeamMember, NodeData, MockChartData, Badge, KycStatus } from './schemas';
+import { getDaysInMonth, subMonths } from 'date-fns';
 
 const gamificationBadges: Badge[] = [
   { id: 'b_wmara', name: 'Weekly Mining Marathoner', description: 'You were a true marathoner, mining consistently last week!', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: 'runner clock', earnedDate: '2024-06-20T10:00:00Z' },
@@ -12,10 +13,14 @@ const gamificationBadges: Badge[] = [
 
 const unverifiedFromReferralTeam = 2000.50;
 const unverifiedFromSecurityCircle = 1000.2890;
-const unverifiedFromNodeRewards = 750.00; 
+const unverifiedFromNodeRewards = 750.00;
 const unverifiedFromOtherBonuses = 456.0000;
 const totalUnverified = unverifiedFromReferralTeam + unverifiedFromSecurityCircle + unverifiedFromNodeRewards + unverifiedFromOtherBonuses;
 
+// Determine days in previous month for mock data target
+const today = new Date();
+const previousMonth = subMonths(today, 1);
+const daysInPreviousMonth = getDaysInMonth(previousMonth);
 
 export const mockUser: User = {
   id: 'user123',
@@ -31,7 +36,7 @@ export const mockUser: User = {
     totalUnverifiedPi: totalUnverified,
     currentlyInLockups: 3210.7665,
   },
-  unverifiedPiDetails: { 
+  unverifiedPiDetails: {
     fromReferralTeam: unverifiedFromReferralTeam,
     fromSecurityCircle: unverifiedFromSecurityCircle,
     fromNodeRewards: unverifiedFromNodeRewards,
@@ -42,19 +47,19 @@ export const mockUser: User = {
     { id: 'b002', name: 'Node Runner', description: 'Successfully operates a Pi Node.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2021-11-01T10:00:00Z', dataAiHint: "server computer" },
     { id: 'b003', name: 'Team Builder', description: 'Invited 10+ active members to their team.', iconUrl: 'https://placehold.co/128x128.png', earned: true, dataAiHint: "team people", earnedDate: '2023-02-10T10:00:00Z' },
     { id: 'b004', name: 'KYC Verified', description: 'Successfully completed KYC verification.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2022-01-20T10:00:00Z', dataAiHint: "verified checkmark" },
-    { ...gamificationBadges[0], earned: true }, 
-    { ...gamificationBadges[2], earned: true }, 
-    { ...gamificationBadges[5], earned: false }, 
-    gamificationBadges[1], 
-    gamificationBadges[3], 
-    gamificationBadges[4], 
+    { ...gamificationBadges[0], earned: true },
+    { ...gamificationBadges[2], earned: true },
+    { ...gamificationBadges[5], earned: false },
+    gamificationBadges[1],
+    gamificationBadges[3],
+    gamificationBadges[4],
   ],
-  userActiveMiningHours_LastWeek: 22, // Still used for Team Activity Card
-  userActiveMiningHours_LastMonth: 85, // Still used for Team Activity Card
-  activeMiningDays_LastWeek: 4,      // New: User mined 4 full days last week
-  weeklyMiningDaysTarget: 5,         // New: Target is 5 full mining days for the week
-  activeMiningDays_LastMonth: 18,    // New: User mined 18 full days last month
-  monthlyMiningDaysTarget: 20,       // New: Target is 20 full mining days for the month
+  userActiveMiningHours_LastWeek: 22,
+  userActiveMiningHours_LastMonth: 85,
+  activeMiningDays_LastWeek: 6,      // Example: User mined 6 full days last week
+  weeklyMiningDaysTarget: 7,         // Target is always 7 days for a week
+  activeMiningDays_LastMonth: Math.min(25, daysInPreviousMonth - 2), // Example: Mined 25 days or 2 less than previous month
+  monthlyMiningDaysTarget: daysInPreviousMonth, // Target is days in previous month
 };
 
 export const mockTeam: TeamMember[] = [
@@ -115,6 +120,8 @@ export const mockChartData: MockChartData = {
 
 export const GAMIFICATION_BADGE_IDS = gamificationBadges.map(b => b.id);
 export const ALL_MOCK_BADGES = [
-  ...mockUser.badges.filter(b => !GAMIFICATION_BADGE_IDS.includes(b.id)), 
-  ...gamificationBadges 
+  ...mockUser.badges.filter(b => !GAMIFICATION_BADGE_IDS.includes(b.id)),
+  ...gamificationBadges
 ];
+
+    
