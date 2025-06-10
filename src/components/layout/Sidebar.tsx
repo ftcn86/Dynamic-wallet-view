@@ -19,7 +19,6 @@ import {
   HelpCircle,
   FileText,
   ShieldCheck,
-  Gavel, // Or another icon for license if preferred
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -133,7 +132,7 @@ export function Sidebar() {
             <DropdownMenuItem asChild>
               <Link href="/legal/help" className="flex items-center gap-2" onClick={handleNavigation}>
                 <HelpCircle className="h-4 w-4" />
-                <span>{t('sidebar.help')}</span>
+                <span>{t('legal.helpTitle')}</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
@@ -148,12 +147,6 @@ export function Sidebar() {
                 <span>{t('legal.privacyTitle')}</span>
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/legal/pios-license" className="flex items-center gap-2" onClick={handleNavigation}>
-                <FileText className="h-4 w-4" /> 
-                <span>{t('legal.piosLicenseTitle')}</span>
-              </Link>
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => { handleNavigation(); handleLogout(); }} className="flex items-center gap-2 text-destructive focus:text-destructive focus:bg-destructive/10">
               <LogOut className="h-4 w-4" />
@@ -165,5 +158,3 @@ export function Sidebar() {
     </div>
   );
 }
-
-    
