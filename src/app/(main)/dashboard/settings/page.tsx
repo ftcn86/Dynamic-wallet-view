@@ -8,18 +8,15 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Switch } from "@/components/ui/switch";
-import { Sun, Moon, Laptop, Languages, Fingerprint, ShieldAlert } from 'lucide-react';
+import { Sun, Moon, Laptop, Languages } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-
-const PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY = 'piPulseDeviceLoginEnabledHint';
 
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
   const { language, setLanguage } = useLanguage();
-  const { user, setUser } = useAuth();
+  const { user } = useAuth(); // user might still be useful for other settings
   const { t } = useTranslation();
 
   type LanguageKey = 'en' | 'es' | 'fr' | 'ru' | 'pt' | 'ja' | 'zh';
@@ -40,17 +37,6 @@ export default function SettingsPage() {
     { value: 'dark', label: t('settings.theme.dark'), icon: <Moon className="h-5 w-5 text-blue-500" /> },
     { value: 'system', label: t('settings.theme.system'), icon: <Laptop className="h-5 w-5 text-muted-foreground" /> },
   ];
-
-  const handleDeviceLoginToggle = (checked: boolean) => {
-    if (user) {
-      setUser({ ...user, deviceLoginEnabled: checked });
-      if (checked) {
-        localStorage.setItem(PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY, 'true');
-      } else {
-        localStorage.removeItem(PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY);
-      }
-    }
-  };
 
   return (
     <div className="space-y-6">
@@ -101,35 +87,6 @@ export default function SettingsPage() {
                 ))}
               </SelectContent>
             </Select>
-          </div>
-
-          <Separator />
-          
-          <div className="space-y-3">
-            <Label className="text-lg font-medium flex items-center">
-                <ShieldAlert className="mr-2 h-5 w-5 text-primary/80" /> 
-                {t('settings.security.title')}
-            </Label>
-            <div className="flex items-center justify-between rounded-lg border p-4">
-              <div>
-                <Label htmlFor="device-login-switch" className="font-medium flex items-center">
-                  <Fingerprint className="mr-2 h-5 w-5 text-primary/90" />
-                  {t('settings.security.deviceLogin.label')}
-                </Label>
-                <p className="text-sm text-muted-foreground">
-                  {t('settings.security.deviceLogin.description')}
-                </p>
-              </div>
-              <Switch
-                id="device-login-switch"
-                checked={user?.deviceLoginEnabled || false}
-                onCheckedChange={handleDeviceLoginToggle}
-                aria-label={t('settings.security.deviceLogin.label')}
-              />
-            </div>
-             <p className="text-xs text-muted-foreground px-1">
-                {t('settings.security.deviceLogin.note')}
-            </p>
           </div>
 
         </CardContent>

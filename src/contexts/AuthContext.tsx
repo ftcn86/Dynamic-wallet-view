@@ -76,6 +76,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 
   const logout = useCallback(() => {
+    // The logic related to PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY was here.
+    // Since the key and feature are removed, this part is no longer needed.
     setUser(null); // This will call the updated setUser, which handles removing from localStorage
   }, [setUser]);
 

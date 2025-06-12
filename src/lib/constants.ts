@@ -13,6 +13,6 @@ export const PI_APP_MINING_URL = "pi://mine"; // Placeholder for Pi App mining s
 export const PI_TEAM_CHAT_URL = "https://pi.app/official-chat"; // Placeholder URL for Pi Team Chat
 
 // LocalStorage Keys
-export const PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY = 'piPulseDeviceLoginEnabledHint';
+// PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY has been removed
 
 // Add other constants here as needed

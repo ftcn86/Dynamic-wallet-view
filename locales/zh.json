@@ -28,12 +28,7 @@
     "welcome": "欢迎来到Dynamic Pi Wallet View",
     "button": "使用Pi登录",
     "error": "登录失败。请重试。",
-    "piAuthInfo": "这将使用您的Pi Network账户对您进行身份验证。",
-    "deviceLogin": {
-      "button": "使用设备登录",
-      "placeholderTitle": "使用设备登录（即将推出）",
-      "placeholderDescription": "此功能将允许您在初始设置后使用设备的生物识别技术快速登录。尚未实现。"
-    }
+    "piAuthInfo": "这将使用您的Pi Network账户对您进行身份验证。"
   },
   "legal": {
     "termsTitle": "服务条款",
@@ -300,14 +295,6 @@
       "pt": "葡萄牙语",
       "ja": "日语",
       "zh": "中文"
-    },
-    "security": {
-        "title": "安全设置",
-        "deviceLogin": {
-            "label": "启用设备快速登录",
-            "description": "使用您设备的生物识别或屏幕锁定进行更快的登录。",
-            "note": "此功能为模拟功能。真正的生物识别登录尚未实现。"
-        }
     }
   },
   "shared": {
@@ -321,5 +308,3 @@
     "retryButton": "重试"
   }
 }
-
-    

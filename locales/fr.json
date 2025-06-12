@@ -28,12 +28,7 @@
     "welcome": "Bienvenue sur Dynamic Pi Wallet View",
     "button": "Se connecter avec Pi",
     "error": "Échec de la connexion. Veuillez réessayer.",
-    "piAuthInfo": "Cela vous authentifiera en utilisant votre compte Pi Network.",
-    "deviceLogin": {
-      "button": "Se connecter avec l'appareil",
-      "placeholderTitle": "Connexion avec l'appareil (Bientôt disponible)",
-      "placeholderDescription": "Cette fonctionnalité vous permettra de vous connecter rapidement en utilisant les données biométriques de votre appareil après la configuration initiale. Pas encore implémenté."
-    }
+    "piAuthInfo": "Cela vous authentifiera en utilisant votre compte Pi Network."
   },
   "legal": {
     "termsTitle": "Conditions d'utilisation",
@@ -300,14 +295,6 @@
       "pt": "Portugais",
       "ja": "Japonais",
       "zh": "Chinois"
-    },
-    "security": {
-        "title": "Paramètres de sécurité",
-        "deviceLogin": {
-            "label": "Activer la connexion rapide avec l'appareil",
-            "description": "Utilisez les données biométriques ou le verrouillage de l'écran de votre appareil pour une connexion plus rapide.",
-            "note": "Cette fonctionnalité est une simulation. La véritable connexion biométrique n'est pas implémentée."
-        }
     }
   },
   "shared": {
@@ -321,5 +308,3 @@
     "retryButton": "Réessayer"
   }
 }
-
-    

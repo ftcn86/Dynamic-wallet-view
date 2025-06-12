@@ -73,7 +73,7 @@ export const mockUser: User = {
   activeMiningDays_LastMonth: Math.min(25, daysInPreviousMonth - 2),
   monthlyMiningDaysTarget: daysInPreviousMonth,
   termsAccepted: false, 
-  deviceLoginEnabled: false, // Initialize device login preference
+  // deviceLoginEnabled: false, // Removed
 };
 
 export const mockTeam: TeamMember[] = [

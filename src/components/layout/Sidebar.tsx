@@ -47,7 +47,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { SidebarNavLink } from './SidebarNavLink';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { PI_TEAM_CHAT_URL, PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY } from '@/lib/constants';
+import { PI_TEAM_CHAT_URL } from '@/lib/constants';
 
 
 export function Sidebar() {
@@ -58,11 +58,7 @@ export function Sidebar() {
   const isMobile = useIsMobile();
 
   const performLogout = () => {
-    if (user?.deviceLoginEnabled && typeof window !== 'undefined') {
-      localStorage.setItem(PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY, 'true');
-    } else if (typeof window !== 'undefined') {
-      localStorage.removeItem(PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY);
-    }
+    // Logic for PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY removed as feature is removed
     authLogout();
     router.push('/login');
   };

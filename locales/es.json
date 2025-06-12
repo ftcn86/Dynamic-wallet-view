@@ -28,12 +28,7 @@
     "welcome": "Bienvenido a Dynamic Pi Wallet View",
     "button": "Iniciar Sesión con Pi",
     "error": "Error al iniciar sesión. Por favor, inténtalo de nuevo.",
-    "piAuthInfo": "Esto te autenticará usando tu cuenta de Pi Network.",
-    "deviceLogin": {
-      "button": "Iniciar Sesión con Dispositivo",
-      "placeholderTitle": "Inicio de Sesión con Dispositivo (Próximamente)",
-      "placeholderDescription": "Esta función te permitirá iniciar sesión rápidamente utilizando la biometría de tu dispositivo después de la configuración inicial. Aún no implementado."
-    }
+    "piAuthInfo": "Esto te autenticará usando tu cuenta de Pi Network."
   },
   "legal": {
     "termsTitle": "Términos de Servicio",
@@ -300,14 +295,6 @@
       "pt": "Portugués",
       "ja": "Japonés",
       "zh": "Chino"
-    },
-    "security": {
-        "title": "Configuración de Seguridad",
-        "deviceLogin": {
-            "label": "Habilitar Inicio de Sesión Rápido con Dispositivo",
-            "description": "Usa la biometría o el bloqueo de pantalla de tu dispositivo para un inicio de sesión más rápido.",
-            "note": "Esta función es una simulación. El inicio de sesión biométrico real no está implementado."
-        }
     }
   },
   "shared": {
@@ -321,5 +308,3 @@
     "retryButton": "Intentar de Nuevo"
   }
 }
-
-    

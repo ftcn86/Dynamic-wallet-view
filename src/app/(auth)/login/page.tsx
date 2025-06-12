@@ -11,9 +11,7 @@ import { mockApiCall } from '@/lib/api';
 import { mockUser as defaultMockUser } from '@/data/mocks'; 
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
-import { ShieldQuestion, Fingerprint } from 'lucide-react'; 
-
-const PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY = 'piPulseDeviceLoginEnabledHint';
+import { ShieldQuestion } from 'lucide-react'; 
 
 export default function LoginPage() {
   const { user, setUser, isLoading: isAuthContextLoading } = useAuth();
@@ -21,14 +19,8 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [showDeviceLoginHint, setShowDeviceLoginHint] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-        const hintEnabled = localStorage.getItem(PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY) === 'true';
-        setShowDeviceLoginHint(hintEnabled);
-    }
-
     if (!isAuthContextLoading && user) {
       if (user.termsAccepted) {
         router.replace('/dashboard');
@@ -42,10 +34,11 @@ export default function LoginPage() {
   const handleLogin = async () => {
     setIsLoggingIn(true);
     try {
-      const freshMockUser = { 
+      // Ensure the freshMockUser only contains fields present in the User schema
+      const freshMockUser: typeof defaultMockUser = { 
         ...defaultMockUser, 
         termsAccepted: user?.termsAccepted || false,
-        deviceLoginEnabled: user?.deviceLoginEnabled || defaultMockUser.deviceLoginEnabled || false 
+        // deviceLoginEnabled is removed from schema and thus from here
       };
       const loggedInUser = await mockApiCall({ data: freshMockUser });
       
@@ -66,13 +59,6 @@ export default function LoginPage() {
     }
   };
   
-  const handleDeviceLoginPlaceholder = () => {
-    toast({
-        title: t('login.deviceLogin.placeholderTitle'),
-        description: t('login.deviceLogin.placeholderDescription'),
-    });
-  };
-
 
   if (isAuthContextLoading || (!isAuthContextLoading && user)) {
     return (
@@ -106,18 +92,6 @@ export default function LoginPage() {
           <CardDescription className="text-xs text-center px-2">
             {t('login.piAuthInfo')}
           </CardDescription>
-
-          {showDeviceLoginHint && (
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={handleDeviceLoginPlaceholder}
-              size="lg"
-            >
-              <Fingerprint className="mr-2 h-5 w-5 text-primary/80" />
-              {t('login.deviceLogin.button')}
-            </Button>
-          )}
         </CardContent>
         <CardFooter>
           <div className="text-center text-sm w-full">

@@ -28,7 +28,7 @@ export interface User {
   activeMiningDays_LastMonth?: number;
   monthlyMiningDaysTarget?: number;
   termsAccepted?: boolean; // New field for T&C acceptance
-  deviceLoginEnabled?: boolean; // For enabling device-specific login UX
+  // deviceLoginEnabled?: boolean; // Removed
 }
 
 export interface Badge {

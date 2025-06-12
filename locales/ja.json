@@ -28,12 +28,7 @@
     "welcome": "Dynamic Pi Wallet Viewへようこそ",
     "button": "Piでログイン",
     "error": "ログインに失敗しました。もう一度お試しください。",
-    "piAuthInfo": "これにより、Pi Networkアカウントを使用して認証されます。",
-    "deviceLogin": {
-      "button": "デバイスでサインイン",
-      "placeholderTitle": "デバイスログイン（近日公開）",
-      "placeholderDescription": "この機能を使用すると、初期設定後にデバイスの生体認証を使用して迅速にログインできます。まだ実装されていません。"
-    }
+    "piAuthInfo": "これにより、Pi Networkアカウントを使用して認証されます。"
   },
   "legal": {
     "termsTitle": "利用規約",
@@ -300,14 +295,6 @@
       "pt": "ポルトガル語",
       "ja": "日本語",
       "zh": "中国語"
-    },
-    "security": {
-        "title": "セキュリティ設定",
-        "deviceLogin": {
-            "label": "デバイスでのクイックログインを有効にする",
-            "description": "デバイスの生体認証または画面ロックを使用して、より迅速にサインインします。",
-            "note": "この機能はシミュレーションです。実際の生体認証ログインは実装されていません。"
-        }
     }
   },
   "shared": {
@@ -321,5 +308,3 @@
     "retryButton": "再試行"
   }
 }
-
-    

@@ -28,12 +28,7 @@
     "welcome": "Bem-vindo à Dynamic Pi Wallet View",
     "button": "Login com Pi",
     "error": "Falha no login. Por favor, tente novamente.",
-    "piAuthInfo": "Isso irá autenticá-lo usando sua conta da Pi Network.",
-    "deviceLogin": {
-      "button": "Entrar com Dispositivo",
-      "placeholderTitle": "Login com Dispositivo (Em Breve)",
-      "placeholderDescription": "Este recurso permitirá que você faça login rapidamente usando a biometria do seu dispositivo após a configuração inicial. Ainda não implementado."
-    }
+    "piAuthInfo": "Isso irá autenticá-lo usando sua conta da Pi Network."
   },
   "legal": {
     "termsTitle": "Termos de Serviço",
@@ -300,14 +295,6 @@
       "pt": "Português",
       "ja": "Japonês",
       "zh": "Chinês"
-    },
-    "security": {
-        "title": "Configurações de Segurança",
-        "deviceLogin": {
-            "label": "Ativar Login Rápido com Dispositivo",
-            "description": "Use a biometria ou o bloqueio de tela do seu dispositivo para um login mais rápido.",
-            "note": "Este recurso é uma simulação. O login biométrico real não está implementado."
-        }
     }
   },
   "shared": {
@@ -321,5 +308,3 @@
     "retryButton": "Tentar Novamente"
   }
 }
-
-    
