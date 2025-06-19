@@ -4,7 +4,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { LanguageProvider } from '@/contexts/LanguageContext';
-import { ThemeProvider } from '@/components/theme-provider'; // To be created
+import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
   title: 'Dynamic Pi Wallet View',
@@ -43,5 +43,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-    
