@@ -1,21 +1,21 @@
 # Product Requirements Document: Dynamic Pi Wallet View v2.3
-## Advanced Prototype Specification
+## Application Specification
 
 **Version:** 2.3
 **Date:** (Current Date)
-**Objective:** To create a comprehensive, user-friendly, and engaging **advanced prototype** of a third-party dashboard application for Pi Network users, named "Dynamic Pi Wallet View." This application will provide detailed insights into their Pi holdings, mining activity, team performance, and node operations, while fostering motivation through gamification. It will be built with a modern, responsive UI, prioritizing clarity, performance, and internationalization. **This version introduces a hybrid data fetching strategy to support both mock data for UI development and a clear path for real Pi SDK integration for sandbox testing.**
+**Objective:** To create a comprehensive, user-friendly, and engaging dashboard application for Pi Network users, named "Dynamic Pi Wallet View." This application will provide detailed insights into their Pi holdings, mining activity, team performance, and node operations, while fostering motivation through gamification. It will be built with a modern, responsive UI, prioritizing clarity, performance, and internationalization. **This version introduces a hybrid data fetching strategy to support both mock data for UI development and a clear path for real Pi SDK integration for sandbox testing.**
 
 ---
 
-## 1. Core User & Value Proposition (Prototype Context)
+## 1. Core User & Value Proposition
 
-*   **Target User (for Prototype):** A representative Pi Network Pioneer (miner, team builder, node operator) whose data is mocked.
-*   **User Need (Prototyped):** To visualize and interact with a single, well-designed interface displaying consolidated Pi-related metrics, tracking mock progress, managing mock team insights, and analyzing mock node performance.
-*   **Value Proposition (Prototyped):** Dynamic Pi Wallet View will demonstrate a dynamic, insightful, and beautifully designed alternative/enhancement to viewing Pi Network data, showcasing how users could be empowered with better information and engagement tools. *The prototype is a viewer and insights tool, not a functional wallet, and does not handle real private keys or initiate real transactions.*
+*   **Target User:** A representative Pi Network Pioneer (miner, team builder, node operator).
+*   **User Need:** To visualize and interact with a single, well-designed interface displaying consolidated Pi-related metrics, tracking progress, managing team insights, and analyzing node performance.
+*   **Value Proposition:** Dynamic Pi Wallet View empowers users with better information and engagement tools through a dynamic, insightful, and beautifully designed alternative/enhancement to viewing Pi Network data. *This application is a viewer and insights tool, not a functional wallet, and does not handle real private keys or initiate real transactions.*
 
 ---
 
-## 2. Core Features & Functionality (Prototyped with Mock or Real Data)
+## 2. Core Features & Functionality
 
 ### 2.1. User Authentication & Onboarding (Mocked/Real)
 *   **2.1.1. Login:**
@@ -169,13 +169,13 @@
 
 ---
 
-## 3. Non-Functional Requirements (Prototype Context)
+## 3. Non-Functional Requirements
 
 ### 3.1. Pi Platform Integration & Data Abstraction
 *   **3.1.1. App ID Meta Tag:** The root layout (`src/app/layout.tsx`) MUST include the Pi App ID meta tag for future compatibility: `<meta name="pi-app-id" content="dynamic-pi-wallet-view" />`. The value should be an environment variable, falling back to a default.
 *   **3.1.2. Pi Browser Detection & SDK Handling:** The application must contain a service layer (`src/services/piService.ts`) responsible for data fetching. This service will:
     *   Contain logic to detect if the app is running within the Pi Browser (e.g., by checking for `window.Pi`).
-    *   If in the Pi Browser, it should be structured to make **real Pi SDK calls**. For the prototype, these calls can be stubbed out but the structure must exist.
+    *   If in the Pi Browser, it is designed to make **real Pi SDK calls**. This structure allows for real integration.
     *   If **not** in the Pi Browser, it must fall back to using the **mock data** system via the `mockApiCall` utility.
 *   **3.1.3. Hybrid Data Flow:** This dual-mode approach allows for rapid UI development with mock data in a standard browser, while enabling real integration testing in the Pi Sandbox without code changes to the UI components themselves.
 
@@ -225,7 +225,7 @@
 
 ---
 
-## 6. Future Considerations (Out of Scope for this Prototype)
+## 6. Future Considerations & Roadmap
 
 *   Real backend API integration (beyond Pi SDK stubs).
 *   Functional Genkit AI features.
