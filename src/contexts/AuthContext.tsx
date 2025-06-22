@@ -4,12 +4,13 @@
 import type { Dispatch, ReactNode, SetStateAction} from 'react';
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { User } from '@/data/schemas';
-// mockUser is not needed here for default state if we're relying on localStorage or login to populate.
+import { getAuthenticatedUser } from '@/services/piService';
 
 interface AuthContextType {
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
-  isLoading: boolean; // For initial app authentication state loading
+  isLoading: boolean;
+  login: () => Promise<User | null>;
   logout: () => void;
 }
 
@@ -17,12 +18,9 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const PI_PULSE_USER_KEY = 'piPulseUser';
 
-// Helper for deep equality check for User object
 const areUsersEqual = (userA: User | null, userB: User | null): boolean => {
-  if (userA === userB) return true; // Same reference or both null
-  if (!userA || !userB) return false; // One is null, other isn't
-
-  // Using JSON.stringify for a simple deep comparison suitable for this app's User schema.
+  if (userA === userB) return true;
+  if (!userA || !userB) return false;
   try {
     return JSON.stringify(userA) === JSON.stringify(userB);
   } catch (error) {
@@ -33,10 +31,9 @@ const areUsersEqual = (userA: User | null, userB: User | null): boolean => {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, _setUserInternal] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true); // True until initial auth status is determined from localStorage
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate determining initial authentication status by checking localStorage
     try {
       const storedUserItem = localStorage.getItem(PI_PULSE_USER_KEY);
       if (storedUserItem) {
@@ -45,11 +42,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } catch (error) {
       console.error("Error loading user from localStorage:", error);
-      // If parsing fails or any error, ensure localStorage item is cleared to prevent cycles
       localStorage.removeItem(PI_PULSE_USER_KEY);
     }
     setIsLoading(false);
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, []);
 
   const setUser: Dispatch<SetStateAction<User | null>> = useCallback((newUserValue) => {
     _setUserInternal(currentUser => {
@@ -57,7 +53,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         ? (newUserValue as (prevState: User | null) => User | null)(currentUser)
         : newUserValue;
 
-      // Only update and persist if the new user is actually different from the current one
       if (!areUsersEqual(currentUser, resolvedNewUser)) {
         try {
           if (resolvedNewUser) {
@@ -70,19 +65,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         return resolvedNewUser;
       }
-      return currentUser; // Return current state to prevent re-render and re-save
+      return currentUser;
     });
   }, []);
 
+  const login = useCallback(async (): Promise<User | null> => {
+    setIsLoading(true);
+    try {
+      const fetchedUser = await getAuthenticatedUser();
+      // In a real app, you might merge fetchedUser with local app data.
+      // For the prototype, we assume `getAuthenticatedUser` returns the full User object.
+      
+      // We set the termsAccepted to the value already in localStorage if it exists,
+      // otherwise we use the value from the mock (which is usually false).
+      const storedUserItem = localStorage.getItem(PI_PULSE_USER_KEY);
+      if (storedUserItem) {
+          const storedUser = JSON.parse(storedUserItem) as User;
+          if (storedUser.id === fetchedUser.id && storedUser.termsAccepted) {
+              fetchedUser.termsAccepted = true;
+          }
+      }
+
+      setUser(fetchedUser);
+      return fetchedUser;
+    } catch (error) {
+      console.error("Login failed:", error);
+      setUser(null); // Ensure user is logged out on failure
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [setUser]);
+
 
   const logout = useCallback(() => {
-    // The logic related to PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY was here.
-    // Since the key and feature are removed, this part is no longer needed.
-    setUser(null); // This will call the updated setUser, which handles removing from localStorage
+    setUser(null);
+    // In a real app, you might also call a Pi SDK logout function if one exists.
   }, [setUser]);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, isLoading, logout }}>
+    <AuthContext.Provider value={{ user, setUser, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

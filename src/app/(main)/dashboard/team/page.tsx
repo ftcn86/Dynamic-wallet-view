@@ -1,15 +1,14 @@
 
 "use client"
 
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTranslation } from '@/hooks/useTranslation';
-import { mockApiCall } from '@/lib/api';
-import { mockTeam } from '@/data/mocks';
-import type { TeamMember, KycStatus } from '@/data/schemas';
+import { getTeamMembers } from '@/services/piService';
+import type { TeamMember } from '@/data/schemas';
 import { format } from 'date-fns';
 import { Info, Users, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -98,7 +97,7 @@ function SortableTableHead({
         {isSorted ? (
           currentDirection === 'ascending' ? <ArrowUp className="h-3 w-3 text-primary" /> : <ArrowDown className="h-3 w-3 text-primary" />
         ) : (
-          <ArrowUpDown className="h-3 w-3 opacity-50 text-muted-foreground" />
+          <ArrowUpDown className="h-3 w-3 opacity-50" />
         )}
       </div>
     </TableHead>
@@ -150,7 +149,7 @@ export default function TeamInsightsPage() {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await mockApiCall({ data: [...mockTeam], failureChance: 0 }); 
+        const data = await getTeamMembers();
         setTeamMembers(data);
       } catch (err) {
         setError(t('teamInsights.error'));
@@ -185,11 +184,7 @@ export default function TeamInsightsPage() {
           comparison = valA - valB;
         } else if (typeof valA === 'string' && typeof valB === 'string') {
           comparison = valA.localeCompare(valB);
-        } else if (valA instanceof Date && valB instanceof Date) { 
-            comparison = new Date(valA).getTime() - new Date(valB).getTime();
-        } else if (typeof valA === 'object' && typeof valB === 'object' && valA !== null && valB !== null && 'getTime' in valA && 'getTime' in valB) { 
-            comparison = (valA as Date).getTime() - (valB as Date).getTime();
-        } else { 
+        } else {
              const strA = String(valA ?? ''); 
              const strB = String(valB ?? '');
              comparison = strA.localeCompare(strB);

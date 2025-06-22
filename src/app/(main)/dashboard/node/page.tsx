@@ -4,8 +4,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
-import { mockApiCall } from '@/lib/api';
-import { mockNodeData } from '@/data/mocks';
+import { getNodeData } from '@/services/piService';
 import type { NodeData } from '@/data/schemas';
 import { KPICard } from '@/components/shared/KPICard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,7 +28,7 @@ function NodeOperatorView() {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await mockApiCall({ data: mockNodeData });
+        const data = await getNodeData();
         setNodeData(data);
       } catch (err) {
         setError(t('shared.error')); 
@@ -111,7 +110,7 @@ function BecomeANodeOperatorPrompt() {
         <Button asChild size="lg">
           <a href={PI_NODE_INFO_URL} target="_blank" rel="noopener noreferrer">
             {t('nodeAnalysis.isNotOperator.button')}
-            <ExternalLink className="ml-2 h-4 w-4 text-primary-foreground" />
+            <ExternalLink className="ml-2 h-4 w-4" />
           </a>
         </Button>
       </CardContent>

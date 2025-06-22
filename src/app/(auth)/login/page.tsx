@@ -7,20 +7,19 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from '@/hooks/useTranslation';
-import { mockApiCall } from '@/lib/api';
-import { mockUser as defaultMockUser } from '@/data/mocks'; 
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { ShieldQuestion } from 'lucide-react'; 
 
 export default function LoginPage() {
-  const { user, setUser, isLoading: isAuthContextLoading } = useAuth();
+  const { user, login, isLoading: isAuthContextLoading } = useAuth();
   const { t } = useTranslation();
   const router = useRouter();
   const { toast } = useToast();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   useEffect(() => {
+    // If the auth context has a user and is not loading, redirect them.
     if (!isAuthContextLoading && user) {
       if (user.termsAccepted) {
         router.replace('/dashboard');
@@ -33,33 +32,26 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     setIsLoggingIn(true);
-    try {
-      // Ensure the freshMockUser only contains fields present in the User schema
-      const freshMockUser: typeof defaultMockUser = { 
-        ...defaultMockUser, 
-        termsAccepted: user?.termsAccepted || false,
-        // deviceLoginEnabled is removed from schema and thus from here
-      };
-      const loggedInUser = await mockApiCall({ data: freshMockUser });
-      
-      setUser(loggedInUser); 
-
+    const loggedInUser = await login();
+    
+    if (loggedInUser) {
       if (loggedInUser.termsAccepted) {
         router.push('/dashboard');
       } else {
         router.push('/legal/accept-terms');
       }
-    } catch (error) {
+    } else {
       toast({
         title: t('login.error'),
+        description: "Could not authenticate. Please try again.",
         variant: 'destructive',
       });
-    } finally {
       setIsLoggingIn(false);
     }
+    // No need to setIsLoggingIn(false) on success, because the page will redirect.
   };
   
-
+  // Show a loading spinner while the auth context is figuring out if a user is already logged in.
   if (isAuthContextLoading || (!isAuthContextLoading && user)) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
@@ -67,7 +59,6 @@ export default function LoginPage() {
       </div>
     );
   }
-
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
