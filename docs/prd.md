@@ -1,9 +1,9 @@
-# Product Requirements Document: Dynamic Pi Wallet View v2.2
+# Product Requirements Document: Dynamic Pi Wallet View v2.3
 ## Advanced Prototype Specification
 
-**Version:** 2.2
+**Version:** 2.3
 **Date:** (Current Date)
-**Objective:** To create a comprehensive, user-friendly, and engaging **advanced mock-data prototype** of a third-party dashboard application for Pi Network users, named "Dynamic Pi Wallet View." This application will provide detailed insights into their Pi holdings, mining activity, team performance, and node operations, while fostering motivation through gamification. It will be built with a modern, responsive UI, prioritizing clarity, performance, and internationalization, all functioning with predefined mock data. This specification incorporates lessons from real-world Pi Network application development to create a more robust and realistic prototype.
+**Objective:** To create a comprehensive, user-friendly, and engaging **advanced prototype** of a third-party dashboard application for Pi Network users, named "Dynamic Pi Wallet View." This application will provide detailed insights into their Pi holdings, mining activity, team performance, and node operations, while fostering motivation through gamification. It will be built with a modern, responsive UI, prioritizing clarity, performance, and internationalization. **This version introduces a hybrid data fetching strategy to support both mock data for UI development and a clear path for real Pi SDK integration for sandbox testing.**
 
 ---
 
@@ -15,39 +15,39 @@
 
 ---
 
-## 2. Core Features & Functionality (Prototyped with Mock Data)
+## 2. Core Features & Functionality (Prototyped with Mock or Real Data)
 
-### 2.1. User Authentication & Onboarding (Mocked)
+### 2.1. User Authentication & Onboarding (Mocked/Real)
 *   **2.1.1. Login:**
-    *   Mock login simulating an authentication step.
+    *   Simulates/Initiates Pi Network authentication via the `piService`.
     *   Display app name "Dynamic Pi Wallet View" and welcome message.
     *   Links to Legal pages (Terms, Privacy).
 *   **2.1.2. Terms Acceptance:**
-    *   Mandatory review and acceptance of Terms of Service & Privacy Policy post-initial mock login before accessing the main app.
+    *   Mandatory review and acceptance of Terms of Service & Privacy Policy post-initial login before accessing the main app.
     *   Option to logout if terms are not accepted.
 *   **2.1.3. Session Management (Mocked):**
-    *   Simulated session persistence using `localStorage` to store the mock user object and preferences. **Must include `typeof window !== 'undefined'` checks to prevent SSR errors.**
+    *   Simulated session persistence using `localStorage` to store the user object and preferences. **Must include `typeof window !== 'undefined'` checks to prevent SSR errors.**
 *   **2.1.4. Logout:**
-    *   Clear mock user session from `localStorage`.
+    *   Clear user session from `localStorage`.
     *   Confirmation dialog before logout.
     *   Redirect to login page.
 
 ### 2.2. Main Dashboard (`/dashboard`)
 *   **2.2.1. Key Performance Indicators (KPIs) - Top Section:**
-    *   **Total Pi Balance:** Displays user's total Pi (mocked). Icon: `Banknote`.
-    *   **Current Mining Rate:** Displays current Pi mining rate per hour (mocked). Icon: `Gauge`. Clickable, shows AlertDialog prompting to redirect to Pi App mining section (mock URL `pi://mine`).
-    *   **Active Team Members:** Displays `active_members / total_members` from mock data. Icon: `Users`. Clickable, links to `/dashboard/team`.
-    *   **Node Uptime (Conditional):** If `user.isNodeOperator` is true in mock data, displays node uptime percentage (mocked). Icon: `Server`. Clickable, links to `/dashboard/node`.
+    *   **Total Pi Balance:** Displays user's total Pi. Icon: `Banknote`.
+    *   **Current Mining Rate:** Displays current Pi mining rate per hour. Icon: `Gauge`. Clickable, shows AlertDialog prompting to redirect to Pi App mining section (mock URL `pi://mine`).
+    *   **Active Team Members:** Displays `active_members / total_members`. Icon: `Users`. Clickable, links to `/dashboard/team`.
+    *   **Node Uptime (Conditional):** If `user.isNodeOperator` is true, displays node uptime percentage. Icon: `Server`. Clickable, links to `/dashboard/node`.
 *   **2.2.2. Balance Breakdown Card:**
     *   Title: "Balance Breakdown".
-    *   Displays mock data for:
+    *   Displays data for:
         *   Transferable to Mainnet (Pi amount).
         *   Total Unverified Pi (Pi amount).
         *   Currently in Lockups (Pi amount).
     *   Disclaimer: "Note: Unverified Pi requires associated members to complete KYC to become transferable."
 *   **2.2.3. Unverified Pi Detail Card:**
     *   Title: "Unverified Pi Sources". Icon: `ListTree`.
-    *   Displays mock amounts for:
+    *   Displays amounts for:
         *   From Referral Team. Icon: `Users`.
         *   From Security Circle. Icon: `Shield`.
         *   From Node Rewards. Icon: `Server`.
@@ -56,51 +56,51 @@
 *   **2.2.4. Balance Fluctuation Chart Card:**
     *   Title: "Balance Fluctuation".
     *   Chart Type: Bar chart (using Recharts/ShadCN Charts).
-    *   Data: Shows historical "Transferable" and "Unverified" Pi amounts from mock data.
-    *   Time Period Selector: "3M", "6M", "12M" options, changing the displayed mock chart data.
+    *   Data: Shows historical "Transferable" and "Unverified" Pi amounts.
+    *   Time Period Selector: "3M", "6M", "12M" options, changing the displayed chart data.
     *   Y-Axis Label: "Pi Amount".
     *   Tooltip: Show exact values for Transferable and Unverified on hover.
 *   **2.2.5. My Badges Card:**
     *   Title: "My Badges".
-    *   Displays a grid of user's mock earned and unearned badges (icons).
+    *   Displays a grid of user's earned and unearned badges (icons).
     *   Earned badges are full color; unearned are grayscale/dimmed.
     *   Clicking a badge opens a Dialog showing:
         *   Large badge icon.
         *   Badge Name (Title).
         *   Badge Description.
-        *   "Earned on: [Date]" (if applicable, from mock data).
+        *   "Earned on: [Date]" (if applicable).
 *   **2.2.6. Mining Focus Card:**
     *   Title: "Mining Focus". Icon: `Target`.
     *   Description: "Track your personal mining goals and stay motivated!"
     *   **Weekly Goal (Mocked Data):**
         *   Label: "Weekly Goal (Days)". Icon: `CalendarDays`.
-        *   Progress bar showing `active_mining_days_last_week / weekly_mining_target_days` from mock data.
+        *   Progress bar showing `active_mining_days_last_week / weekly_mining_target_days`.
         *   Text: `X / Y days`.
-        *   Badge: "Goal Achieved!" if met based on mock data.
+        *   Badge: "Goal Achieved!" if met.
         *   Motivational text (e.g., "Keep up the great work!").
     *   **Monthly Goal (Mocked Data):**
         *   Label: "Monthly Goal (Days)". Icon: `CalendarDays`.
-        *   Progress bar showing `active_mining_days_last_month / monthly_mining_target_days` from mock data.
+        *   Progress bar showing `active_mining_days_last_month / monthly_mining_target_days`.
         *   Text: `X / Y days`.
-        *   Badge: "Goal Achieved!" if met based on mock data.
+        *   Badge: "Goal Achieved!" if met.
         *   Motivational text (e.g., "Making great progress!").
     *   Team Encouragement Footer: Text with `Users` icon: "Encourage your team to stay active! Their contributions help the network grow."
 *   **2.2.7. Team Activity Card:**
     *   Title: "Team Mining Rally". Icon: `Trophy`.
-    *   User's personal activity summary (from mock data): "Your Activity: X hrs (Last Week), Y hrs (Last Month)".
-    *   **Weekly Team Rally Leaderboard (Top 10 from mock team data):**
+    *   User's personal activity summary: "Your Activity: X hrs (Last Week), Y hrs (Last Month)".
+    *   **Weekly Team Rally Leaderboard (Top 10 from team data):**
         *   Table: Rank, Member (Avatar + Name), Hours.
         *   Highlight user's own row if in Top 10.
-        *   If user not in Top 10 but more than 10 mock members, show user's rank below table.
-        *   Handle empty/no activity states from mock data.
+        *   If user not in Top 10 but more than 10 members, show user's rank below table.
+        *   Handle empty/no activity states.
     *   **Recent Achievements (Badges):**
         *   Title: "Recent Achievements". Icon: `Award`.
-        *   Display ~3 most recently earned gamification-related badges from mock user data (icon + name).
+        *   Display ~3 most recently earned gamification-related badges from user data (icon + name).
     *   Footer Button: "View Full Team Report" linking to `/dashboard/team`.
 
 ### 2.3. Team Insights Page (`/dashboard/team`)
 *   **2.3.1. Title:** "Team Insights".
-*   **2.3.2. Team Members Table (from mock data):**
+*   **2.3.2. Team Members Table (from data service):**
     *   Columns (all sortable):
         *   Member (Avatar + Name).
         *   Join Date (formatted).
@@ -116,13 +116,13 @@
 
 ### 2.4. Node Analysis Page (`/dashboard/node`)
 *   **2.4.1. Title:** "Node Analysis".
-*   **2.4.2. Conditional View (based on `user.isNodeOperator` in mock data):**
+*   **2.4.2. Conditional View (based on `user.isNodeOperator`):**
     *   **If Operator:**
         *   KPI Card: "Node Uptime" (`XX.XX%`). Icon: `Server`.
         *   KPI Card: "Performance Score" (`XXX`). Icon: `TrendingUp`.
         *   Performance History Chart Card:
             *   Title: "Performance History".
-            *   Line chart showing mock node performance score over time.
+            *   Line chart showing node performance score over time.
             *   Y-Axis Label: "Score".
     *   **If Not Operator:**
         *   Card: "Become a Node Operator". Icon: `Server`.
@@ -164,22 +164,25 @@
     *   Team Chat (`MessageSquare` - opens ShadCN `AlertDialog` confirmation before redirecting to `PI_TEAM_CHAT_URL` constant).
 *   **2.8.4. Ad Placeholder:** A visual block for a mock ad at the bottom of the nav links.
 *   **2.8.5. User Profile Dropdown Menu (bottom, using ShadCN `DropdownMenu`):**
-    *   Trigger: User Avatar, Name, Username (from mock data).
+    *   Trigger: User Avatar, Name, Username.
     *   Items: Profile, Settings, Help, Terms, Privacy, Logout (Logout triggers ShadCN `AlertDialog` for confirmation).
 
 ---
 
 ## 3. Non-Functional Requirements (Prototype Context)
 
-### 3.1. Pi Platform Integration (Mocked)
+### 3.1. Pi Platform Integration & Data Abstraction
 *   **3.1.1. App ID Meta Tag:** The root layout (`src/app/layout.tsx`) MUST include the Pi App ID meta tag for future compatibility: `<meta name="pi-app-id" content="dynamic-pi-wallet-view" />`. The value should be an environment variable, falling back to a default.
-*   **3.1.2. Pi Browser Detection:** A hook `usePiBrowser.ts` should be created to simulate detecting if the app is inside the Pi Browser (e.g., by checking `navigator.userAgent` for 'PiBrowser'). A non-intrusive banner or message should be displayed if the app is accessed outside the simulated Pi Browser environment.
-*   **3.1.3. SDK Mocking:** No real Pi SDK script should be loaded. The authentication flow will be entirely mocked. This prepares the app's structure for when the real SDK is added.
+*   **3.1.2. Pi Browser Detection & SDK Handling:** The application must contain a service layer (`src/services/piService.ts`) responsible for data fetching. This service will:
+    *   Contain logic to detect if the app is running within the Pi Browser (e.g., by checking for `window.Pi`).
+    *   If in the Pi Browser, it should be structured to make **real Pi SDK calls**. For the prototype, these calls can be stubbed out but the structure must exist.
+    *   If **not** in the Pi Browser, it must fall back to using the **mock data** system via the `mockApiCall` utility.
+*   **3.1.3. Hybrid Data Flow:** This dual-mode approach allows for rapid UI development with mock data in a standard browser, while enabling real integration testing in the Pi Sandbox without code changes to the UI components themselves.
 
 ### 3.2. Technology Stack & Best Practices
 *   **Stack:** Next.js (App Router, latest stable), React (latest stable), TypeScript, ShadCN UI, Tailwind CSS, Lucide React, Recharts.
 *   **State Management:** React Context API (`AuthContext`, `LanguageContext`, `ThemeProvider`) with `localStorage` for persistence. **Crucially, all `localStorage` access must be wrapped in `if (typeof window !== 'undefined')` checks to prevent SSR errors.**
-*   **Data Fetching:** All data fetching must be simulated through a mock API call function (`src/lib/api.ts`).
+*   **Data Fetching:** All data fetching operations must be channeled through the `piService` defined in `src/services/piService.ts`. UI components should not directly call `mockApiCall`.
 
 ### 3.3. Internationalization (i18n)
 *   **Implementation:** All user-facing strings MUST be sourced from locale files (`*.json`) via a `useTranslation` hook. No hardcoded text.
@@ -224,10 +227,8 @@
 
 ## 6. Future Considerations (Out of Scope for this Prototype)
 
-*   Real backend integration with Pi Network APIs or any other database.
-*   Real Pi SDK integration and authentication.
-*   Functional Genkit AI features beyond simple mock UI placeholders.
+*   Real backend API integration (beyond Pi SDK stubs).
+*   Functional Genkit AI features.
 *   Real push notifications, email/SMS.
 *   Actual financial calculations or market data integration.
 *   CI/CD pipelines, Kubernetes, or other DevOps infrastructure.
-```
