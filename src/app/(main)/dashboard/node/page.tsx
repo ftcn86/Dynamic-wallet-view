@@ -1,9 +1,7 @@
-
 "use client"
 
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTranslation } from '@/hooks/useTranslation';
 import { getNodeData } from '@/services/piService';
 import type { NodeData } from '@/data/schemas';
 import { KPICard } from '@/components/shared/KPICard';
@@ -18,7 +16,6 @@ import { PI_NODE_INFO_URL } from '@/lib/constants';
 
 
 function NodeOperatorView() {
-  const { t } = useTranslation();
   const [nodeData, setNodeData] = useState<NodeData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -31,13 +28,13 @@ function NodeOperatorView() {
         const data = await getNodeData();
         setNodeData(data);
       } catch (err) {
-        setError(t('shared.error')); 
+        setError("An error occurred"); 
       } finally {
         setIsLoading(false);
       }
     }
     fetchData();
-  }, [t]); 
+  }, []); 
 
   if (isLoading) {
     return (
@@ -56,7 +53,7 @@ function NodeOperatorView() {
 
   const chartConfig = {
     score: {
-      label: t('nodeAnalysis.isOperator.yAxisLabel'),
+      label: "Score",
       color: "hsl(var(--primary))",
     },
   };
@@ -65,25 +62,25 @@ function NodeOperatorView() {
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <KPICard
-          title={t('nodeAnalysis.isOperator.uptime')}
+          title="Node Uptime"
           value={`${nodeData.uptimePercentage.toFixed(2)}%`}
           icon={<Server className="h-5 w-5 text-primary" />}
         />
         <KPICard
-          title={t('nodeAnalysis.isOperator.performanceScore')}
+          title="Performance Score"
           value={nodeData.performanceScore.toString()}
           icon={<TrendingUp className="h-5 w-5 text-accent" />}
         />
       </div>
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>{t('nodeAnalysis.isOperator.performanceHistory')}</CardTitle>
+          <CardTitle>Performance History</CardTitle>
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className="h-[300px] w-full">
             <RechartsLineChart data={nodeData.performanceHistory} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
               <XAxis dataKey="date" tickFormatter={(value) => format(new Date(value), 'MMM yy')} />
-              <YAxis label={{ value: t('nodeAnalysis.isOperator.yAxisLabel'), angle: -90, position: 'insideLeft' }} />
+              <YAxis label={{ value: "Score", angle: -90, position: 'insideLeft' }} />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Legend />
               <Line type="monotone" dataKey="score" stroke="var(--color-score)" strokeWidth={2} dot={false} />
@@ -96,20 +93,19 @@ function NodeOperatorView() {
 }
 
 function BecomeANodeOperatorPrompt() {
-  const { t } = useTranslation();
   return (
     <Card className="shadow-lg text-center max-w-lg mx-auto">
       <CardHeader>
         <div className="mx-auto mb-4">
           <Server size={48} className="text-primary" />
         </div>
-        <CardTitle className="font-headline">{t('nodeAnalysis.isNotOperator.title')}</CardTitle>
-        <CardDescription>{t('nodeAnalysis.isNotOperator.description')}</CardDescription>
+        <CardTitle className="font-headline">Become a Node Operator</CardTitle>
+        <CardDescription>Help secure the Pi Network and earn rewards by running a node. Click below to learn more and get started.</CardDescription>
       </CardHeader>
       <CardContent>
         <Button asChild size="lg">
           <a href={PI_NODE_INFO_URL} target="_blank" rel="noopener noreferrer">
-            {t('nodeAnalysis.isNotOperator.button')}
+            Learn More on Pi Network Official Site
             <ExternalLink className="ml-2 h-4 w-4" />
           </a>
         </Button>
@@ -121,13 +117,12 @@ function BecomeANodeOperatorPrompt() {
 
 export default function NodeAnalysisPage() {
   const { user } = useAuth();
-  const { t } = useTranslation();
 
-  if (!user) return <p>{t('shared.loading')}</p>; 
+  if (!user) return <p>Loading...</p>; 
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold font-headline">{t('nodeAnalysis.title')}</h1>
+      <h1 className="text-3xl font-bold font-headline">Node Analysis</h1>
       {user.isNodeOperator ? <NodeOperatorView /> : <BecomeANodeOperatorPrompt />}
     </div>
   );

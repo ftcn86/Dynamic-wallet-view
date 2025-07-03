@@ -1,7 +1,5 @@
-
 "use client"
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -20,6 +18,7 @@ import {
   FileText,
   ShieldCheck,
   MessageSquare,
+  Heart,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -43,7 +42,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useAuth } from '@/contexts/AuthContext';
-import { useTranslation } from '@/hooks/useTranslation';
 import { SidebarNavLink } from './SidebarNavLink';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -52,13 +50,11 @@ import { PI_TEAM_CHAT_URL } from '@/lib/constants';
 
 export function Sidebar() {
   const { user, logout: authLogout } = useAuth();
-  const { t } = useTranslation();
   const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const isMobile = useIsMobile();
 
   const performLogout = () => {
-    // Logic for PI_PULSE_DEVICE_LOGIN_ENABLED_HINT_KEY removed as feature is removed
     authLogout();
     router.push('/login');
   };
@@ -88,7 +84,7 @@ export function Sidebar() {
       <div className="flex h-16 items-center border-b px-4 shrink-0">
         <Link href="/dashboard" className="flex items-center gap-2 font-semibold text-lg" onClick={handleNavigation}>
           <ShieldQuestion className="h-7 w-7 text-primary" />
-          {!isCollapsed && <span className="font-headline">{t('appName')}</span>}
+          {!isCollapsed && <span className="font-headline">Dynamic Pi Wallet View</span>}
         </Link>
         <Button variant="ghost" size="icon" className={cn("ml-auto h-8 w-8", isCollapsed && "mx-auto my-1")} onClick={toggleSidebar}>
           {isCollapsed ? <ChevronRight className="h-5 w-5 text-muted-foreground" /> : <ChevronLeft className="h-5 w-5 text-muted-foreground" />}
@@ -98,13 +94,16 @@ export function Sidebar() {
 
       <nav className="flex-grow px-4 py-4 space-y-1 overflow-y-auto">
         <SidebarNavLink href="/dashboard" icon={<LayoutDashboard className="text-primary/90" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
-          {t('sidebar.dashboard')}
+          Dashboard
         </SidebarNavLink>
         <SidebarNavLink href="/dashboard/team" icon={<Users className="text-primary/90" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
-          {t('sidebar.team')}
+          Team Insights
         </SidebarNavLink>
         <SidebarNavLink href="/dashboard/node" icon={<Network className="text-primary/90" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
-          {t('sidebar.node')}
+          Node Analysis
+        </SidebarNavLink>
+        <SidebarNavLink href="/dashboard/donate" icon={<Heart className="text-pink-500" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
+          Donate
         </SidebarNavLink>
         
         <AlertDialog>
@@ -116,21 +115,21 @@ export function Sidebar() {
               )}
             >
               <MessageSquare className="h-5 w-5 text-accent" />
-              {!isCollapsed && <span className="truncate">{t('sidebar.chat')}</span>}
-              {isCollapsed && <span className="sr-only">{t('sidebar.chat')}</span>}
+              {!isCollapsed && <span className="truncate">Team Chat</span>}
+              {isCollapsed && <span className="sr-only">Team Chat</span>}
             </button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>{t('sidebar.chatRedirect.title')}</AlertDialogTitle>
+              <AlertDialogTitle>Open Team Chat?</AlertDialogTitle>
               <AlertDialogDescription>
-                {t('sidebar.chatRedirect.description')}
+                You are about to be redirected to the official Pi Team Chat in a new tab. Do you want to continue?
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>{t('sidebar.chatRedirect.cancelButton')}</AlertDialogCancel>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction onClick={handleOpenChat}>
-                {t('sidebar.chatRedirect.confirmButton')}
+                Open Chat
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -142,7 +141,7 @@ export function Sidebar() {
             "rounded-lg bg-muted p-3 text-center text-sm text-muted-foreground",
              isCollapsed && "p-2 flex justify-center items-center" 
             )}>
-            {isCollapsed ? <DollarSign className="h-5 w-5 text-green-500" /> : t('sidebar.adPlaceholder')}
+            {isCollapsed ? <DollarSign className="h-5 w-5 text-green-500" /> : "Your Ad Here"}
          </div>
       </div>
       
@@ -168,32 +167,32 @@ export function Sidebar() {
             <DropdownMenuItem asChild>
               <Link href="/dashboard/profile" className="flex items-center gap-2" onClick={handleNavigation}>
                 <UserCircle className="h-4 w-4 text-primary" />
-                <span>{t('sidebar.profile')}</span>
+                <span>Profile</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/dashboard/settings" className="flex items-center gap-2" onClick={handleNavigation}>
                 <Settings className="h-4 w-4 text-primary" />
-                <span>{t('sidebar.settings')}</span>
+                <span>Settings</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href="/legal/help" className="flex items-center gap-2" onClick={handleNavigation}>
                 <HelpCircle className="h-4 w-4 text-accent" />
-                <span>{t('legal.helpTitle')}</span>
+                <span>Help & Support</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/legal/terms" className="flex items-center gap-2" onClick={handleNavigation}>
                 <FileText className="h-4 w-4 text-accent" />
-                <span>{t('legal.termsTitle')}</span>
+                <span>Terms of Service</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/legal/privacy" className="flex items-center gap-2" onClick={handleNavigation}>
                 <ShieldCheck className="h-4 w-4 text-accent" />
-                <span>{t('legal.privacyTitle')}</span>
+                <span>Privacy Policy</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -201,18 +200,18 @@ export function Sidebar() {
               <AlertDialogTrigger asChild>
                 <button className="w-full flex items-center gap-2 px-2 py-1.5 text-sm rounded-sm text-destructive focus:bg-destructive/10 hover:bg-destructive/10 outline-none relative select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                   <LogOut className="h-4 w-4 text-destructive" />
-                  <span>{t('sidebar.logout')}</span>
+                  <span>Logout</span>
                 </button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>{t('sidebar.logoutConfirm.title')}</AlertDialogTitle>
+                  <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
                   <AlertDialogDescription>
-                    {t('sidebar.logoutConfirm.description')}
+                    Are you sure you want to log out? You will need to re-authenticate with your Pi Network account to log back in.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>{t('sidebar.logoutConfirm.cancelButton')}</AlertDialogCancel>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <AlertDialogAction
                     onClick={() => {
                       handleNavigation(); 
@@ -220,7 +219,7 @@ export function Sidebar() {
                     }}
                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                   >
-                    {t('sidebar.logoutConfirm.confirmButton')}
+                    Logout
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

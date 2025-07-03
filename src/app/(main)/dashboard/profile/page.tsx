@@ -1,9 +1,7 @@
-
 "use client"
 
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTranslation } from '@/hooks/useTranslation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -17,7 +15,6 @@ import { mockApiCall } from '@/lib/api';
 
 export default function ProfilePage() {
   const { user, setUser } = useAuth();
-  const { t } = useTranslation();
   const { toast } = useToast();
 
   const [displayName, setDisplayName] = useState(user?.name || '');
@@ -39,11 +36,11 @@ export default function ProfilePage() {
       setUser(updatedUserData); 
       
       toast({
-        title: t('profile.successToast'),
+        title: "Profile Saved!",
       });
     } catch (error) {
       toast({
-        title: t('profile.errorToast'),
+        title: "Save failed!",
         variant: 'destructive',
       });
     } finally {
@@ -62,19 +59,19 @@ export default function ProfilePage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold font-headline">{t('profile.title')}</h1>
+      <h1 className="text-3xl font-bold font-headline">Edit Profile</h1>
       <Card className="max-w-2xl mx-auto shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <UserCircle2 className="text-primary" />
-            {t('profile.title')}
+            Edit Profile
           </CardTitle>
           <CardDescription>Update your personal information.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSaveProfile} className="space-y-6">
             <div className="space-y-2 text-center">
-              <Label htmlFor="avatar-upload">{t('profile.profilePicture')}</Label>
+              <Label htmlFor="avatar-upload">Profile Picture</Label>
               <Avatar className="h-32 w-32 mx-auto ring-2 ring-primary ring-offset-2">
                 <AvatarImage src={avatarUrl} alt={displayName} data-ai-hint="person face" />
                 <AvatarFallback>{displayName.charAt(0).toUpperCase()}</AvatarFallback>
@@ -88,7 +85,7 @@ export default function ProfilePage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="displayName">{t('profile.displayName')}</Label>
+              <Label htmlFor="displayName">Display Name</Label>
               <Input
                 id="displayName"
                 value={displayName}
@@ -97,7 +94,7 @@ export default function ProfilePage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="bio">{t('profile.bio')}</Label>
+              <Label htmlFor="bio">Bio</Label>
               <Textarea
                 id="bio"
                 value={bio}
@@ -107,7 +104,7 @@ export default function ProfilePage() {
             </div>
             <Button type="submit" disabled={isSaving} className="w-full">
               {isSaving ? <LoadingSpinner className="mr-2 h-4 w-4" /> : null}
-              {isSaving ? t('profile.saving') : t('profile.saveButton')}
+              {isSaving ? "Saving..." : "Save Profile"}
             </Button>
           </form>
         </CardContent>

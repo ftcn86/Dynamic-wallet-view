@@ -1,11 +1,9 @@
-
 "use client"
 
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTranslation } from '@/hooks/useTranslation';
-import type { TeamMember, Badge as BadgeType } from '@/data/schemas';
+import type { Badge as BadgeType } from '@/data/schemas';
 import { mockTeam, GAMIFICATION_BADGE_IDS } from '@/data/mocks';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -18,7 +16,6 @@ const DISPLAY_RECENT_BADGES_COUNT = 3;
 
 export function TeamActivityCard() {
   const { user } = useAuth();
-  const { t } = useTranslation();
   const team = mockTeam; 
 
   if (!user) return null;
@@ -59,27 +56,27 @@ export function TeamActivityCard() {
       <CardHeader>
         <CardTitle className="font-headline flex items-center">
           <Trophy className="mr-2 h-6 w-6 text-primary" />
-          {t('dashboard.teamActivity.title')}
+          Team Mining Rally
         </CardTitle>
         <CardDescription>
-          {t('dashboard.teamActivity.yourActivity')}: {userWeeklyActivity} {t('dashboard.teamActivity.hoursSuffix')} ({t('dashboard.teamActivity.lastWeek')}), {userMonthlyActivity} {t('dashboard.teamActivity.hoursSuffix')} ({t('dashboard.teamActivity.lastMonth')})
+          Your Activity: {userWeeklyActivity} hrs (Last Week), {userMonthlyActivity} hrs (Last Month)
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div>
           <h3 className="text-md font-semibold mb-2">
             {leaderboard.length > MAX_LEADERBOARD_ENTRIES
-              ? t('dashboard.teamActivity.teamRallyTop10')
-              : t('dashboard.teamActivity.teamRallyWeekly')}
+              ? "Weekly Team Rally (Top 10)"
+              : "Weekly Team Rally"}
           </h3>
           {displayLeaderboard.length > 0 ? (
             <div className="overflow-x-auto rounded-md border">
               <Table className="text-sm">
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[50px] text-center">{t('dashboard.teamActivity.rank')}</TableHead>
-                    <TableHead>{t('dashboard.teamActivity.member')}</TableHead>
-                    <TableHead className="text-right">{t('dashboard.teamActivity.hours')}</TableHead>
+                    <TableHead className="w-[50px] text-center">Rank</TableHead>
+                    <TableHead>Member</TableHead>
+                    <TableHead className="text-right">Hours</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -95,19 +92,19 @@ export function TeamActivityCard() {
                           <span className="truncate">{member.name}</span>
                         </div>
                       </TableCell>
-                      <TableCell className="text-right">{member.activity} {t('dashboard.teamActivity.hoursSuffix')}</TableCell>
+                      <TableCell className="text-right">{member.activity} hrs</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </div>
           ) : (
-             team.length === 0 ? <p className="text-sm text-muted-foreground">{t('dashboard.teamActivity.noTeamMembers')}</p>
-                               : <p className="text-sm text-muted-foreground">{t('dashboard.teamActivity.noActivity')}</p>
+             team.length === 0 ? <p className="text-sm text-muted-foreground">No team members to display activity for yet.</p>
+                               : <p className="text-sm text-muted-foreground">No activity data to display for the team.</p>
           )}
           {leaderboard.length > MAX_LEADERBOARD_ENTRIES && userRankInFullList > MAX_LEADERBOARD_ENTRIES && (
             <p className="text-sm text-muted-foreground mt-2 text-center">
-              {t('dashboard.teamActivity.yourRank', { rank: userRankInFullList, hours: userWeeklyActivity })}
+              Your Rank: #{userRankInFullList} ({userWeeklyActivity} hrs)
             </p>
           )}
         </div>
@@ -116,7 +113,7 @@ export function TeamActivityCard() {
           <div>
             <h3 className="text-md font-semibold mb-3 flex items-center">
               <Award className="mr-2 h-5 w-5 text-amber-500" />
-              {t('dashboard.teamActivity.newlyEarnedBadges')}
+              Recent Achievements
             </h3>
             <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3">
               {earnedGamificationBadges.map(badge => (
@@ -133,7 +130,7 @@ export function TeamActivityCard() {
       <CardFooter>
         <Button asChild variant="outline" className="w-full">
           <Link href="/dashboard/team">
-            {t('dashboard.teamActivity.viewFullTeamReport')}
+            View Full Team Report
             <ChevronRight className="ml-2 h-4 w-4 text-primary" />
           </Link>
         </Button>

@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useEffect, useState, useMemo } from 'react';
@@ -6,7 +5,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { useTranslation } from '@/hooks/useTranslation';
 import { getTeamMembers } from '@/services/piService';
 import type { TeamMember } from '@/data/schemas';
 import { format } from 'date-fns';
@@ -24,8 +22,13 @@ interface SortConfig {
   direction: 'ascending' | 'descending';
 }
 
+const statusVariantMap = {
+  active: 'success',
+  pending: 'warning',
+  inactive: 'secondary',
+} as const;
+
 function TeamMemberRow({ member }: { member: TeamMember }) {
-  const { t } = useTranslation();
 
   return (
     <TableRow>
@@ -41,13 +44,9 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
       <TableCell>{format(new Date(member.joinDate), 'MMM dd, yyyy')}</TableCell>
       <TableCell>
         <UiBadge
-          variant={
-            member.status === 'active' ? 'success' :
-            member.status === 'pending' ? 'warning' :
-            'secondary'
-          }
+          variant={statusVariantMap[member.status]}
         >
-          {t(`teamInsights.statusValues.${member.status}`)}
+          {member.status.charAt(0).toUpperCase() + member.status.slice(1)}
         </UiBadge>
       </TableCell>
       <TableCell>
@@ -62,7 +61,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
                 <Info className="h-4 w-4 text-accent cursor-help" />
               </TooltipTrigger>
               <TooltipContent>
-                <p>{t('teamInsights.contributionTooltip')}</p>
+                <p>Unverified Pi contributed by this team member. Becomes transferable after they complete KYC.</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -106,18 +105,17 @@ function SortableTableHead({
 
 
 function TeamMembersTableSkeleton() {
-  const { t } = useTranslation();
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>{t('teamInsights.columns.member')}</TableHead>
-          <TableHead>{t('teamInsights.columns.joinDate')}</TableHead>
-          <TableHead>{t('teamInsights.columns.status')}</TableHead>
-          <TableHead>{t('teamInsights.columns.kycStatus')}</TableHead>
-          <TableHead className="text-right">{t('teamInsights.columns.contribution')}</TableHead>
-          <TableHead className="text-right">{t('teamInsights.columns.activityLastWeek')}</TableHead>
-          <TableHead className="text-right">{t('teamInsights.columns.activityLastMonth')}</TableHead>
+          <TableHead>Member</TableHead>
+          <TableHead>Join Date</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>KYC Status</TableHead>
+          <TableHead className="text-right">Contribution</TableHead>
+          <TableHead className="text-right">Activity (Last Week)</TableHead>
+          <TableHead className="text-right">Activity (Last Month)</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -138,7 +136,6 @@ function TeamMembersTableSkeleton() {
 }
 
 export default function TeamInsightsPage() {
-  const { t } = useTranslation();
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -152,13 +149,13 @@ export default function TeamInsightsPage() {
         const data = await getTeamMembers();
         setTeamMembers(data);
       } catch (err) {
-        setError(t('teamInsights.error'));
+        setError("Failed to load team members. Please try again.");
       } finally {
         setIsLoading(false);
       }
     }
     fetchTeamMembers();
-  }, [t]);
+  }, []);
 
   const requestSort = (key: SortableKeys) => {
     let direction: 'ascending' | 'descending' = 'ascending';
@@ -199,19 +196,19 @@ export default function TeamInsightsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold font-headline">{t('teamInsights.title')}</h1>
+      <h1 className="text-3xl font-bold font-headline">Team Insights</h1>
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Users className="h-6 w-6 text-primary" />
-            {t('teamInsights.title')}
+            Team Insights
           </CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading && <TeamMembersTableSkeleton />}
           {!isLoading && error && <p className="text-destructive text-center py-8">{error}</p>}
           {!isLoading && !error && sortedTeamMembers.length === 0 && (
-            <p className="text-muted-foreground text-center py-8">{t('teamInsights.empty')}</p>
+            <p className="text-muted-foreground text-center py-8">You have not invited any team members yet.</p>
           )}
           {!isLoading && !error && sortedTeamMembers.length > 0 && (
             <Table>
@@ -223,7 +220,7 @@ export default function TeamInsightsPage() {
                     currentDirection={sortConfig.direction}
                     onClick={() => requestSort('name')}
                   >
-                    {t('teamInsights.columns.member')}
+                    Member
                   </SortableTableHead>
                   <SortableTableHead
                      sortKey="joinDate"
@@ -231,7 +228,7 @@ export default function TeamInsightsPage() {
                      currentDirection={sortConfig.direction}
                      onClick={() => requestSort('joinDate')}
                   >
-                    {t('teamInsights.columns.joinDate')}
+                    Join Date
                   </SortableTableHead>
                   <SortableTableHead
                      sortKey="status"
@@ -239,7 +236,7 @@ export default function TeamInsightsPage() {
                      currentDirection={sortConfig.direction}
                      onClick={() => requestSort('status')}
                   >
-                    {t('teamInsights.columns.status')} 
+                    Status
                   </SortableTableHead>
                   <SortableTableHead
                      sortKey="kycStatus"
@@ -247,7 +244,7 @@ export default function TeamInsightsPage() {
                      currentDirection={sortConfig.direction}
                      onClick={() => requestSort('kycStatus')}
                   >
-                    {t('teamInsights.columns.kycStatus')} 
+                    KYC Status
                   </SortableTableHead>
                   <SortableTableHead
                      sortKey="unverifiedPiContribution"
@@ -256,7 +253,7 @@ export default function TeamInsightsPage() {
                      onClick={() => requestSort('unverifiedPiContribution')}
                      className="text-right"
                   >
-                    {t('teamInsights.columns.contribution')}
+                    Contribution
                   </SortableTableHead>
                   <SortableTableHead
                      sortKey="teamMemberActiveMiningHours_LastWeek"
@@ -265,7 +262,7 @@ export default function TeamInsightsPage() {
                      onClick={() => requestSort('teamMemberActiveMiningHours_LastWeek')}
                      className="text-right"
                   >
-                    {t('teamInsights.columns.activityLastWeek')}
+                    Activity (Last Week)
                   </SortableTableHead>
                   <SortableTableHead
                      sortKey="teamMemberActiveMiningHours_LastMonth"
@@ -274,7 +271,7 @@ export default function TeamInsightsPage() {
                      onClick={() => requestSort('teamMemberActiveMiningHours_LastMonth')}
                      className="text-right"
                   >
-                    {t('teamInsights.columns.activityLastMonth')}
+                    Activity (Last Month)
                   </SortableTableHead>
                 </TableRow>
               </TableHeader>

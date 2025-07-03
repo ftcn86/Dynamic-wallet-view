@@ -1,10 +1,8 @@
-
 "use client"
 
 import Link from 'next/link';
 import { Banknote, Gauge, Users as UsersIcon, Server } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTranslation } from '@/hooks/useTranslation';
 import { KPICard } from '@/components/shared/KPICard';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { mockTeam, mockChartData } from '@/data/mocks'; 
@@ -43,43 +41,47 @@ import * as RechartsPrimitive from "recharts";
 
 function BalanceBreakdownCard() {
   const { user } = useAuth();
-  const { t } = useTranslation();
 
   if (!user) return null;
+
+  const breakdownItems = [
+    { label: "Transferable to Mainnet", value: user.balanceBreakdown.transferableToMainnet },
+    { label: "Total Unverified Pi", value: user.balanceBreakdown.totalUnverifiedPi },
+    { label: "Currently in Lockups", value: user.balanceBreakdown.currentlyInLockups }
+  ];
 
   return (
     <Card className="shadow-lg">
       <CardHeader>
-        <CardTitle className="font-headline">{t('dashboard.balanceBreakdown.title')}</CardTitle>
+        <CardTitle className="font-headline">Balance Breakdown</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        {Object.entries(user.balanceBreakdown).map(([key, value]) => (
-          <div key={key} className="flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">{t(`dashboard.balanceBreakdown.${key}`)}</span>
-            <span className="font-medium">{Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })} Pi</span>
+        {breakdownItems.map((item) => (
+          <div key={item.label} className="flex justify-between items-center">
+            <span className="text-sm text-muted-foreground">{item.label}</span>
+            <span className="font-medium">{Number(item.value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })} Pi</span>
           </div>
         ))}
       </CardContent>
       <CardFooter>
-        <p className="text-xs text-muted-foreground">{t('dashboard.balanceBreakdown.disclaimer')}</p>
+        <p className="text-xs text-muted-foreground">Note: Unverified Pi requires associated members to complete KYC to become transferable.</p>
       </CardFooter>
     </Card>
   );
 }
 
 function UnverifiedBalanceChart() {
-  const { t } = useTranslation();
   const [timePeriod, setTimePeriod] = useState<keyof typeof mockChartData>('6M');
   
   const chartData = mockChartData[timePeriod];
 
   const chartConfig = {
     transferable: {
-      label: t('dashboard.unverifiedBalanceChart.tooltipLabelTransferable'),
+      label: "Transferable",
       color: "hsl(var(--primary))",
     },
     unverified: {
-      label: t('dashboard.unverifiedBalanceChart.tooltipLabelUnverified'),
+      label: "Unverified",
       color: "hsl(var(--accent))",
     },
   } satisfies ChartConfig;
@@ -87,15 +89,15 @@ function UnverifiedBalanceChart() {
   return (
     <Card className="shadow-lg">
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="font-headline">{t('dashboard.unverifiedBalanceChart.title')}</CardTitle>
+        <CardTitle className="font-headline">Balance Fluctuation</CardTitle>
         <Select value={timePeriod} onValueChange={(value: keyof typeof mockChartData) => setTimePeriod(value)}>
           <SelectTrigger className="w-[100px]">
-            <SelectValue placeholder={t('dashboard.unverifiedBalanceChart.periods.sixMonths')} />
+            <SelectValue placeholder="6M" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="3M">{t('dashboard.unverifiedBalanceChart.periods.threeMonths')}</SelectItem>
-            <SelectItem value="6M">{t('dashboard.unverifiedBalanceChart.periods.sixMonths')}</SelectItem>
-            <SelectItem value="12M">{t('dashboard.unverifiedBalanceChart.periods.twelveMonths')}</SelectItem>
+            <SelectItem value="3M">3M</SelectItem>
+            <SelectItem value="6M">6M</SelectItem>
+            <SelectItem value="12M">12M</SelectItem>
           </SelectContent>
         </Select>
       </CardHeader>
@@ -104,10 +106,10 @@ function UnverifiedBalanceChart() {
           <RechartsPrimitive.BarChart data={chartData} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
             <ChartTooltip content={<ChartTooltipContent />} />
             <RechartsPrimitive.XAxis dataKey="date" tickFormatter={(value) => format(new Date(value), 'MMM yy')} />
-            <RechartsPrimitive.YAxis label={{ value: t('dashboard.unverifiedBalanceChart.yAxisLabel'), angle: -90, position: 'insideLeft' }} />
+            <RechartsPrimitive.YAxis label={{ value: "Pi Amount", angle: -90, position: 'insideLeft' }} />
             <RechartsPrimitive.Legend />
-            <RechartsPrimitive.Bar dataKey="transferable" fill="var(--color-transferable)" radius={4} name={t('dashboard.unverifiedBalanceChart.tooltipLabelTransferable')} />
-            <RechartsPrimitive.Bar dataKey="unverified" fill="var(--color-unverified)" radius={4} name={t('dashboard.unverifiedBalanceChart.tooltipLabelUnverified')} />
+            <RechartsPrimitive.Bar dataKey="transferable" fill="var(--color-transferable)" radius={4} name="Transferable" />
+            <RechartsPrimitive.Bar dataKey="unverified" fill="var(--color-unverified)" radius={4} name="Unverified" />
           </RechartsPrimitive.BarChart>
         </ChartContainer>
       </CardContent>
@@ -116,7 +118,6 @@ function UnverifiedBalanceChart() {
 }
 
 function BadgeDetailsDialog({ badge, children }: { badge: Badge, children: React.ReactNode }) {
-  const { t } = useTranslation();
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -132,7 +133,7 @@ function BadgeDetailsDialog({ badge, children }: { badge: Badge, children: React
         </DialogHeader>
         {badge.earned && badge.earnedDate && (
           <div className="mt-4 text-center text-sm text-muted-foreground">
-            {t('dashboard.myBadges.earnedOn')}: {format(new Date(badge.earnedDate), 'MMMM d, yyyy')}
+            Earned on: {format(new Date(badge.earnedDate), 'MMMM d, yyyy')}
           </div>
         )}
       </DialogContent>
@@ -143,14 +144,13 @@ function BadgeDetailsDialog({ badge, children }: { badge: Badge, children: React
 
 function MyBadges() {
   const { user } = useAuth();
-  const { t } = useTranslation();
 
   if (!user || !user.badges) return null;
 
   return (
     <Card className="shadow-lg">
       <CardHeader>
-        <CardTitle className="font-headline">{t('dashboard.myBadges.title')}</CardTitle>
+        <CardTitle className="font-headline">My Badges</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
@@ -180,7 +180,6 @@ function MyBadges() {
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const { t } = useTranslation();
 
   const handleRedirectToPiApp = () => {
     window.open(PI_APP_MINING_URL, '_blank');
@@ -189,7 +188,7 @@ export default function DashboardPage() {
   if (!user) {
     return ( 
       <div className="flex h-full items-center justify-center">
-        <p>{t('shared.loading')}</p>
+        <p>Loading...</p>
       </div>
     );
   }
@@ -199,11 +198,11 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold font-headline">{t('dashboard.title')}</h1>
+      <h1 className="text-3xl font-bold font-headline">Dashboard</h1>
       
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <KPICard
-          title={t('dashboard.kpi_balance')}
+          title="Total Pi Balance"
           value={user.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}) + ' Pi'}
           icon={<Banknote className="h-5 w-5 text-primary" />}
         />
@@ -212,7 +211,7 @@ export default function DashboardPage() {
           <AlertDialogTrigger asChild>
             <div className="cursor-pointer">
               <KPICard
-                title={t('dashboard.kpi_rate')}
+                title="Current Mining Rate"
                 value={`${user.miningRate.toFixed(4)} Pi/hr`}
                 icon={<Gauge className="h-5 w-5 text-accent" />}
               />
@@ -220,15 +219,15 @@ export default function DashboardPage() {
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>{t('dashboard.miningRateRedirect.title')}</AlertDialogTitle>
+              <AlertDialogTitle>Redirect to Pi App?</AlertDialogTitle>
               <AlertDialogDescription>
-                {t('dashboard.miningRateRedirect.description')}
+                You will be redirected to the Pi Network app to manage your mining session. Continue?
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>{t('dashboard.miningRateRedirect.cancelButton')}</AlertDialogCancel>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction onClick={handleRedirectToPiApp}>
-                {t('dashboard.miningRateRedirect.confirmButton')}
+                Continue to Pi App
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -237,7 +236,7 @@ export default function DashboardPage() {
         {user.isNodeOperator && user.nodeUptimePercentage !== undefined && (
           <Link href="/dashboard/node" className="block">
             <KPICard
-              title={t('dashboard.kpi_node_uptime')}
+              title="Node Uptime"
               value={`${user.nodeUptimePercentage.toFixed(2)}%`}
               icon={<Server className="h-5 w-5 text-primary" />}
             />
@@ -246,7 +245,7 @@ export default function DashboardPage() {
 
         <Link href="/dashboard/team" className="block">
           <KPICard
-            title={t('dashboard.kpi_team')}
+            title="Active Team Members"
             value={`${activeTeamMembers} / ${totalTeamMembers}`}
             icon={<UsersIcon className="h-5 w-5 text-accent" />}
           />
