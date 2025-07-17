@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Trophy, ChevronRight, Award } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const MAX_LEADERBOARD_ENTRIES = 10;
+const MAX_LEADERBOARD_ENTRIES = 5;
 const DISPLAY_RECENT_BADGES_COUNT = 3;
 
 export function TeamActivityCard() {
@@ -67,7 +67,7 @@ export function TeamActivityCard() {
         <div>
           <h3 className="text-md font-semibold mb-2">
             {leaderboard.length > MAX_LEADERBOARD_ENTRIES
-              ? "Weekly Team Rally (Top 10)"
+              ? `Weekly Team Rally (Top ${MAX_LEADERBOARD_ENTRIES})`
               : "Weekly Team Rally"}
           </h3>
           {displayLeaderboard.length > 0 ? (
@@ -132,7 +132,7 @@ export function TeamActivityCard() {
         <Button asChild variant="outline" className="w-full">
           <Link href="/dashboard/team">
             View Full Team Report
-            <ChevronRight className="ml-2 h-4 w-4 text-primary" />
+            <ChevronRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
       </CardFooter>

@@ -64,7 +64,7 @@ export function UnverifiedPiDetailCard() {
               {source.icon}
               <span className="ml-2">{source.label}</span>
             </div>
-            <span className="font-medium">{Number(source.value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })} Pi</span>
+            <span className="font-mono font-medium">{Number(source.value).toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 4 })} π</span>
           </div>
         ))}
       </CardContent>

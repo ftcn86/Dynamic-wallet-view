@@ -1,4 +1,3 @@
-
 "use client"
 
 import Link from 'next/link';
@@ -25,8 +24,8 @@ export function SidebarNavLink({ href, children, icon, isCollapsed, onNavigate, 
     isCollapsed && "justify-center",
     disabled 
       ? "text-muted-foreground/50 cursor-not-allowed" 
-      : "text-muted-foreground hover:text-foreground",
-    isActive && !disabled && "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-md"
+      : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
+    isActive && !disabled && "bg-gradient-to-r from-primary via-primary to-accent text-white shadow-md hover:text-white"
   );
 
   const content = (

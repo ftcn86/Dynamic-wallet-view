@@ -1,4 +1,3 @@
-
 "use client"
 
 import Link from 'next/link';
@@ -67,9 +66,9 @@ export function Sidebar() {
       )}
     >
       <div className="flex h-20 items-center border-b px-6 shrink-0">
-        <Link href="/dashboard" className="flex flex-col" onClick={handleNavigation}>
-          <span className="text-xl font-bold text-foreground font-headline">Dynamic Wallet View</span>
-          <span className="text-sm text-muted-foreground">Analytics & Portfolio Tracker</span>
+        <Link href="/dashboard" className="flex items-center gap-3" onClick={handleNavigation}>
+           <ShieldQuestion className="h-8 w-8 text-primary" />
+           <span className="text-xl font-bold text-foreground font-headline">Dynamic Wallet View</span>
         </Link>
       </div>
 
@@ -77,28 +76,54 @@ export function Sidebar() {
         <SidebarNavLink href="/dashboard" icon={<LayoutDashboard />} onNavigate={handleNavigation}>
           Dashboard
         </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/profile" icon={<UserCircle />} onNavigate={handleNavigation}>
-          Profile
-        </SidebarNavLink>
-        {/* These items are in the design but not yet implemented */}
-        <SidebarNavLink href="#" icon={<FileText />} onNavigate={handleNavigation} disabled>
-          Transactions
-        </SidebarNavLink>
-        <SidebarNavLink href="#" icon={<ShieldCheck />} onNavigate={handleNavigation} disabled>
-          Security Circles
+        <SidebarNavLink href="/dashboard/team" icon={<Users />} onNavigate={handleNavigation}>
+          Team Insights
         </SidebarNavLink>
         <SidebarNavLink href="/dashboard/node" icon={<Network />} onNavigate={handleNavigation}>
-          Node
+          Node Analysis
         </SidebarNavLink>
         <SidebarNavLink href="/dashboard/donate" icon={<Heart />} onNavigate={handleNavigation}>
           Donate
         </SidebarNavLink>
+        
+        <p className="px-4 pt-4 text-xs font-semibold uppercase text-muted-foreground/80">Account</p>
+        
+        <SidebarNavLink href="/dashboard/profile" icon={<UserCircle />} onNavigate={handleNavigation}>
+          Profile
+        </SidebarNavLink>
         <SidebarNavLink href="/dashboard/settings" icon={<Settings />} onNavigate={handleNavigation}>
           Settings
         </SidebarNavLink>
+
+        <p className="px-4 pt-4 text-xs font-semibold uppercase text-muted-foreground/80">Help</p>
         <SidebarNavLink href="/legal/help" icon={<HelpCircle />} onNavigate={handleNavigation}>
-          Help
+          Help Center
         </SidebarNavLink>
+        
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <button className={cn(
+                "w-full flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium transition-all",
+                "text-muted-foreground hover:text-foreground"
+            )}>
+              <MessageSquare className="h-5 w-5 shrink-0" />
+              <span className="truncate">Team Chat</span>
+            </button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Open Team Chat?</AlertDialogTitle>
+              <AlertDialogDescription>
+                You are about to be redirected to the official Pi Team Chat. Do you want to continue?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleOpenChat}>Open Chat</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
       </nav>
 
       <div className="mt-auto border-t p-4 shrink-0">
@@ -109,7 +134,7 @@ export function Sidebar() {
           </Avatar>
           <div className="flex flex-col truncate">
             <span className="text-sm font-medium truncate">{user.name}</span>
-            <span className="text-xs text-muted-foreground truncate">{user.username}</span>
+            <span className="text-xs text-muted-foreground truncate">@{user.username}</span>
           </div>
         </div>
          <div className="text-xs text-muted-foreground mt-4 space-y-1">
