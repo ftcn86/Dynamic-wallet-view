@@ -3,7 +3,7 @@
 
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Bell, LogOut, RefreshCw, UserCircle, Menu } from 'lucide-react';
+import { Bell, LogOut, RefreshCw, UserCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import {
   DropdownMenu,
@@ -15,9 +15,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Skeleton } from '../ui/skeleton';
-import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
-import { Sidebar } from './Sidebar';
-import { cn } from '@/lib/utils';
 
 export function Header({children}: {children?: React.ReactNode}) {
   const { user, logout } = useAuth();

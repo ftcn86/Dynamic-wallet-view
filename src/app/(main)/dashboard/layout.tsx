@@ -4,9 +4,11 @@
 import { useEffect, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import { SidebarProvider, Sidebar, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
+import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
 import { Header } from '@/components/layout/Header';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
+import { Sidebar as SidebarContent } from '@/components/layout/Sidebar';
+import { MobileSidebar } from '@/components/layout/MobileSidebar';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const { user, isLoading } = useAuth();
@@ -32,12 +34,14 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   return (
     <SidebarProvider>
-        <Sidebar collapsible="icon" variant="sidebar">
-          {/* Sidebar content is defined in its own component */}
+        <Sidebar>
+          <SidebarContent />
         </Sidebar>
         <SidebarInset>
             <Header>
-                <SidebarTrigger />
+                <MobileSidebar>
+                  <SidebarContent />
+                </MobileSidebar>
             </Header>
             <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
               {children}
