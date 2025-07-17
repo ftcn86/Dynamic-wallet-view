@@ -150,6 +150,12 @@ The frontend UI components are "dumb." They receive data and display it. All com
 *   **Endpoint:** `POST /api/v1/user/settings`
     *   **Logic:** This endpoint receives an object containing any or all of the user's updatable information: `name`, `bio`, `avatarUrl`, and the `settings` object (`remindersEnabled`, `reminderHoursBefore`). It should handle avatar image uploads (e.g., to a cloud storage bucket) and update the user's profile in the database accordingly.
 
+#### 3.6. Help Page & General Feedback
+
+*   **Endpoint:** `POST /api/v1/feedback`
+    *   **Logic:** This is a general-purpose endpoint for collecting user feedback from various parts of the application (e.g., the AI feature feedback card and the help page feedback form). It should receive the feedback and route it to an appropriate service, such as an email delivery service or a database for later review.
+    *   **Payload:** Expects a JSON object with `{ type: string, message: string, userId: string (optional) }`.
+
 ---
 
 ### 4. Gamification Engine (Badge Attribution)
