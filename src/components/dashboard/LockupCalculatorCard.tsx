@@ -11,7 +11,6 @@ import { Skeleton } from '../ui/skeleton';
 import { Button } from '../ui/button';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { mockApiCall } from '@/lib/api';
-import { AIFeatureFeedbackCard } from './AIFeatureFeedbackCard';
 import {
     ZapIcon,
     TrendingUpIcon,
@@ -33,7 +32,7 @@ const calculateEstimatedRate = (baseRate: number, teamBonus: number, nodeBonus: 
     return totalMiningRate;
 };
 
-function LockupCalculator() {
+export function LockupCalculatorCard() {
     const { user } = useAuth();
     const [lockupPercent, setLockupPercent] = useState([50]);
     const [lockupDurationIndex, setLockupDurationIndex] = useState([2]); 
@@ -71,7 +70,16 @@ function LockupCalculator() {
     const percentageIncrease = estimatedRate && user.miningRate ? ((estimatedRate - user.miningRate) / user.miningRate) * 100 : 0;
     
     return (
-        <>
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <CardHeader>
+                <CardTitle className="font-headline flex items-center">
+                    <ZapIcon className="mr-2 h-6 w-6" />
+                    Lockup & Bonus Calculator
+                </CardTitle>
+                <CardDescription>
+                    Use this tool to estimate the mining rate boost you could get from locking up your Pi.
+                </CardDescription>
+            </CardHeader>
             <CardContent className="space-y-4 p-6">
                 <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-6">
@@ -115,41 +123,16 @@ function LockupCalculator() {
                        {isCalculatingRate ? 'Calculating...' : 'Calculate Mining Rate Boost'}
                     </Button>
                 </div>
-            </CardFooter>
-        </>
-    );
-}
-
-export function AnalysisCard() {
-    const { user } = useAuth();
-    
-    if (!user) {
-        return <Skeleton className="h-[500px] w-full" />
-    }
-
-    return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
-            <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <CardHeader>
-                    <CardTitle className="font-headline flex items-center">
-                        <ZapIcon className="mr-2 h-6 w-6" />
-                        Lockup & Bonus Calculator
-                    </CardTitle>
-                    <CardDescription>
-                        Use this tool to estimate the mining rate boost you could get from locking up your Pi.
-                    </CardDescription>
-                </CardHeader>
-                <LockupCalculator />
-                <CardFooter className="flex-col items-stretch p-6 border-t mt-6">
+                <div className="flex-col items-stretch p-6 border-t mt-6">
                     <div className="flex items-start gap-2 rounded-lg border border-amber-500/20 bg-amber-500/10 p-3 text-xs text-amber-700 dark:text-amber-300">
                         <InfoIcon className="h-5 w-5 shrink-0 mt-0.5" />
                         <p>
                             The results from this calculator are for informational and educational purposes only. They are estimates based on simplified formulas and do not represent guaranteed future earnings.
                         </p>
                     </div>
-                </CardFooter>
-            </Card>
-            <AIFeatureFeedbackCard />
-        </div>
+                </div>
+            </CardFooter>
+        </Card>
     );
 }
+

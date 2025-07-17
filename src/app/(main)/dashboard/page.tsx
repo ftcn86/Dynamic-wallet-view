@@ -25,7 +25,8 @@ import { MiningFocusCard } from '@/components/dashboard/MiningFocusCard';
 import { TeamActivityCard } from '@/components/dashboard/TeamActivityCard';
 import { BalanceFluctuationChartCard } from '@/components/dashboard/BalanceFluctuationChartCard';
 import { MyBadgesCard } from '@/components/dashboard/MyBadgesCard';
-import { AnalysisCard } from '@/components/dashboard/AnalysisCard';
+import { LockupCalculatorCard } from '@/components/dashboard/LockupCalculatorCard';
+import { AIFeatureFeedbackCard } from '@/components/dashboard/AIFeatureFeedbackCard';
 import { mockTeam } from '@/data/mocks';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
@@ -164,7 +165,10 @@ export default function DashboardPage() {
           <MyBadgesCard />
         </TabsContent>
         <TabsContent value="analysis" className="mt-6">
-          <AnalysisCard />
+           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
+              <LockupCalculatorCard />
+              <AIFeatureFeedbackCard />
+           </div>
         </TabsContent>
       </Tabs>
     </div>

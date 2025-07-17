@@ -67,7 +67,7 @@ export function AIFeatureFeedbackCard() {
   };
 
   return (
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
+    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
         <CardHeader>
             <CardTitle className="flex items-center gap-2">
                 <LightbulbIcon className="w-6 h-6" />
