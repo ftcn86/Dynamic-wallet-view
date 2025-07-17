@@ -1,50 +1,30 @@
 
 "use client"
 
-import { useLanguage } from '@/contexts/LanguageContext';
 import en from '@/../locales/en.json';
-import es from '@/../locales/es.json';
-import fr from '@/../locales/fr.json';
-import ru from '@/../locales/ru.json';
-import pt from '@/../locales/pt.json';
-import ja from '@/../locales/ja.json';
-import zh from '@/../locales/zh.json';
 import { useCallback } from 'react';
 import type { LegalSection } from '@/data/schemas';
 
-const translations = {
-  en,
-  es,
-  fr,
-  ru,
-  pt,
-  ja,
-  zh,
-};
-
-// Helper to get nested values.
+// Helper to get nested values from a JSON object using a dot-separated path.
 function getNestedValue(obj: any, path: string): any {
   return path.split('.').reduce((acc, part) => acc && acc[part], obj);
 }
 
+/**
+ * A simplified hook for fetching translations from the en.json file.
+ * This serves as a single source of truth for all UI text.
+ */
 export function useTranslation() {
-  const { language } = useLanguage();
 
   const getRawTranslation = useCallback((key: string): any => {
-    const langFile = translations[language] || translations.en;
-    let value = getNestedValue(langFile, key);
+    let value = getNestedValue(en, key);
 
     if (value === undefined) {
-      console.warn(`Translation key "${key}" not found for language "${language}". Falling back to English.`);
-      const englishLangFile = translations.en;
-      value = getNestedValue(englishLangFile, key);
-      if (value === undefined) {
-        console.error(`Translation key "${key}" not found in English either.`);
-        return undefined;
-      }
+      console.error(`Translation key "${key}" not found in en.json.`);
+      return key; // Return the key itself as a fallback.
     }
     return value;
-  }, [language]);
+  }, []);
 
   // Specifically for fetching arrays of LegalSection, providing type safety
   const getLegalSections = useCallback((key: string): LegalSection[] => {
@@ -52,26 +32,26 @@ export function useTranslation() {
     if (Array.isArray(rawValue) && rawValue.every(item => typeof item === 'object' && 'title' in item && 'content' in item)) {
       return rawValue as LegalSection[];
     }
-    console.warn(`Translation key "${key}" did not return a valid LegalSection[] for language "${language}". Returning empty array.`);
+    console.warn(`Translation key "${key}" did not return a valid LegalSection[] array. Returning empty array.`);
     return [];
-  }, [getRawTranslation, language]);
+  }, [getRawTranslation]);
 
   const t = useCallback((key: string, params?: Record<string, string | number>): string => {
     let translation = getRawTranslation(key);
 
     if (typeof translation !== 'string') {
-      console.warn(`Translation for key "${key}" is not a string or not found. Using key as fallback for string replacement.`);
-      translation = key; // Fallback to key for string operations
+      console.warn(`Translation for key "${key}" is not a string. Using key as fallback.`);
+      translation = key; // Fallback to key itself
     }
 
     if (params) {
       Object.keys(params).forEach(paramKey => {
-        const regex = new RegExp(`{{\\s*${paramKey}\\s*}}`, 'g'); // Added \\s* to allow for spaces within {{ }}
-        translation = translation!.replace(regex, String(params[paramKey]));
+        const regex = new RegExp(`{{\\s*${paramKey}\\s*}}`, 'g');
+        translation = translation.replace(regex, String(params[paramKey]));
       });
     }
-    return translation!;
+    return translation;
   }, [getRawTranslation]);
 
-  return { t, currentLanguage: language, getRawTranslation, getLegalSections };
+  return { t, getRawTranslation, getLegalSections };
 }
