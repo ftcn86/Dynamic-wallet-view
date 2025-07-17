@@ -82,3 +82,5 @@ export function BadgeIcon({ badgeId, earned, size = 'lg', className }: BadgeIcon
     </div>
   );
 }
+
+    

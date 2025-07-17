@@ -66,12 +66,12 @@ export const mockUser: User = {
     { id: 'b002', name: 'Node Runner', description: 'Successfully operates a Pi Node.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2021-11-01T10:00:00Z', dataAiHint: "server computer" },
     { id: 'b003', name: 'Team Builder', description: 'Invited 10+ active members to their team.', iconUrl: 'https://placehold.co/128x128.png', earned: true, dataAiHint: "team people", earnedDate: '2023-02-10T10:00:00Z' },
     { id: 'b004', name: 'KYC Verified', description: 'Successfully completed KYC verification.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2022-01-20T10:00:00Z', dataAiHint: "verified checkmark" },
-    { ...gamificationBadges[0], earned: true },
-    { ...gamificationBadges[2], earned: true },
-    { ...gamificationBadges[5], earned: false },
-    gamificationBadges[1],
-    gamificationBadges[3],
-    gamificationBadges[4],
+    { ...gamificationBadges[0], earned: true }, // Weekly Mining Marathoner
+    { ...gamificationBadges[2], earned: false }, // Team's Weekly Top Miner
+    { ...gamificationBadges[5], earned: false }, // Active Team Leader
+    { ...gamificationBadges[1], earned: false }, // Monthly Mining Dedication
+    { ...gamificationBadges[3], earned: false }, // Team's Monthly Mining Champion
+    { ...gamificationBadges[4], earned: false }, // Outpaced the Pack
   ],
   userActiveMiningHours_LastWeek: 22,
   userActiveMiningHours_LastMonth: 85,
@@ -186,3 +186,5 @@ export const mockNotifications: Notification[] = [
         link: '/dashboard/donate'
     },
 ];
+
+    
