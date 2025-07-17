@@ -10,10 +10,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { TrendingUp, Server, ExternalLink } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ResponsiveContainer, LineChart as RechartsLineChart, XAxis, YAxis, Legend, Line } from 'recharts';
+import { LineChart as RechartsLineChart, XAxis, YAxis, Legend, Line } from 'recharts';
 import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart';
 import { format } from 'date-fns';
 import { PI_NODE_INFO_URL } from '@/lib/constants';
+import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 
 
 function NodeOperatorView() {

@@ -14,7 +14,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { KycStatusBadge } from '@/components/shared/KycStatusBadge'; 
 import { Badge as UiBadge } from '@/components/ui/badge';
-import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 
 type SortableKeys = keyof Pick<TeamMember, 'name' | 'joinDate' | 'status' | 'unverifiedPiContribution' | 'teamMemberActiveMiningHours_LastWeek' | 'kycStatus'>;
 
@@ -63,7 +62,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
                 <Info className="h-4 w-4 text-muted-foreground cursor-help" />
               </TooltipTrigger>
               <TooltipContent>
-                <p>Unverified Pi contributed by this team member. Becomes transferable after they complete KYC.</p>
+                <p>Unverified Pi contributed by this team member.</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -174,11 +173,12 @@ export default function TeamInsightsPage() {
 
   return (
     <div className="space-y-6">
+      <h1 className="text-3xl font-bold font-headline">Team Insights</h1>
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Users className="h-6 w-6 text-primary" />
-            Team Insights
+            Your Team
           </CardTitle>
           <CardDescription>
             Manage and view insights about your team members.

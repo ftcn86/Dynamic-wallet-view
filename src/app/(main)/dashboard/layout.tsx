@@ -4,7 +4,7 @@
 import { useEffect, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import { Sidebar } from '@/components/layout/Sidebar';
+import { SidebarProvider, Sidebar, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
 import { Header } from '@/components/layout/Header';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 
@@ -31,14 +31,18 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <Sidebar />
-      <div className="flex flex-1 flex-col">
-        <Header />
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
-          {children}
-        </main>
-      </div>
-    </div>
+    <SidebarProvider>
+        <Sidebar collapsible="icon" variant="sidebar">
+          {/* Sidebar content is defined in its own component */}
+        </Sidebar>
+        <SidebarInset>
+            <Header>
+                <SidebarTrigger />
+            </Header>
+            <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
+              {children}
+            </main>
+        </SidebarInset>
+    </SidebarProvider>
   );
 }

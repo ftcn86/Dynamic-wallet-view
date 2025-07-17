@@ -2,8 +2,8 @@
 export const MOBILE_BREAKPOINT = 768;
 
 // API Mock Configuration
-export const MOCK_API_MIN_LATENCY = 500; // milliseconds
-export const MOCK_API_MAX_LATENCY = 1500; // milliseconds
+export const MOCK_API_MIN_LATENCY = 300; // milliseconds
+export const MOCK_API_MAX_LATENCY = 800; // milliseconds
 export const MOCK_API_FAILURE_CHANCE = 0; // 0.0 to 1.0 (e.g., 0 for 0% chance)
 
 // External URLs

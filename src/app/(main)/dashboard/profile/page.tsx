@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { UserCircle2, Upload } from 'lucide-react';
+import { Upload } from 'lucide-react';
 import { mockApiCall } from '@/lib/api';
 
 export default function ProfilePage() {
@@ -60,9 +60,10 @@ export default function ProfilePage() {
 
   return (
     <div className="space-y-6">
+      <h1 className="text-3xl font-bold font-headline">Edit Profile</h1>
       <Card className="max-w-2xl mx-auto shadow-lg">
         <CardHeader>
-          <CardTitle>Edit Profile</CardTitle>
+          <CardTitle>Your Profile</CardTitle>
           <CardDescription>Update your personal information and avatar.</CardDescription>
         </CardHeader>
         <CardContent>
@@ -107,10 +108,12 @@ export default function ProfilePage() {
                 placeholder="Tell us a little about yourself"
               />
             </div>
-            <Button type="submit" disabled={isSaving} className="w-full">
-              {isSaving ? <LoadingSpinner className="mr-2 h-4 w-4" /> : null}
-              {isSaving ? "Saving..." : "Save Profile"}
-            </Button>
+            <CardFooter className="px-0 pb-0 pt-2">
+                <Button type="submit" disabled={isSaving} className="w-full">
+                {isSaving ? <LoadingSpinner className="mr-2 h-4 w-4" /> : null}
+                {isSaving ? "Saving..." : "Save Profile"}
+                </Button>
+            </CardFooter>
           </form>
         </CardContent>
       </Card>

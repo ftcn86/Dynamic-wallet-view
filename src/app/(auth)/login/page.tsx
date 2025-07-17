@@ -39,12 +39,12 @@ export default function LoginPage() {
       }
     } else {
       toast({
-        title: "Login failed. Please try again.",
+        title: "Login failed.",
         description: "Could not authenticate. Please try again.",
         variant: 'destructive',
       });
-      setIsLoggingIn(false);
     }
+    setIsLoggingIn(false);
   };
   
   if (isAuthContextLoading || (!isAuthContextLoading && user)) {

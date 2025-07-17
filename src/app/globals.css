@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -45,14 +46,12 @@
     
     --radius: 0.5rem;
 
-    /* Sidebar - maintain distinct look or harmonize? Let's harmonize slightly. */
-    --sidebar-background: 250 60% 99%; /* Very very light purple, almost white */
-    --sidebar-foreground: 250 25% 30%;
-    --sidebar-primary: 250 60% 60%; /* Same as app primary */
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 250 50% 94%; /* Light purple for active/hover */
-    --sidebar-accent-foreground: 250 55% 50%; /* Darker purple for text on accent */
-    --sidebar-border: 250 40% 90%;
+    /* Sidebar - NEW variables for distinction */
+    --sidebar-background: 250 20% 99%; /* Almost white, slightly cooler than page background */
+    --sidebar-foreground: 250 20% 30%;
+    --sidebar-accent: 250 60% 95%;
+    --sidebar-accent-foreground: 250 60% 40%;
+    --sidebar-border: 250 30% 90%;
     --sidebar-ring: 250 60% 60%;
   }
 
@@ -85,13 +84,11 @@
     --chart-5: 250 50% 65%;
 
     /* Sidebar Dark Theme */
-    --sidebar-background: 250 8% 14%; /* Very dark purple */
+    --sidebar-background: 250 10% 15%; /* Darker than page background */
     --sidebar-foreground: 250 30% 85%;
-    --sidebar-primary: 250 60% 60%; /* Same as app primary */
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 250 15% 25%; /* Dark purple for active/hover */
-    --sidebar-accent-foreground: 250 50% 80%; /* Lighter purple for text on accent */
-    --sidebar-border: 250 10% 20%;
+    --sidebar-accent: 250 15% 25%;
+    --sidebar-accent-foreground: 250 60% 70%;
+    --sidebar-border: 250 10% 25%;
     --sidebar-ring: 250 60% 60%;
   }
 }
