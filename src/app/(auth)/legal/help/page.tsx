@@ -1,4 +1,3 @@
-
 "use client";
 
 import LegalPageLayout from '@/components/layout/LegalPageLayout';
@@ -102,7 +101,7 @@ function FeedbackCard() {
 
 export default function HelpPage() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
+    <div className="flex min-h-screen flex-col items-center bg-background p-4 py-8">
         <div className="w-full max-w-2xl">
             <LegalPageLayout
               pageTitle="Help & Support"

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRouter } from 'next/navigation';
@@ -30,12 +29,12 @@ export default function LegalPageLayout({ pageTitle, sections, content, displayM
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
+    <div className="flex w-full items-center justify-center">
       <Card className="w-full max-w-2xl shadow-xl">
         <CardHeader>
           <CardTitle className="text-2xl font-headline">{pageTitle}</CardTitle>
         </CardHeader>
-        <CardContent className="max-h-[70vh] overflow-y-auto">
+        <CardContent className="max-h-[60vh] overflow-y-auto">
           {displayMode === 'accordion' && sections && sections.length > 0 ? (
             <Accordion type="single" collapsible className="w-full">
               {sections.map((section, index) => (
