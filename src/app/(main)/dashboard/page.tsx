@@ -1,8 +1,10 @@
 
 "use client"
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Banknote, Gauge, Users as UsersIcon, Server, BarChart2, ShieldCheck, PieChart, Trophy } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { Banknote, Gauge, Users as UsersIcon, Server, BarChart2, ShieldCheck, PieChart, Trophy, Settings2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { KPICard } from '@/components/shared/KPICard';
 import {
@@ -24,11 +26,18 @@ import { MiningFocusCard } from '@/components/dashboard/MiningFocusCard';
 import { TeamActivityCard } from '@/components/dashboard/TeamActivityCard';
 import { BalanceFluctuationChartCard } from '@/components/dashboard/BalanceFluctuationChartCard';
 import { MyBadgesCard } from '@/components/dashboard/MyBadgesCard';
+import { LockupAnalysisCard } from '@/components/dashboard/LockupAnalysisCard';
 import { mockTeam } from '@/data/mocks';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 
+const TABS = ['overview', 'portfolio', 'achievements', 'analysis'];
+
 export default function DashboardPage() {
   const { user } = useAuth();
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get('tab');
+  const [activeTab, setActiveTab] = useState(TABS.includes(initialTab as string) ? initialTab : 'overview');
+
 
   const handleRedirectToPiApp = () => {
     window.open(PI_APP_MINING_URL, '_blank');
@@ -109,12 +118,12 @@ export default function DashboardPage() {
         )}
       </div>
 
-      <Tabs defaultValue="overview" className="w-full">
+      <Tabs value={activeTab as string} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-4 max-w-2xl">
           <TabsTrigger value="overview"><PieChart className="mr-2 h-4 w-4" />Overview</TabsTrigger>
           <TabsTrigger value="portfolio"><BarChart2 className="mr-2 h-4 w-4" />Portfolio</TabsTrigger>
           <TabsTrigger value="achievements"><Trophy className="mr-2 h-4 w-4" />Achievements</TabsTrigger>
-          <TabsTrigger value="analysis" disabled><ShieldCheck className="mr-2 h-4 w-4" />Analysis</TabsTrigger>
+          <TabsTrigger value="analysis"><Settings2 className="mr-2 h-4 w-4" />Analysis</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="mt-6">
@@ -136,7 +145,7 @@ export default function DashboardPage() {
           <MyBadgesCard />
         </TabsContent>
         <TabsContent value="analysis" className="mt-6">
-          <p>Analysis section coming soon.</p>
+          <LockupAnalysisCard />
         </TabsContent>
       </Tabs>
     </div>

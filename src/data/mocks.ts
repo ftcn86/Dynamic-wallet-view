@@ -165,7 +165,7 @@ export const mockNotifications: Notification[] = [
         description: 'You\'ve earned the "Weekly Mining Marathoner" badge. Great job!',
         date: subDays(today, 1).toISOString(),
         read: false,
-        link: '/dashboard'
+        link: '/dashboard?tab=achievements'
     },
     {
         id: 'notif_003',
