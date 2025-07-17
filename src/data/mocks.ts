@@ -68,7 +68,7 @@ export const mockUser: User = {
     { id: 'b004', name: 'KYC Verified', description: 'Successfully completed KYC verification.', iconUrl: 'https://placehold.co/128x128.png', earned: true, earnedDate: '2022-01-20T10:00:00Z', dataAiHint: "verified checkmark" },
     { ...gamificationBadges[0], earned: true }, // Weekly Mining Marathoner
     { ...gamificationBadges[2], earned: false }, // Team's Weekly Top Miner
-    { ...gamificationBadges[5], earned: false }, // Active Team Leader
+    { ...gamificationBadges[5], earned: true, earnedDate: subDays(today, 1).toISOString() }, // Active Team Leader
     { ...gamificationBadges[1], earned: false }, // Monthly Mining Dedication
     { ...gamificationBadges[3], earned: false }, // Team's Monthly Mining Champion
     { ...gamificationBadges[4], earned: false }, // Outpaced the Pack
@@ -166,7 +166,7 @@ export const mockNotifications: Notification[] = [
         id: 'notif_002',
         type: 'badge_earned',
         title: 'New Badge Earned!',
-        description: 'You\'ve earned the "Weekly Mining Marathoner" badge. Great job!',
+        description: 'You\'ve earned the "Active Team Leader" badge. Great leadership!',
         date: subDays(today, 1).toISOString(),
         read: false,
         link: '/dashboard?tab=achievements'
@@ -196,7 +196,7 @@ export const mockNotifications: Notification[] = [
         description: 'Great work this week everyone! Let\'s keep up the momentum.',
         date: subHours(today, 26).toISOString(),
         read: true,
-        link: '/dashboard/team',
+        link: '/dashboard/team'
     },
 ];
 
