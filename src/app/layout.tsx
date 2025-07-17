@@ -9,7 +9,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: 'PiPulse',
+  title: 'Dynamic Pi Wallet View',
   description: 'A comprehensive dashboard for Pi Network users.',
 };
 

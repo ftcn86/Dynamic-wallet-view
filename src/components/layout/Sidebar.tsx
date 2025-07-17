@@ -41,12 +41,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useTranslation } from '@/hooks/useTranslation';
 
 
 export function Sidebar() {
   const { user, logout } = useAuth();
   const { state } = useSidebar();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const handleOpenChat = () => {
     window.open(PI_TEAM_CHAT_URL, '_blank');
@@ -60,10 +62,10 @@ export function Sidebar() {
             <Link href="/dashboard" className="flex items-center gap-3">
                 <Blocks className="h-8 w-8 text-primary shrink-0" />
                 <span className={cn(
-                    "text-xl font-bold text-foreground font-headline transition-opacity duration-200",
+                    "text-lg font-bold text-foreground font-headline transition-opacity duration-200",
                     state === 'collapsed' ? 'opacity-0' : 'opacity-100'
                 )}>
-                    PiPulse
+                    {t('appName')}
                 </span>
             </Link>
         </SidebarHeader>
