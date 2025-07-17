@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
+import { useTranslation } from '@/hooks/useTranslation';
 
 // Solid SVG Icons
 const UsersIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -57,6 +58,7 @@ const InfoIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 function TeamManagementCard({ teamMembers }: { teamMembers: TeamMember[] }) {
+    const { t } = useTranslation();
     const { toast } = useToast();
     const [broadcastMessage, setBroadcastMessage] = useState("");
     const [isPinging, setIsPinging] = useState(false);
@@ -68,8 +70,8 @@ function TeamManagementCard({ teamMembers }: { teamMembers: TeamMember[] }) {
         setIsPinging(true);
         setTimeout(() => {
             toast({
-                title: "Inactive Members Pinged",
-                description: `A reminder notification has been sent to ${inactiveMembersCount} inactive members.`,
+                title: t('teamInsights.pingSuccessTitle'),
+                description: t('teamInsights.pingSuccessDesc', { count: inactiveMembersCount }),
             });
             setIsPinging(false);
         }, 1000);
@@ -77,21 +79,21 @@ function TeamManagementCard({ teamMembers }: { teamMembers: TeamMember[] }) {
 
     const handleBroadcast = async () => {
         if (!broadcastMessage.trim()) {
-            toast({ title: "Message is empty", variant: "destructive" });
+            toast({ title: t('teamInsights.broadcastEmptyTitle'), variant: "destructive" });
             return;
         }
         setIsBroadcasting(true);
         try {
             await sendBroadcastNotification(broadcastMessage);
             toast({
-                title: "Broadcast Sent",
-                description: "Your message has been sent to all team members as a notification.",
+                title: t('teamInsights.broadcastSuccessTitle'),
+                description: t('teamInsights.broadcastSuccessDesc'),
             });
             setBroadcastMessage("");
         } catch (error) {
              toast({
-                title: "Broadcast Failed",
-                description: "Could not send the broadcast. Please try again.",
+                title: t('teamInsights.broadcastErrorTitle'),
+                description: t('teamInsights.broadcastErrorDesc'),
                 variant: 'destructive'
             });
         } finally {
@@ -102,30 +104,30 @@ function TeamManagementCard({ teamMembers }: { teamMembers: TeamMember[] }) {
     return (
         <Card className="shadow-lg">
             <CardHeader>
-                <CardTitle className="flex items-center gap-2"><UsersIcon className="h-6 w-6"/> Team Management Tools</CardTitle>
-                <CardDescription>Engage with your team to boost overall activity and cooperation.</CardDescription>
+                <CardTitle className="flex items-center gap-2"><UsersIcon className="h-6 w-6"/> {t('teamInsights.managementTools.title')}</CardTitle>
+                <CardDescription>{t('teamInsights.managementTools.description')}</CardDescription>
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col space-y-4 rounded-lg border p-4">
                     <div className="flex items-center gap-2 font-medium">
                         <BellIcon className="h-5 w-5"/>
-                        <h3>Ping Inactive Members</h3>
+                        <h3>{t('teamInsights.managementTools.pingInactive.title')}</h3>
                     </div>
                     <p className="text-sm text-muted-foreground flex-grow">
-                        Gently remind your {inactiveMembersCount} inactive team member(s) to start their mining session.
+                        {t('teamInsights.managementTools.pingInactive.description', {count: inactiveMembersCount})}
                     </p>
                     <Button onClick={handlePingInactive} disabled={isPinging || inactiveMembersCount === 0}>
                         {isPinging ? <LoadingSpinner className="mr-2"/> : <BellIcon className="mr-2 h-4 w-4"/>}
-                        {isPinging ? "Pinging..." : `Ping ${inactiveMembersCount} Members`}
+                        {isPinging ? t('teamInsights.managementTools.pingInactive.buttonPinging') : t('teamInsights.managementTools.pingInactive.button', {count: inactiveMembersCount})}
                     </Button>
                 </div>
                 <div className="flex flex-col space-y-4 rounded-lg border p-4">
                      <div className="flex items-center gap-2 font-medium">
                         <MessageSquareIcon className="h-5 w-5"/>
-                        <h3>Send a Broadcast</h3>
+                        <h3>{t('teamInsights.managementTools.broadcast.title')}</h3>
                     </div>
                     <Textarea 
-                        placeholder="Type your message to the team..."
+                        placeholder={t('teamInsights.managementTools.broadcast.placeholder')}
                         value={broadcastMessage}
                         onChange={(e) => setBroadcastMessage(e.target.value)}
                         className="flex-grow"
@@ -133,7 +135,7 @@ function TeamManagementCard({ teamMembers }: { teamMembers: TeamMember[] }) {
                     />
                     <Button onClick={handleBroadcast} disabled={isBroadcasting || !broadcastMessage.trim()}>
                        {isBroadcasting ? <LoadingSpinner className="mr-2"/> : <SendIcon className="mr-2 h-4 w-4"/>}
-                       {isBroadcasting ? "Sending..." : "Send Broadcast"}
+                       {isBroadcasting ? t('teamInsights.managementTools.broadcast.buttonSending') : t('teamInsights.managementTools.broadcast.button')}
                     </Button>
                 </div>
             </CardContent>
@@ -148,6 +150,7 @@ const statusVariantMap = {
 } as const;
 
 function TeamMemberRow({ member }: { member: TeamMember }) {
+  const { t } = useTranslation();
   const avatarFallback = member.name ? member.name.charAt(0).toUpperCase() : '?';
   return (
     <TableRow>
@@ -166,7 +169,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           variant={statusVariantMap[member.status]}
           className="capitalize"
         >
-          {member.status}
+          {t(`teamInsights.statusValues.${member.status}`)}
         </UiBadge>
       </TableCell>
       <TableCell className="hidden md:table-cell">
@@ -181,13 +184,13 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
                 <InfoIcon className="h-4 w-4 cursor-help" />
               </TooltipTrigger>
               <TooltipContent>
-                <p>Unverified Pi contributed by this team member.</p>
+                <p>{t('teamInsights.contributionTooltip')}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>
       </TableCell>
-      <TableCell className="text-right font-mono">{member.teamMemberActiveMiningHours_LastWeek ?? 0} hrs</TableCell>
+      <TableCell className="text-right font-mono">{member.teamMemberActiveMiningHours_LastWeek ?? 0} {t('teamActivity.hoursSuffix')}</TableCell>
     </TableRow>
   );
 }
@@ -203,6 +206,7 @@ function TeamMembersTableSkeleton() {
 }
 
 export default function TeamInsightsPage() {
+  const { t } = useTranslation();
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -216,13 +220,13 @@ export default function TeamInsightsPage() {
         const data = await getTeamMembers();
         setTeamMembers(data);
       } catch (err) {
-        setError("Failed to load team members. Please try again.");
+        setError(t('teamInsights.error'));
       } finally {
         setIsLoading(false);
       }
     }
     fetchTeamMembers();
-  }, []);
+  }, [t]);
 
   const requestSort = (key: keyof TeamMember) => {
     let direction: 'ascending' | 'descending' = 'ascending';
@@ -261,9 +265,9 @@ export default function TeamInsightsPage() {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold font-headline">Security & Team Insights</h1>
+        <h1 className="text-3xl font-bold font-headline">{t('teamInsights.title')}</h1>
         <p className="text-muted-foreground max-w-3xl">
-          Engage with your team, monitor their activity, and understand the importance of your Security Circle—a group of 3-5 trusted people from your Earning Team who boost your mining rate and network security.
+          {t('teamInsights.description')}
         </p>
       </div>
 
@@ -273,17 +277,17 @@ export default function TeamInsightsPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <UsersIcon className="h-6 w-6" />
-            Your Earning Team
+            {t('teamInsights.tableTitle')}
           </CardTitle>
           <CardDescription>
-            View insights about your team members. Members marked inactive can be pinged using the tools above.
+            {t('teamInsights.tableDescription')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading && <TeamMembersTableSkeleton />}
           {!isLoading && error && <p className="text-destructive text-center py-8">{error}</p>}
           {!isLoading && !error && sortedTeamMembers.length === 0 && (
-            <p className="text-muted-foreground text-center py-8">You have not invited any team members yet.</p>
+            <p className="text-muted-foreground text-center py-8">{t('teamInsights.empty')}</p>
           )}
           {!isLoading && !error && sortedTeamMembers.length > 0 && (
             <div className="border rounded-md">
@@ -291,22 +295,22 @@ export default function TeamInsightsPage() {
                 <TableHeader>
                   <TableRow>
                     <SortableTableHead sortKey="name" sortConfig={sortConfig} onClick={() => requestSort('name')}>
-                      Member
+                      {t('teamInsights.columns.member')}
                     </SortableTableHead>
                     <SortableTableHead sortKey="joinDate" sortConfig={sortConfig} onClick={() => requestSort('joinDate')} className="hidden lg:table-cell">
-                      Join Date
+                      {t('teamInsights.columns.joinDate')}
                     </SortableTableHead>
                     <SortableTableHead sortKey="status" sortConfig={sortConfig} onClick={() => requestSort('status')}>
-                      Status
+                      {t('teamInsights.columns.status')}
                     </SortableTableHead>
                     <SortableTableHead sortKey="kycStatus" sortConfig={sortConfig} onClick={() => requestSort('kycStatus')} className="hidden md:table-cell">
-                      KYC Status
+                      {t('teamInsights.columns.kycStatus')}
                     </SortableTableHead>
                     <SortableTableHead sortKey="unverifiedPiContribution" sortConfig={sortConfig} onClick={() => requestSort('unverifiedPiContribution')} isNumeric={true}>
-                      Contribution
+                      {t('teamInsights.columns.contribution')}
                     </SortableTableHead>
                     <SortableTableHead sortKey="teamMemberActiveMiningHours_LastWeek" sortConfig={sortConfig} onClick={() => requestSort('teamMemberActiveMiningHours_LastWeek')} isNumeric={true}>
-                      Activity (wk)
+                      {t('teamInsights.columns.activityLastWeek')}
                     </SortableTableHead>
                   </TableRow>
                 </TableHeader>
