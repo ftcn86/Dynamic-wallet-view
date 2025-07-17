@@ -1,10 +1,10 @@
 
-# Product Requirements Document: Dynamic Pi Wallet View
+# Product Requirements Document: Dynamic Wallet View
 ## Application Specification
 
 **Version:** 1.0
 **Date:** (Current Date)
-**Objective:** To create a comprehensive, user-friendly, and engaging dashboard application for Pi Network users, named "Dynamic Pi Wallet View." This application will provide detailed insights into their Pi holdings, mining activity, team performance, and node operations, while fostering motivation through gamification and community support via donations. It is built with a modern, responsive UI, prioritizing clarity, performance, and a clear path to production integration.
+**Objective:** To create a comprehensive, user-friendly, and engaging dashboard application for Pi Network users, named "Dynamic Wallet View." This application will provide detailed insights into their Pi holdings, mining activity, team performance, and node operations, while fostering motivation through gamification and community support via donations. It is built with a modern, responsive UI, prioritizing clarity, performance, and a clear path to production integration.
 
 ---
 
@@ -12,7 +12,7 @@
 
 *   **Target User:** A representative Pi Network Pioneer (miner, team builder, node operator).
 *   **User Need:** To visualize and interact with a single, well-designed interface displaying consolidated Pi-related metrics, tracking progress, managing team insights, and analyzing node performance.
-*   **Value Proposition:** Dynamic Pi Wallet View empowers users with better information and engagement tools through a dynamic, insightful, and beautifully designed alternative/enhancement to viewing Pi Network data. *This application is a viewer and insights tool, not a functional wallet for transfers, though it can initiate Pi App payments for specific actions like donations.*
+*   **Value Proposition:** Dynamic Wallet View empowers users with better information and engagement tools through a dynamic, insightful, and beautifully designed alternative/enhancement to viewing Pi Network data. *This application is a viewer and insights tool, not a functional wallet for transfers, though it can initiate Pi App payments for specific actions like donations.*
 
 ---
 
@@ -21,7 +21,7 @@
 ### 2.1. User Authentication & Onboarding (Mocked/Real)
 *   **2.1.1. Login:**
     *   Simulates/Initiates Pi Network authentication via the `piService`.
-    *   Display app name "Dynamic Pi Wallet View" and welcome message.
+    *   Display app name "Dynamic Wallet View" and welcome message.
     *   Links to Legal pages (Terms, Privacy).
 *   **2.1.2. Terms Acceptance:**
     *   Mandatory review and acceptance of Terms of Service & Privacy Policy post-initial login before accessing the main app.
@@ -114,7 +114,7 @@
     *   Saves preferences to the user object in `localStorage`.
 
 ### 2.7. Donation Page (`/dashboard/donate`)
-*   **2.7.1. Title:** "Support Dynamic Pi Wallet View".
+*   **2.7.1. Title:** "Support Dynamic Wallet View".
 *   **2.7.2. Donation Form:** An input field for the donation amount and preset buttons.
 *   **2.7.3. Mock Payment Flow:** An `AlertDialog` simulates the Pi payment confirmation flow.
 
@@ -189,4 +189,3 @@
 *   Real database integration.
 *   Functional Genkit AI features.
 *   Real push notifications.
-

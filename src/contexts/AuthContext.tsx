@@ -20,7 +20,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const DYNAMIC_PI_WALLET_USER_KEY = 'dynamicPiWalletUser';
+const DYNAMIC_WALLET_USER_KEY = 'dynamicWalletUser';
 
 const areUsersEqual = (userA: User | null, userB: User | null): boolean => {
   if (userA === userB) return true;
@@ -45,14 +45,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const storedUserItem = localStorage.getItem(DYNAMIC_PI_WALLET_USER_KEY);
+      const storedUserItem = localStorage.getItem(DYNAMIC_WALLET_USER_KEY);
       if (storedUserItem) {
         const storedUser = JSON.parse(storedUserItem) as User;
         _setUserInternal(storedUser);
       }
     } catch (error) {
       console.error("Error loading user from localStorage:", error);
-      localStorage.removeItem(DYNAMIC_PI_WALLET_USER_KEY);
+      localStorage.removeItem(DYNAMIC_WALLET_USER_KEY);
     }
     setIsLoading(false);
   }, []);
@@ -66,9 +66,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!areUsersEqual(currentUser, resolvedNewUser)) {
         try {
           if (resolvedNewUser) {
-            localStorage.setItem(DYNAMIC_PI_WALLET_USER_KEY, JSON.stringify(resolvedNewUser));
+            localStorage.setItem(DYNAMIC_WALLET_USER_KEY, JSON.stringify(resolvedNewUser));
           } else {
-            localStorage.removeItem(DYNAMIC_PI_WALLET_USER_KEY);
+            localStorage.removeItem(DYNAMIC_WALLET_USER_KEY);
           }
         } catch (error) {
           console.error("Error saving user to localStorage:", error);
@@ -92,7 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Ensure fetchedUser always has a settings object
       fetchedUser.settings = { ...defaultSettings, ...fetchedUser.settings };
 
-      const storedUserItem = localStorage.getItem(DYNAMIC_PI_WALLET_USER_KEY);
+      const storedUserItem = localStorage.getItem(DYNAMIC_WALLET_USER_KEY);
       if (storedUserItem) {
           const storedUser = JSON.parse(storedUserItem) as User;
           // Preserve settings across logins if user is the same
@@ -117,16 +117,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(() => {
     // Keep user settings but clear session-specific data
-    const storedUserItem = localStorage.getItem(DYNAMIC_PI_WALLET_USER_KEY);
+    const storedUserItem = localStorage.getItem(DYNAMIC_WALLET_USER_KEY);
     if(storedUserItem) {
       try {
         const storedUser = JSON.parse(storedUserItem) as User;
         const settingsToKeep = storedUser.settings;
         const userWithSettings = { ...storedUser, settings: settingsToKeep, termsAccepted: false };
-        localStorage.setItem(DYNAMIC_PI_WALLET_USER_KEY, JSON.stringify(userWithSettings));
+        localStorage.setItem(DYNAMIC_WALLET_USER_KEY, JSON.stringify(userWithSettings));
       } catch (error) {
          console.error("Error preserving settings on logout:", error);
-         localStorage.removeItem(DYNAMIC_PI_WALLET_USER_KEY);
+         localStorage.removeItem(DYNAMIC_WALLET_USER_KEY);
       }
     }
     _setUserInternal(null);

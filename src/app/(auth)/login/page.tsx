@@ -62,8 +62,8 @@ export default function LoginPage() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
             <ShieldQuestionIcon size={36} />
           </div>
-          <CardTitle className="text-3xl font-headline">Dynamic Pi Wallet View</CardTitle>
-          <CardDescription>Welcome to Dynamic Pi Wallet View</CardDescription>
+          <CardTitle className="text-3xl font-headline">Dynamic Wallet View</CardTitle>
+          <CardDescription>Welcome to Dynamic Wallet View</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <Button

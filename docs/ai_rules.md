@@ -1,7 +1,8 @@
-# AI Assistant (Cursor) Operational Rules for "Dynamic Pi Wallet View"
+
+# AI Assistant (Cursor) Operational Rules for "Dynamic Wallet View"
 
 **Version:** 1.0
-**Objective:** This document provides a strict set of rules for any AI assistant tasked with writing or modifying code for the "Dynamic Pi Wallet View" application. Adherence to these rules is mandatory to ensure code quality, consistency, and alignment with the project's architecture.
+**Objective:** This document provides a strict set of rules for any AI assistant tasked with writing or modifying code for the "Dynamic Wallet View" application. Adherence to these rules is mandatory to ensure code quality, consistency, and alignment with the project's architecture.
 
 ---
 
@@ -23,7 +24,7 @@
     *   NO custom CSS files besides `src/app/globals.css`.
     *   NO inline `style` attributes.
     *   Colors MUST be referenced from the theme variables in `globals.css` (e.g., `bg-primary`, `text-destructive`). Do not use arbitrary color values (e.g., `bg-blue-500`).
-5.  **Icons:** You MUST use the **`lucide-react`** library for all icons.
+5.  **Icons:** You MUST use the icon components from `src/components/shared/icons.tsx`.
 6.  **State Management:**
     *   Global state (User Auth, Theme, Language) MUST be managed via the existing React Context providers in `src/contexts/`.
     *   Component-level state MUST use standard React hooks (`useState`, `useReducer`).
@@ -42,17 +43,7 @@
 
 ---
 
-## Rule 4: Internationalization (i18n) - MANDATORY
-
-1.  **No Hardcoded Strings:** There must be ZERO hardcoded user-facing strings in any `.tsx` component.
-2.  **`useTranslation` Hook:** ALL user-facing text MUST be rendered using the `t()` function from the `useTranslation` hook.
-    *   **Correct:** `<h1>{t('dashboard.title')}</h1>`
-    *   **Incorrect:** `<h1>Dashboard</h1>`
-3.  **Locale Files:** Any new text must be added to `locales/en.json` first, and then corresponding entries can be added to other language files.
-
----
-
-## Rule 5: Code Quality & Best Practices
+## Rule 4: Code Quality & Best Practices
 
 1.  **File Generation:** You MUST generate complete, final files. Do not provide diffs, snippets, or partial code.
 2.  **Server Components First:** Default to using Next.js Server Components. Only use the `"use client"` directive when React hooks (`useState`, `useEffect`, etc.) or browser-specific APIs are absolutely necessary.
@@ -62,7 +53,7 @@
     *   You MUST use the `next/image` component for all images.
     *   Placeholder images MUST use `https://placehold.co`.
     *   You MUST add a `data-ai-hint` attribute to all placeholder images with 1-2 relevant keywords.
-    *   You MUST provide a meaningful `alt` prop for accessibility, preferably sourced from i18n.
+    *   You MUST provide a meaningful `alt` prop for accessibility.
 6.  **Error Handling:**
     *   Implement user-friendly error boundaries using `error.tsx` for main application routes.
     *   Use the `Toast` component for non-critical feedback (e.g., form submission success/failure).

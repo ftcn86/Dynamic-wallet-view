@@ -25,7 +25,7 @@ import { Progress } from '@/components/ui/progress';
 import { MOCK_DONATION_GOAL, MOCK_CURRENT_DONATIONS, MOCK_RECENT_DONATIONS } from '@/data/mocks';
 import { RecentSupporters } from '@/components/dashboard/donate/RecentSupporters';
 import { addTransaction, addNotification } from '@/services/piService';
-import { GiftIcon, SendIcon, RocketIcon, ServerIconAccent as ServerIcon, PaintbrushIcon } from '@/components/shared/icons';
+import { GiftIcon, SendIcon, RocketIcon, ServerIcon, PaintbrushIcon } from '@/components/shared/icons';
 
 const presetAmounts = ["1", "5", "10", "20"];
 
@@ -37,7 +37,7 @@ export default function DonatePage() {
   
   const [currentDonations, setCurrentDonations] = useState(MOCK_CURRENT_DONATIONS);
   const [recentSupporters, setRecentSupporters] = useState(MOCK_RECENT_DONATIONS);
-  const [donationProgress, setDonationProgress] = useState((MOCK_CURRENT_DONATIONS / MOCK_DONATION_GOAL) * 100);
+  const [donationProgress, setDonationProgress] = useState(0);
 
   const { toast } = useToast();
   const { user, refreshData } = useAuth();
@@ -68,7 +68,7 @@ export default function DonatePage() {
 
         await new Promise(resolve => setTimeout(resolve, 1000));
         
-        let transactionDescription = "Donation to Dynamic Pi Wallet View";
+        let transactionDescription = "Donation to Dynamic Wallet View";
         if (message.trim()) {
             transactionDescription = message.trim();
         }
@@ -77,7 +77,7 @@ export default function DonatePage() {
             type: 'sent',
             amount: donationAmount,
             status: 'completed',
-            to: 'Dynamic Pi Wallet View Project',
+            to: 'Dynamic Wallet View Project',
             description: transactionDescription
         });
 
@@ -195,7 +195,7 @@ export default function DonatePage() {
                         <AlertDialogHeader>
                         <AlertDialogTitle>Confirm Your Support</AlertDialogTitle>
                         <AlertDialogDescription>
-                            You are about to contribute {amount} π to support Dynamic Pi Wallet View. This will be processed through the Pi Network. Are you sure?
+                            You are about to contribute {amount} π to support Dynamic Wallet View. This will be processed through the Pi Network. Are you sure?
                         </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>

@@ -1,6 +1,7 @@
+
 # Backend Logic & Gamification - Developer's Guide v2.0
 
-**Objective:** This document serves as the **complete and definitive technical blueprint** for the backend logic required to power all dynamic features of the Dynamic Pi Wallet View application. It is the "source of truth" for any developer or AI agent tasked with building the backend services.
+**Objective:** This document serves as the **complete and definitive technical blueprint** for the backend logic required to power all dynamic features of the Dynamic Wallet View application. It is the "source of truth" for any developer or AI agent tasked with building the backend services.
 
 ---
 
