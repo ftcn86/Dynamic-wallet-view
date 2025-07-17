@@ -71,10 +71,10 @@ export function AIFeatureFeedbackCard() {
         <CardHeader>
             <CardTitle className="flex items-center gap-2">
                 <LightbulbIcon className="w-6 h-6" />
-                Shape the Future: AI-Powered Insights?
+                Future AI Feature: Get Your Opinion!
             </CardTitle>
             <CardDescription>
-                Imagine an AI that analyzes your mining habits and lockup potential to create personalized strategies for maximizing your rewards. Is this a feature you would find valuable?
+                We're considering an AI-powered feature to give you personalized strategies for boosting your mining rate. Would this be useful to you?
             </CardDescription>
         </CardHeader>
         <CardContent className="flex-grow">
@@ -82,7 +82,7 @@ export function AIFeatureFeedbackCard() {
                 <div className="flex-grow">
                     <Textarea
                         id="feedback-textarea"
-                        placeholder="Tell us what you think! For example: 'This sounds amazing, I'd love to see a forecast of my earnings!' or 'I'm not sure, I'd need to know more about how it works.'"
+                        placeholder="e.g., 'Yes, I'd love to know how lockups affect my rate!' or 'No, I prefer simpler tools.'"
                         value={feedback}
                         onChange={(e) => setFeedback(e.target.value)}
                         rows={5}
@@ -95,7 +95,7 @@ export function AIFeatureFeedbackCard() {
          <CardFooter>
             <Button onClick={handleSubmit} className="w-full" disabled={isSubmitting || !feedback.trim()}>
                 {isSubmitting ? <LoadingSpinner className="mr-2" /> : <SendIcon className="mr-2 h-4 w-4" />}
-                {isSubmitting ? 'Submitting...' : 'Submit My Opinion'}
+                {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
             </Button>
         </CardFooter>
     </Card>
