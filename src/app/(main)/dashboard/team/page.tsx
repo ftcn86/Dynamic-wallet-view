@@ -1,8 +1,9 @@
+
 "use client"
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { getTeamMembers } from '@/services/piService';
@@ -13,9 +14,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { KycStatusBadge } from '@/components/shared/KycStatusBadge'; 
 import { Badge as UiBadge } from '@/components/ui/badge';
+import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 
-
-type SortableKeys = keyof Pick<TeamMember, 'name' | 'joinDate' | 'status' | 'unverifiedPiContribution' | 'teamMemberActiveMiningHours_LastWeek' | 'teamMemberActiveMiningHours_LastMonth' | 'kycStatus'>;
+type SortableKeys = keyof Pick<TeamMember, 'name' | 'joinDate' | 'status' | 'unverifiedPiContribution' | 'teamMemberActiveMiningHours_LastWeek' | 'kycStatus'>;
 
 interface SortConfig {
   key: SortableKeys | null;
@@ -29,14 +30,14 @@ const statusVariantMap = {
 } as const;
 
 function TeamMemberRow({ member }: { member: TeamMember }) {
-
+  const avatarFallback = member.name ? member.name.charAt(0).toUpperCase() : '?';
   return (
     <TableRow>
       <TableCell>
         <div className="flex items-center gap-3">
           <Avatar className="h-9 w-9">
             <AvatarImage src={member.avatarUrl} alt={member.name} data-ai-hint="person face" />
-            <AvatarFallback>{member.name.charAt(0).toUpperCase()}</AvatarFallback>
+            <AvatarFallback>{avatarFallback}</AvatarFallback>
           </Avatar>
           <span className="font-medium">{member.name}</span>
         </div>
@@ -45,20 +46,21 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
       <TableCell>
         <UiBadge
           variant={statusVariantMap[member.status]}
+          className="capitalize"
         >
-          {member.status.charAt(0).toUpperCase() + member.status.slice(1)}
+          {member.status}
         </UiBadge>
       </TableCell>
       <TableCell>
         <KycStatusBadge status={member.kycStatus} />
       </TableCell>
       <TableCell className="text-right">
-        <div className="flex items-center justify-end gap-1">
-          {member.unverifiedPiContribution.toFixed(2)} Pi
+        <div className="flex items-center justify-end gap-1 font-mono">
+          {member.unverifiedPiContribution.toFixed(2)} π
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-4 w-4 text-accent cursor-help" />
+                <Info className="h-4 w-4 text-muted-foreground cursor-help" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>Unverified Pi contributed by this team member. Becomes transferable after they complete KYC.</p>
@@ -67,8 +69,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           </TooltipProvider>
         </div>
       </TableCell>
-      <TableCell className="text-right">{member.teamMemberActiveMiningHours_LastWeek ?? 0} hrs</TableCell>
-      <TableCell className="text-right">{member.teamMemberActiveMiningHours_LastMonth ?? 0} hrs</TableCell>
+      <TableCell className="text-right font-mono">{member.teamMemberActiveMiningHours_LastWeek ?? 0} hrs</TableCell>
     </TableRow>
   );
 }
@@ -79,7 +80,8 @@ function SortableTableHead({
   sortKey,
   currentSortKey,
   currentDirection,
-  className
+  className,
+  isNumeric = false,
 }: {
   children: React.ReactNode;
   onClick: () => void;
@@ -87,51 +89,30 @@ function SortableTableHead({
   currentSortKey: SortableKeys | null;
   currentDirection: 'ascending' | 'descending';
   className?: string;
+  isNumeric?: boolean;
 }) {
   const isSorted = currentSortKey === sortKey;
   return (
     <TableHead className={cn("cursor-pointer hover:bg-muted/50", className)} onClick={onClick}>
-      <div className="flex items-center gap-2">
+      <div className={cn("flex items-center gap-2", isNumeric ? "justify-end" : "justify-start")}>
         {children}
         {isSorted ? (
           currentDirection === 'ascending' ? <ArrowUp className="h-3 w-3 text-primary" /> : <ArrowDown className="h-3 w-3 text-primary" />
         ) : (
-          <ArrowUpDown className="h-3 w-3 opacity-50" />
+          <ArrowUpDown className="h-3 w-3 opacity-30" />
         )}
       </div>
     </TableHead>
   );
 }
 
-
 function TeamMembersTableSkeleton() {
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Member</TableHead>
-          <TableHead>Join Date</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>KYC Status</TableHead>
-          <TableHead className="text-right">Contribution</TableHead>
-          <TableHead className="text-right">Activity (Last Week)</TableHead>
-          <TableHead className="text-right">Activity (Last Month)</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {[...Array(5)].map((_, i) => (
-          <TableRow key={i}>
-            <TableCell><div className="flex items-center gap-3"><Skeleton className="h-9 w-9 rounded-full" /><Skeleton className="h-4 w-32" /></div></TableCell>
-            <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-            <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
-            <TableCell><Skeleton className="h-6 w-28 rounded-full" /></TableCell>
-            <TableCell className="text-right"><Skeleton className="h-4 w-16" /></TableCell>
-            <TableCell className="text-right"><Skeleton className="h-4 w-12" /></TableCell>
-            <TableCell className="text-right"><Skeleton className="h-4 w-12" /></TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <div className="space-y-2">
+      {[...Array(8)].map((_, i) => (
+        <Skeleton key={i} className="h-12 w-full rounded-md" />
+      ))}
+    </div>
   );
 }
 
@@ -172,15 +153,12 @@ export default function TeamInsightsPage() {
         const valA = a[sortConfig.key!];
         const valB = b[sortConfig.key!];
 
-        let comparison = 0;
-        if (valA === undefined || valA === null) comparison = -1;
-        if (valB === undefined || valB === null) comparison = 1;
+        if (valA === undefined || valA === null) return 1;
+        if (valB === undefined || valB === null) return -1;
         
-        if (comparison !== 0 && (valA === undefined || valA === null || valB === undefined || valB === null)) {
-        } else if (typeof valA === 'number' && typeof valB === 'number') {
+        let comparison = 0;
+        if (typeof valA === 'number' && typeof valB === 'number') {
           comparison = valA - valB;
-        } else if (typeof valA === 'string' && typeof valB === 'string') {
-          comparison = valA.localeCompare(valB);
         } else {
              const strA = String(valA ?? ''); 
              const strB = String(valB ?? '');
@@ -196,13 +174,15 @@ export default function TeamInsightsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold font-headline">Team Insights</h1>
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Users className="h-6 w-6 text-primary" />
             Team Insights
           </CardTitle>
+          <CardDescription>
+            Manage and view insights about your team members.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading && <TeamMembersTableSkeleton />}
@@ -211,76 +191,37 @@ export default function TeamInsightsPage() {
             <p className="text-muted-foreground text-center py-8">You have not invited any team members yet.</p>
           )}
           {!isLoading && !error && sortedTeamMembers.length > 0 && (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <SortableTableHead
-                    sortKey="name"
-                    currentSortKey={sortConfig.key}
-                    currentDirection={sortConfig.direction}
-                    onClick={() => requestSort('name')}
-                  >
-                    Member
-                  </SortableTableHead>
-                  <SortableTableHead
-                     sortKey="joinDate"
-                     currentSortKey={sortConfig.key}
-                     currentDirection={sortConfig.direction}
-                     onClick={() => requestSort('joinDate')}
-                  >
-                    Join Date
-                  </SortableTableHead>
-                  <SortableTableHead
-                     sortKey="status"
-                     currentSortKey={sortConfig.key}
-                     currentDirection={sortConfig.direction}
-                     onClick={() => requestSort('status')}
-                  >
-                    Status
-                  </SortableTableHead>
-                  <SortableTableHead
-                     sortKey="kycStatus"
-                     currentSortKey={sortConfig.key}
-                     currentDirection={sortConfig.direction}
-                     onClick={() => requestSort('kycStatus')}
-                  >
-                    KYC Status
-                  </SortableTableHead>
-                  <SortableTableHead
-                     sortKey="unverifiedPiContribution"
-                     currentSortKey={sortConfig.key}
-                     currentDirection={sortConfig.direction}
-                     onClick={() => requestSort('unverifiedPiContribution')}
-                     className="text-right"
-                  >
-                    Contribution
-                  </SortableTableHead>
-                  <SortableTableHead
-                     sortKey="teamMemberActiveMiningHours_LastWeek"
-                     currentSortKey={sortConfig.key}
-                     currentDirection={sortConfig.direction}
-                     onClick={() => requestSort('teamMemberActiveMiningHours_LastWeek')}
-                     className="text-right"
-                  >
-                    Activity (Last Week)
-                  </SortableTableHead>
-                  <SortableTableHead
-                     sortKey="teamMemberActiveMiningHours_LastMonth"
-                     currentSortKey={sortConfig.key}
-                     currentDirection={sortConfig.direction}
-                     onClick={() => requestSort('teamMemberActiveMiningHours_LastMonth')}
-                     className="text-right"
-                  >
-                    Activity (Last Month)
-                  </SortableTableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {sortedTeamMembers.map((member) => (
-                  <TeamMemberRow key={member.id} member={member} />
-                ))}
-              </TableBody>
-            </Table>
+            <div className="border rounded-md">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <SortableTableHead sortKey="name" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('name')}>
+                      Member
+                    </SortableTableHead>
+                    <SortableTableHead sortKey="joinDate" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('joinDate')}>
+                      Join Date
+                    </SortableTableHead>
+                    <SortableTableHead sortKey="status" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('status')}>
+                      Status
+                    </SortableTableHead>
+                    <SortableTableHead sortKey="kycStatus" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('kycStatus')}>
+                      KYC Status
+                    </SortableTableHead>
+                    <SortableTableHead sortKey="unverifiedPiContribution" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('unverifiedPiContribution')} isNumeric={true}>
+                      Contribution
+                    </SortableTableHead>
+                    <SortableTableHead sortKey="teamMemberActiveMiningHours_LastWeek" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('teamMemberActiveMiningHours_LastWeek')} isNumeric={true}>
+                      Activity (wk)
+                    </SortableTableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {sortedTeamMembers.map((member) => (
+                    <TeamMemberRow key={member.id} member={member} />
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           )}
         </CardContent>
       </Card>

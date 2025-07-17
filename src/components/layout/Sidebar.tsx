@@ -1,8 +1,7 @@
+
 "use client"
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
 import {
   LayoutDashboard,
   Users,
@@ -12,11 +11,11 @@ import {
   ShieldQuestion,
   MessageSquare,
   Heart,
-  FileText,
-  ShieldCheck,
-  HelpCircle
+  HelpCircle,
+  LogOut,
+  Shield,
+  Coins
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   AlertDialog,
@@ -32,89 +31,82 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import { SidebarNavLink } from './SidebarNavLink';
 import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { PI_TEAM_CHAT_URL } from '@/lib/constants';
-
+import { useRouter } from 'next/navigation';
+import { Button } from '../ui/button';
 
 export function Sidebar() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
-  const isMobile = useIsMobile();
-  const [isCollapsed, setIsCollapsed] = useState(isMobile);
-
-  useEffect(() => {
-    setIsCollapsed(isMobile);
-  }, [isMobile]);
-
-  const handleNavigation = () => {
-    if (isMobile && !isCollapsed) {
-      // setIsCollapsed(true);
-    }
-  };
 
   const handleOpenChat = () => {
     window.open(PI_TEAM_CHAT_URL, '_blank');
-    handleNavigation(); 
+  };
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
   };
 
   if (!user) return null;
 
+  const avatarFallback = user.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase() : '?';
+
   return (
     <div
       className={cn(
-        "hidden lg:flex h-screen flex-col border-r bg-card transition-all duration-300 ease-in-out w-64"
+        "hidden lg:flex h-screen flex-col justify-between border-r bg-card transition-all duration-300 ease-in-out w-64"
       )}
     >
-      <div className="flex h-20 items-center border-b px-6 shrink-0">
-        <Link href="/dashboard" className="flex items-center gap-3" onClick={handleNavigation}>
-           <ShieldQuestion className="h-8 w-8 text-primary" />
-           <span className="text-xl font-bold text-foreground font-headline">Dynamic Wallet View</span>
-        </Link>
+      <div>
+        <div className="flex h-20 items-center border-b px-6 shrink-0">
+          <Link href="/dashboard" className="flex items-center gap-3">
+             <ShieldQuestion className="h-8 w-8 text-primary" />
+             <span className="text-xl font-bold text-foreground font-headline">Dynamic Wallet View</span>
+          </Link>
+        </div>
+
+        <nav className="flex-grow px-4 py-4 space-y-1">
+          <p className="px-4 py-2 text-xs font-semibold uppercase text-muted-foreground/80">Menu</p>
+          <SidebarNavLink href="/dashboard" icon={<LayoutDashboard />}>
+            Dashboard
+          </SidebarNavLink>
+          <SidebarNavLink href="/dashboard/team" icon={<Users />}>
+            Team Insights
+          </SidebarNavLink>
+          <SidebarNavLink href="/dashboard/node" icon={<Network />}>
+            Node Analysis
+          </SidebarNavLink>
+          <SidebarNavLink href="/dashboard/donate" icon={<Heart />}>
+            Donate
+          </SidebarNavLink>
+          <SidebarNavLink href="/dashboard/transactions" icon={<Coins />} disabled={true}>
+            Transactions
+          </SidebarNavLink>
+          <SidebarNavLink href="/dashboard/security" icon={<Shield />} disabled={true}>
+            Security Circle
+          </SidebarNavLink>
+        </nav>
       </div>
 
-      <nav className="flex-grow px-4 py-4 space-y-2">
-        <SidebarNavLink href="/dashboard" icon={<LayoutDashboard />} onNavigate={handleNavigation}>
-          Dashboard
-        </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/team" icon={<Users />} onNavigate={handleNavigation}>
-          Team Insights
-        </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/node" icon={<Network />} onNavigate={handleNavigation}>
-          Node Analysis
-        </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/donate" icon={<Heart />} onNavigate={handleNavigation}>
-          Donate
-        </SidebarNavLink>
-        
-        <p className="px-4 pt-4 text-xs font-semibold uppercase text-muted-foreground/80">Account</p>
-        
-        <SidebarNavLink href="/dashboard/profile" icon={<UserCircle />} onNavigate={handleNavigation}>
-          Profile
-        </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/settings" icon={<Settings />} onNavigate={handleNavigation}>
-          Settings
-        </SidebarNavLink>
+      <div className="mt-auto border-t p-4 shrink-0">
+        <div className="text-xs text-muted-foreground mb-4 space-y-1">
+            <p><Link href="/legal/terms" className="hover:text-primary">Terms of Use</Link> · <Link href="/legal/privacy" className="hover:text-primary">Privacy Policy</Link></p>
+            <p>Licensed under PIOS · Not an official Pi App</p>
+        </div>
 
-        <p className="px-4 pt-4 text-xs font-semibold uppercase text-muted-foreground/80">Help</p>
-        <SidebarNavLink href="/legal/help" icon={<HelpCircle />} onNavigate={handleNavigation}>
-          Help Center
-        </SidebarNavLink>
-        
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <button className={cn(
-                "w-full flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium transition-all",
-                "text-muted-foreground hover:text-foreground"
-            )}>
-              <MessageSquare className="h-5 w-5 shrink-0" />
-              <span className="truncate">Team Chat</span>
-            </button>
+            <Button variant="ghost" className="w-full justify-start text-muted-foreground hover:text-foreground">
+                <MessageSquare className="h-5 w-5 mr-3" />
+                Team Chat
+            </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Open Team Chat?</AlertDialogTitle>
               <AlertDialogDescription>
-                You are about to be redirected to the official Pi Team Chat. Do you want to continue?
+                You are about to be redirected to an external chat application. Do you want to continue?
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
@@ -124,23 +116,14 @@ export function Sidebar() {
           </AlertDialogContent>
         </AlertDialog>
 
-      </nav>
-
-      <div className="mt-auto border-t p-4 shrink-0">
-        <div className="flex items-center gap-3">
-          <Avatar className="h-10 w-10">
-            <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person face" />
-            <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col truncate">
-            <span className="text-sm font-medium truncate">{user.name}</span>
-            <span className="text-xs text-muted-foreground truncate">@{user.username}</span>
-          </div>
-        </div>
-         <div className="text-xs text-muted-foreground mt-4 space-y-1">
-          <p><Link href="/legal/terms" className="hover:text-primary">Terms of Use</Link> · <Link href="/legal/privacy" className="hover:text-primary">Privacy Policy</Link></p>
-          <p>Licensed under PIOS · Third-Party Service</p>
-        </div>
+        <Button variant="ghost" className="w-full justify-start text-muted-foreground hover:text-foreground" onClick={() => router.push('/legal/help')}>
+            <HelpCircle className="h-5 w-5 mr-3" />
+            Help Center
+        </Button>
+        <Button variant="ghost" className="w-full justify-start text-muted-foreground hover:text-foreground" onClick={handleLogout}>
+            <LogOut className="h-5 w-5 mr-3" />
+            Logout
+        </Button>
       </div>
     </div>
   );

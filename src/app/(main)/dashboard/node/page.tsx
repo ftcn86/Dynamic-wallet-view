@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useState } from 'react';
@@ -9,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { TrendingUp, Server, ExternalLink } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ResponsiveContainer, LineChart as RechartsLineChart, XAxis, YAxis, Tooltip as RechartsTooltip, Legend, Line } from 'recharts';
+import { ResponsiveContainer, LineChart as RechartsLineChart, XAxis, YAxis, Legend, Line } from 'recharts';
 import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart';
 import { format } from 'date-fns';
 import { PI_NODE_INFO_URL } from '@/lib/constants';
@@ -48,8 +49,7 @@ function NodeOperatorView() {
     );
   }
 
-  if (error) return null; 
-  if (!nodeData) return null;
+  if (error || !nodeData) return null; 
 
   const chartConfig = {
     score: {
@@ -118,7 +118,7 @@ function BecomeANodeOperatorPrompt() {
 export default function NodeAnalysisPage() {
   const { user } = useAuth();
 
-  if (!user) return <p>Loading...</p>; 
+  if (!user) return <div className="flex h-full w-full items-center justify-center"><LoadingSpinner size={32} /></div>;
 
   return (
     <div className="space-y-6">

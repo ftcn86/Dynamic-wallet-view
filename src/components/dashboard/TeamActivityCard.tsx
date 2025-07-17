@@ -1,9 +1,9 @@
+
 "use client"
 
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
-import type { Badge as BadgeType } from '@/data/schemas';
 import { mockTeam, GAMIFICATION_BADGE_IDS } from '@/data/mocks';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Trophy, ChevronRight, Award } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Skeleton } from '../ui/skeleton';
 
 const MAX_LEADERBOARD_ENTRIES = 5;
 const DISPLAY_RECENT_BADGES_COUNT = 3;
@@ -19,7 +20,21 @@ export function TeamActivityCard() {
   const { user } = useAuth();
   const team = mockTeam; 
 
-  if (!user) return null;
+  if (!user) return (
+     <Card className={cn("shadow-lg")}>
+      <CardHeader>
+        <Skeleton className="h-6 w-1/2" />
+        <Skeleton className="h-4 w-3/4" />
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <Skeleton className="h-24 w-full" />
+        <Skeleton className="h-16 w-full" />
+      </CardContent>
+      <CardFooter>
+        <Skeleton className="h-10 w-full" />
+      </CardFooter>
+    </Card>
+  );
 
   const leaderboard = team
     .filter(member => member.status === 'active' && typeof member.teamMemberActiveMiningHours_LastWeek === 'number')
@@ -32,7 +47,6 @@ export function TeamActivityCard() {
   const displayLeaderboard = leaderboard.slice(0, MAX_LEADERBOARD_ENTRIES);
 
   const userWeeklyActivity = user.userActiveMiningHours_LastWeek ?? 0;
-  const userMonthlyActivity = user.userActiveMiningHours_LastMonth ?? 0;
 
   const fullActivityList = [
     ...leaderboard.map(m => ({ name: m.name, activity: m.activity, id: m.id })),
@@ -53,22 +67,20 @@ export function TeamActivityCard() {
 
 
   return (
-    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1")}>
+    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300")}>
       <CardHeader>
         <CardTitle className="font-headline flex items-center">
           <Trophy className="mr-2 h-6 w-6 text-primary" />
           Team Mining Rally
         </CardTitle>
         <CardDescription>
-          Your Activity: {userWeeklyActivity} hrs (Last Week), {userMonthlyActivity} hrs (Last Month)
+          See how your team is performing and celebrate recent achievements.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div>
           <h3 className="text-md font-semibold mb-2">
-            {leaderboard.length > MAX_LEADERBOARD_ENTRIES
-              ? `Weekly Team Rally (Top ${MAX_LEADERBOARD_ENTRIES})`
-              : "Weekly Team Rally"}
+            Weekly Team Rally (Top 5)
           </h3>
           {displayLeaderboard.length > 0 ? (
             <div className="overflow-x-auto rounded-md border">
@@ -93,15 +105,16 @@ export function TeamActivityCard() {
                           <span className="truncate">{member.name}</span>
                         </div>
                       </TableCell>
-                      <TableCell className="text-right">{member.activity} hrs</TableCell>
+                      <TableCell className="text-right font-mono">{member.activity} hrs</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </div>
           ) : (
-             team.length === 0 ? <p className="text-sm text-muted-foreground">No team members to display activity for yet.</p>
-                               : <p className="text-sm text-muted-foreground">No activity data to display for the team.</p>
+             <p className="text-sm text-center py-4 text-muted-foreground">
+              {team.length === 0 ? "No team members yet." : "No activity data for the team."}
+            </p>
           )}
           {leaderboard.length > MAX_LEADERBOARD_ENTRIES && userRankInFullList > MAX_LEADERBOARD_ENTRIES && (
             <p className="text-sm text-muted-foreground mt-2 text-center">

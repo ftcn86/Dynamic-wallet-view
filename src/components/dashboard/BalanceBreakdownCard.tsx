@@ -1,13 +1,29 @@
+
 "use client"
 
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { Skeleton } from '../ui/skeleton';
 
 export function BalanceBreakdownCard() {
   const { user } = useAuth();
 
-  if (!user) return null;
+  if (!user) return (
+    <Card className={cn("shadow-lg")}>
+      <CardHeader>
+        <Skeleton className="h-6 w-3/4" />
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <Skeleton className="h-5 w-full" />
+        <Skeleton className="h-5 w-full" />
+        <Skeleton className="h-5 w-full" />
+      </CardContent>
+      <CardFooter>
+        <Skeleton className="h-4 w-full" />
+      </CardFooter>
+    </Card>
+  );
 
   const breakdownItems = [
     { label: "Transferable to Mainnet", value: user.balanceBreakdown.transferableToMainnet },
@@ -16,7 +32,7 @@ export function BalanceBreakdownCard() {
   ];
 
   return (
-    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1")}>
+    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300")}>
       <CardHeader>
         <CardTitle className="font-headline">Balance Breakdown</CardTitle>
       </CardHeader>

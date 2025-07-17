@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from 'next/link';
@@ -21,6 +22,7 @@ import { UnverifiedPiDetailCard } from '@/components/dashboard/UnverifiedPiDetai
 import { MiningFocusCard } from '@/components/dashboard/MiningFocusCard';
 import { TeamActivityCard } from '@/components/dashboard/TeamActivityCard';
 import { mockTeam } from '@/data/mocks';
+import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -31,8 +33,8 @@ export default function DashboardPage() {
 
   if (!user) {
     return ( 
-      <div className="flex h-full items-center justify-center">
-        <p>Loading...</p>
+      <div className="flex h-full w-full items-center justify-center">
+        <LoadingSpinner size={32} />
       </div>
     );
   }
@@ -43,7 +45,6 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       
-      {/* KPIs Section */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <KPICard
           title="Total Pi Balance"
@@ -105,7 +106,6 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <BalanceBreakdownCard />

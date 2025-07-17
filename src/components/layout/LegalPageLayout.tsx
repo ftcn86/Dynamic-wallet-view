@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from 'next/navigation';
@@ -8,8 +9,6 @@ import ReactMarkdown from 'react-markdown';
 import { ArrowLeft } from 'lucide-react';
 import type { LegalSection } from '@/data/schemas';
 import { useAuth } from '@/contexts/AuthContext';
-// Note: useTranslation hook has been removed. This component now uses props for content.
-// A more robust app might fetch this content, but for our app, we will pass it from the page.
 
 interface LegalPageLayoutProps {
   pageTitle: string;
@@ -23,7 +22,7 @@ export default function LegalPageLayout({ pageTitle, sections, content, displayM
   const router = useRouter();
 
   const handleReturn = () => {
-    if (user) {
+    if (user && user.termsAccepted) {
       router.back();
     } else {
       router.push('/login');
@@ -53,13 +52,13 @@ export default function LegalPageLayout({ pageTitle, sections, content, displayM
               <ReactMarkdown>{content}</ReactMarkdown>
             </div>
           ) : (
-            <p>Loading content...</p> 
+            <p>Content is not available.</p> 
           )}
         </CardContent>
         <CardFooter>
           <Button variant="outline" onClick={handleReturn}>
             <ArrowLeft className="mr-2 h-4 w-4 text-primary" />
-            {user ? "Return" : "Return to Login"}
+            {user && user.termsAccepted ? "Return to App" : "Return to Login"}
           </Button>
         </CardFooter>
       </Card>

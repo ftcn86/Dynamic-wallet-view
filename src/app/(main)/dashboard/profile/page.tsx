@@ -1,16 +1,17 @@
+
 "use client"
 
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { UserCircle2 } from 'lucide-react';
+import { UserCircle2, Upload } from 'lucide-react';
 import { mockApiCall } from '@/lib/api';
 
 export default function ProfilePage() {
@@ -22,25 +23,25 @@ export default function ProfilePage() {
   const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl || 'https://placehold.co/128x128.png');
   const [isSaving, setIsSaving] = useState(false);
 
-  if (!user) return <div className="flex h-full items-center justify-center"><LoadingSpinner /></div>;
+  if (!user) return <div className="flex h-full w-full items-center justify-center"><LoadingSpinner size={32} /></div>;
 
   const handleSaveProfile = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSaving(true);
     try {
-      // In a real app, this would be an API call to your backend.
-      // We simulate it and then update the local context state.
       const updatedUserData = { ...user, name: displayName, bio, avatarUrl };
-      await mockApiCall({ data: updatedUserData }); // Simulate network delay
+      await mockApiCall({ data: updatedUserData }); 
       
       setUser(updatedUserData); 
       
       toast({
         title: "Profile Saved!",
+        description: "Your profile information has been successfully updated.",
       });
     } catch (error) {
       toast({
         title: "Save failed!",
+        description: "There was an error saving your profile. Please try again.",
         variant: 'destructive',
       });
     } finally {
@@ -51,39 +52,41 @@ export default function ProfilePage() {
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      // In a real app, you would upload this file to a storage service
-      // and get back a URL. For the prototype, we use a local object URL.
       setAvatarUrl(URL.createObjectURL(file));
     }
   };
+  
+  const avatarFallback = displayName ? displayName.split(' ').map(n => n[0]).join('').toUpperCase() : '?';
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold font-headline">Edit Profile</h1>
       <Card className="max-w-2xl mx-auto shadow-lg">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <UserCircle2 className="text-primary" />
-            Edit Profile
-          </CardTitle>
-          <CardDescription>Update your personal information.</CardDescription>
+          <CardTitle>Edit Profile</CardTitle>
+          <CardDescription>Update your personal information and avatar.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSaveProfile} className="space-y-6">
-            <div className="space-y-2 text-center">
-              <Label htmlFor="avatar-upload">Profile Picture</Label>
-              <Avatar className="h-32 w-32 mx-auto ring-2 ring-primary ring-offset-2">
+            <div className="flex flex-col items-center space-y-4">
+              <Avatar className="h-32 w-32 ring-4 ring-primary/20 ring-offset-background ring-offset-2">
                 <AvatarImage src={avatarUrl} alt={displayName} data-ai-hint="person face" />
-                <AvatarFallback>{displayName.charAt(0).toUpperCase()}</AvatarFallback>
+                <AvatarFallback className="text-4xl">{avatarFallback}</AvatarFallback>
               </Avatar>
-              <Input 
-                id="avatar-upload" 
-                type="file" 
-                className="mx-auto max-w-xs" 
-                accept="image/*" 
-                onChange={handleAvatarChange}
-              />
+              <Button asChild variant="outline">
+                <Label htmlFor="avatar-upload" className="cursor-pointer">
+                  <Upload className="mr-2 h-4 w-4" />
+                  Upload Photo
+                  <Input 
+                    id="avatar-upload" 
+                    type="file" 
+                    className="sr-only"
+                    accept="image/*" 
+                    onChange={handleAvatarChange}
+                  />
+                </Label>
+              </Button>
             </div>
+            
             <div className="space-y-2">
               <Label htmlFor="displayName">Display Name</Label>
               <Input
@@ -91,6 +94,7 @@ export default function ProfilePage() {
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 required
+                placeholder="Your Name"
               />
             </div>
             <div className="space-y-2">
@@ -100,6 +104,7 @@ export default function ProfilePage() {
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
                 rows={4}
+                placeholder="Tell us a little about yourself"
               />
             </div>
             <Button type="submit" disabled={isSaving} className="w-full">

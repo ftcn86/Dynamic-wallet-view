@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -16,7 +17,6 @@ export default function LoginPage() {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   useEffect(() => {
-    // If the auth context has a user and is not loading, redirect them.
     if (!isAuthContextLoading && user) {
       if (user.termsAccepted) {
         router.replace('/dashboard');
@@ -45,10 +45,8 @@ export default function LoginPage() {
       });
       setIsLoggingIn(false);
     }
-    // No need to setIsLoggingIn(false) on success, because the page will redirect.
   };
   
-  // Show a loading spinner while the auth context is figuring out if a user is already logged in.
   if (isAuthContextLoading || (!isAuthContextLoading && user)) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">

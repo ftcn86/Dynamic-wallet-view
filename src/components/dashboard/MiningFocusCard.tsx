@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useAuth } from '@/contexts/AuthContext';
@@ -39,9 +40,8 @@ export function MiningFocusCard() {
   const displayWeeklyTarget = weeklyTargetDays;
   const displayMonthlyTarget = monthlyTargetDays;
 
-
   return (
-    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1")}>
+    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300")}>
       <CardHeader>
         <CardTitle className="font-headline flex items-center">
           <Target className="mr-2 h-6 w-6 text-primary" />
@@ -50,51 +50,40 @@ export function MiningFocusCard() {
         <CardDescription>Track your personal mining goals and stay motivated!</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {displayWeeklyTarget > 0 && (
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <h3 className="text-sm font-medium text-muted-foreground flex items-center">
-                <CalendarDays className="mr-1.5 h-4 w-4 text-accent" />
-                Weekly Goal (Days)
-              </h3>
-              {isWeeklyGoalMet && <Badge variant="success">Goal Achieved!</Badge>}
-            </div>
-            <Progress value={weeklyProgressPercent} aria-label="Weekly mining goal" />
-            <p className="text-sm text-muted-foreground text-right">
-              {activeMiningDaysLastWeek.toFixed(0)} / {displayWeeklyTarget.toFixed(0)} days
-            </p>
-            {!isWeeklyGoalMet && displayWeeklyTarget > 0 && (
-              <p className="text-xs text-primary text-center">Keep up the great work!</p>
-            )}
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <h3 className="text-sm font-medium text-muted-foreground flex items-center">
+              <CalendarDays className="mr-1.5 h-4 w-4 text-accent" />
+              Weekly Goal
+            </h3>
+            {isWeeklyGoalMet && <Badge variant="success">Goal Met!</Badge>}
           </div>
-        )}
+          <Progress value={weeklyProgressPercent} aria-label="Weekly mining goal" />
+          <p className="text-sm text-muted-foreground text-right">
+            {activeMiningDaysLastWeek.toFixed(0)} / {displayWeeklyTarget.toFixed(0)} days
+          </p>
+        </div>
 
-        {displayMonthlyTarget > 0 && (
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <h3 className="text-sm font-medium text-muted-foreground flex items-center">
-                <CalendarDays className="mr-1.5 h-4 w-4 text-accent" />
-                Monthly Goal (Days)
-              </h3>
-              {isMonthlyGoalMet && <Badge variant="success">Goal Achieved!</Badge>}
-            </div>
-            <Progress value={monthlyProgressPercent} aria-label="Monthly mining goal" />
-            <p className="text-sm text-muted-foreground text-right">
-              {activeMiningDaysLastMonth.toFixed(0)} / {displayMonthlyTarget.toFixed(0)} days
-            </p>
-            {!isMonthlyGoalMet && displayMonthlyTarget > 0 && (
-               <p className="text-xs text-primary text-center">Making great progress!</p>
-            )}
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <h3 className="text-sm font-medium text-muted-foreground flex items-center">
+              <CalendarDays className="mr-1.5 h-4 w-4 text-accent" />
+              Monthly Goal
+            </h3>
+            {isMonthlyGoalMet && <Badge variant="success">Goal Met!</Badge>}
           </div>
-        )}
+          <Progress value={monthlyProgressPercent} aria-label="Monthly mining goal" />
+          <p className="text-sm text-muted-foreground text-right">
+            {activeMiningDaysLastMonth.toFixed(0)} / {displayMonthlyTarget.toFixed(0)} days
+          </p>
+        </div>
 
-        <div className="mt-4 pt-4 border-t border-border">
-            <div className="flex items-center text-sm text-muted-foreground">
-                <Users className="mr-2 h-5 w-5 text-primary/80"/>
+        <div className="mt-4 pt-4 border-t border-border/50">
+            <div className="flex items-start text-sm text-muted-foreground">
+                <Users className="mr-3 h-6 w-6 text-primary/80 flex-shrink-0 mt-1"/>
                 <p>Encourage your team to stay active! Their contributions help the network grow.</p>
             </div>
         </div>
-
       </CardContent>
     </Card>
   );
