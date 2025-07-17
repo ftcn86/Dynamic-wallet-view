@@ -110,3 +110,24 @@ export async function getNotifications(): Promise<Notification[]> {
         return mockApiCall({ data: mockNotifications });
     }
 }
+
+/**
+ * Simulates sending a broadcast message by adding a new notification to the mock data.
+ */
+export async function sendBroadcastNotification(message: string): Promise<void> {
+    const newNotification: Notification = {
+        id: `notif_${Date.now()}`,
+        type: 'team_message',
+        title: 'Message from your Team Leader',
+        description: message,
+        date: new Date().toISOString(),
+        read: false,
+        link: '/dashboard/team',
+    };
+
+    // In a real app, this would be a POST request to your backend.
+    // Here, we just add it to our mock data array to simulate the effect.
+    mockNotifications.unshift(newNotification);
+    
+    return mockApiCall({ data: undefined });
+}

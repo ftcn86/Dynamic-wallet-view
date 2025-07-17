@@ -106,7 +106,7 @@ export interface Transaction {
     description: string;
 }
 
-export type NotificationType = 'badge_earned' | 'team_update' | 'node_update' | 'announcement';
+export type NotificationType = 'badge_earned' | 'team_update' | 'node_update' | 'announcement' | 'team_message';
 
 export interface Notification {
   id: string;

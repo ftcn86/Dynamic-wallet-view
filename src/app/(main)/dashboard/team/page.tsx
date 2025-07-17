@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { getTeamMembers } from '@/services/piService';
+import { getTeamMembers, sendBroadcastNotification } from '@/services/piService';
 import type { TeamMember } from '@/data/schemas';
 import { format } from 'date-fns';
 import { Info, Users, Bell, MessageSquare, Send } from 'lucide-react';
@@ -38,20 +38,28 @@ function TeamManagementCard({ teamMembers }: { teamMembers: TeamMember[] }) {
         }, 1000);
     };
 
-    const handleBroadcast = () => {
+    const handleBroadcast = async () => {
         if (!broadcastMessage.trim()) {
             toast({ title: "Message is empty", variant: "destructive" });
             return;
         }
         setIsBroadcasting(true);
-        setTimeout(() => {
+        try {
+            await sendBroadcastNotification(broadcastMessage);
             toast({
                 title: "Broadcast Sent",
-                description: "Your message has been sent to all team members.",
+                description: "Your message has been sent to all team members as a notification.",
             });
             setBroadcastMessage("");
+        } catch (error) {
+             toast({
+                title: "Broadcast Failed",
+                description: "Could not send the broadcast. Please try again.",
+                variant: 'destructive'
+            });
+        } finally {
             setIsBroadcasting(false);
-        }, 1500);
+        }
     };
 
     return (

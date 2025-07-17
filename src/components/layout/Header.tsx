@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { getNotifications } from '@/services/piService';
 import type { Notification, NotificationType } from '@/data/schemas';
 import { Button } from '@/components/ui/button';
-import { Bell, LogOut, RefreshCw, UserCircle, Award, Users, Megaphone, Settings } from 'lucide-react';
+import { Bell, LogOut, RefreshCw, UserCircle, Award, Users, Megaphone, Settings, MessageSquare } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import {
   DropdownMenu,
@@ -38,6 +38,7 @@ const notificationIcons: Record<NotificationType, React.ElementType> = {
     badge_earned: Award,
     team_update: Users,
     announcement: Megaphone,
+    team_message: MessageSquare,
 };
 
 const notificationColors: Record<NotificationType, string> = {
@@ -45,6 +46,7 @@ const notificationColors: Record<NotificationType, string> = {
     badge_earned: 'text-blue-500',
     team_update: 'text-green-500',
     announcement: 'text-primary',
+    team_message: 'text-fuchsia-500',
 };
 
 
