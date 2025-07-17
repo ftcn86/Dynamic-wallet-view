@@ -2,8 +2,8 @@
 "use client";
 
 import { mockApiCall } from '@/lib/api';
-import { mockUser, mockTeam, mockNodeData } from '@/data/mocks';
-import type { User, TeamMember, NodeData } from '@/data/schemas';
+import { mockUser, mockTeam, mockNodeData, mockTransactions } from '@/data/mocks';
+import type { User, TeamMember, NodeData, Transaction } from '@/data/schemas';
 
 // --- SERVICE WRAPPER ---
 // This service layer abstracts the data source.
@@ -82,4 +82,18 @@ export async function getNodeData(): Promise<NodeData> {
     console.log("Dev Browser: Returning mock node data.");
     return mockApiCall({ data: mockNodeData });
   }
+}
+
+/**
+ * Fetches the transaction history for the current user.
+ * In a real app, this would be an authenticated API call to your backend.
+ */
+export async function getTransactions(): Promise<Transaction[]> {
+    if (isPiBrowser()) {
+        console.log("Pi Browser: Simulating fetch for transactions.");
+        return mockApiCall({ data: mockTransactions });
+    } else {
+        console.log("Dev Browser: Returning mock transactions.");
+        return mockApiCall({ data: mockTransactions });
+    }
 }

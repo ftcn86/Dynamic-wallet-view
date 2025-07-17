@@ -104,7 +104,7 @@ export function Sidebar() {
                     </SidebarNavLink>
                 </SidebarMenuItem>
                  <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard/transactions" icon={<Coins />} disabled={true}>
+                    <SidebarNavLink href="/dashboard/transactions" icon={<Coins />}>
                         Transactions
                     </SidebarNavLink>
                 </SidebarMenuItem>

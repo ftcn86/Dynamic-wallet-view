@@ -28,7 +28,6 @@ export interface User {
   activeMiningDays_LastMonth?: number;
   monthlyMiningDaysTarget?: number;
   termsAccepted?: boolean; // New field for T&C acceptance
-  // deviceLoginEnabled?: boolean; // Removed
 }
 
 export interface Badge {
@@ -77,4 +76,17 @@ export interface MockChartData {
 export interface LegalSection {
   title: string;
   content: string;
+}
+
+export type TransactionType = 'sent' | 'received' | 'mining_reward' | 'node_bonus';
+
+export interface Transaction {
+    id: string;
+    date: string;
+    type: TransactionType;
+    amount: number;
+    status: 'completed' | 'pending' | 'failed';
+    from?: string;
+    to?: string;
+    description: string;
 }
