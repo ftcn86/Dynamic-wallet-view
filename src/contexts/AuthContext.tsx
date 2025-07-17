@@ -3,8 +3,9 @@
 
 import type { Dispatch, ReactNode, SetStateAction} from 'react';
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import type { User } from '@/data/schemas';
+import type { User, UserSettings } from '@/data/schemas';
 import { getAuthenticatedUser } from '@/services/piService';
+import { mockUser } from '@/data/mocks';
 
 interface AuthContextType {
   user: User | null;
@@ -74,12 +75,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const fetchedUser = await getAuthenticatedUser();
       
+      const defaultSettings: UserSettings = {
+        remindersEnabled: true,
+        reminderHoursBefore: 1,
+      };
+
+      // Ensure fetchedUser always has a settings object
+      fetchedUser.settings = { ...defaultSettings, ...fetchedUser.settings };
+
       const storedUserItem = localStorage.getItem(PI_PULSE_USER_KEY);
       if (storedUserItem) {
           const storedUser = JSON.parse(storedUserItem) as User;
           // Preserve settings across logins if user is the same
           if (storedUser.id === fetchedUser.id) {
               fetchedUser.termsAccepted = storedUser.termsAccepted || fetchedUser.termsAccepted;
+              // Merge stored settings, ensuring defaults are present
               fetchedUser.settings = { ...fetchedUser.settings, ...storedUser.settings };
           }
       }

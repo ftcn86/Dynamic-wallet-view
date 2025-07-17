@@ -19,7 +19,8 @@ export default function SettingsPage() {
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
 
-  if (!user) {
+  // Ensure user and user.settings exist before rendering
+  if (!user || !user.settings) {
     return (
       <div className="flex h-full w-full items-center justify-center">
         <LoadingSpinner size={32} />
@@ -28,12 +29,20 @@ export default function SettingsPage() {
   }
 
   const handleReminderChange = (checked: boolean) => {
-    setUser(prevUser => prevUser ? { ...prevUser, settings: { ...prevUser.settings, remindersEnabled: checked } } : null);
+    setUser(prevUser => {
+      if (!prevUser) return null;
+      const newSettings = { ...prevUser.settings, remindersEnabled: checked };
+      return { ...prevUser, settings: newSettings };
+    });
   };
   
   const handleReminderTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.max(0.5, Math.min(23.5, parseFloat(e.target.value)));
-    setUser(prevUser => prevUser ? { ...prevUser, settings: { ...prevUser.settings, reminderHoursBefore: value } } : null);
+    const value = Math.max(0.5, Math.min(23.5, parseFloat(e.target.value) || 0));
+     setUser(prevUser => {
+      if (!prevUser) return null;
+      const newSettings = { ...prevUser.settings, reminderHoursBefore: value };
+      return { ...prevUser, settings: newSettings };
+    });
   };
 
   const handleSaveSettings = async () => {
