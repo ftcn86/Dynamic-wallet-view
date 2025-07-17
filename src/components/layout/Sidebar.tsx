@@ -1,34 +1,23 @@
+
 "use client"
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   LayoutDashboard,
   Users,
   Network,
   UserCircle,
   Settings,
-  LogOut,
-  ChevronLeft,
-  ChevronRight,
   ShieldQuestion,
-  DollarSign,
-  HelpCircle,
-  FileText,
-  ShieldCheck,
   MessageSquare,
   Heart,
+  FileText,
+  ShieldCheck,
+  HelpCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   AlertDialog,
@@ -49,21 +38,18 @@ import { PI_TEAM_CHAT_URL } from '@/lib/constants';
 
 
 export function Sidebar() {
-  const { user, logout: authLogout } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const isMobile = useIsMobile();
+  const [isCollapsed, setIsCollapsed] = useState(isMobile);
 
-  const performLogout = () => {
-    authLogout();
-    router.push('/login');
-  };
-
-  const toggleSidebar = () => setIsCollapsed(!isCollapsed);
+  useEffect(() => {
+    setIsCollapsed(isMobile);
+  }, [isMobile]);
 
   const handleNavigation = () => {
     if (isMobile && !isCollapsed) {
-      setIsCollapsed(true);
+      // setIsCollapsed(true);
     }
   };
 
@@ -77,136 +63,59 @@ export function Sidebar() {
   return (
     <div
       className={cn(
-        "flex h-screen flex-col border-r bg-card transition-all duration-300 ease-in-out",
-        isCollapsed ? "w-20" : "w-64"
+        "hidden lg:flex h-screen flex-col border-r bg-card transition-all duration-300 ease-in-out w-64"
       )}
     >
-      <div className="flex h-16 items-center border-b px-4 shrink-0">
-        <Link href="/dashboard" className="flex items-center gap-2 font-semibold text-lg" onClick={handleNavigation}>
-          <ShieldQuestion className="h-7 w-7 text-primary" />
-          {!isCollapsed && <span className="font-headline">Dynamic Pi Wallet View</span>}
+      <div className="flex h-20 items-center border-b px-6 shrink-0">
+        <Link href="/dashboard" className="flex flex-col" onClick={handleNavigation}>
+          <span className="text-xl font-bold text-foreground font-headline">Dynamic Wallet View</span>
+          <span className="text-sm text-muted-foreground">Analytics & Portfolio Tracker</span>
         </Link>
-        <Button variant="ghost" size="icon" className={cn("ml-auto h-8 w-8", isCollapsed && "mx-auto my-1")} onClick={toggleSidebar}>
-          {isCollapsed ? <ChevronRight className="h-5 w-5 text-muted-foreground" /> : <ChevronLeft className="h-5 w-5 text-muted-foreground" />}
-          <span className="sr-only">Toggle sidebar</span>
-        </Button>
       </div>
 
-      <nav className="flex-grow px-4 py-4 space-y-1 overflow-y-auto">
-        <SidebarNavLink href="/dashboard" icon={<LayoutDashboard className="text-primary/90" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
+      <nav className="flex-grow px-4 py-4 space-y-2">
+        <SidebarNavLink href="/dashboard" icon={<LayoutDashboard />} onNavigate={handleNavigation}>
           Dashboard
         </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/team" icon={<Users className="text-primary/90" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
-          Team Insights
-        </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/node" icon={<Network className="text-primary/90" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
-          Node Analysis
-        </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/donate" icon={<Heart className="text-pink-500" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
-          Donate
-        </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/profile" icon={<UserCircle className="text-primary/90" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
+        <SidebarNavLink href="/dashboard/profile" icon={<UserCircle />} onNavigate={handleNavigation}>
           Profile
         </SidebarNavLink>
-        <SidebarNavLink href="/dashboard/settings" icon={<Settings className="text-primary/90" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
+        {/* These items are in the design but not yet implemented */}
+        <SidebarNavLink href="#" icon={<FileText />} onNavigate={handleNavigation} disabled>
+          Transactions
+        </SidebarNavLink>
+        <SidebarNavLink href="#" icon={<ShieldCheck />} onNavigate={handleNavigation} disabled>
+          Security Circles
+        </SidebarNavLink>
+        <SidebarNavLink href="/dashboard/node" icon={<Network />} onNavigate={handleNavigation}>
+          Node
+        </SidebarNavLink>
+        <SidebarNavLink href="/dashboard/donate" icon={<Heart />} onNavigate={handleNavigation}>
+          Donate
+        </SidebarNavLink>
+        <SidebarNavLink href="/dashboard/settings" icon={<Settings />} onNavigate={handleNavigation}>
           Settings
         </SidebarNavLink>
- <SidebarNavLink href="/legal/help" icon={<HelpCircle className="text-accent" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
- Help & Support
- </SidebarNavLink>
- <SidebarNavLink href="/legal/terms" icon={<FileText className="text-accent" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
- Terms of Service
- </SidebarNavLink>
- <SidebarNavLink href="/legal/privacy" icon={<ShieldCheck className="text-accent" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
- Privacy Policy
- </SidebarNavLink>
-        
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <button
-              className={cn(
-                "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10",
-                isCollapsed && "justify-center"
-              )}
-            >
-              <MessageSquare className="h-5 w-5 text-accent" />
-              {!isCollapsed && <span className="truncate">Team Chat</span>}
-              {isCollapsed && <span className="sr-only">Team Chat</span>}
-            </button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Open Team Chat?</AlertDialogTitle>
-              <AlertDialogDescription>
-                You are about to be redirected to the official Pi Team Chat in a new tab. Do you want to continue?
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleOpenChat}>
-                Open Chat
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <SidebarNavLink href="/legal/help" icon={<HelpCircle />} onNavigate={handleNavigation}>
+          Help
+        </SidebarNavLink>
       </nav>
 
-      <div className={cn("px-4 py-4", isCollapsed && "px-2 py-2")}>
-         <div className={cn(
-            "rounded-lg bg-muted p-3 text-center text-sm text-muted-foreground",
-             isCollapsed && "p-2 flex justify-center items-center" 
-            )}>
-            {isCollapsed ? <DollarSign className="h-5 w-5 text-green-500" /> : "Your Ad Here"}
-         </div>
-      </div>
-      
       <div className="mt-auto border-t p-4 shrink-0">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className={cn("flex h-auto w-full items-center gap-2 p-2 text-left", isCollapsed && "justify-center p-0 aspect-square")}>
-              <Avatar className="h-9 w-9">
-                <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person face" />
-                <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
-              </Avatar>
-              {!isCollapsed && (
-                <div className="flex flex-col truncate">
-                  <span className="text-sm font-medium truncate">{user.name}</span>
-                  <span className="text-xs text-muted-foreground truncate">{user.username}</span>
-                </div>
-              )}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent side="top" align={isCollapsed ? "center" : "end"} className="w-56">
- <AlertDialog>
- <AlertDialogTrigger asChild>
- <button className="w-full flex items-center gap-2 px-2 py-1.5 text-sm rounded-sm text-destructive focus:bg-destructive/10 hover:bg-destructive/10 outline-none relative select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
- <LogOut className="h-4 w-4 text-destructive" />
- <span>Logout</span>
- </button>
- </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Are you sure you want to log out? You will need to re-authenticate with your Pi Network account to log back in.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => {
-                      handleNavigation(); 
-                      performLogout();
-                    }}
-                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                  >
-                    Logout
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex items-center gap-3">
+          <Avatar className="h-10 w-10">
+            <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person face" />
+            <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col truncate">
+            <span className="text-sm font-medium truncate">{user.name}</span>
+            <span className="text-xs text-muted-foreground truncate">{user.username}</span>
+          </div>
+        </div>
+         <div className="text-xs text-muted-foreground mt-4 space-y-1">
+          <p><Link href="/legal/terms" className="hover:text-primary">Terms of Use</Link> · <Link href="/legal/privacy" className="hover:text-primary">Privacy Policy</Link></p>
+          <p>Licensed under PIOS · Third-Party Service</p>
+        </div>
       </div>
     </div>
   );

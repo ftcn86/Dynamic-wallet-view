@@ -2,7 +2,7 @@
 "use client"
 
 import Link from 'next/link';
-import { Banknote, Gauge, Users as UsersIcon, Server, CalendarIcon } from 'lucide-react';
+import { Banknote, Gauge, Users as UsersIcon, Server, CalendarIcon, ArrowUp } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { KPICard } from '@/components/shared/KPICard';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -24,7 +24,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Image from 'next/image';
 import type { Badge } from '@/data/schemas';
@@ -41,99 +40,6 @@ import { UnverifiedPiDetailCard } from '@/components/dashboard/UnverifiedPiDetai
 import * as RechartsPrimitive from "recharts";
 import { cn } from '@/lib/utils';
 
-
-function WelcomeHeader({ name }: { name: string }) {
-  return (
-    <div className="mb-6">
-      <h1 className="text-3xl font-bold font-headline">
-        Welcome back, <span className="text-primary">{name}!</span>
-      </h1>
-      <p className="flex items-center text-muted-foreground mt-1">
-        <CalendarIcon className="mr-2 h-4 w-4" />
-        {format(new Date(), "EEEE, MMMM d, yyyy")}
-      </p>
-    </div>
-  );
-}
-
-
-function BalanceBreakdownCard() {
-  const { user } = useAuth();
-
-  if (!user) return null;
-
-  const breakdownItems = [
-    { label: "Transferable to Mainnet", value: user.balanceBreakdown.transferableToMainnet },
-    { label: "Total Unverified Pi", value: user.balanceBreakdown.totalUnverifiedPi },
-    { label: "Currently in Lockups", value: user.balanceBreakdown.currentlyInLockups }
-  ];
-
-  return (
-    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1")}>
-      <CardHeader>
-        <CardTitle className="font-headline">Balance Breakdown</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        {breakdownItems.map((item) => (
-          <div key={item.label} className="flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">{item.label}</span>
-            <span className="font-medium">{Number(item.value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })} Pi</span>
-          </div>
-        ))}
-      </CardContent>
-      <CardFooter>
-        <p className="text-xs text-muted-foreground">Note: Unverified Pi requires associated members to complete KYC to become transferable.</p>
-      </CardFooter>
-    </Card>
-  );
-}
-
-function UnverifiedBalanceChart() {
-  const [timePeriod, setTimePeriod] = useState<keyof typeof mockChartData>('6M');
-  
-  const chartData = mockChartData[timePeriod];
-
-  const chartConfig = {
-    transferable: {
-      label: "Transferable",
-      color: "hsl(var(--primary))",
-    },
-    unverified: {
-      label: "Unverified",
-      color: "hsl(var(--accent))",
-    },
-  } satisfies ChartConfig;
-  
-  return (
-    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1")}>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="font-headline">Balance Fluctuation</CardTitle>
-        <Select value={timePeriod} onValueChange={(value: keyof typeof mockChartData) => setTimePeriod(value)}>
-          <SelectTrigger className="w-[100px]">
-            <SelectValue placeholder="6M" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="3M">3M</SelectItem>
-            <SelectItem value="6M">6M</SelectItem>
-            <SelectItem value="12M">12M</SelectItem>
-          </SelectContent>
-        </Select>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px] w-full">
-          <RechartsPrimitive.BarChart data={chartData} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <RechartsPrimitive.XAxis dataKey="date" tickFormatter={(value) => format(new Date(value), 'MMM yy')} />
-            <RechartsPrimitive.YAxis label={{ value: "Pi Amount", angle: -90, position: 'insideLeft' }} />
-            <RechartsPrimitive.Legend />
-            <RechartsPrimitive.Bar dataKey="transferable" fill="var(--color-transferable)" radius={4} name="Transferable" />
-            <RechartsPrimitive.Bar dataKey="unverified" fill="var(--color-unverified)" radius={4} name="Unverified" />
-          </RechartsPrimitive.BarChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
-  );
-}
 
 function BadgeDetailsDialog({ badge, children }: { badge: Badge, children: React.ReactNode }) {
   return (
@@ -164,29 +70,37 @@ function MyBadges() {
   const { user } = useAuth();
 
   if (!user || !user.badges) return null;
+  
+  const earnedBadgesCount = user.badges.filter(b => b.earned).length;
 
   return (
-    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1")}>
+    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
       <CardHeader>
-        <CardTitle className="font-headline">My Badges</CardTitle>
+        <div className="flex justify-between items-center">
+           <CardTitle className="font-headline text-xl">Achievements</CardTitle>
+           <span className="text-sm font-medium text-primary">{earnedBadgesCount} Earned</span>
+        </div>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {user.badges.map((badge) => (
             <BadgeDetailsDialog badge={badge} key={badge.id}>
-              <button className="flex flex-col items-center space-y-2 group focus:outline-none focus:ring-2 focus:ring-primary rounded-md p-1">
+              <div className="flex items-center space-x-4 p-3 rounded-lg hover:bg-muted cursor-pointer transition-colors">
                  <Image
                     src={badge.iconUrl}
                     alt={badge.name}
-                    width={64}
-                    height={64}
-                    className={`rounded-lg transition-all duration-300 group-hover:scale-110 ${badge.earned ? '' : 'grayscale opacity-50'}`}
+                    width={40}
+                    height={40}
+                    className={`rounded-lg transition-all duration-300 ${badge.earned ? '' : 'grayscale opacity-50'}`}
                     data-ai-hint={badge.dataAiHint || 'badge icon'}
                   />
-                <span className={`text-xs text-center ${badge.earned ? 'font-medium' : 'text-muted-foreground'}`}>
-                  {badge.name}
-                </span>
-              </button>
+                <div className="flex-1">
+                  <p className={`font-semibold ${badge.earned ? 'text-card-foreground' : 'text-muted-foreground'}`}>
+                    {badge.name}
+                  </p>
+                  <p className="text-xs text-muted-foreground">{badge.description}</p>
+                </div>
+              </div>
             </BadgeDetailsDialog>
           ))}
         </div>
@@ -216,23 +130,26 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <WelcomeHeader name={user.name} />
       
       {/* KPIs Section */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <KPICard
-          title="Total Pi Balance"
-          value={user.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}) + ' Pi'}
-          icon={<Banknote className="h-5 w-5 text-primary" />}
+          title="Pi Balance"
+          value={user.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' π'}
+          icon={<Banknote />}
+          footerValue={`~$${(user.totalBalance * 0.42).toFixed(2)} USD`}
+          change="+2.3%"
         />
 
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <div className="cursor-pointer">
               <KPICard
-                title="Current Mining Rate"
-                value={`${user.miningRate.toFixed(4)} Pi/hr`}
-                icon={<Gauge className="h-5 w-5 text-accent" />}
+                title="Analytics Rate"
+                value={`${user.miningRate.toFixed(2)} π/hr`}
+                icon={<Gauge />}
+                footerValue="Ready to analyze"
+                badgeText="Active"
               />
             </div>
           </AlertDialogTrigger>
@@ -252,44 +169,31 @@ export default function DashboardPage() {
           </AlertDialogContent>
         </AlertDialog>
         
+        <Link href="/dashboard/team" className="block">
+          <KPICard
+            title="Team Members"
+            value={`${activeTeamMembers}`}
+            icon={<UsersIcon />}
+            footerValue={`${totalTeamMembers - activeTeamMembers} inactive`}
+            badgeText={`+${totalTeamMembers - activeTeamMembers}`}
+          />
+        </Link>
+        
         {user.isNodeOperator && user.nodeUptimePercentage !== undefined && (
           <Link href="/dashboard/node" className="block">
             <KPICard
-              title="Node Uptime"
-              value={`${user.nodeUptimePercentage.toFixed(2)}%`}
-              icon={<Server className="h-5 w-5 text-primary" />}
+              title="Node Status"
+              value={`${user.nodeUptimePercentage.toFixed(1)}%`}
+              icon={<Server />}
+              footerValue="Uptime this month"
+              badgeText="Offline"
+              badgeVariant="secondary"
             />
           </Link>
         )}
-
-        <Link href="/dashboard/team" className="block">
-          <KPICard
-            title="Active Team Members"
-            value={`${activeTeamMembers} / ${totalTeamMembers}`}
-            icon={<UsersIcon className="h-5 w-5 text-accent" />}
-          />
-        </Link>
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* Left Column */}
-        <div className="lg:col-span-2 space-y-6">
-          <BalanceBreakdownCard />
-          <UnverifiedPiDetailCard />
-          <UnverifiedBalanceChart />
-        </div>
-
-        {/* Right Column */}
-        <div className="lg:col-span-1 space-y-6">
-          <MiningFocusCard />
-          <TeamActivityCard />
-        </div>
-      
-      </div>
-
-      {/* Full-width cards at the bottom */}
+      {/* Main Content */}
       <div className="space-y-6">
         <MyBadges />
       </div>
@@ -297,4 +201,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-

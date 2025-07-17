@@ -12,27 +12,47 @@ interface SidebarNavLinkProps {
   children: ReactNode;
   icon?: ReactNode;
   isCollapsed?: boolean;
-  onNavigate?: () => void; // New prop
+  onNavigate?: () => void;
+  disabled?: boolean;
 }
 
-export function SidebarNavLink({ href, children, icon, isCollapsed, onNavigate }: SidebarNavLinkProps) {
+export function SidebarNavLink({ href, children, icon, isCollapsed, onNavigate, disabled = false }: SidebarNavLinkProps) {
   const pathname = usePathname();
-  const isActive = pathname === href || (href !== '/dashboard' && pathname.startsWith(href));
+  const isActive = !disabled && (pathname === href || (href !== '/dashboard' && pathname.startsWith(href)));
+
+  const linkClasses = cn(
+    "flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium transition-all",
+    isCollapsed && "justify-center",
+    disabled 
+      ? "text-muted-foreground/50 cursor-not-allowed" 
+      : "text-muted-foreground hover:text-foreground",
+    isActive && !disabled && "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-md"
+  );
+
+  const content = (
+    <>
+      {icon && React.cloneElement(icon as React.ReactElement, { className: "h-5 w-5 shrink-0" })}
+      {!isCollapsed && <span className="truncate">{children}</span>}
+      {isCollapsed && <span className="sr-only">{children}</span>}
+    </>
+  );
+
+  if (disabled) {
+    return (
+      <div className={linkClasses} onClick={onNavigate}>
+        {content}
+      </div>
+    );
+  }
 
   return (
     <Link
       href={href}
-      className={cn(
-        "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10",
-        isActive && "bg-primary/10 text-primary font-medium",
-        isCollapsed && "justify-center"
-      )}
+      className={linkClasses}
       aria-current={isActive ? "page" : undefined}
-      onClick={onNavigate} // Call onNavigate when the link is clicked
+      onClick={onNavigate}
     >
-      {icon && React.cloneElement(icon as React.ReactElement, { className: "h-5 w-5" })}
-      {!isCollapsed && <span className="truncate">{children}</span>}
-      {isCollapsed && <span className="sr-only">{children}</span>}
+      {content}
     </Link>
   );
 }
