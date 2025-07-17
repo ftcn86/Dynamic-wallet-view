@@ -22,7 +22,7 @@ export function KPICard({ title, value, icon, footerValue, change, badgeText, ba
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
         </CardTitle>
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
+        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
           {React.cloneElement(icon as React.ReactElement, { className: "h-5 w-5" })}
         </div>
       </CardHeader>
