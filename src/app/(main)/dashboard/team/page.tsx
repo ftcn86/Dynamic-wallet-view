@@ -9,18 +9,13 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { getTeamMembers } from '@/services/piService';
 import type { TeamMember } from '@/data/schemas';
 import { format } from 'date-fns';
-import { Info, Users, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
+import { Info, Users } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
 import { KycStatusBadge } from '@/components/shared/KycStatusBadge'; 
 import { Badge as UiBadge } from '@/components/ui/badge';
+import { SortableTableHead, type SortConfig } from '@/components/shared/SortableTableHead';
 
 type SortableKeys = keyof Pick<TeamMember, 'name' | 'joinDate' | 'status' | 'unverifiedPiContribution' | 'teamMemberActiveMiningHours_LastWeek' | 'kycStatus'>;
-
-interface SortConfig {
-  key: SortableKeys | null;
-  direction: 'ascending' | 'descending';
-}
 
 const statusVariantMap = {
   active: 'success',
@@ -73,38 +68,6 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
   );
 }
 
-function SortableTableHead({
-  children,
-  onClick,
-  sortKey,
-  currentSortKey,
-  currentDirection,
-  className,
-  isNumeric = false,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-  sortKey: SortableKeys;
-  currentSortKey: SortableKeys | null;
-  currentDirection: 'ascending' | 'descending';
-  className?: string;
-  isNumeric?: boolean;
-}) {
-  const isSorted = currentSortKey === sortKey;
-  return (
-    <TableHead className={cn("cursor-pointer hover:bg-muted/50", className)} onClick={onClick}>
-      <div className={cn("flex items-center gap-2", isNumeric ? "justify-end" : "justify-start")}>
-        {children}
-        {isSorted ? (
-          currentDirection === 'ascending' ? <ArrowUp className="h-3 w-3 text-primary" /> : <ArrowDown className="h-3 w-3 text-primary" />
-        ) : (
-          <ArrowUpDown className="h-3 w-3 opacity-30" />
-        )}
-      </div>
-    </TableHead>
-  );
-}
-
 function TeamMembersTableSkeleton() {
   return (
     <div className="space-y-2">
@@ -119,7 +82,7 @@ export default function TeamInsightsPage() {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'teamMemberActiveMiningHours_LastWeek', direction: 'descending' });
+  const [sortConfig, setSortConfig] = useState<SortConfig<TeamMember>>({ key: 'teamMemberActiveMiningHours_LastWeek', direction: 'descending' });
 
   useEffect(() => {
     async function fetchTeamMembers() {
@@ -149,8 +112,8 @@ export default function TeamInsightsPage() {
     let sortableItems = [...teamMembers];
     if (sortConfig.key !== null) {
       sortableItems.sort((a, b) => {
-        const valA = a[sortConfig.key!];
-        const valB = b[sortConfig.key!];
+        const valA = a[sortConfig.key! as keyof TeamMember];
+        const valB = b[sortConfig.key! as keyof TeamMember];
 
         if (valA === undefined || valA === null) return 1;
         if (valB === undefined || valB === null) return -1;
@@ -201,22 +164,22 @@ export default function TeamInsightsPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <SortableTableHead sortKey="name" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('name')}>
+                    <SortableTableHead<TeamMember> sortKey="name" sortConfig={sortConfig} onClick={() => requestSort('name')}>
                       Member
                     </SortableTableHead>
-                    <SortableTableHead sortKey="joinDate" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('joinDate')}>
+                    <SortableTableHead<TeamMember> sortKey="joinDate" sortConfig={sortConfig} onClick={() => requestSort('joinDate')}>
                       Join Date
                     </SortableTableHead>
-                    <SortableTableHead sortKey="status" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('status')}>
+                    <SortableTableHead<TeamMember> sortKey="status" sortConfig={sortConfig} onClick={() => requestSort('status')}>
                       Status
                     </SortableTableHead>
-                    <SortableTableHead sortKey="kycStatus" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('kycStatus')}>
+                    <SortableTableHead<TeamMember> sortKey="kycStatus" sortConfig={sortConfig} onClick={() => requestSort('kycStatus')}>
                       KYC Status
                     </SortableTableHead>
-                    <SortableTableHead sortKey="unverifiedPiContribution" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('unverifiedPiContribution')} isNumeric={true}>
+                    <SortableTableHead<TeamMember> sortKey="unverifiedPiContribution" sortConfig={sortConfig} onClick={() => requestSort('unverifiedPiContribution')} isNumeric={true}>
                       Contribution
                     </SortableTableHead>
-                    <SortableTableHead sortKey="teamMemberActiveMiningHours_LastWeek" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('teamMemberActiveMiningHours_LastWeek')} isNumeric={true}>
+                    <SortableTableHead<TeamMember> sortKey="teamMemberActiveMiningHours_LastWeek" sortConfig={sortConfig} onClick={() => requestSort('teamMemberActiveMiningHours_LastWeek')} isNumeric={true}>
                       Activity (wk)
                     </SortableTableHead>
                   </TableRow>

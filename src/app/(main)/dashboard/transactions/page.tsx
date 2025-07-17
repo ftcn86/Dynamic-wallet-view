@@ -3,22 +3,18 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
 import { getTransactions } from '@/services/piService';
-import type { Transaction, TransactionType } from '@/data/schemas';
+import type { Transaction } from '@/data/schemas';
 import { format } from 'date-fns';
-import { ArrowDownLeft, ArrowUpRight, Award, Server, CheckCircle, Clock, XCircle, ArrowUpDown, Coins } from 'lucide-react';
+import { ArrowDownLeft, ArrowUpRight, Award, Server, CheckCircle, Clock, XCircle, Coins } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { SortableTableHead, type SortConfig } from '@/components/shared/SortableTableHead';
 
-type SortableKeys = keyof Pick<Transaction, 'date' | 'type' | 'amount' | 'status'>;
-
-interface SortConfig {
-  key: SortableKeys | null;
-  direction: 'ascending' | 'descending';
-}
+type SortableKeys = 'date' | 'type' | 'amount' | 'status' | 'description';
 
 const transactionTypeConfig = {
     sent: { icon: ArrowUpRight, color: 'text-red-500', label: "Sent" },
@@ -77,36 +73,6 @@ function TransactionRow({ tx }: { tx: Transaction }) {
   );
 }
 
-function SortableTableHead({
-  children,
-  onClick,
-  sortKey,
-  currentSortKey,
-  currentDirection,
-  className,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-  sortKey: SortableKeys;
-  currentSortKey: SortableKeys | null;
-  currentDirection: 'ascending' | 'descending';
-  className?: string;
-}) {
-  const isSorted = currentSortKey === sortKey;
-  return (
-    <TableHead className={cn("cursor-pointer hover:bg-muted/50", className)} onClick={onClick}>
-      <div className={cn("flex items-center gap-2", className?.includes('text-right') && "justify-end")}>
-        {children}
-        {isSorted ? (
-          currentDirection === 'ascending' ? <ArrowUpDown className="h-3 w-3 text-primary" /> : <ArrowUpDown className="h-3 w-3 text-primary" />
-        ) : (
-          <ArrowUpDown className="h-3 w-3 opacity-30" />
-        )}
-      </div>
-    </TableHead>
-  );
-}
-
 
 function TransactionsTableSkeleton() {
   return (
@@ -123,7 +89,7 @@ export default function TransactionsPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'date', direction: 'descending' });
+  const [sortConfig, setSortConfig] = useState<SortConfig<Transaction>>({ key: 'date', direction: 'descending' });
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -195,17 +161,17 @@ export default function TransactionsPage() {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="w-16">Type</TableHead>
-                            <SortableTableHead sortKey="description" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('description')}>
+                            <TableCell className="w-16">Type</TableCell>
+                            <SortableTableHead<Transaction> sortKey="description" sortConfig={sortConfig} onClick={() => requestSort('description')}>
                                 Details
                             </SortableTableHead>
-                            <SortableTableHead sortKey="amount" className="text-right" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('amount')}>
+                            <SortableTableHead<Transaction> sortKey="amount" sortConfig={sortConfig} onClick={() => requestSort('amount')} isNumeric>
                                 Amount
                             </SortableTableHead>
-                            <SortableTableHead sortKey="status" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('status')}>
+                            <SortableTableHead<Transaction> sortKey="status" sortConfig={sortConfig} onClick={() => requestSort('status')}>
                                 Status
                             </SortableTableHead>
-                             <SortableTableHead sortKey="date" className="text-right" currentSortKey={sortConfig.key} currentDirection={sortConfig.direction} onClick={() => requestSort('date')}>
+                            <SortableTableHead<Transaction> sortKey="date" sortConfig={sortConfig} onClick={() => requestSort('date')} isNumeric>
                                 Date
                             </SortableTableHead>
                         </TableRow>
