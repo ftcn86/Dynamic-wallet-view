@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { ExternalLink, ShieldCheck, Zap, Award, Server, TrendingUp, AlertTriangle, ArrowRight, Gauge, Clock, Globe, Blocks, GitBranch } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AreaChart } from 'recharts';
+import { AreaChart, Area } from 'recharts';
 import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart';
 import { format, formatDistanceToNowStrict, parseISO } from 'date-fns';
 import { PI_NODE_INFO_URL } from '@/lib/constants';
@@ -211,3 +211,5 @@ export default function NodeAnalysisPage() {
     </div>
   );
 }
+
+    
