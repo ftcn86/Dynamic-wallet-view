@@ -1,5 +1,4 @@
 
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -15,7 +14,6 @@ import { mockApiCall } from '@/lib/api';
 import {
     ZapIcon,
     TrendingUpIcon,
-    SettingsIcon,
     InfoIcon,
     ClockIcon,
 } from '@/components/shared/icons';
