@@ -190,7 +190,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           </TooltipProvider>
         </div>
       </TableCell>
-      <TableCell className="text-right font-mono">{member.teamMemberActiveMiningHours_LastWeek ?? 0} {t('teamActivity.hoursSuffix')}</TableCell>
+      <TableCell className="text-right font-mono">{member.teamMemberActiveMiningHours_LastWeek ?? 0} {t('dashboard.teamActivity.hoursSuffix')}</TableCell>
     </TableRow>
   );
 }
