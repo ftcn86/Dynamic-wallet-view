@@ -19,7 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { FileTextIcon, ShieldCheckIconSolid as ShieldCheckIcon, LogOutIcon, CheckCircleIcon } from '@/components/shared/icons';
+import { FileTextIcon, ShieldCheckIconSolid, LogOutIcon, CheckCircleIcon } from '@/components/shared/icons';
 
 export default function AcceptTermsPage() {
   const { user, setUser, logout, isLoading } = useAuth(); 
@@ -61,8 +61,8 @@ export default function AcceptTermsPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <Card className="w-full max-w-lg shadow-xl">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-            <FileTextIcon/>
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <FileTextIcon className="h-8 w-8"/>
           </div>
           <CardTitle className="text-2xl font-headline">Review Our Terms</CardTitle>
           <CardDescription>Before you continue, please review and accept our Terms of Service and Privacy Policy.</CardDescription>
@@ -79,7 +79,7 @@ export default function AcceptTermsPage() {
             </Button>
             <Button variant="link" asChild className="justify-start sm:justify-center">
               <Link href="/legal/privacy">
-                <ShieldCheckIcon className="mr-2 h-4 w-4" /> Privacy Policy
+                <ShieldCheckIconSolid className="mr-2 h-4 w-4" /> Privacy Policy
               </Link>
             </Button>
           </div>
