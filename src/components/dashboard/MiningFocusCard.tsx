@@ -15,7 +15,7 @@ export function MiningFocusCard() {
   const [daysInPreviousMonth, setDaysInPreviousMonth] = useState(30); 
 
   useEffect(() => {
-    const today = new Date();
+    const today = new date();
     const prevMonthDate = subMonths(today, 1);
     if (isValid(prevMonthDate)) {
       setDaysInPreviousMonth(getDaysInMonth(prevMonthDate));
