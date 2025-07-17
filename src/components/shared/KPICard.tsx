@@ -3,7 +3,7 @@ import React, { type ReactNode } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { ArrowUpIcon } from './icons';
+import { TrendingUpIcon } from './icons';
 
 interface KPICardProps {
   title: string;
@@ -32,7 +32,7 @@ export function KPICard({ title, value, icon, footerValue, change, badgeText, ba
             <span>{footerValue}</span>
             {change && (
                 <span className="flex items-center text-green-600 font-semibold">
-                    <ArrowUpIcon className="h-3 w-3 mr-0.5" />
+                    <TrendingUpIcon className="h-3 w-3 mr-0.5" />
                     {change}
                 </span>
             )}

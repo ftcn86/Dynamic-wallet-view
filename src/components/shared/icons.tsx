@@ -1,3 +1,4 @@
+
 // This file consolidates commonly used solid-style SVG icons into one place.
 // This avoids code duplication and makes it easier to manage and update icons.
 // To add a new icon, simply define it here as a React component and export it.
@@ -35,7 +36,6 @@ export const CheckCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
         <polyline points="22 4 12 14.01 9 11.01" stroke="hsl(142.1 76.2% 42.2%)" strokeWidth="3"/>
     </svg>
 );
-
 
 export const ShieldQuestionIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
@@ -209,7 +209,7 @@ export const BarChartIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 export const TrophyIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
         <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" stroke="hsl(48, 95.8%, 53.1%)" strokeWidth="1.5"/>
         <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" stroke="hsl(48, 95.8%, 53.1%)" strokeWidth="1.5"/>
         <path d="M4 22h16" stroke="hsl(48, 95.8%, 53.1%)" strokeWidth="1.5"/>
@@ -371,12 +371,6 @@ export const NetworkIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
-export const ArrowUpIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-        <path d="M12 19V5M5 12l7-7 7 7" stroke="hsl(142.1 76.2% 42.2%)" strokeWidth="2"/>
-    </svg>
-);
-
 export const ListTreeIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
         <path d="M21 12h-4" />
@@ -431,9 +425,8 @@ export const CalendarDaysIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 export const CheckCheck = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M18 6 7 17l-5-5"/>
     <path d="m22 10-7.5 7.5L13 16"/>
   </svg>
 );
-    

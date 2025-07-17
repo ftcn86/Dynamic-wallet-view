@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { KPICard } from '@/components/shared/KPICard';
 import {
@@ -44,10 +44,16 @@ const TABS = ['overview', 'portfolio', 'achievements', 'analysis'];
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const router = useRouter();
   const searchParams = useSearchParams();
+  
   const initialTab = searchParams.get('tab');
   const [activeTab, setActiveTab] = useState(TABS.includes(initialTab as string) ? initialTab : 'overview');
 
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    router.push(`/dashboard?tab=${value}`, { scroll: false });
+  };
 
   const handleRedirectToPiApp = () => {
     window.open(PI_APP_MINING_URL, '_blank');
@@ -128,7 +134,7 @@ export default function DashboardPage() {
         )}
       </div>
 
-      <Tabs value={activeTab as string} onValueChange={setActiveTab} className="w-full">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
         <ScrollArea className="w-full whitespace-nowrap">
             <TabsList className="min-w-0 flex-nowrap w-auto sm:w-full sm:grid sm:grid-cols-4 max-w-2xl">
               <TabsTrigger value="overview"><PieChartIcon className="mr-2 h-4 w-4" />Overview</TabsTrigger>

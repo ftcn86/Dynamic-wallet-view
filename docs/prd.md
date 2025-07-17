@@ -142,10 +142,10 @@
 *   **3.1.4. SSR Protection:** All code that accesses browser-specific APIs (like `localStorage` or `window`) MUST be protected with checks like `if (typeof window !== 'undefined')` to prevent server-side rendering errors.
 
 ### 3.2. Technology Stack & Best Practices
-*   **Stack:** Next.js (App Router, latest stable), React (latest stable), TypeScript, ShadCN UI, Tailwind CSS, Lucide React, Recharts.
+*   **Stack:** Next.js (App Router, latest stable), React (latest stable), TypeScript, ShadCN UI, Tailwind CSS.
 *   **State Management:** React Context API (`AuthContext`) with `localStorage` for persistence.
 *   **Data Fetching:** All data fetching operations must be channeled through the `piService`. UI components should not directly call `mockApiCall`.
-*   **Language:** The application will be **English-only** to simplify development. The multi-language system has been removed.
+*   **Language:** The application will be **English-only** to simplify development.
 
 ### 3.3. Performance & Optimization
 *   **Image Optimization:** All images must use the `next/image` component.
@@ -189,3 +189,4 @@
 *   Real database integration.
 *   Functional Genkit AI features.
 *   Real push notifications.
+
