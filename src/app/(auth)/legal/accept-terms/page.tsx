@@ -9,6 +9,17 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useAuth } from '@/contexts/AuthContext';
 import { FileText, ShieldCheck, LogOut, CheckCircle } from 'lucide-react';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner'; 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function AcceptTermsPage() {
   const { user, setUser, logout, isLoading } = useAuth(); 
@@ -74,9 +85,26 @@ export default function AcceptTermsPage() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:justify-between">
-          <Button variant="outline" onClick={handleLogout} className="w-full sm:w-auto">
-            <LogOut className="mr-2 h-4 w-4 text-destructive" /> Logout
-          </Button>
+          <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" className="w-full sm:w-auto">
+                    <LogOut className="mr-2 h-4 w-4 text-destructive" /> Logout
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                  <AlertDialogHeader>
+                      <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
+                      <AlertDialogDescription>
+                          Are you sure you want to log out?
+                      </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
+                  </AlertDialogFooter>
+              </AlertDialogContent>
+          </AlertDialog>
+          
           <Button onClick={handleAccept} className="w-full sm:w-auto">
             <CheckCircle className="mr-2 h-4 w-4" /> I Accept & Continue
           </Button>
