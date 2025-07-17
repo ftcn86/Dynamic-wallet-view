@@ -3,18 +3,16 @@
 
 import Link from 'next/link';
 import {
-  LayoutDashboard,
+  Home,
   Users,
-  UserCircle,
   Settings,
-  ShieldQuestion,
   MessageSquare,
-  Heart,
+  Gift,
   HelpCircle,
-  LogOut,
   Shield,
   Coins,
-  Server
+  Network,
+  Blocks,
 } from 'lucide-react';
 import {
   Sidebar as RootSidebar,
@@ -31,7 +29,6 @@ import { SidebarNavLink } from './SidebarNavLink';
 import { cn } from '@/lib/utils';
 import { PI_TEAM_CHAT_URL } from '@/lib/constants';
 import { useRouter } from 'next/navigation';
-import { Button } from '../ui/button';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -60,7 +57,7 @@ export function Sidebar() {
     <RootSidebar>
         <SidebarHeader>
             <Link href="/dashboard" className="flex items-center gap-3">
-                <ShieldQuestion className="h-8 w-8 text-primary shrink-0" />
+                <Blocks className="h-8 w-8 text-primary shrink-0" />
                 <span className={cn(
                     "text-xl font-bold text-foreground font-headline transition-opacity duration-200",
                     state === 'collapsed' ? 'opacity-0' : 'opacity-100'
@@ -79,22 +76,22 @@ export function Sidebar() {
                     {state === 'collapsed' ? 'M' : 'Menu'}
                 </p>
                 <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard" icon={<LayoutDashboard />}>
+                    <SidebarNavLink href="/dashboard" icon={<Home />}>
                         Dashboard
                     </SidebarNavLink>
                 </SidebarMenuItem>
                  <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard/team" icon={<Shield />}>
+                    <SidebarNavLink href="/dashboard/team" icon={<Users />}>
                         Security & Team
                     </SidebarNavLink>
                 </SidebarMenuItem>
                  <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard/node" icon={<Server />}>
+                    <SidebarNavLink href="/dashboard/node" icon={<Network />}>
                         Node Analysis
                     </SidebarNavLink>
                 </SidebarMenuItem>
                  <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard/donate" icon={<Heart />}>
+                    <SidebarNavLink href="/dashboard/donate" icon={<Gift />}>
                         Donate
                     </SidebarNavLink>
                 </SidebarMenuItem>

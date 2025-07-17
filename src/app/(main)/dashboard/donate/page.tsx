@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Heart, Send, Sparkles, Rocket, Server, Paintbrush } from 'lucide-react';
+import { Gift, Send, Sparkles, Rocket, Server, Paintbrush } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,22 +16,16 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { Progress } from '@/components/ui/progress';
-import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const presetAmounts = ["1", "5", "10", "20"];
 const MOCK_GOAL = 250;
 const MOCK_CURRENT_DONATIONS = 185;
-
-const mockSupporters = [
-  "Pioneer123", "PiExplorer", "AlexP", "CharlieNode", "FutureOfPi", "Miner4Life"
-];
 
 const mockRecentDonations = [
   { name: 'Pioneer123', amount: 5 },
@@ -121,7 +115,7 @@ export default function DonatePage() {
             <Card className="shadow-lg border-primary/20 hover:shadow-xl transition-shadow duration-300">
                 <CardHeader className="items-center text-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-pink-500/10 mb-4">
-                    <Heart className="h-8 w-8 text-pink-500" />
+                    <Gift className="h-8 w-8 text-pink-500" />
                 </div>
                 <CardTitle className="text-2xl font-headline">Join Us in Building the Future</CardTitle>
                 <CardDescription className="max-w-md">

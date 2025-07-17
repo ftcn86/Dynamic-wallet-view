@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { getTeamMembers } from '@/services/piService';
 import type { TeamMember } from '@/data/schemas';
 import { format } from 'date-fns';
-import { Info, Users, ArrowUpDown, ArrowUp, ArrowDown, Shield } from 'lucide-react';
+import { Info, Users, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { KycStatusBadge } from '@/components/shared/KycStatusBadge'; 

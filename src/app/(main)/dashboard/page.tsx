@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Banknote, Gauge, Users as UsersIcon, Server, BarChart2, ShieldCheck, PieChart, Trophy, Settings2 } from 'lucide-react';
+import { Wallet, Gauge, Users as UsersIcon, Server, BarChart2, PieChart, Trophy, Settings2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { KPICard } from '@/components/shared/KPICard';
 import {
@@ -16,7 +16,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PI_APP_MINING_URL } from '@/lib/constants';
@@ -61,7 +60,7 @@ export default function DashboardPage() {
         <KPICard
           title="Total Pi Balance"
           value={user.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}) + ' π'}
-          icon={<Banknote />}
+          icon={<Wallet />}
           footerValue={`~$${(user.totalBalance * 0.042).toFixed(2)} USD`}
           change="+2.3%"
         />
