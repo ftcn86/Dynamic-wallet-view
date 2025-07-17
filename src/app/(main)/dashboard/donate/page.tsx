@@ -35,13 +35,16 @@ export default function DonatePage() {
   const [isCustom, setIsCustom] = useState(false);
   const [isDonating, setIsDonating] = useState(false);
   
-  // State for reactive donation data
   const [currentDonations, setCurrentDonations] = useState(MOCK_CURRENT_DONATIONS);
   const [recentSupporters, setRecentSupporters] = useState(MOCK_RECENT_DONATIONS);
+  const [donationProgress, setDonationProgress] = useState((MOCK_CURRENT_DONATIONS / MOCK_DONATION_GOAL) * 100);
 
   const { toast } = useToast();
   const { user, refreshData } = useAuth();
 
+  useEffect(() => {
+    setDonationProgress((currentDonations / MOCK_DONATION_GOAL) * 100);
+  }, [currentDonations]);
 
   const handlePresetSelect = (presetAmount: string) => {
     setAmount(presetAmount);
@@ -85,7 +88,6 @@ export default function DonatePage() {
             link: '/dashboard/transactions'
         });
 
-        // Update local state to trigger re-render
         const newTotal = currentDonations + donationAmount;
         setCurrentDonations(newTotal);
 
@@ -111,7 +113,6 @@ export default function DonatePage() {
     }
   };
 
-  const donationProgress = (currentDonations / MOCK_DONATION_GOAL) * 100;
 
   return (
     <div className="space-y-6">
