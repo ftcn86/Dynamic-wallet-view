@@ -113,48 +113,45 @@ export function Sidebar() {
                         Security Circle
                     </SidebarNavLink>
                 </SidebarMenuItem>
+                <SidebarMenuItem>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <SidebarMenuButton tooltip="Team Chat" className="w-full justify-start">
+                                <MessageSquare />
+                                <span className={cn(state === 'collapsed' && 'hidden')}>Team Chat</span>
+                            </SidebarMenuButton>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                            <AlertDialogTitle>Open Team Chat?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                You are about to be redirected to an external chat application. Do you want to continue?
+                            </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleOpenChat}>Open Chat</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </SidebarMenuItem>
+                 <SidebarMenuItem>
+                    <SidebarMenuButton tooltip="Help Center" className="w-full justify-start" onClick={() => router.push('/legal/help')}>
+                        <HelpCircle />
+                        <span className={cn(state === 'collapsed' && 'hidden')}>Help Center</span>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
             </SidebarMenu>
         </SidebarContent>
 
         <SidebarFooter>
             <div className={cn(
-                "text-xs text-muted-foreground mb-4 space-y-1 transition-opacity duration-200",
+                "text-xs text-muted-foreground space-y-1 transition-opacity duration-200",
                 state === 'collapsed' ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100'
             )}>
                 <p><Link href="/legal/terms" className="hover:text-primary">Terms</Link> · <Link href="/legal/privacy" className="hover:text-primary">Privacy</Link></p>
                 <p>Licensed under PIOS · Not an official Pi App</p>
             </div>
-
-            <AlertDialog>
-                <AlertDialogTrigger asChild>
-                    <SidebarMenuButton tooltip="Team Chat" className="w-full justify-start text-muted-foreground hover:text-foreground">
-                        <MessageSquare />
-                        <span className={cn(state === 'collapsed' && 'hidden')}>Team Chat</span>
-                    </SidebarMenuButton>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                    <AlertDialogTitle>Open Team Chat?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                        You are about to be redirected to an external chat application. Do you want to continue?
-                    </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleOpenChat}>Open Chat</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-            
-            <SidebarMenuButton tooltip="Help Center" className="w-full justify-start text-muted-foreground hover:text-foreground" onClick={() => router.push('/legal/help')}>
-                <HelpCircle />
-                <span className={cn(state === 'collapsed' && 'hidden')}>Help Center</span>
-            </SidebarMenuButton>
-
-            <SidebarMenuButton tooltip="Logout" className="w-full justify-start text-muted-foreground hover:text-foreground" onClick={handleLogout}>
-                <LogOut />
-                <span className={cn(state === 'collapsed' && 'hidden')}>Logout</span>
-            </SidebarMenuButton>
         </SidebarFooter>
     </RootSidebar>
   );
