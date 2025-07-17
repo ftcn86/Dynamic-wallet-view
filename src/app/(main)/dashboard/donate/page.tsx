@@ -20,8 +20,8 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { Progress } from '@/components/ui/progress';
-import { AnimatePresence, motion } from 'framer-motion';
-import { MOCK_DONATION_GOAL, MOCK_CURRENT_DONATIONS, MOCK_RECENT_DONATIONS } from '@/data/mocks';
+import { MOCK_DONATION_GOAL, MOCK_CURRENT_DONATIONS } from '@/data/mocks';
+import { RecentSupporters } from '@/components/dashboard/donate/RecentSupporters';
 
 
 // Solid SVG Icons
@@ -38,15 +38,7 @@ const GiftIcon = (props: React.SVGProps<SVGSVGElement>) => (
 const SendIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
     <path d="m22 2-7 20-4-9-9-4Z" fill="hsl(var(--primary-foreground))"/>
-    <path d="m22 2-11 11" stroke="hsl(var(--primary-foreground))"/>
-  </svg>
-);
-
-const SparklesIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z" fill="#fde047" />
-    <path d="M20 3L18.5 6L16 7.5l2.5 1.5L20 11l1.5-2.5L24 7.5l-2.5-1.5L20 3z" fill="#fde047"/>
-    <path d="M5 3L3.5 6L1 7.5l2.5 1.5L5 11l1.5-2.5L9 7.5l-2.5-1.5L5 3z" fill="#fde047"/>
+    <path d="m22 2-11 11" stroke="hsl(var(--primary-foreground))" />
   </svg>
 );
 
@@ -75,40 +67,6 @@ const PaintbrushIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 
 const presetAmounts = ["1", "5", "10", "20"];
-
-function RecentSupporters() {
-    const [index, setIndex] = useState(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setIndex(prevIndex => (prevIndex + 1) % MOCK_RECENT_DONATIONS.length);
-        }, 3000); // Change supporter every 3 seconds
-
-        return () => clearInterval(interval);
-    }, []);
-
-    const donation = MOCK_RECENT_DONATIONS[index];
-
-    return (
-      <div className="p-3 rounded-lg bg-primary/5 border border-primary/10 h-14 flex items-center justify-center overflow-hidden">
-        <AnimatePresence mode="wait">
-            <motion.div
-                key={donation.name}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                className="flex items-center text-sm"
-            >
-                <SparklesIcon className="h-5 w-5 mr-3" />
-                <p className="font-semibold text-primary">{donation.name}</p>
-                <p className="text-muted-foreground ml-1.5"> just supported with {donation.amount}π!</p>
-            </motion.div>
-        </AnimatePresence>
-      </div>
-    );
-}
-
 
 export default function DonatePage() {
   const [amount, setAmount] = useState("5");
