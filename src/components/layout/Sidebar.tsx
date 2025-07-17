@@ -5,7 +5,6 @@ import Link from 'next/link';
 import {
   LayoutDashboard,
   Users,
-  Network,
   UserCircle,
   Settings,
   ShieldQuestion,
@@ -14,7 +13,8 @@ import {
   HelpCircle,
   LogOut,
   Shield,
-  Coins
+  Coins,
+  Server
 } from 'lucide-react';
 import {
   Sidebar as RootSidebar,
@@ -89,7 +89,7 @@ export function Sidebar() {
                     </SidebarNavLink>
                 </SidebarMenuItem>
                  <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard/node" icon={<Network />}>
+                    <SidebarNavLink href="/dashboard/node" icon={<Server />}>
                         Node Analysis
                     </SidebarNavLink>
                 </SidebarMenuItem>
