@@ -2,7 +2,6 @@
 "use client"
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -10,6 +9,7 @@ import { Skeleton } from '../ui/skeleton';
 import { Award, CheckCircle } from 'lucide-react';
 import type { Badge } from '@/data/schemas';
 import { format, parseISO } from 'date-fns';
+import { BadgeIcon } from './badge/BadgeIcon';
 
 function BadgeItem({ badge }: { badge: Badge }) {
   const earnedDate = badge.earnedDate ? format(parseISO(badge.earnedDate), "MMMM dd, yyyy") : '';
@@ -18,28 +18,14 @@ function BadgeItem({ badge }: { badge: Badge }) {
     <Dialog>
       <DialogTrigger asChild>
         <div className="group relative flex cursor-pointer flex-col items-center space-y-2 rounded-lg border bg-card p-4 text-center transition-all hover:bg-muted/50 hover:shadow-md">
-          <Image
-            src={badge.iconUrl}
-            alt={badge.name}
-            width={64}
-            height={64}
-            className={`rounded-lg transition-all duration-300 ${!badge.earned ? 'grayscale opacity-50' : 'group-hover:scale-110'}`}
-            data-ai-hint={badge.dataAiHint || 'badge icon'}
-          />
+          <BadgeIcon badgeId={badge.id} earned={badge.earned} size="lg" />
           <p className="w-full truncate text-sm font-medium">{badge.name}</p>
           {!badge.earned && <div className="absolute inset-0 rounded-lg bg-black/20" />}
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="text-center items-center">
-            <Image
-                src={badge.iconUrl}
-                alt={badge.name}
-                width={96}
-                height={96}
-                className="rounded-lg mb-4"
-                data-ai-hint={badge.dataAiHint || 'badge icon'}
-            />
+            <BadgeIcon badgeId={badge.id} earned={badge.earned} size="xl" className="mb-4" />
           <DialogTitle className="text-2xl">{badge.name}</DialogTitle>
           <DialogDescription>{badge.description}</DialogDescription>
         </DialogHeader>

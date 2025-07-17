@@ -2,7 +2,6 @@
 "use client"
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 import { mockTeam, GAMIFICATION_BADGE_IDS } from '@/data/mocks';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Trophy, ChevronRight, Award } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '../ui/skeleton';
+import { BadgeIcon } from './badge/BadgeIcon';
 
 const MAX_LEADERBOARD_ENTRIES = 5;
 const DISPLAY_RECENT_BADGES_COUNT = 3;
@@ -132,7 +132,7 @@ export function TeamActivityCard() {
             <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3">
               {earnedGamificationBadges.map(badge => (
                 <div key={badge.id} className="flex flex-col items-center text-center p-2 rounded-lg border bg-card hover:bg-muted/50 transition-colors">
-                  <Image src={badge.iconUrl} alt={badge.name} width={48} height={48} className="rounded-md mb-1" data-ai-hint={badge.dataAiHint || 'badge icon'}/>
+                  <BadgeIcon badgeId={badge.id} earned={badge.earned} size="md" className="mb-1" />
                   <span className="text-xs font-medium truncate w-full">{badge.name}</span>
                 </div>
               ))}
