@@ -1,3 +1,4 @@
+
 // This file consolidates commonly used solid-style SVG icons into one place.
 // This avoids code duplication and makes it easier to manage and update icons.
 // To add a new icon, simply define it here as a React component and export it.
@@ -22,11 +23,11 @@ export const ShieldCheckIconSolid = (props: React.SVGProps<SVGSVGElement>) => (
 );
   
 export const LogOutIcon = (props: React.SVGProps<SVGSVGElement>) => (
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" fill="hsl(var(--destructive))" stroke="hsl(var(--destructive-foreground))"/>
-    <polyline points="16 17 21 12 16 7" stroke="hsl(var(--destructive))"/>
-    <line x1="21" y1="12" x2="9" y2="12" stroke="hsl(var(--destructive))"/>
-</svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" fill="hsl(var(--destructive))" stroke="hsl(var(--destructive-foreground))"/>
+        <polyline points="16 17 21 12 16 7" stroke="hsl(var(--destructive))"/>
+        <line x1="21" y1="12" x2="9" y2="12" stroke="hsl(var(--destructive))"/>
+    </svg>
 );
 
 export const CheckCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -500,4 +501,10 @@ export const PercentIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
+export const CheckCheck = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M18 6 7 17l-5-5"/>
+    <path d="m22 10-7.5 7.5L13 16"/>
+  </svg>
+);
     

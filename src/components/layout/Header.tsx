@@ -3,7 +3,7 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { getNotifications } from '@/services/piService';
+import { getNotifications, markAllNotificationsAsRead } from '@/services/piService';
 import type { Notification, NotificationType } from '@/data/schemas';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
@@ -39,6 +39,7 @@ import {
     SettingsIcon,
     MessageSquareIcon,
     UserCircleIcon,
+    CheckCheck,
 } from '@/components/shared/icons';
 import { RefreshCwIcon } from 'lucide-react';
 
@@ -87,6 +88,14 @@ function NotificationsDropdown() {
             router.push(notification.link);
         }
     }
+
+    const handleMarkAllRead = async (e: React.MouseEvent) => {
+        e.stopPropagation(); // Prevent the dropdown from closing
+        // Optimistic UI update
+        setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+        // Call the service to update the backend
+        await markAllNotificationsAsRead();
+    };
 
     return (
         <DropdownMenu>
@@ -142,6 +151,22 @@ function NotificationsDropdown() {
                     <div className="p-4 text-center text-sm text-muted-foreground">
                         You're all caught up!
                     </div>
+                )}
+                {unreadCount > 0 && (
+                    <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="p-0">
+                           <Button
+                                variant="ghost"
+                                size="sm"
+                                className="w-full justify-center"
+                                onClick={handleMarkAllRead}
+                            >
+                                <CheckCheck className="mr-2 h-4 w-4" />
+                                Mark all as read
+                            </Button>
+                        </DropdownMenuItem>
+                    </>
                 )}
             </DropdownMenuContent>
         </DropdownMenu>

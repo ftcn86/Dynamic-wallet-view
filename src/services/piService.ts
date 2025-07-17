@@ -160,3 +160,13 @@ export async function addNotification(notification: Omit<Notification, 'id' | 'd
     mockNotifications.unshift(newNotification);
     return mockApiCall({ data: newNotification });
 }
+
+/**
+ * Marks all notifications as read in the mock data.
+ */
+export async function markAllNotificationsAsRead(): Promise<{ success: boolean }> {
+  mockNotifications.forEach(notification => {
+    notification.read = true;
+  });
+  return mockApiCall({ data: { success: true } });
+}
