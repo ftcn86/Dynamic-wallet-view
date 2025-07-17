@@ -172,7 +172,6 @@ export async function markNotificationAsRead(notificationId: string): Promise<{ 
   return mockApiCall({ data: { success: true } });
 }
 
-
 /**
  * Marks all notifications as read in the mock data.
  */
@@ -181,4 +180,25 @@ export async function markAllNotificationsAsRead(): Promise<{ success: boolean }
     notification.read = true;
   });
   return mockApiCall({ data: { success: true } });
+}
+
+/**
+ * Simulates a team member completing KYC and triggers a notification.
+ * This is a placeholder to show how the system would react to backend events.
+ */
+export async function simulateKycCompletion(teamMemberId: string): Promise<{ success: boolean }> {
+    const member = mockTeam.find(m => m.id === teamMemberId);
+    if (member && member.kycStatus !== 'completed') {
+        member.kycStatus = 'completed';
+        
+        await addNotification({
+            type: 'team_update',
+            title: 'Team Member KYC Verified',
+            description: `Your team member, ${member.name}, has completed their KYC verification.`,
+            link: '/dashboard/team'
+        });
+
+        return mockApiCall({ data: { success: true } });
+    }
+    return mockApiCall({ data: { success: false } });
 }
