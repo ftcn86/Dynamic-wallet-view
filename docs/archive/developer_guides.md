@@ -148,7 +148,7 @@ The frontend UI components are "dumb." They receive data and display it. All com
 #### 3.5. Application Settings & Profile Page (`/dashboard/settings`)
 
 *   **Endpoint:** `POST /api/v1/user/settings`
-    *   **Logic:** This endpoint receives an object containing any or all of the user's updatable information: `name`, `bio`, `avatarUrl`, and the `settings` object (`remindersEnabled`, `reminderHoursBefore`). It should handle avatar image uploads (e.g., to a cloud storage bucket) and update the user's profile in the database accordingly.
+    *   **Logic:** This endpoint receives a JSON object containing any or all of the user's updatable information. The backend MUST be prepared to handle the following fields: `name` (string), `bio` (string), `avatarUrl` (string, likely a data URI for new uploads), and the `settings` object. The `settings` object itself contains `remindersEnabled` (boolean) and `reminderHoursBefore` (number). The service should handle potential avatar image uploads (e.g., to a cloud storage bucket) and update the user's profile in the database accordingly.
 
 #### 3.6. Help Page & General Feedback
 

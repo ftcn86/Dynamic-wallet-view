@@ -65,11 +65,10 @@
     *   Title: "My Badges".
     *   Displays a grid of user's earned and unearned badges (full color icons vs grayscale).
     *   Clicking a badge opens a Dialog showing details.
-*   **2.2.6. Lockup & Bonus Calculator (Analysis Tab):**
-    *   Title: "Lockup & Bonus Calculator".
-    *   Interactive sliders for `Lockup Percentage` and `Lockup Duration`.
-    *   Displays the estimated resulting mining rate boost in real-time.
-    *   Disclaimer about estimates vs. official formula.
+*   **2.2.6. Lockup Calculator & AI Feedback (Analysis Tab):**
+    *   Title: "Analysis & Future Features".
+    *   **Lockup & Bonus Calculator:** Interactive sliders for `Lockup Percentage` and `Lockup Duration`. Displays the estimated resulting mining rate boost in real-time. Disclaimer about estimates.
+    *   **AI Feature Feedback Card:** A card that poses a question to the user about a potential future AI feature (e.g., personalized mining strategies). It includes a textarea for feedback and a submission button. This is for collecting user opinions, not a functional AI tool.
 *   **2.2.7. Team Activity Card (Overview Tab):**
     *   Title: "Team Mining Rally". Icon: `Trophy`.
     *   **Weekly Team Rally Leaderboard (Top 5):** Table showing Rank, Member, Hours.
@@ -82,7 +81,7 @@
     *   Columns (all sortable): Member, Join Date, Status, KYC Status, Contribution, Activity.
     *   Table is responsive, hiding less critical columns on smaller screens.
     *   Loading, error, and empty states.
-*   **2.3.3. (New) Team Management Tools:**
+*   **2.3.3. Team Management Tools:**
     *   A card with tools for team leaders.
     *   **Ping Inactive Members:** A button to simulate sending a reminder notification to inactive members.
     *   **Send Broadcast:** A textarea and button to send a message to all team members, delivered as a notification.
@@ -121,6 +120,7 @@
 ### 2.8. Legal & Informational Pages
 *   **2.8.1. Pages:** Terms of Service (`/legal/terms`), Privacy Policy (`/legal/privacy`), Help & Support (`/legal/help`).
 *   **2.8.2. Layout:** Use a common `LegalPageLayout.tsx` with an Accordion or Markdown display for content.
+*   **2.8.3. Help Page Feedback:** The `/legal/help` page includes a dedicated feedback form for users to submit general help requests or report issues.
 
 ### 2.9. Sidebar Navigation & Header
 *   **2.9.1. Sidebar:** Collapsible design with responsive behavior for mobile. The "Profile" link has been removed.
@@ -128,6 +128,7 @@
 *   **2.9.3. Notification Center:**
     *   Dropdown menu displaying recent, relevant user notifications (e.g., badge earned, team member KYC'd, app announcements).
     *   Notifications link directly to the relevant part of the app (e.g., Achievements tab).
+    *   Includes functionality to mark individual notifications and all notifications as read, which updates their visual state.
 
 ---
 
@@ -187,5 +188,5 @@
 
 *   Real backend API integration (beyond Pi SDK stubs).
 *   Real database integration.
-*   Functional Genkit AI features.
+*   Functional Genkit AI features (pending user feedback).
 *   Real push notifications.
