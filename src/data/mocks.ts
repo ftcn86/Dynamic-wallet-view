@@ -101,18 +101,18 @@ export const mockTeam: TeamMember[] = [
 ];
 
 export const mockTransactions: Transaction[] = [
-  { id: 'tx001', date: subDays(today, 2).toISOString(), type: 'received', amount: 150.75, status: 'completed', from: 'Fiona Coin', description: 'Project collaboration' },
-  { id: 'tx002', date: subDays(today, 3).toISOString(), type: 'sent', amount: 50.00, status: 'completed', to: 'Bob Miner', description: 'Team bonus' },
-  { id: 'tx003', date: subDays(today, 5).toISOString(), type: 'mining_reward', amount: 6.0288, status: 'completed', description: 'Daily mining reward' },
-  { id: 'tx004', date: subDays(today, 7).toISOString(), type: 'node_bonus', amount: 12.5, status: 'completed', description: 'Weekly node operation bonus' },
-  { id: 'tx005', date: subDays(today, 10).toISOString(), type: 'sent', amount: 10.00, status: 'completed', to: 'Support Fund', description: 'Donation' },
-  { id: 'tx006', date: subDays(today, 12).toISOString(), type: 'received', amount: 200.00, status: 'completed', from: 'Hannah Block', description: 'Marketplace sale' },
-  { id: 'tx007', date: subDays(today, 15).toISOString(), type: 'mining_reward', amount: 6.0288, status: 'completed', description: 'Daily mining reward' },
-  { id: 'tx008', date: subDays(today, 18).toISOString(), type: 'sent', amount: 5.00, status: 'failed', to: 'InvalidUser', description: 'Test transaction' },
-  { id: 'tx009', date: subDays(today, 20).toISOString(), type: 'received', amount: 1.00, status: 'pending', from: 'Charlie User', description: 'Coffee' },
-  { id: 'tx010', date: subDays(today, 22).toISOString(), type: 'node_bonus', amount: 12.5, status: 'completed', description: 'Weekly node operation bonus' },
-  { id: 'tx011', date: subDays(today, 25).toISOString(), type: 'mining_reward', amount: 6.0288, status: 'completed', description: 'Daily mining reward' },
-  { id: 'tx012', date: subDays(today, 30).toISOString(), type: 'sent', amount: 100.00, status: 'completed', to: 'Julia Token', description: 'Pi App purchase' },
+  { id: 'tx001', date: subDays(today, 2).toISOString(), type: 'received', amount: 150.75, status: 'completed', from: 'Fiona Coin', description: 'Project collaboration', blockExplorerUrl: '#' },
+  { id: 'tx002', date: subDays(today, 3).toISOString(), type: 'sent', amount: 50.00, status: 'completed', to: 'Bob Miner', description: 'Team bonus', blockExplorerUrl: '#' },
+  { id: 'tx003', date: subDays(today, 5).toISOString(), type: 'mining_reward', amount: 6.0288, status: 'completed', description: 'Daily mining reward', blockExplorerUrl: '#' },
+  { id: 'tx004', date: subDays(today, 7).toISOString(), type: 'node_bonus', amount: 12.5, status: 'completed', description: 'Weekly node operation bonus', blockExplorerUrl: '#' },
+  { id: 'tx005', date: subDays(today, 10).toISOString(), type: 'sent', amount: 10.00, status: 'completed', to: 'Support Fund', description: 'Donation', blockExplorerUrl: '#' },
+  { id: 'tx006', date: subDays(today, 12).toISOString(), type: 'received', amount: 200.00, status: 'completed', from: 'Hannah Block', description: 'Marketplace sale', blockExplorerUrl: '#' },
+  { id: 'tx007', date: subDays(today, 15).toISOString(), type: 'mining_reward', amount: 6.0288, status: 'completed', description: 'Daily mining reward', blockExplorerUrl: '#' },
+  { id: 'tx008', date: subDays(today, 18).toISOString(), type: 'sent', amount: 5.00, status: 'failed', to: 'InvalidUser', description: 'Test transaction', blockExplorerUrl: '#' },
+  { id: 'tx009', date: subDays(today, 20).toISOString(), type: 'received', amount: 1.00, status: 'pending', from: 'Charlie User', description: 'Coffee', blockExplorerUrl: '#' },
+  { id: 'tx010', date: subDays(today, 22).toISOString(), type: 'node_bonus', amount: 12.5, status: 'completed', description: 'Weekly node operation bonus', blockExplorerUrl: '#' },
+  { id: 'tx011', date: subDays(today, 25).toISOString(), type: 'mining_reward', amount: 6.0288, status: 'completed', description: 'Daily mining reward', blockExplorerUrl: '#' },
+  { id: 'tx012', date: subDays(today, 30).toISOString(), type: 'sent', amount: 100.00, status: 'completed', to: 'Julia Token', description: 'Pi App purchase', blockExplorerUrl: '#' },
 ];
 
 
@@ -188,6 +188,15 @@ export const mockNotifications: Notification[] = [
         date: subDays(today, 5).toISOString(),
         read: true,
         link: '/dashboard/donate'
+    },
+    {
+        id: 'notif_005',
+        type: 'team_message',
+        title: 'Message from your Team Leader',
+        description: 'Great work this week everyone! Let\'s keep up the momentum.',
+        date: subHours(today, 26).toISOString(),
+        read: true,
+        link: '/dashboard/team',
     },
 ];
 

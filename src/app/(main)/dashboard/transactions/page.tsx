@@ -3,6 +3,17 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
 import { getTransactions } from '@/services/piService';
 import type { Transaction } from '@/data/schemas';
@@ -16,30 +27,30 @@ import { useAuth } from '@/contexts/AuthContext';
 
 // Solid SVG Icons
 const ArrowDownLeftIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M17 7 7 17" />
-        <path d="M17 17H7V7" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+        <path d="M17 7 7 17" stroke="#22c55e" strokeWidth="2" />
+        <path d="M17 17H7V7" stroke="#22c55e" strokeWidth="2" />
     </svg>
 );
 
 const ArrowUpRightIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M7 17 17 7" />
-        <path d="M7 7h10v10" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+        <path d="M7 17 17 7" stroke="#ef4444" strokeWidth="2" />
+        <path d="M7 7h10v10" stroke="#ef4444" strokeWidth="2" />
     </svg>
 );
 
 const AwardIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-        <circle cx="12" cy="8" r="7" fill="#f59e0b"/>
-        <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88" fill="#f59e0b"/>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f59e0b" {...props}>
+        <circle cx="12" cy="8" r="7"/>
+        <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88"/>
     </svg>
 );
 
 const ServerIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" fill="#3b82f6"/>
-        <rect x="2" y="14" width="20" height="8" rx="2" ry="2" fill="#3b82f6"/>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#3b82f6" {...props}>
+        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+        <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
         <line x1="6" y1="6" x2="6.01" y2="6" stroke="#fff" strokeWidth="2"/>
         <line x1="6" y1="18" x2="6.01" y2="18" stroke="#fff" strokeWidth="2"/>
     </svg>
@@ -55,7 +66,7 @@ const CheckCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
 const ClockIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
         <circle cx="12" cy="12" r="10" fill="currentColor"/>
-        <polyline points="12 6 12 12 16 14" stroke="#fff" strokeWidth="2" />
+        <polyline points="12 6 12 12 16 14" stroke="#fff" strokeWidth="1.5" />
     </svg>
 );
 
@@ -78,14 +89,22 @@ const CoinsIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
+const ExternalLinkIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <polyline points="15 3 21 3 21 9" />
+    <line x1="10" y1="14" x2="21" y2="3" />
+  </svg>
+);
+
 
 type SortableKeys = 'date' | 'type' | 'amount' | 'status' | 'description';
 
 const transactionTypeConfig = {
-    sent: { icon: ArrowUpRightIcon, colorClass: 'bg-red-500/10', label: "Sent" },
-    received: { icon: ArrowDownLeftIcon, colorClass: 'bg-green-500/10', label: "Received" },
-    mining_reward: { icon: AwardIcon, colorClass: 'bg-yellow-500/10', label: "Mining Reward" },
-    node_bonus: { icon: ServerIcon, colorClass: 'bg-blue-500/10', label: "Node Bonus" }
+    sent: { icon: ArrowUpRightIcon, colorClass: 'bg-red-500/10 text-red-500', label: "Sent" },
+    received: { icon: ArrowDownLeftIcon, colorClass: 'bg-green-500/10 text-green-500', label: "Received" },
+    mining_reward: { icon: AwardIcon, colorClass: 'bg-yellow-500/10 text-yellow-500', label: "Mining Reward" },
+    node_bonus: { icon: ServerIcon, colorClass: 'bg-blue-500/10 text-blue-500', label: "Node Bonus" }
 }
 
 const statusConfig = {
@@ -100,21 +119,47 @@ function TransactionRow({ tx }: { tx: Transaction }) {
   const statusInfo = statusConfig[tx.status];
   const StatusIcon = statusInfo.icon;
 
+  const handleExplorerRedirect = () => {
+    // In a real app, this would use the tx.blockExplorerUrl
+    console.log(`Redirecting to block explorer for tx: ${tx.id}`);
+  };
+
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
-        <TooltipProvider>
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    <div className={cn("flex items-center justify-center h-8 w-8 rounded-full", typeInfo.colorClass)}>
-                        <TypeIcon className="h-4 w-4" />
-                    </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                    <p>{typeInfo.label}</p>
-                </TooltipContent>
-            </Tooltip>
-        </TooltipProvider>
+        <AlertDialog>
+          <TooltipProvider>
+              <Tooltip>
+                  <TooltipTrigger asChild>
+                    <AlertDialogTrigger asChild>
+                        <div className={cn("flex items-center justify-center h-8 w-8 rounded-full cursor-pointer", typeInfo.colorClass)}>
+                            <TypeIcon className="h-4 w-4" />
+                        </div>
+                    </AlertDialogTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                      <p>View on Block Explorer</p>
+                  </TooltipContent>
+              </Tooltip>
+          </TooltipProvider>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>View on Pi Block Explorer?</AlertDialogTitle>
+              <AlertDialogDescription>
+                You are about to be redirected to an external block explorer to view the details of this transaction. Do you want to continue?
+                <br /><br />
+                <span className="text-xs text-muted-foreground truncate">Transaction ID: {tx.id}</span>
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleExplorerRedirect}>
+                <ExternalLinkIcon className="mr-2 h-4 w-4" />
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </TableCell>
       <TableCell>
         <div className="font-medium">{tx.description}</div>

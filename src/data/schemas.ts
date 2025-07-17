@@ -104,6 +104,7 @@ export interface Transaction {
     from?: string;
     to?: string;
     description: string;
+    blockExplorerUrl?: string;
 }
 
 export type NotificationType = 'badge_earned' | 'team_update' | 'node_update' | 'announcement' | 'team_message';
