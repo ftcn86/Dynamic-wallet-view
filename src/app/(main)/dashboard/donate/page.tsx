@@ -21,6 +21,8 @@ import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { Progress } from '@/components/ui/progress';
 import { AnimatePresence, motion } from 'framer-motion';
+import { MOCK_DONATION_GOAL, MOCK_CURRENT_DONATIONS, MOCK_RECENT_DONATIONS } from '@/data/mocks';
+
 
 // Solid SVG Icons
 const GiftIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -73,29 +75,19 @@ const PaintbrushIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 
 const presetAmounts = ["1", "5", "10", "20"];
-const MOCK_GOAL = 250;
-const MOCK_CURRENT_DONATIONS = 185;
-
-const mockRecentDonations = [
-  { name: 'Pioneer123', amount: 5 },
-  { name: 'CryptoCat', amount: 10 },
-  { name: 'AlexP', amount: 1 },
-  { name: 'NodeRunner', amount: 20 },
-  { name: 'PiFuture', amount: 5 },
-];
 
 function RecentSupporters() {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setIndex(prevIndex => (prevIndex + 1) % mockRecentDonations.length);
+            setIndex(prevIndex => (prevIndex + 1) % MOCK_RECENT_DONATIONS.length);
         }, 3000); // Change supporter every 3 seconds
 
         return () => clearInterval(interval);
     }, []);
 
-    const donation = mockRecentDonations[index];
+    const donation = MOCK_RECENT_DONATIONS[index];
 
     return (
       <div className="p-3 rounded-lg bg-primary/5 border border-primary/10 h-14 flex items-center justify-center overflow-hidden">
@@ -154,7 +146,7 @@ export default function DonatePage() {
     }, 1500);
   };
 
-  const donationProgress = (MOCK_CURRENT_DONATIONS / MOCK_GOAL) * 100;
+  const donationProgress = (MOCK_CURRENT_DONATIONS / MOCK_DONATION_GOAL) * 100;
 
   return (
     <div className="space-y-6">
@@ -251,7 +243,7 @@ export default function DonatePage() {
                     <Progress value={donationProgress} aria-label="Donation goal progress" />
                     <div className="flex justify-between text-sm font-medium">
                         <span className="text-muted-foreground">{MOCK_CURRENT_DONATIONS.toFixed(2)}π Raised</span>
-                        <span className="text-primary">{MOCK_GOAL}π Goal</span>
+                        <span className="text-primary">{MOCK_DONATION_GOAL}π Goal</span>
                     </div>
                 </CardContent>
                 <CardFooter>

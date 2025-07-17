@@ -135,9 +135,11 @@ export function TeamActivityCard() {
               </Table>
             </div>
           ) : (
-             <p className="text-sm text-center py-4 text-muted-foreground">
-              {team.length === 0 ? "No team members yet." : "No activity data for the team."}
-            </p>
+             <div className="text-center py-8 rounded-lg border-2 border-dashed">
+                <p className="text-sm text-muted-foreground">
+                    {t('teamActivity.noActivity')}
+                </p>
+             </div>
           )}
           {leaderboard.length > MAX_LEADERBOARD_ENTRIES && userRankInFullList > MAX_LEADERBOARD_ENTRIES && (
             <p className="text-sm text-muted-foreground mt-2 text-center">

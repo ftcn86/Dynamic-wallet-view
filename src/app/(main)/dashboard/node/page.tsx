@@ -125,6 +125,10 @@ function NodeOperatorView() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-36 rounded-lg" />)}
         </div>
+        <div className="grid gap-6 md:grid-cols-2">
+            <Skeleton className="h-28 rounded-lg" />
+            <Skeleton className="h-28 rounded-lg" />
+        </div>
         <Skeleton className="h-80 rounded-lg" />
       </div>
     );
@@ -209,56 +213,58 @@ function NodeOperatorView() {
 
 function BecomeANodeOperatorPrompt() {
   return (
-    <Card className="shadow-lg text-center max-w-2xl mx-auto">
-      <CardHeader>
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-          <ServerIcon/>
-        </div>
-        <CardTitle className="font-headline text-2xl">Become a Node Operator</CardTitle>
-        <CardDescription>Help secure the Pi Network and earn rewards by running a node on your computer.</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="text-left space-y-4">
-            <h3 className="font-semibold text-center">Why Run a Node?</h3>
-            <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500/10 mt-1 shrink-0">
-                    <ShieldCheckIcon className="h-5 w-5" />
+    <div className="flex items-center justify-center min-h-[60vh]">
+        <Card className="shadow-lg text-center max-w-2xl mx-auto">
+        <CardHeader>
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+            <ServerIcon/>
+            </div>
+            <CardTitle className="font-headline text-2xl">Become a Node Operator</CardTitle>
+            <CardDescription>Help secure the Pi Network and earn rewards by running a node on your computer.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+            <div className="text-left space-y-4">
+                <h3 className="font-semibold text-center">Why Run a Node?</h3>
+                <div className="flex items-start gap-4">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500/10 mt-1 shrink-0">
+                        <ShieldCheckIcon className="h-5 w-5" />
+                    </div>
+                    <div>
+                        <h4 className="font-medium">Strengthen the Network</h4>
+                        <p className="text-sm text-muted-foreground">Each node contributes to the decentralization and security of the Pi blockchain.</p>
+                    </div>
                 </div>
-                <div>
-                    <h4 className="font-medium">Strengthen the Network</h4>
-                    <p className="text-sm text-muted-foreground">Each node contributes to the decentralization and security of the Pi blockchain.</p>
+                <div className="flex items-start gap-4">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500/10 mt-1 shrink-0">
+                        <AwardIcon className="h-5 w-5" />
+                    </div>
+                    <div>
+                        <h4 className="font-medium">Earn Pi Rewards</h4>
+                        <p className="text-sm text-muted-foreground">Receive additional Pi for your contribution to the network's operation.</p>
+                    </div>
+                </div>
+                <div className="flex items-start gap-4">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/10 mt-1 shrink-0">
+                        <ZapIcon className="h-5 w-5" />
+                    </div>
+                    <div>
+                        <h4 className="font-medium">Prepare for Mainnet</h4>
+                        <p className="text-sm text-muted-foreground">Play a crucial role in validating transactions when the Open Network period begins.</p>
+                    </div>
                 </div>
             </div>
-            <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500/10 mt-1 shrink-0">
-                    <AwardIcon className="h-5 w-5" />
-                </div>
-                <div>
-                    <h4 className="font-medium">Earn Pi Rewards</h4>
-                    <p className="text-sm text-muted-foreground">Receive additional Pi for your contribution to the network's operation.</p>
-                </div>
-            </div>
-            <div className="flex items-start gap-4">
-                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/10 mt-1 shrink-0">
-                    <ZapIcon className="h-5 w-5" />
-                </div>
-                <div>
-                    <h4 className="font-medium">Prepare for Mainnet</h4>
-                    <p className="text-sm text-muted-foreground">Play a crucial role in validating transactions when the Open Network period begins.</p>
-                </div>
-            </div>
-        </div>
-      </CardContent>
-       <CardFooter className="flex-col gap-4">
-         <Button asChild size="lg" className="w-full sm:w-auto">
-          <a href={PI_NODE_INFO_URL} target="_blank" rel="noopener noreferrer">
-            Learn More on Pi Network
-            <ExternalLinkIcon className="ml-2 h-4 w-4" />
-          </a>
-        </Button>
-        <p className="text-xs text-muted-foreground">Node software runs on desktop or laptop computers.</p>
-       </CardFooter>
-    </Card>
+        </CardContent>
+        <CardFooter className="flex-col gap-4">
+            <Button asChild size="lg" className="w-full sm:w-auto">
+            <a href={PI_NODE_INFO_URL} target="_blank" rel="noopener noreferrer">
+                Learn More on Pi Network
+                <ExternalLinkIcon className="ml-2 h-4 w-4" />
+            </a>
+            </Button>
+            <p className="text-xs text-muted-foreground">Node software runs on desktop or laptop computers.</p>
+        </CardFooter>
+        </Card>
+    </div>
   );
 }
 

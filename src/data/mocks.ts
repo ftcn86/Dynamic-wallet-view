@@ -190,3 +190,14 @@ export const mockNotifications: Notification[] = [
         link: '/dashboard/donate'
     },
 ];
+
+export const MOCK_DONATION_GOAL = 250;
+export const MOCK_CURRENT_DONATIONS = 185;
+
+export const MOCK_RECENT_DONATIONS = [
+  { name: 'Pioneer123', amount: 5 },
+  { name: 'CryptoCat', amount: 10 },
+  { name: 'AlexP', amount: 1 },
+  { name: 'NodeRunner', amount: 20 },
+  { name: 'PiFuture', amount: 5 },
+];
