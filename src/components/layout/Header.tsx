@@ -35,7 +35,7 @@ import { Badge } from '../ui/badge';
 
 // Solid SVG Icons
 const BellIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
         <path d="M13.73 21a2 2 0 0 1-3.46 0" />
     </svg>
@@ -43,14 +43,14 @@ const BellIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 const LogOutIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" fill="currentColor" stroke="currentColor"/>
-        <polyline points="16 17 21 12 16 7" stroke="currentColor" fill="none"/>
-        <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" fill="none"/>
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" fill="hsl(var(--destructive))" stroke="hsl(var(--destructive))"/>
+        <polyline points="16 17 21 12 16 7" stroke="hsl(var(--destructive))" fill="none"/>
+        <line x1="21" y1="12" x2="9" y2="12" stroke="hsl(var(--destructive))" fill="none"/>
     </svg>
 );
 
 const RefreshCwIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
         <path d="M21 2v6h-6" />
         <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
         <path d="M3 22v-6h6" />
@@ -59,7 +59,7 @@ const RefreshCwIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const UserCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <circle cx="12" cy="12" r="10" />
         <circle cx="12" cy="10" r="3" fill="#fff" />
         <path d="M7 18.662V19a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-.338a4 4 0 0 0-3.12-3.953h-1.76a4 4 0 0 0-3.12 3.953Z" fill="#fff" />

@@ -12,14 +12,14 @@ import { BadgeIcon } from './badge/BadgeIcon';
 
 // Solid SVG Icons
 const AwardIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <circle cx="12" cy="8" r="7"/>
         <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88"/>
     </svg>
 );
 
 const CheckCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#22c55e" {...props}>
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
         <polyline points="22 4 12 14.01 9 11.01" stroke="#fff" strokeWidth="2" />
     </svg>
@@ -46,7 +46,7 @@ function BadgeItem({ badge }: { badge: Badge }) {
         </DialogHeader>
         <div className="mt-4">
           {badge.earned && earnedDate && (
-             <div className="flex items-center justify-center text-sm text-green-600 bg-green-500/10 rounded-full px-4 py-2">
+             <div className="flex items-center justify-center text-sm text-green-700 dark:text-green-300 bg-green-500/10 rounded-full px-4 py-2">
                 <CheckCircleIcon className="mr-2 h-4 w-4" />
                 <span>Earned on {earnedDate}</span>
              </div>
@@ -88,7 +88,7 @@ export function MyBadgesCard() {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 font-headline">
-          <AwardIcon className="h-6 w-6 text-primary" />
+          <AwardIcon className="h-6 w-6" />
           My Badges
         </CardTitle>
         <CardDescription>

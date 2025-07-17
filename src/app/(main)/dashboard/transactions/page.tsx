@@ -15,28 +15,28 @@ import { SortableTableHead } from '@/components/shared/SortableTableHead';
 
 // Solid SVG Icons
 const ArrowDownLeftIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
         <path d="M17 7 7 17" />
         <path d="M17 17H7V7" />
     </svg>
 );
 
 const ArrowUpRightIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
         <path d="M7 17 17 7" />
         <path d="M7 7h10v10" />
     </svg>
 );
 
 const AwardIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f59e0b" {...props}>
         <circle cx="12" cy="8" r="7"/>
         <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88"/>
     </svg>
 );
 
 const ServerIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#3b82f6" {...props}>
         <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
         <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
         <line x1="6" y1="6" x2="6.01" y2="6" stroke="#fff" strokeWidth="2"/>
@@ -67,7 +67,7 @@ const XCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const CoinsIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <circle cx="8" cy="8" r="6" />
         <path d="M18.09 10.72A6 6 0 1 1 10.72 18.09" />
         <path d="m14 6-3.1 3.1" stroke="#fff" strokeWidth="1.5" />
@@ -81,10 +81,10 @@ const CoinsIcon = (props: React.SVGProps<SVGSVGElement>) => (
 type SortableKeys = 'date' | 'type' | 'amount' | 'status' | 'description';
 
 const transactionTypeConfig = {
-    sent: { icon: ArrowUpRightIcon, color: 'text-red-500', label: "Sent" },
-    received: { icon: ArrowDownLeftIcon, color: 'text-green-500', label: "Received" },
-    mining_reward: { icon: AwardIcon, color: 'text-yellow-500', label: "Mining Reward" },
-    node_bonus: { icon: ServerIcon, color: 'text-blue-500', label: "Node Bonus" }
+    sent: { icon: ArrowUpRightIcon, colorClass: 'bg-red-500/10', label: "Sent" },
+    received: { icon: ArrowDownLeftIcon, colorClass: 'bg-green-500/10', label: "Received" },
+    mining_reward: { icon: AwardIcon, colorClass: 'bg-yellow-500/10', label: "Mining Reward" },
+    node_bonus: { icon: ServerIcon, colorClass: 'bg-blue-500/10', label: "Node Bonus" }
 }
 
 const statusConfig = {
@@ -105,7 +105,7 @@ function TransactionRow({ tx }: { tx: Transaction }) {
         <TooltipProvider>
             <Tooltip>
                 <TooltipTrigger asChild>
-                    <div className={cn("flex items-center justify-center h-8 w-8 rounded-full", typeInfo.color, 'bg-opacity-10', 'bg-current')}>
+                    <div className={cn("flex items-center justify-center h-8 w-8 rounded-full", typeInfo.colorClass)}>
                         <TypeIcon className="h-4 w-4" />
                     </div>
                 </TooltipTrigger>
@@ -120,7 +120,11 @@ function TransactionRow({ tx }: { tx: Transaction }) {
         <div className="text-xs text-muted-foreground truncate hidden md:block">{tx.from || tx.to || 'Network'}</div>
       </TableCell>
       <TableCell className="text-right">
-        <span className={cn("font-mono", tx.type === 'sent' || tx.type === 'received' ? typeInfo.color : 'text-foreground')}>
+        <span className={cn("font-mono", {
+          'text-red-600 dark:text-red-400': tx.type === 'sent',
+          'text-green-600 dark:text-green-400': tx.type === 'received',
+          'text-foreground': tx.type !== 'sent' && tx.type !== 'received'
+        })}>
             {tx.type === 'sent' ? '-' : '+'}{tx.amount.toFixed(4)} π
         </span>
       </TableCell>
@@ -207,7 +211,7 @@ export default function TransactionsPage() {
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <CoinsIcon className="h-6 w-6 text-primary" />
+            <CoinsIcon className="h-6 w-6" />
             Your Ledger
           </CardTitle>
           <CardDescription>

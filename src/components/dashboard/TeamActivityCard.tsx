@@ -14,7 +14,7 @@ import { BadgeIcon } from './badge/BadgeIcon';
 
 // Solid SVG Icons
 const TrophyIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" stroke="#fff" strokeWidth="1.5" fill="none" />
         <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" stroke="#fff" strokeWidth="1.5" fill="none" />
         <path d="M4 22h16" stroke="#fff" strokeWidth="1.5" fill="none" />
@@ -30,7 +30,7 @@ const ChevronRightIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const AwardIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f59e0b" {...props}>
         <circle cx="12" cy="8" r="7"/>
         <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88"/>
     </svg>
@@ -93,7 +93,7 @@ export function TeamActivityCard() {
     <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300")}>
       <CardHeader>
         <CardTitle className="font-headline flex items-center">
-          <TrophyIcon className="mr-2 h-6 w-6 text-primary" />
+          <TrophyIcon className="mr-2 h-6 w-6" />
           Team Mining Rally
         </CardTitle>
         <CardDescription>
@@ -149,7 +149,7 @@ export function TeamActivityCard() {
         {earnedGamificationBadges.length > 0 && (
           <div>
             <h3 className="text-md font-semibold mb-3 flex items-center">
-              <AwardIcon className="mr-2 h-5 w-5 text-amber-500" />
+              <AwardIcon className="mr-2 h-5 w-5" />
               Recent Achievements
             </h3>
             <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3">

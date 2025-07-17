@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 // Solid SVG Icon
 const ArrowUpIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
         <path d="M12 19V5M5 12l7-7 7 7"/>
     </svg>
 );
@@ -29,7 +29,7 @@ export function KPICard({ title, value, icon, footerValue, change, badgeText, ba
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
         </CardTitle>
-        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
+        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
           {React.cloneElement(icon as React.ReactElement, { className: "h-5 w-5" })}
         </div>
       </CardHeader>

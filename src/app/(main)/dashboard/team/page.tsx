@@ -20,7 +20,7 @@ import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 
 // Solid SVG Icons
 const UsersIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
         <circle cx="8.5" cy="7" r="4" />
         <path d="M20 21v-2a4 4 0 0 0-3-3.87" />
@@ -29,27 +29,27 @@ const UsersIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const BellIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--accent))" {...props}>
         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
         <path d="M13.73 21a2 2 0 0 1-3.46 0" />
     </svg>
 );
 
 const MessageSquareIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--accent))" {...props}>
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
     </svg>
 );
 
 const SendIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
-        <path d="m22 2-7 20-4-9-9-4Z" />
-        <path d="m22 2-11 11" />
+        <path d="m22 2-7 20-4-9-9-4Z" fill="hsl(var(--primary-foreground))"/>
+        <path d="m22 2-11 11" stroke="hsl(var(--primary-foreground))" />
     </svg>
 );
 
 const InfoIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--muted-foreground))" {...props}>
         <circle cx="12" cy="12" r="10" />
         <line x1="12" y1="16" x2="12" y2="12" stroke="#fff" strokeWidth="2" />
         <line x1="12" y1="8" x2="12.01" y2="8" stroke="#fff" strokeWidth="2" />
@@ -102,13 +102,13 @@ function TeamManagementCard({ teamMembers }: { teamMembers: TeamMember[] }) {
     return (
         <Card className="shadow-lg">
             <CardHeader>
-                <CardTitle className="flex items-center gap-2"><UsersIcon className="h-6 w-6 text-primary"/> Team Management Tools</CardTitle>
+                <CardTitle className="flex items-center gap-2"><UsersIcon className="h-6 w-6"/> Team Management Tools</CardTitle>
                 <CardDescription>Engage with your team to boost overall activity and cooperation.</CardDescription>
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col space-y-4 rounded-lg border p-4">
                     <div className="flex items-center gap-2 font-medium">
-                        <BellIcon className="h-5 w-5 text-accent"/>
+                        <BellIcon className="h-5 w-5"/>
                         <h3>Ping Inactive Members</h3>
                     </div>
                     <p className="text-sm text-muted-foreground flex-grow">
@@ -121,7 +121,7 @@ function TeamManagementCard({ teamMembers }: { teamMembers: TeamMember[] }) {
                 </div>
                 <div className="flex flex-col space-y-4 rounded-lg border p-4">
                      <div className="flex items-center gap-2 font-medium">
-                        <MessageSquareIcon className="h-5 w-5 text-accent"/>
+                        <MessageSquareIcon className="h-5 w-5"/>
                         <h3>Send a Broadcast</h3>
                     </div>
                     <Textarea 
@@ -178,7 +178,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <InfoIcon className="h-4 w-4 text-muted-foreground cursor-help" />
+                <InfoIcon className="h-4 w-4 cursor-help" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>Unverified Pi contributed by this team member.</p>
@@ -272,7 +272,7 @@ export default function TeamInsightsPage() {
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <UsersIcon className="h-6 w-6 text-primary" />
+            <UsersIcon className="h-6 w-6" />
             Your Earning Team
           </CardTitle>
           <CardDescription>

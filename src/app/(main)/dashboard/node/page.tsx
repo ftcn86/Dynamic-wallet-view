@@ -27,26 +27,26 @@ const ExternalLinkIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 const ShieldCheckIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="#22c55e" />
         <path d="m9 12 2 2 4-4" stroke="#fff" strokeWidth="1.5" />
     </svg>
 );
 
 const ZapIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
-        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="#3b82f6"/>
     </svg>
 );
 
 const AwardIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
-        <circle cx="12" cy="8" r="7"/>
-        <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88"/>
+        <circle cx="12" cy="8" r="7" fill="#f59e0b"/>
+        <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88" fill="#f59e0b"/>
     </svg>
 );
 
 const ServerIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
         <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
         <line x1="6" y1="6" x2="6.01" y2="6" stroke="#fff" strokeWidth="2"/>
@@ -55,7 +55,7 @@ const ServerIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const TrendingUpIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
         <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
         <polyline points="17 6 23 6 23 12"/>
     </svg>
@@ -63,7 +63,7 @@ const TrendingUpIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 const GaugeIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M12 12m-10 0a10 10 0 1 0 20 0a10 10 0 1 0-20 0" fill="currentColor"/>
+        <path d="M12 12m-10 0a10 10 0 1 0 20 0a10 10 0 1 0-20 0" fill="#22c55e"/>
         <path d="m12 12-4 2" stroke="#fff" />
         <path d="M12 14v4" stroke="#fff" />
         <path d="M16 12-2 3" stroke="#fff" />
@@ -71,7 +71,7 @@ const GaugeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const GlobeIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <circle cx="12" cy="12" r="10" />
         <line x1="2" y1="12" x2="22" y2="12" stroke="#fff" strokeWidth="1.5"/>
         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="#fff" strokeWidth="1.5"/>
@@ -79,7 +79,7 @@ const GlobeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const BlocksIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <rect x="7" y="7" width="10" height="10" rx="2" ry="2"/>
         <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
         <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
@@ -90,10 +90,10 @@ const BlocksIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 const GitBranchIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <line x1="6" y1="3" x2="6" y2="15"/>
-        <circle cx="18" cy="6" r="3" fill="currentColor" stroke="none"/>
-        <circle cx="6" cy="18" r="3" fill="currentColor" stroke="none"/>
-        <path d="M18 9a9 9 0 0 1-9 9"/>
+        <line x1="6" y1="3" x2="6" y2="15" stroke="hsl(var(--primary))"/>
+        <circle cx="18" cy="6" r="3" fill="hsl(var(--primary))" stroke="none"/>
+        <circle cx="6" cy="18" r="3" fill="hsl(var(--primary))" stroke="none"/>
+        <path d="M18 9a9 9 0 0 1-9 9" stroke="hsl(var(--primary))"/>
     </svg>
 );
 
@@ -146,25 +146,25 @@ function NodeOperatorView() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <NodeStatCard
                 title="Status"
-                icon={<ServerIcon className="text-primary"/>}
+                icon={<ServerIcon />}
                 mainContent={<NodeStatusBadge status={nodeData.status}/>}
                 footerText={`Last seen: ${lastSeenText}`}
             />
             <NodeStatCard
                 title="Location"
-                icon={<GlobeIcon className="text-primary"/>}
+                icon={<GlobeIcon />}
                 mainContent={<div className="flex items-center gap-2"><span className="text-2xl">{nodeData.countryFlag}</span> {nodeData.country}</div>}
                 footerText="Based on your node's IP address"
             />
             <NodeStatCard
                 title="Blocks Processed"
-                icon={<BlocksIcon className="text-primary"/>}
+                icon={<BlocksIcon />}
                 mainContent={nodeData.blocksProcessed.toLocaleString()}
                 footerText="Total blocks synchronized"
             />
              <NodeStatCard
                 title="Node Version"
-                icon={<GitBranchIcon className="text-primary"/>}
+                icon={<GitBranchIcon />}
                 mainContent={nodeData.nodeSoftwareVersion}
                 footerText={`Latest: ${nodeData.latestSoftwareVersion}`}
             />
@@ -172,13 +172,13 @@ function NodeOperatorView() {
         <div className="grid gap-6 md:grid-cols-2">
             <NodeStatCard
                 title="Uptime (30d)"
-                icon={<GaugeIcon className="text-green-500" />}
+                icon={<GaugeIcon />}
                 mainContent={`${nodeData.uptimePercentage.toFixed(2)}%`}
                 footerText="Excellent stability"
             />
             <NodeStatCard
                 title="Performance Score"
-                icon={<TrendingUpIcon className="text-green-500" />}
+                icon={<TrendingUpIcon />}
                 mainContent={nodeData.performanceScore.toString()}
                 footerText="Compared to network average"
             />
@@ -212,7 +212,7 @@ function BecomeANodeOperatorPrompt() {
     <Card className="shadow-lg text-center max-w-2xl mx-auto">
       <CardHeader>
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-          <ServerIcon size={40} className="text-primary" />
+          <ServerIcon size={40} />
         </div>
         <CardTitle className="font-headline text-2xl">Become a Node Operator</CardTitle>
         <CardDescription>Help secure the Pi Network and earn rewards by running a node on your computer.</CardDescription>
@@ -221,7 +221,7 @@ function BecomeANodeOperatorPrompt() {
         <div className="text-left space-y-4">
             <h3 className="font-semibold text-center">Why Run a Node?</h3>
             <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500/10 text-green-600 mt-1 shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500/10 mt-1 shrink-0">
                     <ShieldCheckIcon className="h-5 w-5" />
                 </div>
                 <div>
@@ -230,7 +230,7 @@ function BecomeANodeOperatorPrompt() {
                 </div>
             </div>
             <div className="flex items-start gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500/10 text-yellow-600 mt-1 shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500/10 mt-1 shrink-0">
                     <AwardIcon className="h-5 w-5" />
                 </div>
                 <div>
@@ -239,7 +239,7 @@ function BecomeANodeOperatorPrompt() {
                 </div>
             </div>
             <div className="flex items-start gap-4">
-                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/10 text-blue-600 mt-1 shrink-0">
+                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/10 mt-1 shrink-0">
                     <ZapIcon className="h-5 w-5" />
                 </div>
                 <div>

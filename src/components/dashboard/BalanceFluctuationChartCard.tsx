@@ -11,9 +11,9 @@ import { format } from 'date-fns';
 
 // Solid SVG Icon
 const BarChartIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <path d="M3 3v18h18" stroke="#fff" strokeWidth="2" fill="none" />
-        <path d="M7 12h4v6H7zm6-4h4v10h-4z" />
+        <path d="M7 12h4v6H7z" />
     </svg>
 );
 
@@ -44,7 +44,7 @@ export function BalanceFluctuationChartCard() {
         <div className="flex justify-between items-start">
             <div>
                 <CardTitle className="font-headline flex items-center">
-                    <BarChartIcon className="mr-2 h-6 w-6 text-primary" />
+                    <BarChartIcon className="mr-2 h-6 w-6" />
                     Balance Fluctuation
                 </CardTitle>
                 <CardDescription>
