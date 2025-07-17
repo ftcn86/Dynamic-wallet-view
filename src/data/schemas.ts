@@ -58,6 +58,7 @@ export interface TeamMember {
   teamMemberActiveMiningHours_LastWeek?: number;
   teamMemberActiveMiningHours_LastMonth?: number;
   kycStatus?: KycStatus;
+  dataAiHint?: string;
 }
 
 export type NodeStatus = 'online' | 'offline' | 'synchronizing';

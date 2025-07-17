@@ -157,7 +157,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
       <TableCell>
         <div className="flex items-center gap-3">
           <Avatar className="h-9 w-9">
-            <AvatarImage src={member.avatarUrl} alt={member.name} data-ai-hint="person face" />
+            <AvatarImage src={member.avatarUrl} alt={member.name} data-ai-hint={member.dataAiHint} />
             <AvatarFallback>{avatarFallback}</AvatarFallback>
           </Avatar>
           <span className="font-medium">{member.name}</span>

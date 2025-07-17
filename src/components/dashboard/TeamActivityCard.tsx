@@ -11,10 +11,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '../ui/skeleton';
 import { BadgeIcon } from './badge/BadgeIcon';
+import { useTranslation } from '@/hooks/useTranslation';
 
 // Solid SVG Icons
 const TrophyIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="hsl(var(--primary))" {...props}>
         <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" stroke="#fff" strokeWidth="1.5" fill="none" />
         <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" stroke="#fff" strokeWidth="1.5" fill="none" />
         <path d="M4 22h16" stroke="#fff" strokeWidth="1.5" fill="none" />
@@ -24,13 +25,13 @@ const TrophyIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const ChevronRightIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
         <path d="m9 18 6-6-6-6" />
     </svg>
 );
 
 const AwardIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f59e0b" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="#f59e0b" {...props}>
         <circle cx="12" cy="8" r="7"/>
         <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88"/>
     </svg>
@@ -41,6 +42,7 @@ const DISPLAY_RECENT_BADGES_COUNT = 3;
 
 export function TeamActivityCard() {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const team = mockTeam; 
 
   if (!user) return (
@@ -122,7 +124,7 @@ export function TeamActivityCard() {
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <Avatar className="h-7 w-7">
-                            <AvatarImage src={member.avatarUrl} alt={member.name} data-ai-hint="person face" />
+                            <AvatarImage src={member.avatarUrl} alt={member.name} data-ai-hint={member.dataAiHint} />
                             <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                           </Avatar>
                           <span className="truncate">{member.name}</span>
@@ -137,7 +139,7 @@ export function TeamActivityCard() {
           ) : (
              <div className="text-center py-8 rounded-lg border-2 border-dashed">
                 <p className="text-sm text-muted-foreground">
-                    {t('teamActivity.noActivity')}
+                    {t('dashboard.teamActivity.noActivity')}
                 </p>
              </div>
           )}
