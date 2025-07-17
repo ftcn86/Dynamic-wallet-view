@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useTranslation } from '@/hooks/useTranslation';
 import { MessageSquareIcon, SendIcon } from '@/components/shared/icons';
-import { submitFeedback } from '@/services/piService';
+import { submitFeedback } from '@/services/feedbackService';
 import { useAuth } from '@/contexts/AuthContext';
 
 function FeedbackCard() {

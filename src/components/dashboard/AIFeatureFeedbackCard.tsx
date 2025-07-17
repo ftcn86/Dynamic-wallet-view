@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
-import { submitFeedback } from '@/services/piService';
+import { submitFeedback } from '@/services/feedbackService';
 import { SendIcon } from '@/components/shared/icons';
 
 const LightbulbIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -18,6 +18,7 @@ const LightbulbIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <path d="M12 22v-2" />
   </svg>
 );
+
 
 export function AIFeatureFeedbackCard() {
   const { user } = useAuth();
@@ -67,7 +68,7 @@ export function AIFeatureFeedbackCard() {
                 Future AI Tool: Mining Rate Forecaster
             </CardTitle>
             <CardDescription>
-              We are developing an AI tool to help you forecast your potential mining rate based on different lockup scenarios. Is this a feature you would use?
+                We're developing an AI tool to help forecast your potential mining rate based on different lockup scenarios. Is this a feature you would use?
             </CardDescription>
         </CardHeader>
         <CardContent className="flex-grow">

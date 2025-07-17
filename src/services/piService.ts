@@ -202,17 +202,3 @@ export async function simulateKycCompletion(teamMemberId: string): Promise<{ suc
     }
     return mockApiCall({ data: { success: false } });
 }
-
-/**
- * Simulates submitting user feedback to a backend service.
- * In a real app, this would send an email or save to a database.
- */
-export async function submitFeedback(feedbackData: {
-  type: 'ai_feature' | 'general_help';
-  message: string;
-  userId?: string;
-}): Promise<{ success: boolean }> {
-  console.log("Submitting feedback via centralized service:", feedbackData);
-  // This is where you would add logic to send an email or post to your backend API.
-  return mockApiCall({ data: { success: true } });
-}
