@@ -49,7 +49,7 @@ export const mockUser: User = {
   totalBalance: 12345.6789,
   miningRate: 0.2512,
   isNodeOperator: true,
-  nodeUptimePercentage: mockNodeData.uptimePercentage, // Added for node operators
+  nodeUptimePercentage: mockNodeData.uptimePercentage,
   balanceBreakdown: {
     transferableToMainnet: 5678.1234,
     totalUnverifiedPi: totalUnverified,
@@ -80,6 +80,10 @@ export const mockUser: User = {
   activeMiningDays_LastMonth: Math.min(25, daysInPreviousMonth - 2),
   monthlyMiningDaysTarget: daysInPreviousMonth,
   termsAccepted: false,
+  settings: {
+    remindersEnabled: true,
+    reminderHoursBefore: 1,
+  },
 };
 
 export const mockTeam: TeamMember[] = [
@@ -97,11 +101,11 @@ export const mockTeam: TeamMember[] = [
 ];
 
 export const mockTransactions: Transaction[] = [
-  { id: 'tx001', date: subDays(today, 2).toISOString(), type: 'received', amount: 150.75, status: 'completed', from: 'Fiona Coin', description: 'Payment for project collaboration' },
+  { id: 'tx001', date: subDays(today, 2).toISOString(), type: 'received', amount: 150.75, status: 'completed', from: 'Fiona Coin', description: 'Project collaboration' },
   { id: 'tx002', date: subDays(today, 3).toISOString(), type: 'sent', amount: 50.00, status: 'completed', to: 'Bob Miner', description: 'Team bonus' },
   { id: 'tx003', date: subDays(today, 5).toISOString(), type: 'mining_reward', amount: 6.0288, status: 'completed', description: 'Daily mining reward' },
   { id: 'tx004', date: subDays(today, 7).toISOString(), type: 'node_bonus', amount: 12.5, status: 'completed', description: 'Weekly node operation bonus' },
-  { id: 'tx005', date: subDays(today, 10).toISOString(), type: 'sent', amount: 10.00, status: 'completed', to: 'Support Fund', description: 'Donation to app development' },
+  { id: 'tx005', date: subDays(today, 10).toISOString(), type: 'sent', amount: 10.00, status: 'completed', to: 'Support Fund', description: 'Donation' },
   { id: 'tx006', date: subDays(today, 12).toISOString(), type: 'received', amount: 200.00, status: 'completed', from: 'Hannah Block', description: 'Marketplace sale' },
   { id: 'tx007', date: subDays(today, 15).toISOString(), type: 'mining_reward', amount: 6.0288, status: 'completed', description: 'Daily mining reward' },
   { id: 'tx008', date: subDays(today, 18).toISOString(), type: 'sent', amount: 5.00, status: 'failed', to: 'InvalidUser', description: 'Test transaction' },
@@ -186,5 +190,3 @@ export const mockNotifications: Notification[] = [
         link: '/dashboard/donate'
     },
 ];
-
-    

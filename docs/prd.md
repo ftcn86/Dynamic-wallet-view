@@ -1,3 +1,4 @@
+
 # Product Requirements Document: Dynamic Pi Wallet View v2.4
 ## Application Specification
 
@@ -34,7 +35,7 @@
 
 ### 2.2. Main Dashboard (`/dashboard`)
 *   **2.2.1. Key Performance Indicators (KPIs) - Top Section:**
-    *   **Total Pi Balance:** Displays user's total Pi. Icon: `Banknote`.
+    *   **Total Pi Balance:** Displays user's total Pi. Icon: `Wallet`.
     *   **Current Mining Rate:** Displays current Pi mining rate per hour. Icon: `Gauge`. Clickable, shows AlertDialog prompting to redirect to Pi App mining section (mock URL `pi://mine`).
     *   **Active Team Members:** Displays `active_members / total_members`. Icon: `Users`. Clickable, links to `/dashboard/team`.
     *   **Node Uptime (Conditional):** If `user.isNodeOperator` is true, displays node uptime percentage. Icon: `Server`. Clickable, links to `/dashboard/node`.
@@ -53,40 +54,34 @@
         *   From Node Rewards. Icon: `Server`.
         *   From Other Bonuses. Icon: `Gift`.
     *   Disclaimer: "These amounts become transferable as your connections complete KYC or other conditions are met."
-*   **2.2.4. Balance Fluctuation Chart Card:**
+*   **2.2.4. Balance Fluctuation Chart Card (Portfolio Tab):**
     *   Title: "Balance Fluctuation".
     *   Chart Type: Bar chart (using Recharts/ShadCN Charts).
     *   Data: Shows historical "Transferable" and "Unverified" Pi amounts.
     *   Time Period Selector: "3M", "6M", "12M" options, changing the displayed chart data.
     *   Y-Axis Label: "Pi Amount".
     *   Tooltip: Show exact values for Transferable and Unverified on hover.
-*   **2.2.5. My Badges Card:**
+*   **2.2.5. My Badges Card (Achievements Tab):**
     *   Title: "My Badges".
-    *   Displays a grid of user's earned and unearned badges (icons).
-    *   Earned badges are full color; unearned are grayscale/dimmed.
-    *   Clicking a badge opens a Dialog showing:
-        *   Large badge icon.
-        *   Badge Name (Title).
-        *   Badge Description.
-        *   "Earned on: [Date]" (if applicable).
-*   **2.2.6. Mining Focus Card:**
-    *   Title: "Mining Focus". Icon: `Target`.
-    *   Description: "Track your personal mining goals and stay motivated!"
-    *   **Weekly Goal:** Progress bar for `active_mining_days_last_week / weekly_mining_target_days`.
-    *   **Monthly Goal:** Progress bar for `active_mining_days_last_month / monthly_mining_target_days`.
-*   **2.2.7. Team Activity Card:**
+    *   Displays a grid of user's earned and unearned badges (full color icons vs grayscale).
+    *   Clicking a badge opens a Dialog showing details.
+*   **2.2.6. Lockup & Bonus Calculator (Analysis Tab):**
+    *   Title: "Lockup & Bonus Calculator".
+    *   Interactive sliders for `Lockup Percentage` and `Lockup Duration`.
+    *   Displays the estimated resulting mining rate boost in real-time.
+    *   Disclaimer about estimates vs. official formula.
+*   **2.2.7. Team Activity Card (Overview Tab):**
     *   Title: "Team Mining Rally". Icon: `Trophy`.
-    *   User's personal activity summary.
-    *   **Weekly Team Rally Leaderboard (Top 10):** Table showing Rank, Member, Hours.
+    *   **Weekly Team Rally Leaderboard (Top 5):** Table showing Rank, Member, Hours.
     *   **Recent Achievements (Badges):** Display ~3 most recently earned badges.
     *   Footer Button: "View Full Team Report" linking to `/dashboard/team`.
 
 ### 2.3. Team Insights Page (`/dashboard/team`)
-*   **2.3.1. Title:** "Team Insights".
+*   **2.3.1. Title:** "Security & Team Insights".
 *   **2.3.2. Team Members Table (from data service):**
     *   Columns (all sortable): Member, Join Date, Status, KYC Status, Contribution, Activity.
+    *   Table is responsive, hiding less critical columns on smaller screens.
     *   Loading, error, and empty states.
-    *   Sorting logic must be implemented for all specified columns.
 
 ### 2.4. Node Analysis Page (`/dashboard/node`)
 *   **2.4.1. Title:** "Node Analysis".
@@ -94,42 +89,42 @@
     *   **If Operator:** Show KPIs for "Node Uptime" and "Performance Score", and a "Performance History" line chart.
     *   **If Not Operator:** Show a card encouraging the user to "Become a Node Operator" with a link to the Pi Network site.
 
-### 2.5. User Profile Page (`/dashboard/profile`)
-*   **2.5.1. Title:** "Edit Profile".
-*   **2.5.2. Form Elements (mock save to `localStorage` user object):**
+### 2.5. Transaction History Page (`/dashboard/transactions`)
+*   **2.5.1. Title:** "Transaction History".
+*   **2.5.2. Transaction Table:**
+    *   Displays a list of all user transactions (sent, received, rewards).
+    *   Columns include Type, Details, Amount, Status, and Date.
+    *   Table is responsive for mobile viewing.
+
+### 2.6. User Profile Page (`/dashboard/profile`)
+*   **2.6.1. Title:** "Edit Profile".
+*   **2.6.2. Form Elements (mock save to `localStorage` user object):**
     *   Profile Picture (with mock upload), Display Name, Bio.
     *   Save Button with loading state and success/error Toast notifications.
 
-### 2.6. Application Settings Page (`/dashboard/settings`)
-*   **2.6.1. Title:** "Application Settings".
-*   **2.6.2. Theme Selection:** Options for Light, Dark, System. Persists choice to `localStorage` via `next-themes`.
-*   **2.6.3. Language Selection has been removed to simplify the application.**
+### 2.7. Application Settings Page (`/dashboard/settings`)
+*   **2.7.1. Title:** "Application Settings".
+*   **2.7.2. Theme Selection:** Options for Light, Dark, System. Persists choice to `localStorage` via `next-themes`.
+*   **2.7.3. (New) Mining Reminders:**
+    *   A toggle switch to enable/disable notifications for mining session expiry.
+    *   An input field to configure reminder time (e.g., 1 hour before expiry).
+    *   Saves preferences to the user object in `localStorage`.
 
-### 2.7. Donation Page (`/dashboard/donate`)
-*   **2.7.1. Title:** "Support Dynamic Pi Wallet View".
-*   **2.7.2. Content:** A card explaining the value of community support for maintaining and improving the app.
-*   **2.7.3. Donation Form:**
-    *   An input field for the donation amount (e.g., in Pi).
-    *   A "Donate with Pi" button.
-*   **2.7.4. Mock Payment Flow:**
-    *   Clicking the button will trigger an `AlertDialog` simulating the Pi payment confirmation flow.
-    *   The dialog will show the amount and ask for confirmation.
-    *   On confirmation, a "Processing..." state will be shown, followed by a success or error Toast notification.
+### 2.8. Donation Page (`/dashboard/donate`)
+*   **2.8.1. Title:** "Support Dynamic Pi Wallet View".
+*   **2.8.2. Donation Form:** An input field for the donation amount and preset buttons.
+*   **2.8.3. Mock Payment Flow:** An `AlertDialog` simulates the Pi payment confirmation flow.
 
-### 2.8. Legal & Informational Pages
-*   **2.8.1. Pages:** Terms of Service (`/legal/terms`), Privacy Policy (`/legal/privacy`), Help & Support (`/legal/help`), PiOS License (`/legal/pios-license`).
-*   **2.8.2. Layout:** Use a common `LegalPageLayout.tsx` with an Accordion or Markdown display for content.
+### 2.9. Legal & Informational Pages
+*   **2.9.1. Pages:** Terms of Service (`/legal/terms`), Privacy Policy (`/legal/privacy`), Help & Support (`/legal/help`).
+*   **2.9.2. Layout:** Use a common `LegalPageLayout.tsx` with an Accordion or Markdown display for content.
 
-### 2.9. Sidebar Navigation
-*   **2.9.1. Collapsible Design:** Supports expanded and collapsed states.
-*   **2.9.2. App Logo/Name:** "Dynamic Pi Wallet View" with `ShieldQuestion` icon.
-*   **2.9.3. Navigation Links:**
-    *   Dashboard (`LayoutDashboard`)
-    *   Team Insights (`Users`)
-    *   Node Analysis (`Network`)
-    *   **New:** Donate (`Heart`)
-    *   Team Chat (`MessageSquare` - with `AlertDialog` confirmation).
-*   **2.9.4. User Profile Dropdown Menu:** Triggered by user avatar. Items: Profile, Settings, Help, Legal links, Logout (with confirmation).
+### 2.10. Sidebar Navigation & Header
+*   **2.10.1. Sidebar:** Collapsible design with responsive behavior for mobile.
+*   **2.10.2. Header:** Displays a welcome message and contains the user profile dropdown and a notification center.
+*   **2.10.3. Notification Center:**
+    *   Dropdown menu displaying recent, relevant user notifications (e.g., badge earned, team member KYC'd, app announcements).
+    *   Notifications link directly to the relevant part of the app (e.g., Achievements tab).
 
 ---
 
@@ -145,13 +140,13 @@
 
 ### 3.2. Technology Stack & Best Practices
 *   **Stack:** Next.js (App Router, latest stable), React (latest stable), TypeScript, ShadCN UI, Tailwind CSS, Lucide React, Recharts.
-*   **State Management:** React Context API (`AuthContext`, `ThemeProvider`) with `localStorage` for persistence.
+*   **State Management:** React Context API (`AuthContext`) with `localStorage` for persistence.
 *   **Data Fetching:** All data fetching operations must be channeled through the `piService`. UI components should not directly call `mockApiCall`.
-*   **Language:** The application will be **English-only** to simplify development and avoid i18n-related build issues. The multi-language system has been removed.
+*   **Language:** The application will be **English-only** to simplify development. The multi-language system has been removed.
 
 ### 3.3. Performance & Optimization
 *   **Image Optimization:** All images must use the `next/image` component.
-*   **Lazy Loading:** Pages or large, non-critical components should be loaded dynamically where appropriate.
+*   **Responsiveness:** The application must be fully responsive and provide an excellent user experience on both desktop and mobile devices.
 *   **Memoization:** Components that are expensive to re-render should be wrapped in `React.memo` to prevent unnecessary re-renders.
 
 ### 3.4. Accessibility (A11y)
@@ -173,20 +168,21 @@
 
 ## 5. Data Schemas (To be strictly defined in `src/data/schemas.ts`)
 
-*   **User:** id, username, name, avatarUrl, bio, totalBalance, miningRate, isNodeOperator, nodeUptimePercentage, balanceBreakdown (object), unverifiedPiDetails (object), badges (array), activity metrics, termsAccepted (boolean).
+*   **User:** id, username, name, avatarUrl, bio, totalBalance, miningRate, isNodeOperator, nodeUptimePercentage, balanceBreakdown (object), unverifiedPiDetails (object), badges (array), activity metrics, termsAccepted (boolean), **settings (object)**.
 *   **Badge:** id, name, description, iconUrl, earned (boolean), earnedDate (string, ISO format), dataAiHint (string, optional).
 *   **TeamMember:** id, name, avatarUrl, joinDate, status, unverifiedPiContribution, activity metrics, kycStatus.
 *   **NodeData:** nodeId, uptimePercentage, performanceScore, performanceHistory (array of {date, score}).
 *   **LegalSection:** title, content.
 *   **BalanceChartDataPoint:** date, transferable, unverified.
-*   **(New) MockDonation:** A conceptual object for the donation flow, mainly consisting of an amount.
+*   **Transaction:** id, date, type, amount, status, from/to, description.
+*   **Notification:** id, type, title, description, date, read, link.
+*   **UserSettings:** remindersEnabled (boolean), reminderHoursBefore (number).
 
 ---
 
-## 6. Future Considerations & Roadmap (Out of Scope)
+## 6. Future Considerations & Roadmap (Out of Scope for Prototype)
 
 *   Real backend API integration (beyond Pi SDK stubs).
 *   Real database integration.
 *   Functional Genkit AI features.
-*   Real push notifications, email/SMS.
-*   Actual financial calculations or market data integration.
+*   Real push notifications.

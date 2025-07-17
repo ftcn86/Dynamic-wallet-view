@@ -126,7 +126,7 @@ export default function DonatePage() {
                 <CardContent className="space-y-6">
                 <div className="space-y-2">
                     <Label className="font-medium text-center block">Choose an amount (π)</Label>
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                    <div className="grid grid-cols-2 xs:grid-cols-3 md:grid-cols-5 gap-2">
                     {presetAmounts.map(preset => (
                         <Button 
                         key={preset}
@@ -140,7 +140,7 @@ export default function DonatePage() {
                     <Button 
                         variant={isCustom ? "default" : "outline"}
                         onClick={handleCustomSelect}
-                        className="h-12 text-lg"
+                        className="h-12 text-lg col-span-2 xs:col-span-1"
                     >
                         Custom
                     </Button>

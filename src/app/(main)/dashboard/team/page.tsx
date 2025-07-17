@@ -36,7 +36,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           <span className="font-medium">{member.name}</span>
         </div>
       </TableCell>
-      <TableCell>{format(new Date(member.joinDate), 'MMM dd, yyyy')}</TableCell>
+      <TableCell className="hidden md:table-cell">{format(new Date(member.joinDate), 'MMM dd, yyyy')}</TableCell>
       <TableCell>
         <UiBadge
           variant={statusVariantMap[member.status]}
@@ -45,7 +45,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           {member.status}
         </UiBadge>
       </TableCell>
-      <TableCell>
+      <TableCell className="hidden sm:table-cell">
         <KycStatusBadge status={member.kycStatus} />
       </TableCell>
       <TableCell className="text-right">
@@ -167,13 +167,13 @@ export default function TeamInsightsPage() {
                     <SortableTableHead<TeamMember> sortKey="name" sortConfig={sortConfig} onClick={() => requestSort('name')}>
                       Member
                     </SortableTableHead>
-                    <SortableTableHead<TeamMember> sortKey="joinDate" sortConfig={sortConfig} onClick={() => requestSort('joinDate')}>
+                    <SortableTableHead<TeamMember> sortKey="joinDate" sortConfig={sortConfig} onClick={() => requestSort('joinDate')} className="hidden md:table-cell">
                       Join Date
                     </SortableTableHead>
                     <SortableTableHead<TeamMember> sortKey="status" sortConfig={sortConfig} onClick={() => requestSort('status')}>
                       Status
                     </SortableTableHead>
-                    <SortableTableHead<TeamMember> sortKey="kycStatus" sortConfig={sortConfig} onClick={() => requestSort('kycStatus')}>
+                    <SortableTableHead<TeamMember> sortKey="kycStatus" sortConfig={sortConfig} onClick={() => requestSort('kycStatus')} className="hidden sm:table-cell">
                       KYC Status
                     </SortableTableHead>
                     <SortableTableHead<TeamMember> sortKey="unverifiedPiContribution" sortConfig={sortConfig} onClick={() => requestSort('unverifiedPiContribution')} isNumeric={true}>

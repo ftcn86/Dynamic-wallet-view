@@ -29,6 +29,7 @@ import { MyBadgesCard } from '@/components/dashboard/MyBadgesCard';
 import { LockupAnalysisCard } from '@/components/dashboard/LockupAnalysisCard';
 import { mockTeam } from '@/data/mocks';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 const TABS = ['overview', 'portfolio', 'achievements', 'analysis'];
 
@@ -57,7 +58,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4 md:gap-6">
         <KPICard
           title="Total Pi Balance"
           value={user.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}) + ' π'}
@@ -119,12 +120,15 @@ export default function DashboardPage() {
       </div>
 
       <Tabs value={activeTab as string} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4 max-w-2xl">
-          <TabsTrigger value="overview"><PieChart className="mr-2 h-4 w-4" />Overview</TabsTrigger>
-          <TabsTrigger value="portfolio"><BarChart2 className="mr-2 h-4 w-4" />Portfolio</TabsTrigger>
-          <TabsTrigger value="achievements"><Trophy className="mr-2 h-4 w-4" />Achievements</TabsTrigger>
-          <TabsTrigger value="analysis"><Settings2 className="mr-2 h-4 w-4" />Analysis</TabsTrigger>
-        </TabsList>
+        <ScrollArea className="w-full whitespace-nowrap">
+            <TabsList className="grid w-full grid-cols-4 max-w-2xl min-w-[500px]">
+              <TabsTrigger value="overview"><PieChart className="mr-2 h-4 w-4" />Overview</TabsTrigger>
+              <TabsTrigger value="portfolio"><BarChart2 className="mr-2 h-4 w-4" />Portfolio</TabsTrigger>
+              <TabsTrigger value="achievements"><Trophy className="mr-2 h-4 w-4" />Achievements</TabsTrigger>
+              <TabsTrigger value="analysis"><Settings2 className="mr-2 h-4 w-4" />Analysis</TabsTrigger>
+            </TabsList>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
 
         <TabsContent value="overview" className="mt-6">
            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -73,16 +73,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       const fetchedUser = await getAuthenticatedUser();
-      // In a real app, you might merge fetchedUser with local app data.
-      // For the prototype, we assume `getAuthenticatedUser` returns the full User object.
       
-      // We set the termsAccepted to the value already in localStorage if it exists,
-      // otherwise we use the value from the mock (which is usually false).
       const storedUserItem = localStorage.getItem(PI_PULSE_USER_KEY);
       if (storedUserItem) {
           const storedUser = JSON.parse(storedUserItem) as User;
-          if (storedUser.id === fetchedUser.id && storedUser.termsAccepted) {
-              fetchedUser.termsAccepted = true;
+          // Preserve settings across logins if user is the same
+          if (storedUser.id === fetchedUser.id) {
+              fetchedUser.termsAccepted = storedUser.termsAccepted || fetchedUser.termsAccepted;
+              fetchedUser.settings = { ...fetchedUser.settings, ...storedUser.settings };
           }
       }
 
@@ -99,9 +97,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 
   const logout = useCallback(() => {
-    setUser(null);
-    // In a real app, you might also call a Pi SDK logout function if one exists.
-  }, [setUser]);
+    // Keep user settings but clear session-specific data
+    const storedUserItem = localStorage.getItem(PI_PULSE_USER_KEY);
+    if(storedUserItem) {
+      try {
+        const storedUser = JSON.parse(storedUserItem) as User;
+        const settingsToKeep = storedUser.settings;
+        const userWithSettings = { ...storedUser, settings: settingsToKeep, termsAccepted: false };
+        localStorage.setItem(PI_PULSE_USER_KEY, JSON.stringify(userWithSettings));
+      } catch (error) {
+         console.error("Error preserving settings on logout:", error);
+         localStorage.removeItem(PI_PULSE_USER_KEY);
+      }
+    }
+    _setUserInternal(null);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, setUser, isLoading, login, logout }}>

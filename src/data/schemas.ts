@@ -1,4 +1,9 @@
 
+export interface UserSettings {
+  remindersEnabled: boolean;
+  reminderHoursBefore: number;
+}
+
 export interface User {
   id: string;
   username: string;
@@ -8,7 +13,7 @@ export interface User {
   totalBalance: number;
   miningRate: number;
   isNodeOperator: boolean;
-  nodeUptimePercentage?: number; // Added
+  nodeUptimePercentage?: number;
   balanceBreakdown: {
     transferableToMainnet: number;
     totalUnverifiedPi: number;
@@ -27,7 +32,8 @@ export interface User {
   weeklyMiningDaysTarget?: number;
   activeMiningDays_LastMonth?: number;
   monthlyMiningDaysTarget?: number;
-  termsAccepted?: boolean; // New field for T&C acceptance
+  termsAccepted?: boolean;
+  settings: UserSettings;
 }
 
 export interface Badge {
