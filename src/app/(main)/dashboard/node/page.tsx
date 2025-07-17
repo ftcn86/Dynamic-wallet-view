@@ -7,7 +7,7 @@ import { getNodeData } from '@/services/piService';
 import type { NodeData } from '@/data/schemas';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, ShieldCheck, Zap, Award, Server, TrendingUp, AlertTriangle, ArrowRight, Gauge, Clock, Globe, Cubes, GitBranch } from 'lucide-react';
+import { ExternalLink, ShieldCheck, Zap, Award, Server, TrendingUp, AlertTriangle, ArrowRight, Gauge, Clock, Globe, Blocks, GitBranch } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AreaChart } from 'recharts';
 import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart';
@@ -94,7 +94,7 @@ function NodeOperatorView() {
             />
             <NodeStatCard
                 title="Blocks Processed"
-                icon={<Cubes className="text-primary"/>}
+                icon={<Blocks className="text-primary"/>}
                 mainContent={nodeData.blocksProcessed.toLocaleString()}
                 footerText="Total blocks synchronized"
             />
