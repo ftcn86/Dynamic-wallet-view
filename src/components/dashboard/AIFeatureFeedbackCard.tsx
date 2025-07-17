@@ -9,7 +9,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { submitFeedback } from '@/services/piService';
-import { LightbulbIcon, SendIcon } from '@/components/shared/icons';
+import { SendIcon } from '@/components/shared/icons';
+
+const LightbulbIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M15.09 16.09a7 7 0 0 1-5.59-8.59l.39-2.02.39-2.02A1 1 0 0 1 11 2h2a1 1 0 0 1 .9.56l.39 2.02.39 2.02a7 7 0 0 1-5.59 8.59Z" fill="hsl(var(--primary))"/>
+    <path d="M18.81 19.92a4 4 0 0 1-5.66 5.66" />
+    <path d="M12 22v-2" />
+  </svg>
+);
 
 export function AIFeatureFeedbackCard() {
   const { user } = useAuth();
