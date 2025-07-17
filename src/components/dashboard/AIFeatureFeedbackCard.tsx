@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
+import { submitFeedback } from '@/services/piService';
 
 const LightbulbIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -43,21 +44,26 @@ export function AIFeatureFeedbackCard() {
     }
 
     setIsSubmitting(true);
-    // Simulate an API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    console.log("AI Feature Feedback Submitted:", {
-        userId: user?.id,
-        feedback: feedback
-    });
-
-    toast({
-        title: "Thank You!",
-        description: "Your feedback has been submitted. We appreciate you helping shape the future of this app.",
-    });
-
-    setFeedback("");
-    setIsSubmitting(false);
+    try {
+        await submitFeedback({
+            type: 'ai_feature',
+            message: feedback,
+            userId: user?.id
+        });
+        toast({
+            title: "Thank You!",
+            description: "Your feedback has been submitted. We appreciate you helping shape the future of this app.",
+        });
+        setFeedback("");
+    } catch (error) {
+        toast({
+            title: "Submission Failed",
+            description: "Could not submit your feedback. Please try again later.",
+            variant: "destructive"
+        });
+    } finally {
+        setIsSubmitting(false);
+    }
   };
 
   return (

@@ -162,11 +162,57 @@ export async function addNotification(notification: Omit<Notification, 'id' | 'd
 }
 
 /**
+ * Marks a single notification as read.
+ */
+export async function markNotificationAsRead(notificationId: string): Promise<{ success: boolean }> {
+  const notification = mockNotifications.find(n => n.id === notificationId);
+  if (notification) {
+    notification.read = true;
+  }
+  return mockApiCall({ data: { success: true } });
+}
+
+/**
  * Marks all notifications as read in the mock data.
  */
 export async function markAllNotificationsAsRead(): Promise<{ success: boolean }> {
   mockNotifications.forEach(notification => {
     notification.read = true;
   });
+  return mockApiCall({ data: { success: true } });
+}
+
+/**
+ * Simulates a team member completing KYC and triggers a notification.
+ * This is a placeholder to show how the system would react to backend events.
+ */
+export async function simulateKycCompletion(teamMemberId: string): Promise<{ success: boolean }> {
+    const member = mockTeam.find(m => m.id === teamMemberId);
+    if (member && member.kycStatus !== 'completed') {
+        member.kycStatus = 'completed';
+        
+        await addNotification({
+            type: 'team_update',
+            title: 'Team Member KYC Verified',
+            description: `Your team member, ${member.name}, has completed their KYC verification.`,
+            link: '/dashboard/team'
+        });
+
+        return mockApiCall({ data: { success: true } });
+    }
+    return mockApiCall({ data: { success: false } });
+}
+
+/**
+ * Simulates submitting user feedback to a backend service.
+ * In a real app, this would send an email or save to a database.
+ */
+export async function submitFeedback(feedbackData: {
+  type: 'ai_feature' | 'general_help';
+  message: string;
+  userId?: string;
+}): Promise<{ success: boolean }> {
+  console.log("Submitting feedback via centralized service:", feedbackData);
+  // This is where you would add logic to send an email or post to your backend API.
   return mockApiCall({ data: { success: true } });
 }

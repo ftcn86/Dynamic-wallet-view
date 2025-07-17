@@ -10,14 +10,17 @@ import { useState } from 'react';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useTranslation } from '@/hooks/useTranslation';
 import { MessageSquareIcon, SendIcon } from '@/components/shared/icons';
+import { submitFeedback } from '@/services/piService';
+import { useAuth } from '@/contexts/AuthContext';
 
 function FeedbackCard() {
     const { t } = useTranslation();
     const { toast } = useToast();
+    const { user } = useAuth();
     const [feedback, setFeedback] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!feedback.trim()) {
             toast({
@@ -28,16 +31,26 @@ function FeedbackCard() {
             return;
         }
         setIsSubmitting(true);
-        // Simulate an API call
-        setTimeout(() => {
-            console.log("Feedback submitted:", feedback);
+        try {
+            await submitFeedback({
+                type: 'general_help',
+                message: feedback,
+                userId: user?.id,
+            });
             toast({
                 title: "Feedback Submitted",
                 description: "Thank you! We appreciate you helping us improve."
             });
             setFeedback("");
+        } catch (error) {
+            toast({
+                title: "Submission Failed",
+                description: "Could not submit your feedback. Please try again later.",
+                variant: "destructive"
+            });
+        } finally {
             setIsSubmitting(false);
-        }, 1000);
+        }
     };
 
     return (
@@ -60,7 +73,7 @@ function FeedbackCard() {
                         rows={5}
                         disabled={isSubmitting}
                     />
-                    <Button type="submit" className="w-full" disabled={isSubmitting}>
+                    <Button type="submit" className="w-full" disabled={isSubmitting || !feedback.trim()}>
                         {isSubmitting ? (
                             <LoadingSpinner className="mr-2" />
                         ) : (
