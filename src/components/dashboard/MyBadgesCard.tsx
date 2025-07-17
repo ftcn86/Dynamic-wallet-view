@@ -6,10 +6,25 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Skeleton } from '../ui/skeleton';
-import { Award, CheckCircle } from 'lucide-react';
 import type { Badge } from '@/data/schemas';
 import { format, parseISO } from 'date-fns';
 import { BadgeIcon } from './badge/BadgeIcon';
+
+// Solid SVG Icons
+const AwardIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <circle cx="12" cy="8" r="7"/>
+        <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88"/>
+    </svg>
+);
+
+const CheckCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+        <polyline points="22 4 12 14.01 9 11.01" stroke="#fff" strokeWidth="2" />
+    </svg>
+);
+
 
 function BadgeItem({ badge }: { badge: Badge }) {
   const earnedDate = badge.earnedDate ? format(parseISO(badge.earnedDate), "MMMM dd, yyyy") : '';
@@ -32,7 +47,7 @@ function BadgeItem({ badge }: { badge: Badge }) {
         <div className="mt-4">
           {badge.earned && earnedDate && (
              <div className="flex items-center justify-center text-sm text-green-600 bg-green-500/10 rounded-full px-4 py-2">
-                <CheckCircle className="mr-2 h-4 w-4" />
+                <CheckCircleIcon className="mr-2 h-4 w-4" />
                 <span>Earned on {earnedDate}</span>
              </div>
           )}
@@ -73,7 +88,7 @@ export function MyBadgesCard() {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 font-headline">
-          <Award className="h-6 w-6 text-primary" />
+          <AwardIcon className="h-6 w-6 text-primary" />
           My Badges
         </CardTitle>
         <CardDescription>

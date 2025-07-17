@@ -3,7 +3,14 @@ import React, { type ReactNode } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { ArrowUp } from 'lucide-react';
+
+// Solid SVG Icon
+const ArrowUpIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+);
+
 
 interface KPICardProps {
   title: string;
@@ -32,7 +39,7 @@ export function KPICard({ title, value, icon, footerValue, change, badgeText, ba
             <span>{footerValue}</span>
             {change && (
                 <span className="flex items-center text-green-600 font-semibold">
-                    <ArrowUp className="h-3 w-3 mr-0.5" />
+                    <ArrowUpIcon className="h-3 w-3 mr-0.5" />
                     {change}
                 </span>
             )}

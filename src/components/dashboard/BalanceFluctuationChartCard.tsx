@@ -3,12 +3,20 @@
 
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bar, BarChart as RechartsBarChart, ResponsiveContainer, XAxis, YAxis, Legend } from 'recharts';
+import { Bar, BarChart as RechartsBarChart } from 'recharts';
 import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { mockChartData } from '@/data/mocks';
 import { format } from 'date-fns';
-import { BarChart2 } from 'lucide-react';
+
+// Solid SVG Icon
+const BarChartIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M3 3v18h18" stroke="#fff" strokeWidth="2" fill="none" />
+        <path d="M7 12h4v6H7zm6-4h4v10h-4z" />
+    </svg>
+);
+
 
 type ChartPeriod = '3M' | '6M' | '12M';
 
@@ -25,6 +33,9 @@ export function BalanceFluctuationChartCard() {
       label: "Unverified",
       color: "hsl(var(--accent))",
     },
+    date: {
+      label: "Date",
+    }
   };
 
   return (
@@ -33,7 +44,7 @@ export function BalanceFluctuationChartCard() {
         <div className="flex justify-between items-start">
             <div>
                 <CardTitle className="font-headline flex items-center">
-                    <BarChart2 className="mr-2 h-6 w-6 text-primary" />
+                    <BarChartIcon className="mr-2 h-6 w-6 text-primary" />
                     Balance Fluctuation
                 </CardTitle>
                 <CardDescription>
@@ -57,21 +68,21 @@ export function BalanceFluctuationChartCard() {
             barGap={4}
             barCategoryGap="20%"
           >
-            <XAxis
-              dataKey="date"
-              tickFormatter={(value) => format(new Date(value), 'MMM yy')}
-              tickLine={false}
-              axisLine={false}
+            <ChartTooltip 
+              content={<ChartTooltipContent 
+                  formatter={(value, name, item) => {
+                    const month = format(new Date(item.payload.date), 'MMM yyyy');
+                    return (
+                        <div className="flex flex-col">
+                            <span className="text-xs text-muted-foreground">{month}</span>
+                            <span>{value.toLocaleString()} π</span>
+                        </div>
+                    );
+                  }}
+              />} 
             />
-            <YAxis
-              label={{ value: "Pi Amount", angle: -90, position: 'insideLeft', offset: -10 }}
-              tickLine={false}
-              axisLine={false}
-            />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <Legend />
-            <Bar dataKey="transferable" fill="var(--color-transferable)" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="unverified" fill="var(--color-unverified)" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="transferable" fill="var(--color-transferable)" radius={[4, 4, 0, 0]} name="Transferable" />
+            <Bar dataKey="unverified" fill="var(--color-unverified)" radius={[4, 4, 0, 0]} name="Unverified" />
           </RechartsBarChart>
         </ChartContainer>
       </CardContent>

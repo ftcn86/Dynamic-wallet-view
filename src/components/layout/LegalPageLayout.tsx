@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from 'next/navigation';
@@ -5,9 +6,17 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import ReactMarkdown from 'react-markdown';
-import { ArrowLeft } from 'lucide-react';
 import type { LegalSection } from '@/data/schemas';
 import { useAuth } from '@/contexts/AuthContext';
+
+// Solid SVG Icon
+const ArrowLeftIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <line x1="19" y1="12" x2="5" y2="12" />
+        <polyline points="12 19 5 12 12 5" />
+    </svg>
+);
+
 
 interface LegalPageLayoutProps {
   pageTitle: string;
@@ -56,7 +65,7 @@ export default function LegalPageLayout({ pageTitle, sections, content, displayM
         </CardContent>
         <CardFooter>
           <Button variant="outline" onClick={handleReturn}>
-            <ArrowLeft className="mr-2 h-4 w-4 text-primary" />
+            <ArrowLeftIcon className="mr-2 h-4 w-4 text-primary" />
             {user && user.termsAccepted ? "Return to App" : "Return to Login"}
           </Button>
         </CardFooter>

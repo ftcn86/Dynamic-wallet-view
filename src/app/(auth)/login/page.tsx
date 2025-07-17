@@ -8,7 +8,16 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
-import { ShieldQuestion } from 'lucide-react'; 
+
+// Solid SVG Icon
+const ShieldQuestionIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" stroke="#fff" strokeWidth="1.5" fill="none"/>
+    <line x1="12" y1="17" x2="12.01" y2="17" stroke="#fff" strokeWidth="1.5" fill="none"/>
+  </svg>
+);
+
 
 export default function LoginPage() {
   const { user, login, isLoading: isAuthContextLoading } = useAuth();
@@ -60,7 +69,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-            <ShieldQuestion size={36} className="text-primary" />
+            <ShieldQuestionIcon size={36} className="text-primary" />
           </div>
           <CardTitle className="text-3xl font-headline">Dynamic Pi Wallet View</CardTitle>
           <CardDescription>Welcome to Dynamic Pi Wallet View</CardDescription>

@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
-import { FileText, ShieldCheck, LogOut, CheckCircle } from 'lucide-react';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner'; 
 import {
   AlertDialog,
@@ -20,6 +19,40 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+
+// Solid SVG Icons
+const FileTextIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" fill="currentColor"/>
+    <polyline points="14 2 14 8 20 8" stroke="#fff" strokeWidth="1.5"/>
+    <line x1="16" y1="13" x2="8" y2="13" stroke="#fff" strokeWidth="1.5"/>
+    <line x1="16" y1="17" x2="8" y2="17" stroke="#fff" strokeWidth="1.5"/>
+    <line x1="10" y1="9" x2="8" y2="9" stroke="#fff" strokeWidth="1.5"/>
+  </svg>
+);
+
+const ShieldCheckIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="currentColor"/>
+    <path d="m9 12 2 2 4-4" stroke="#fff" strokeWidth="1.5"/>
+  </svg>
+);
+
+const LogOutIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" fill="currentColor" stroke="currentColor"/>
+    <polyline points="16 17 21 12 16 7" stroke="currentColor" fill="none"/>
+    <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" fill="none"/>
+  </svg>
+);
+
+const CheckCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" fill="currentColor" />
+      <polyline points="22 4 12 14.01 9 11.01" strokeWidth="3" stroke="#fff"/>
+    </svg>
+);
+
 
 export default function AcceptTermsPage() {
   const { user, setUser, logout, isLoading } = useAuth(); 
@@ -62,7 +95,7 @@ export default function AcceptTermsPage() {
       <Card className="w-full max-w-lg shadow-xl">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <FileText size={36} className="text-primary" />
+            <FileTextIcon size={36} className="text-primary" />
           </div>
           <CardTitle className="text-2xl font-headline">Review Our Terms</CardTitle>
           <CardDescription>Before you continue, please review and accept our Terms of Service and Privacy Policy.</CardDescription>
@@ -74,12 +107,12 @@ export default function AcceptTermsPage() {
           <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-3 justify-center">
             <Button variant="link" asChild className="justify-start sm:justify-center">
               <Link href="/legal/terms">
-                <FileText className="mr-2 h-4 w-4 text-primary" /> Terms of Service
+                <FileTextIcon className="mr-2 h-4 w-4 text-primary" /> Terms of Service
               </Link>
             </Button>
             <Button variant="link" asChild className="justify-start sm:justify-center">
               <Link href="/legal/privacy">
-                <ShieldCheck className="mr-2 h-4 w-4 text-primary" /> Privacy Policy
+                <ShieldCheckIcon className="mr-2 h-4 w-4 text-primary" /> Privacy Policy
               </Link>
             </Button>
           </div>
@@ -88,7 +121,7 @@ export default function AcceptTermsPage() {
           <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="outline" className="w-full sm:w-auto">
-                    <LogOut className="mr-2 h-4 w-4 text-destructive" /> Logout
+                    <LogOutIcon className="mr-2 h-4 w-4 text-destructive" /> Logout
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -106,7 +139,7 @@ export default function AcceptTermsPage() {
           </AlertDialog>
           
           <Button onClick={handleAccept} className="w-full sm:w-auto">
-            <CheckCircle className="mr-2 h-4 w-4" /> I Accept & Continue
+            <CheckCircleIcon className="mr-2 h-4 w-4" /> I Accept & Continue
           </Button>
         </CardFooter>
       </Card>

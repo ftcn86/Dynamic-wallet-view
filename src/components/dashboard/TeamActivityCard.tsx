@@ -8,10 +8,33 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Trophy, ChevronRight, Award } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '../ui/skeleton';
 import { BadgeIcon } from './badge/BadgeIcon';
+
+// Solid SVG Icons
+const TrophyIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" stroke="#fff" strokeWidth="1.5" fill="none" />
+        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" stroke="#fff" strokeWidth="1.5" fill="none" />
+        <path d="M4 22h16" stroke="#fff" strokeWidth="1.5" fill="none" />
+        <path d="M10 14.66V22h4v-7.34" stroke="#fff" strokeWidth="1.5" fill="none" />
+        <path d="M12 15c-3.87 0-7-3.13-7-7V4h14v4c0 3.87-3.13 7-7 7z" />
+    </svg>
+);
+
+const ChevronRightIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <path d="m9 18 6-6-6-6" />
+    </svg>
+);
+
+const AwardIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <circle cx="12" cy="8" r="7"/>
+        <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88"/>
+    </svg>
+);
 
 const MAX_LEADERBOARD_ENTRIES = 5;
 const DISPLAY_RECENT_BADGES_COUNT = 3;
@@ -70,7 +93,7 @@ export function TeamActivityCard() {
     <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300")}>
       <CardHeader>
         <CardTitle className="font-headline flex items-center">
-          <Trophy className="mr-2 h-6 w-6 text-primary" />
+          <TrophyIcon className="mr-2 h-6 w-6 text-primary" />
           Team Mining Rally
         </CardTitle>
         <CardDescription>
@@ -126,7 +149,7 @@ export function TeamActivityCard() {
         {earnedGamificationBadges.length > 0 && (
           <div>
             <h3 className="text-md font-semibold mb-3 flex items-center">
-              <Award className="mr-2 h-5 w-5 text-amber-500" />
+              <AwardIcon className="mr-2 h-5 w-5 text-amber-500" />
               Recent Achievements
             </h3>
             <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3">
@@ -145,7 +168,7 @@ export function TeamActivityCard() {
         <Button asChild variant="outline" className="w-full">
           <Link href="/dashboard/team">
             View Full Team Report
-            <ChevronRight className="ml-2 h-4 w-4" />
+            <ChevronRightIcon className="ml-2 h-4 w-4" />
           </Link>
         </Button>
       </CardFooter>

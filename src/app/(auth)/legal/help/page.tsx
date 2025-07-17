@@ -7,9 +7,22 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
-import { MessageSquare, Send } from 'lucide-react';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useTranslation } from '@/hooks/useTranslation';
+
+// Solid SVG Icons
+const MessageSquareIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+);
+
+const SendIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="m22 2-7 20-4-9-9-4Z"/>
+    <path d="m22 2-11 11"/>
+  </svg>
+);
 
 
 function FeedbackCard() {
@@ -45,7 +58,7 @@ function FeedbackCard() {
         <Card className="w-full max-w-2xl shadow-xl mt-6">
             <CardHeader>
                 <CardTitle className="flex items-center">
-                    <MessageSquare className="mr-2 h-6 w-6 text-primary" />
+                    <MessageSquareIcon className="mr-2 h-6 w-6 text-primary" />
                     Submit Feedback
                 </CardTitle>
                 <CardDescription>
@@ -65,7 +78,7 @@ function FeedbackCard() {
                         {isSubmitting ? (
                             <LoadingSpinner className="mr-2" />
                         ) : (
-                            <Send className="mr-2 h-4 w-4" />
+                            <SendIcon className="mr-2 h-4 w-4" />
                         )}
                         {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
                     </Button>

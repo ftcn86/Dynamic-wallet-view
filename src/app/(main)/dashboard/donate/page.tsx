@@ -6,7 +6,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Gift, Send, Sparkles, Rocket, Server, Paintbrush } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,8 +20,57 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { Progress } from '@/components/ui/progress';
-import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
+
+// Solid SVG Icons
+const GiftIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M20 12v10H4V12" strokeWidth="1.5" />
+    <path d="M2 7h20v5H2z" strokeWidth="1.5" />
+    <path d="M12 22V7" strokeWidth="1.5" />
+    <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" strokeWidth="1.5" />
+    <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" strokeWidth="1.5" />
+  </svg>
+);
+
+const SendIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="m22 2-7 20-4-9-9-4Z" />
+    <path d="m22 2-11 11" />
+  </svg>
+);
+
+const SparklesIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z"/>
+    <path d="M20 3L18.5 6L16 7.5l2.5 1.5L20 11l1.5-2.5L24 7.5l-2.5-1.5L20 3z"/>
+    <path d="M5 3L3.5 6L1 7.5l2.5 1.5L5 11l1.5-2.5L9 7.5l-2.5-1.5L5 3z"/>
+  </svg>
+);
+
+const RocketIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M13.29,12.71,11.29,14.71,2,5,9.29,2,19,11.71,17.29,13.41,20,16.12,22,14,13.29,12.71ZM9.29,4.12,4,9.41l7.29,2.88,2.88,7.29,5.29-5.29L9.29,4.12Z" />
+        <path d="M21.41,17.83,19,15.41l-2.59,2.59,2.41,2.41a2,2,0,0,0,2.83,0h0a2,2,0,0,0,0-2.83Z" />
+    </svg>
+);
+
+const ServerIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+        <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+        <line x1="6" y1="6" x2="6.01" y2="6" stroke="#fff" strokeWidth="2" />
+        <line x1="6" y1="18" x2="6.01" y2="18" stroke="#fff" strokeWidth="2" />
+    </svg>
+);
+
+const PaintbrushIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M18.37,3.63a2.12,2.12,0,0,0-3,0L13,6,6,13l-3,3,7,7,3-3,7-7,2.37-2.37a2.12,2.12,0,0,0,0-3Z"/>
+        <path d="M6,13l3,3-4,4H17l-4-4,3-3-4.29-4.29-3.42,3.42Z"/>
+    </svg>
+);
+
 
 const presetAmounts = ["1", "5", "10", "20"];
 const MOCK_GOAL = 250;
@@ -60,7 +108,7 @@ function RecentSupporters() {
                 transition={{ duration: 0.5 }}
                 className="flex items-center text-sm"
             >
-                <Sparkles className="h-5 w-5 text-amber-500 mr-3" />
+                <SparklesIcon className="h-5 w-5 text-amber-500 mr-3" />
                 <p className="font-semibold text-primary">{donation.name}</p>
                 <p className="text-muted-foreground ml-1.5"> just supported with {donation.amount}π!</p>
             </motion.div>
@@ -116,7 +164,7 @@ export default function DonatePage() {
             <Card className="shadow-lg border-primary/20 hover:shadow-xl transition-shadow duration-300">
                 <CardHeader className="items-center text-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-accent/10 mb-4">
-                    <Gift className="h-8 w-8 text-accent" />
+                    <GiftIcon className="h-8 w-8 text-accent" />
                 </div>
                 <CardTitle className="text-2xl font-headline">Join Us in Building the Future</CardTitle>
                 <CardDescription className="max-w-md">
@@ -170,7 +218,7 @@ export default function DonatePage() {
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
                         <Button className="w-full" size="lg" disabled={!amount || parseFloat(amount) <= 0 || isDonating}>
-                            <Send className="mr-2 h-4 w-4" />
+                            <SendIcon className="mr-2 h-4 w-4" />
                             Support with {amount && parseFloat(amount) > 0 ? amount : ''} π
                         </Button>
                     </AlertDialogTrigger>
@@ -216,15 +264,15 @@ export default function DonatePage() {
                 </CardHeader>
                 <CardContent className="space-y-4 text-sm text-muted-foreground">
                     <div className="flex items-start gap-3">
-                        <Rocket className="h-5 w-5 text-accent mt-0.5 shrink-0" />
+                        <RocketIcon className="h-5 w-5 text-accent mt-0.5 shrink-0" />
                         <p><strong>New Features:</strong> We are constantly working on new tools and insights to make your Pi experience better.</p>
                     </div>
                      <div className="flex items-start gap-3">
-                        <Server className="h-5 w-5 text-accent mt-0.5 shrink-0" />
+                        <ServerIcon className="h-5 w-5 text-accent mt-0.5 shrink-0" />
                         <p><strong>Server Costs:</strong> Your support helps keep the app fast, reliable, and available 24/7.</p>
                     </div>
                      <div className="flex items-start gap-3">
-                        <Paintbrush className="h-5 w-5 text-accent mt-0.5 shrink-0" />
+                        <PaintbrushIcon className="h-5 w-5 text-accent mt-0.5 shrink-0" />
                         <p><strong>Design & Polish:</strong> We're dedicated to creating the most beautiful and user-friendly Pi app.</p>
                     </div>
                 </CardContent>
