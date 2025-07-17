@@ -2,13 +2,13 @@
 "use client"
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
-import { ShieldQuestionIcon } from '@/components/shared/icons';
 
 export default function LoginPage() {
   const { user, login, isLoading: isAuthContextLoading } = useAuth();
@@ -59,8 +59,16 @@ export default function LoginPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-            <ShieldQuestionIcon size={36} />
+          <div className="mx-auto mb-4">
+            <Image
+              src="/logo.png"
+              alt="Dynamic Wallet View Logo"
+              width={64}
+              height={64}
+              className="h-16 w-16 rounded-full"
+              data-ai-hint="logo abstract"
+              priority
+            />
           </div>
           <CardTitle className="text-3xl font-headline">Dynamic Wallet View</CardTitle>
           <CardDescription>Welcome to Dynamic Wallet View</CardDescription>
