@@ -16,12 +16,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ForecastCard } from './ForecastCard';
 import {
     ZapIcon,
-    PercentIcon,
-    CalendarClockIcon,
     TrendingUpIcon,
     SettingsIcon,
     InfoIcon,
+    ClockIcon,
 } from '@/components/shared/icons';
+import { Percent } from 'lucide-react';
 
 const WandSparkles = (props: React.SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="hsl(var(--primary))" {...props}>
@@ -98,14 +98,14 @@ function LockupCalculator() {
                     <div className="space-y-6">
                         <div>
                             <div className="flex justify-between items-center mb-2">
-                                <Label className="flex items-center gap-2 font-medium"><PercentIcon className="h-5 w-5"/> Lockup Percentage</Label>
+                                <Label className="flex items-center gap-2 font-medium"><Percent className="h-5 w-5"/> Lockup Percentage</Label>
                                 <Badge variant="secondary" className="text-md">{lockupPercent[0]}%</Badge>
                             </div>
                             <Slider min={0} max={100} step={10} value={lockupPercent} onValueChange={setLockupPercent} />
                         </div>
                         <div>
                             <div className="flex justify-between items-center mb-2">
-                                <Label className="flex items-center gap-2 font-medium"><CalendarClockIcon className="h-5 w-5"/> Lockup Duration</Label>
+                                <Label className="flex items-center gap-2 font-medium"><ClockIcon className="h-5 w-5"/> Lockup Duration</Label>
                                 <Badge variant="secondary" className="text-md">{DURATION_LABELS[lockupDurationIndex[0] as keyof typeof DURATION_LABELS]}</Badge>
                             </div>
                             <Slider min={0} max={3} step={1} value={lockupDurationIndex} onValueChange={setLockupDurationIndex} />
