@@ -3,7 +3,7 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { getNotifications, markAllNotificationsAsRead } from '@/services/piService';
+import { getNotifications, markNotificationAsRead, markAllNotificationsAsRead } from '@/services/piService';
 import type { Notification, NotificationType } from '@/data/schemas';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
@@ -62,7 +62,7 @@ const notificationColors: Record<NotificationType, string> = {
 
 
 function NotificationsDropdown() {
-    const { user, dataVersion } = useAuth(); // Listen for data changes
+    const { user, dataVersion, refreshData } = useAuth(); // Listen for data changes
     const router = useRouter();
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -81,9 +81,11 @@ function NotificationsDropdown() {
 
     const unreadCount = useMemo(() => notifications.filter(n => !n.read).length, [notifications]);
     
-    const handleNotificationClick = (notification: Notification) => {
-        // Mark as read locally
-        setNotifications(notifications.map(n => n.id === notification.id ? {...n, read: true} : n));
+    const handleNotificationClick = async (notification: Notification) => {
+        if (!notification.read) {
+            await markNotificationAsRead(notification.id);
+            refreshData(); // Trigger a global refresh
+        }
         if (notification.link) {
             router.push(notification.link);
         }
@@ -91,10 +93,8 @@ function NotificationsDropdown() {
 
     const handleMarkAllRead = async (e: React.MouseEvent) => {
         e.stopPropagation(); // Prevent the dropdown from closing
-        // Optimistic UI update
-        setNotifications(prev => prev.map(n => ({ ...n, read: true })));
-        // Call the service to update the backend
         await markAllNotificationsAsRead();
+        refreshData(); // Trigger a global refresh
     };
 
     return (
