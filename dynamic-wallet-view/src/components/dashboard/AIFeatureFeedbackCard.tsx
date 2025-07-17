@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { submitFeedback } from '@/services/piService';
+import { SendIcon } from '@/components/shared/icons';
 
 const LightbulbIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -17,14 +18,6 @@ const LightbulbIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <path d="M12 22v-2" />
   </svg>
 );
-
-const SendIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" {...props}>
-        <path d="m22 2-7 20-4-9-9-4Z" fill="hsl(var(--primary-foreground))" />
-        <path d="m22 2-11 11" stroke="hsl(var(--primary))" strokeWidth="1" />
-    </svg>
-);
-
 
 export function AIFeatureFeedbackCard() {
   const { user } = useAuth();
@@ -71,10 +64,10 @@ export function AIFeatureFeedbackCard() {
         <CardHeader>
             <CardTitle className="flex items-center gap-2">
                 <LightbulbIcon className="w-6 h-6" />
-                Future AI Feature: Get Your Opinion!
+                Future AI Tool: Mining Rate Forecaster
             </CardTitle>
             <CardDescription>
-                We're considering an AI-powered feature to give you personalized strategies for boosting your mining rate. Would this be useful to you?
+              We are developing an AI tool to help you forecast your potential mining rate based on different lockup scenarios. Is this a feature you would use?
             </CardDescription>
         </CardHeader>
         <CardContent className="flex-grow">
@@ -82,7 +75,7 @@ export function AIFeatureFeedbackCard() {
                 <div className="flex-grow">
                     <Textarea
                         id="feedback-textarea"
-                        placeholder="e.g., 'Yes, I'd love to know how lockups affect my rate!' or 'No, I prefer simpler tools.'"
+                        placeholder="e.g., 'Yes, that would help me decide on a lockup strategy.' or 'No, the current calculator is enough for me.'"
                         value={feedback}
                         onChange={(e) => setFeedback(e.target.value)}
                         rows={5}
