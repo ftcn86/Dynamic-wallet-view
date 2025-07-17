@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { getTeamMembers } from '@/services/piService';
 import type { TeamMember } from '@/data/schemas';
 import { format } from 'date-fns';
-import { Info, Users, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
+import { Info, Users, ArrowUpDown, ArrowUp, ArrowDown, Shield } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { KycStatusBadge } from '@/components/shared/KycStatusBadge'; 
@@ -173,12 +173,18 @@ export default function TeamInsightsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold font-headline">Team Insights</h1>
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold font-headline">Security & Team Insights</h1>
+        <p className="text-muted-foreground max-w-3xl">
+          Your Security Circle is a group of 3-5 trusted people you build from your broader Earning Team. While your full Earning Team increases your mining rate, your Security Circle provides a significant boost and is crucial for the security of the network. This table displays all members of your Earning Team.
+        </p>
+      </div>
+
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Users className="h-6 w-6 text-primary" />
-            Your Team
+            Your Earning Team
           </CardTitle>
           <CardDescription>
             Manage and view insights about your team members.

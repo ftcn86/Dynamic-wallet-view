@@ -54,11 +54,6 @@ export function Sidebar() {
     window.open(PI_TEAM_CHAT_URL, '_blank');
   };
 
-  const handleLogout = () => {
-    logout();
-    router.push('/login');
-  };
-
   if (!user) return null;
 
   return (
@@ -89,8 +84,8 @@ export function Sidebar() {
                     </SidebarNavLink>
                 </SidebarMenuItem>
                  <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard/team" icon={<Users />}>
-                        Team Insights
+                    <SidebarNavLink href="/dashboard/team" icon={<Shield />}>
+                        Security & Team
                     </SidebarNavLink>
                 </SidebarMenuItem>
                  <SidebarMenuItem>
@@ -106,11 +101,6 @@ export function Sidebar() {
                  <SidebarMenuItem>
                     <SidebarNavLink href="/dashboard/transactions" icon={<Coins />}>
                         Transactions
-                    </SidebarNavLink>
-                </SidebarMenuItem>
-                 <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard/security" icon={<Shield />} disabled={true}>
-                        Security Circle
                     </SidebarNavLink>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
