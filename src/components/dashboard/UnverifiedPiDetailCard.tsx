@@ -66,7 +66,8 @@ interface UnverifiedPiSource {
 export function UnverifiedPiDetailCard() {
   const { user } = useAuth();
 
-  if (!user) return (
+  // Loading state
+  if (user === null) return (
      <Card className={cn("shadow-lg")}>
       <CardHeader>
         <Skeleton className="h-6 w-3/4" />
@@ -80,6 +81,12 @@ export function UnverifiedPiDetailCard() {
       </CardContent>
     </Card>
   );
+
+  // Conditional Rendering: Only show the card if the detailed data exists and is not empty.
+  // In a real app, if the Pi API doesn't provide this breakdown, this object would be null or empty.
+  if (!user.unverifiedPiDetails || Object.values(user.unverifiedPiDetails).every(v => v === 0)) {
+    return null;
+  }
 
   const { fromReferralTeam, fromSecurityCircle, fromNodeRewards, fromOtherBonuses } = user.unverifiedPiDetails;
 

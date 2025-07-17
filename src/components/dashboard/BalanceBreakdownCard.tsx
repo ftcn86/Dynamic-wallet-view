@@ -25,6 +25,11 @@ export function BalanceBreakdownCard() {
     </Card>
   );
 
+  // Conditional Rendering: Only render if balance breakdown data is available.
+  if (!user.balanceBreakdown) {
+    return null;
+  }
+
   const breakdownItems = [
     { label: "Transferable to Mainnet", value: user.balanceBreakdown.transferableToMainnet },
     { label: "Total Unverified Pi", value: user.balanceBreakdown.totalUnverifiedPi },
