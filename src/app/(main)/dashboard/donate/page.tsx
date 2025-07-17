@@ -112,8 +112,8 @@ export default function DonatePage() {
         await addNotification({
             type: 'announcement',
             title: "Thank you for your support!",
-            description: `Your donation of ${donationAmount}π is greatly appreciated.`,
-            link: '/dashboard/donate'
+            description: `Your donation of ${donationAmount}π has been recorded.`,
+            link: '/dashboard/transactions'
         });
 
         toast({
