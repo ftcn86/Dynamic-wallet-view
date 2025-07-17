@@ -11,15 +11,24 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
   const { user, setUser } = useAuth();
   const { toast } = useToast();
-  const [isSaving, setIsSaving] = useState(false);
 
-  // Ensure user and user.settings exist before rendering
+  const [isSaving, setIsSaving] = useState(false);
+  const [remindersEnabled, setRemindersEnabled] = useState(user?.settings?.remindersEnabled || false);
+  const [reminderHours, setReminderHours] = useState(user?.settings?.reminderHoursBefore || 1);
+
+  useEffect(() => {
+    if (user?.settings) {
+      setRemindersEnabled(user.settings.remindersEnabled);
+      setReminderHours(user.settings.reminderHoursBefore);
+    }
+  }, [user?.settings]);
+  
   if (!user || !user.settings) {
     return (
       <div className="flex h-full w-full items-center justify-center">
@@ -27,27 +36,26 @@ export default function SettingsPage() {
       </div>
     );
   }
-
-  const handleReminderChange = (checked: boolean) => {
-    setUser(prevUser => {
-      if (!prevUser) return null;
-      const newSettings = { ...prevUser.settings, remindersEnabled: checked };
-      return { ...prevUser, settings: newSettings };
-    });
-  };
   
   const handleReminderTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.max(0.5, Math.min(23.5, parseFloat(e.target.value) || 0));
-     setUser(prevUser => {
-      if (!prevUser) return null;
-      const newSettings = { ...prevUser.settings, reminderHoursBefore: value };
-      return { ...prevUser, settings: newSettings };
-    });
+    setReminderHours(value);
   };
 
   const handleSaveSettings = async () => {
     setIsSaving(true);
-    // In a real app, this would be an API call. Here we just show a toast.
+    
+    setUser(prevUser => {
+      if (!prevUser) return null;
+      return {
+        ...prevUser,
+        settings: {
+          remindersEnabled: remindersEnabled,
+          reminderHoursBefore: reminderHours,
+        }
+      }
+    });
+
     await new Promise(resolve => setTimeout(resolve, 500));
     setIsSaving(false);
     toast({
@@ -115,11 +123,11 @@ export default function SettingsPage() {
               </Label>
               <Switch
                 id="reminders-enabled"
-                checked={user.settings.remindersEnabled}
-                onCheckedChange={handleReminderChange}
+                checked={remindersEnabled}
+                onCheckedChange={setRemindersEnabled}
               />
             </div>
-            {user.settings.remindersEnabled && (
+            {remindersEnabled && (
                <div className="space-y-2">
                 <Label htmlFor="reminder-time" className="flex items-center gap-2">
                   <Clock className="h-4 w-4"/>
@@ -129,7 +137,7 @@ export default function SettingsPage() {
                   <Input
                     id="reminder-time"
                     type="number"
-                    value={user.settings.reminderHoursBefore}
+                    value={reminderHours}
                     onChange={handleReminderTimeChange}
                     className="pr-16"
                     min="0.5"
