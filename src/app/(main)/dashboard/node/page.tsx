@@ -40,12 +40,6 @@ function NodeOperatorView() {
     fetchData();
   }, []);
   
-  const needsUpdate = useMemo(() => {
-    if (!nodeData) return false;
-    // Simple version comparison, assumes semantic versioning without complex tags
-    return nodeData.nodeSoftwareVersion < nodeData.latestSoftwareVersion;
-  }, [nodeData]);
-
   if (isLoading) {
     return (
       <div className="space-y-6">
@@ -70,15 +64,6 @@ function NodeOperatorView() {
 
   return (
     <div className="space-y-6">
-        {needsUpdate && (
-            <Alert variant="warning">
-                <AlertTriangle className="h-4 w-4" />
-                <AlertTitle>Software Update Available</AlertTitle>
-                <AlertDescription>
-                   Your node is running version {nodeData.nodeSoftwareVersion}, but version {nodeData.latestSoftwareVersion} is available. Please update for the latest features and security patches.
-                </AlertDescription>
-            </Alert>
-        )}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <NodeStatCard
                 title="Status"
@@ -211,5 +196,3 @@ export default function NodeAnalysisPage() {
     </div>
   );
 }
-
-    

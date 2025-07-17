@@ -1,9 +1,12 @@
 
 "use client"
 
+import { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { getNodeData } from '@/services/piService';
+import type { NodeData } from '@/data/schemas';
 import { Button } from '@/components/ui/button';
-import { Bell, LogOut, RefreshCw, UserCircle } from 'lucide-react';
+import { Bell, LogOut, RefreshCw, UserCircle, AlertTriangle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import {
   DropdownMenu,
@@ -26,6 +29,61 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Skeleton } from '../ui/skeleton';
+
+function NotificationsDropdown() {
+    const { user } = useAuth();
+    const [nodeData, setNodeData] = useState<NodeData | null>(null);
+
+    useEffect(() => {
+        if (user?.isNodeOperator) {
+            getNodeData().then(setNodeData);
+        }
+    }, [user?.isNodeOperator]);
+
+    const needsUpdate = useMemo(() => {
+        if (!user?.isNodeOperator || !nodeData) return false;
+        return nodeData.nodeSoftwareVersion < nodeData.latestSoftwareVersion;
+    }, [user, nodeData]);
+
+    const hasNotifications = needsUpdate;
+
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full">
+                    <Bell className="h-5 w-5" />
+                    {hasNotifications && (
+                        <span className="absolute top-2 right-2.5 block h-2 w-2 rounded-full bg-destructive ring-2 ring-background" />
+                    )}
+                    <span className="sr-only">Notifications</span>
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-80" align="end">
+                <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {hasNotifications ? (
+                    <>
+                        {needsUpdate && (
+                             <DropdownMenuItem className="flex items-start gap-3" onSelect={(e) => { e.preventDefault(); router.push('/dashboard/node')}}>
+                                <AlertTriangle className="h-5 w-5 text-yellow-500 mt-1" />
+                                <div className="flex-1">
+                                    <p className="font-semibold">Software Update Available</p>
+                                    <p className="text-xs text-muted-foreground">
+                                        Your node needs an update. Click to view details.
+                                    </p>
+                                </div>
+                            </DropdownMenuItem>
+                        )}
+                    </>
+                ) : (
+                    <div className="p-4 text-center text-sm text-muted-foreground">
+                        You're all caught up!
+                    </div>
+                )}
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
+}
 
 export function Header({children}: {children?: React.ReactNode}) {
   const { user, logout } = useAuth();
@@ -69,10 +127,7 @@ export function Header({children}: {children?: React.ReactNode}) {
           </div>
       ) : (
         <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full">
-            <Bell className="h-5 w-5" />
-            <span className="sr-only">Notifications</span>
-            </Button>
+            <NotificationsDropdown />
             <Button variant="outline" size="icon" className="h-10 w-10 rounded-full" onClick={handleRefresh}>
             <RefreshCw className="h-5 w-5" />
             <span className="sr-only">Refresh Data</span>
