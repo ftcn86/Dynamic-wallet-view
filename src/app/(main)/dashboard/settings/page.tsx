@@ -260,7 +260,7 @@ export default function SettingsPage() {
             {remindersEnabled && (
                <div className="space-y-2">
                 <Label htmlFor="reminder-time" className="flex items-center gap-2">
-                  <Clock className="h-4 w-4"/>
+                  <Clock className="h-4 w-4 text-primary"/>
                   Remind Me Before Session End
                 </Label>
                 <div className="relative">

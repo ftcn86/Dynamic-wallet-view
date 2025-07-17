@@ -80,7 +80,7 @@ export function MiningFocusCard() {
 
         <div className="mt-4 pt-4 border-t border-border/50">
             <div className="flex items-start text-sm text-muted-foreground">
-                <Users className="mr-3 h-6 w-6 text-primary/80 flex-shrink-0 mt-1"/>
+                <Users className="mr-3 h-6 w-6 text-primary flex-shrink-0 mt-1"/>
                 <p>Encourage your team to stay active! Their contributions help the network grow.</p>
             </div>
         </div>

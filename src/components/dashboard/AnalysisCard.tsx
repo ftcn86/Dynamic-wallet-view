@@ -105,7 +105,7 @@ export function AnalysisCard() {
             <CardContent className="space-y-8">
                 {/* Lockup & Bonus Calculator */}
                 <div className="space-y-4">
-                    <h3 className="font-semibold text-lg flex items-center"><Zap className="mr-2 h-5 w-5 text-primary/80"/>Lockup & Bonus Calculator</h3>
+                    <h3 className="font-semibold text-lg flex items-center"><Zap className="mr-2 h-5 w-5 text-primary"/>Lockup & Bonus Calculator</h3>
                     <div className="grid md:grid-cols-2 gap-6">
                         <div className="space-y-6">
                             <div>
@@ -139,7 +139,7 @@ export function AnalysisCard() {
 
                 {/* Future Balance Forecaster */}
                 <div className="space-y-4">
-                    <h3 className="font-semibold text-lg flex items-center"><PiggyBank className="mr-2 h-5 w-5 text-primary/80"/>Future Balance Forecaster</h3>
+                    <h3 className="font-semibold text-lg flex items-center"><PiggyBank className="mr-2 h-5 w-5 text-primary"/>Future Balance Forecaster</h3>
                     <div className="grid md:grid-cols-2 gap-6">
                         <div className="space-y-6">
                             <div>
@@ -173,7 +173,7 @@ export function AnalysisCard() {
                 
                 {/* Node Profitability Estimator */}
                 <div className="space-y-4">
-                     <h3 className="font-semibold text-lg flex items-center"><Server className="mr-2 h-5 w-5 text-primary/80"/>Node Profitability Estimator</h3>
+                     <h3 className="font-semibold text-lg flex items-center"><Server className="mr-2 h-5 w-5 text-primary"/>Node Profitability Estimator</h3>
                     <div className="grid md:grid-cols-2 gap-6">
                         <div className="space-y-6">
                              <div>

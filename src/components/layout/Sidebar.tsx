@@ -13,6 +13,7 @@ import {
   Coins,
   Network,
   Blocks,
+  BarChart2,
 } from 'lucide-react';
 import {
   Sidebar as RootSidebar,
@@ -62,7 +63,7 @@ export function Sidebar() {
                     "text-xl font-bold text-foreground font-headline transition-opacity duration-200",
                     state === 'collapsed' ? 'opacity-0' : 'opacity-100'
                 )}>
-                    Dynamic Wallet
+                    PiPulse
                 </span>
             </Link>
         </SidebarHeader>
@@ -76,32 +77,32 @@ export function Sidebar() {
                     {state === 'collapsed' ? 'M' : 'Menu'}
                 </p>
                 <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard" icon={<Home />}>
+                    <SidebarNavLink href="/dashboard" icon={<Home className="text-primary"/>}>
                         Dashboard
                     </SidebarNavLink>
                 </SidebarMenuItem>
                  <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard/team" icon={<Users />}>
+                    <SidebarNavLink href="/dashboard/team" icon={<Users className="text-primary"/>}>
                         Security & Team
                     </SidebarNavLink>
                 </SidebarMenuItem>
                  <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard/node" icon={<Network />}>
+                    <SidebarNavLink href="/dashboard/node" icon={<Network className="text-primary"/>}>
                         Node Analysis
                     </SidebarNavLink>
                 </SidebarMenuItem>
-                 <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard/donate" icon={<Gift />}>
-                        Donate
-                    </SidebarNavLink>
-                </SidebarMenuItem>
-                 <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard/transactions" icon={<Coins />}>
+                <SidebarMenuItem>
+                    <SidebarNavLink href="/dashboard/transactions" icon={<Coins className="text-primary"/>}>
                         Transactions
                     </SidebarNavLink>
                 </SidebarMenuItem>
                  <SidebarMenuItem>
-                    <SidebarNavLink href="/dashboard/settings" icon={<Settings />}>
+                    <SidebarNavLink href="/dashboard/donate" icon={<Gift className="text-primary"/>}>
+                        Donate
+                    </SidebarNavLink>
+                </SidebarMenuItem>
+                 <SidebarMenuItem>
+                    <SidebarNavLink href="/dashboard/settings" icon={<Settings className="text-primary"/>}>
                         Settings
                     </SidebarNavLink>
                 </SidebarMenuItem>
@@ -109,7 +110,7 @@ export function Sidebar() {
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
                             <SidebarMenuButton tooltip="Team Chat" className="w-full justify-start">
-                                <MessageSquare />
+                                <MessageSquare className="text-primary"/>
                                 <span className={cn(state === 'collapsed' && 'hidden')}>Team Chat</span>
                             </SidebarMenuButton>
                         </AlertDialogTrigger>
@@ -128,7 +129,7 @@ export function Sidebar() {
                     </AlertDialog>
                 </SidebarMenuItem>
                  <SidebarMenuItem>
-                    <SidebarNavLink href="/legal/help" icon={<HelpCircle />}>
+                    <SidebarNavLink href="/legal/help" icon={<HelpCircle className="text-primary"/>}>
                         Help Center
                     </SidebarNavLink>
                 </SidebarMenuItem>

@@ -115,8 +115,8 @@ export default function DonatePage() {
         <div className="lg:col-span-2">
             <Card className="shadow-lg border-primary/20 hover:shadow-xl transition-shadow duration-300">
                 <CardHeader className="items-center text-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-pink-500/10 mb-4">
-                    <Gift className="h-8 w-8 text-pink-500" />
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-accent/10 mb-4">
+                    <Gift className="h-8 w-8 text-accent" />
                 </div>
                 <CardTitle className="text-2xl font-headline">Join Us in Building the Future</CardTitle>
                 <CardDescription className="max-w-md">

@@ -50,7 +50,7 @@
     --sidebar-background: 250 20% 99%; /* Almost white, slightly cooler than page background */
     --sidebar-foreground: 250 20% 30%;
     --sidebar-accent: 250 60% 95%;
-    --sidebar-accent-foreground: 250 60% 40%;
+    --sidebar-accent-foreground: var(--primary);
     --sidebar-border: 250 30% 90%;
     --sidebar-ring: 250 60% 60%;
   }
@@ -87,7 +87,7 @@
     --sidebar-background: 250 10% 15%; /* Darker than page background */
     --sidebar-foreground: 250 30% 85%;
     --sidebar-accent: 250 15% 25%;
-    --sidebar-accent-foreground: 250 60% 70%;
+    --sidebar-accent-foreground: var(--primary);
     --sidebar-border: 250 10% 25%;
     --sidebar-ring: 250 60% 60%;
   }

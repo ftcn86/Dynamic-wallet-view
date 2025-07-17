@@ -62,7 +62,7 @@ export default function DashboardPage() {
         <KPICard
           title="Total Pi Balance"
           value={user.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}) + ' π'}
-          icon={<Wallet />}
+          icon={<Wallet className="text-primary-foreground"/>}
           footerValue={`~$${(user.totalBalance * 0.042).toFixed(2)} USD`}
           change="+2.3%"
         />
@@ -73,7 +73,7 @@ export default function DashboardPage() {
               <KPICard
                 title="Current Mining Rate"
                 value={`${user.miningRate.toFixed(4)} π/hr`}
-                icon={<Gauge />}
+                icon={<Gauge className="text-primary-foreground"/>}
                 footerValue="Next session in 12h"
                 badgeText="Active"
                 badgeVariant="success"
@@ -100,7 +100,7 @@ export default function DashboardPage() {
           <KPICard
             title="Active Team Members"
             value={`${activeTeamMembers} / ${totalTeamMembers}`}
-            icon={<UsersIcon />}
+            icon={<UsersIcon className="text-primary-foreground"/>}
             footerValue={`${totalTeamMembers - activeTeamMembers} inactive`}
           />
         </Link>
@@ -110,7 +110,7 @@ export default function DashboardPage() {
             <KPICard
               title="Node Uptime"
               value={`${user.nodeUptimePercentage.toFixed(1)}%`}
-              icon={<Server />}
+              icon={<Server className="text-primary-foreground"/>}
               footerValue="Uptime last 30d"
               badgeText="Online"
               badgeVariant="success"
@@ -122,10 +122,10 @@ export default function DashboardPage() {
       <Tabs value={activeTab as string} onValueChange={setActiveTab} className="w-full">
         <ScrollArea className="w-full whitespace-nowrap">
             <TabsList className="min-w-0 flex-nowrap w-auto sm:w-full sm:grid sm:grid-cols-4 max-w-2xl">
-              <TabsTrigger value="overview"><PieChart className="mr-2 h-4 w-4" />Overview</TabsTrigger>
-              <TabsTrigger value="portfolio"><BarChart2 className="mr-2 h-4 w-4" />Portfolio</TabsTrigger>
-              <TabsTrigger value="achievements"><Trophy className="mr-2 h-4 w-4" />Achievements</TabsTrigger>
-              <TabsTrigger value="analysis"><Settings2 className="mr-2 h-4 w-4" />Analysis</TabsTrigger>
+              <TabsTrigger value="overview"><PieChart className="mr-2 h-4 w-4 text-primary" />Overview</TabsTrigger>
+              <TabsTrigger value="portfolio"><BarChart2 className="mr-2 h-4 w-4 text-primary" />Portfolio</TabsTrigger>
+              <TabsTrigger value="achievements"><Trophy className="mr-2 h-4 w-4 text-primary" />Achievements</TabsTrigger>
+              <TabsTrigger value="analysis"><Settings2 className="mr-2 h-4 w-4 text-primary" />Analysis</TabsTrigger>
             </TabsList>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>

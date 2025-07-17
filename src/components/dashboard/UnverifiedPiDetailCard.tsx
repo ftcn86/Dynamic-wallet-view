@@ -35,8 +35,8 @@ export function UnverifiedPiDetailCard() {
   const { fromReferralTeam, fromSecurityCircle, fromNodeRewards, fromOtherBonuses } = user.unverifiedPiDetails;
 
   const sources: UnverifiedPiSource[] = [
-    { key: 'fromReferralTeam', label: 'From Referral Team', icon: <Users className="h-5 w-5 text-primary/80" />, value: fromReferralTeam },
-    { key: 'fromSecurityCircle', label: 'From Security Circle', icon: <Shield className="h-5 w-5 text-green-600" />, value: fromSecurityCircle },
+    { key: 'fromReferralTeam', label: 'From Referral Team', icon: <Users className="h-5 w-5 text-primary" />, value: fromReferralTeam },
+    { key: 'fromSecurityCircle', label: 'From Security Circle', icon: <Shield className="h-5 w-5 text-green-500" />, value: fromSecurityCircle },
     { key: 'fromNodeRewards', label: 'From Node Rewards', icon: <Server className="h-5 w-5 text-blue-500" />, value: fromNodeRewards },
     { key: 'fromOtherBonuses', label: 'From Other Bonuses', icon: <Gift className="h-5 w-5 text-yellow-500" />, value: fromOtherBonuses },
   ];
