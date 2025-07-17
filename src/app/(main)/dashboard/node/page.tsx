@@ -175,7 +175,7 @@ function NodeOperatorView() {
         </div>
         <div className="grid gap-6 md:grid-cols-2">
             <NodeStatCard
-                title="Uptime (30d)"
+                title="Uptime (90d)"
                 icon={<GaugeIcon />}
                 mainContent={`${nodeData.uptimePercentage.toFixed(2)}%`}
                 footerText="Excellent stability"
