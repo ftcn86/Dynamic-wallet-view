@@ -24,79 +24,17 @@ import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { SortableTableHead } from '@/components/shared/SortableTableHead';
 import { useAuth } from '@/contexts/AuthContext';
-
-// Solid SVG Icons
-const ArrowDownLeftIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-        <path d="M17 7 7 17" stroke="#22c55e" strokeWidth="2" />
-        <path d="M17 17H7V7" stroke="#22c55e" strokeWidth="2" />
-    </svg>
-);
-
-const ArrowUpRightIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-        <path d="M7 17 17 7" stroke="#ef4444" strokeWidth="2" />
-        <path d="M7 7h10v10" stroke="#ef4444" strokeWidth="2" />
-    </svg>
-);
-
-const AwardIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f59e0b" {...props}>
-        <circle cx="12" cy="8" r="7"/>
-        <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88"/>
-    </svg>
-);
-
-const ServerIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#3b82f6" {...props}>
-        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
-        <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
-        <line x1="6" y1="6" x2="6.01" y2="6" stroke="#fff" strokeWidth="2"/>
-        <line x1="6" y1="18" x2="6.01" y2="18" stroke="#fff" strokeWidth="2"/>
-    </svg>
-);
-
-const CheckCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" fill="currentColor"/>
-      <polyline points="22 4 12 14.01 9 11.01" stroke="#fff" strokeWidth="2"/>
-    </svg>
-);
-
-const ClockIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-        <circle cx="12" cy="12" r="10" fill="currentColor"/>
-        <polyline points="12 6 12 12 16 14" stroke="#fff" strokeWidth="1.5" />
-    </svg>
-);
-
-const XCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-        <circle cx="12" cy="12" r="10" fill="currentColor"/>
-        <line x1="15" y1="9" x2="9" y2="15" stroke="#fff" strokeWidth="2" />
-        <line x1="9" y1="9" x2="15" y2="15" stroke="#fff" strokeWidth="2" />
-    </svg>
-);
-
-const CoinsIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
-        <circle cx="8" cy="8" r="6" />
-        <path d="M18.09 10.72A6 6 0 1 1 10.72 18.09" />
-        <path d="m14 6-3.1 3.1" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5" />
-        <path d="m6 14 3.1-3.1" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5" />
-        <path d="M14 14.8V18" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5" />
-        <path d="M6 10.2V6" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5" />
-    </svg>
-);
-
-const ExternalLinkIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-    <polyline points="15 3 21 3 21 9" />
-    <line x1="10" y1="14" x2="21" y2="3" />
-  </svg>
-);
-
+import { 
+    ArrowDownLeftIcon,
+    ArrowUpRightIcon,
+    AwardIconYellow as AwardIcon,
+    ServerIconBlue as ServerIcon,
+    CheckCircleIconSolid as CheckCircleIcon,
+    ClockIconSolid as ClockIcon,
+    XCircleIconSolid as XCircleIcon,
+    CoinsIcon,
+    ExternalLinkIconSmall as ExternalLinkIcon
+} from '@/components/shared/icons';
 
 type SortableKeys = 'date' | 'type' | 'amount' | 'status' | 'description';
 

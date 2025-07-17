@@ -8,16 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
-
-// Solid SVG Icon
-const ShieldQuestionIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5" fill="none"/>
-    <line x1="12" y1="17" x2="12.01" y2="17" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5" fill="none"/>
-  </svg>
-);
-
+import { ShieldQuestionIcon } from '@/components/shared/icons';
 
 export default function LoginPage() {
   const { user, login, isLoading: isAuthContextLoading } = useAuth();

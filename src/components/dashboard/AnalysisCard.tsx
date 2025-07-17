@@ -9,67 +9,22 @@ import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { Skeleton } from '../ui/skeleton';
-import { Separator } from '../ui/separator';
 import { Button } from '../ui/button';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { mockApiCall } from '@/lib/api';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ForecastCard } from './ForecastCard';
-
-// Solid SVG Icons
-const ZapIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="hsl(var(--primary))" {...props}>
-        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-    </svg>
-);
-
-const PercentIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <line x1="19" y1="5" x2="5" y2="19" stroke="hsl(var(--accent))" />
-        <circle cx="6.5" cy="6.5" r="2.5" fill="hsl(var(--accent))" />
-        <circle cx="17.5" cy="17.5" r="2.5" fill="hsl(var(--accent))" />
-    </svg>
-);
-
-const CalendarClockIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="hsl(var(--accent))" {...props}>
-        <path d="M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8" />
-        <line x1="16" y1="2" x2="16" y2="6" stroke="#fff" strokeWidth="2" />
-        <line x1="8" y1="2" x2="8" y2="6" stroke="#fff" strokeWidth="2" />
-        <line x1="3" y1="10" x2="21" y2="10" stroke="#fff" strokeWidth="2" />
-        <circle cx="18" cy="18" r="4" fill="#fff" stroke="#60A5FA" strokeWidth="2" />
-        <path d="m18 16-2 2" stroke="#60A5FA" strokeWidth="2" />
-    </svg>
-);
-
-const TrendingUpIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-        <polyline points="17 6 23 6 23 12"/>
-    </svg>
-);
-
-const Settings2Icon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="hsl(var(--primary))" {...props}>
-        <path d="M20 7h-9" stroke="#fff" strokeWidth="2" />
-        <path d="M4 7h2" stroke="#fff" strokeWidth="2" />
-        <path d="M4 17h9" stroke="#fff" strokeWidth="2" />
-        <path d="M17 17h3" stroke="#fff" strokeWidth="2" />
-        <circle cx="8" cy="7" r="2" fill="#fff" stroke="hsl(var(--primary))" strokeWidth="2" />
-        <circle cx="15" cy="17" r="2" fill="#fff" stroke="hsl(var(--primary))" strokeWidth="2" />
-    </svg>
-);
-
-const InfoIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="#f59e0b" {...props}>
-        <circle cx="12" cy="12" r="10" />
-        <line x1="12" y1="16" x2="12" y2="12" stroke="#fff" strokeWidth="2" />
-        <line x1="12" y1="8" x2="12.01" y2="8" stroke="#fff" strokeWidth="2" />
-    </svg>
-);
+import {
+    ZapIcon,
+    PercentIcon,
+    CalendarClockIcon,
+    TrendingUpIcon,
+    SettingsIcon,
+    InfoIcon,
+} from '@/components/shared/icons';
 
 const WandSparkles = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="hsl(var(--primary))" {...props}>
     <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z" fill="#fff" />
   </svg>
 );
@@ -198,7 +153,7 @@ export function AnalysisCard() {
         <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 max-w-4xl mx-auto">
             <CardHeader>
                 <CardTitle className="font-headline flex items-center">
-                    <Settings2Icon className="mr-2 h-6 w-6" />
+                    <SettingsIcon className="mr-2 h-6 w-6" />
                     Scenario Analysis & Forecasting
                 </CardTitle>
                 <CardDescription>

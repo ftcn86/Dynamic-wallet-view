@@ -9,21 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useTranslation } from '@/hooks/useTranslation';
-
-// Solid SVG Icons
-const MessageSquareIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-  </svg>
-);
-
-const SendIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="m22 2-7 20-4-9-9-4Z" fill="hsl(var(--primary-foreground))"/>
-    <path d="m22 2-11 11" stroke="hsl(var(--primary-foreground))" />
-  </svg>
-);
-
+import { MessageSquareIcon, SendIcon } from '@/components/shared/icons';
 
 function FeedbackCard() {
     const { t } = useTranslation();

@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
@@ -29,75 +29,16 @@ import { AnalysisCard } from '@/components/dashboard/AnalysisCard';
 import { mockTeam } from '@/data/mocks';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-
-// Solid SVG Icons
-const WalletIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary-foreground))" {...props}>
-        <path d="M20 12V8H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2-2H4a2 2 0 0 1-2-2v-2" />
-        <path d="M4 14v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4" />
-        <path d="M18 12a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-4z" />
-        <circle cx="16" cy="14" r="1" fill="hsl(var(--primary))" />
-    </svg>
-);
-
-const GaugeIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M12 12m-10 0a10 10 0 1 0 20 0a10 10 0 1 0-20 0" fill="hsl(var(--primary-foreground))"/>
-        <path d="m12 12-4 2" stroke="hsl(var(--primary))" />
-        <path d="M12 14v4" stroke="hsl(var(--primary))" />
-        <path d="M16 12-2 3" stroke="hsl(var(--primary))" />
-    </svg>
-);
-
-const UsersIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary-foreground))" {...props}>
-        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="8.5" cy="7" r="4" />
-        <path d="M20 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-    </svg>
-);
-
-const ServerIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary-foreground))" {...props}>
-        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
-        <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
-        <line x1="6" y1="6" x2="6.01" y2="6" stroke="hsl(var(--primary))" strokeWidth="2"/>
-        <line x1="6" y1="18" x2="6.01" y2="18" stroke="hsl(var(--primary))" strokeWidth="2"/>
-    </svg>
-);
-
-const PieChartIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
-        <path d="M21.21 15.89A10 10 0 1 1 8.11 2.79" />
-        <path d="M22 12A10 10 0 0 0 12 2v10z" />
-    </svg>
-);
-
-const BarChartIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
-        <path d="M3 3v18h18" stroke="#fff" strokeWidth="2" fill="none" />
-        <path d="M7 12h4v6H7zm6-4h4v10h-4z" />
-    </svg>
-);
-
-const TrophyIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
-        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" stroke="#fff" strokeWidth="1.5" fill="none" />
-        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" stroke="#fff" strokeWidth="1.5" fill="none" />
-        <path d="M4 22h16" stroke="#fff" strokeWidth="1.5" fill="none" />
-        <path d="M10 14.66V22h4v-7.34" stroke="#fff" strokeWidth="1.5" fill="none" />
-        <path d="M12 15c-3.87 0-7-3.13-7-7V4h14v4c0 3.87-3.13 7-7 7z" />
-    </svg>
-);
-
-const SettingsIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
-        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l-.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-        <circle cx="12" cy="12" r="3" fill="#fff" />
-    </svg>
-);
-
+import { 
+    WalletIcon, 
+    GaugeIconDashboard as GaugeIcon, 
+    UsersIcon, 
+    ServerIcon, 
+    PieChartIcon, 
+    BarChartIcon, 
+    TrophyIcon, 
+    SettingsIcon 
+} from '@/components/shared/icons';
 
 const TABS = ['overview', 'portfolio', 'achievements', 'analysis'];
 
@@ -176,7 +117,7 @@ export default function DashboardPage() {
         {user.isNodeOperator && user.nodeUptimePercentage !== undefined && (
           <Link href="/dashboard/node" className="block">
             <KPICard
-              title="Node Uptime"
+              title="Node Uptime (90d)"
               value={`${user.nodeUptimePercentage.toFixed(1)}%`}
               icon={<ServerIcon />}
               footerValue="Uptime last 90d"

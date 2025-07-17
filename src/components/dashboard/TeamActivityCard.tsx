@@ -12,30 +12,8 @@ import { cn } from '@/lib/utils';
 import { Skeleton } from '../ui/skeleton';
 import { BadgeIcon } from './badge/BadgeIcon';
 import { useTranslation } from '@/hooks/useTranslation';
-
-// Solid SVG Icons
-const TrophyIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="hsl(var(--primary))" {...props}>
-        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" stroke="#fff" strokeWidth="1.5" fill="none" />
-        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" stroke="#fff" strokeWidth="1.5" fill="none" />
-        <path d="M4 22h16" stroke="#fff" strokeWidth="1.5" fill="none" />
-        <path d="M10 14.66V22h4v-7.34" stroke="#fff" strokeWidth="1.5" fill="none" />
-        <path d="M12 15c-3.87 0-7-3.13-7-7V4h14v4c0 3.87-3.13 7-7 7z" />
-    </svg>
-);
-
-const ChevronRightIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="m9 18 6-6-6-6" />
-    </svg>
-);
-
-const AwardIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="#f59e0b" {...props}>
-        <circle cx="12" cy="8" r="7"/>
-        <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88"/>
-    </svg>
-);
+import { TrophyIcon, AwardIcon } from '@/components/shared/icons';
+import { ChevronRightIcon } from 'lucide-react';
 
 const MAX_LEADERBOARD_ENTRIES = 5;
 const DISPLAY_RECENT_BADGES_COUNT = 3;

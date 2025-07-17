@@ -3,8 +3,8 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { getTeamMembers, sendBroadcastNotification } from '@/services/piService';
 import type { TeamMember } from '@/data/schemas';
@@ -18,44 +18,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useTranslation } from '@/hooks/useTranslation';
-
-// Solid SVG Icons
-const UsersIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
-        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="8.5" cy="7" r="4" />
-        <path d="M20 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-    </svg>
-);
-
-const BellIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--accent))" {...props}>
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-    </svg>
-);
-
-const MessageSquareIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--accent))" {...props}>
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-    </svg>
-);
-
-const SendIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
-        <path d="m22 2-7 20-4-9-9-4Z" fill="hsl(var(--primary-foreground))"/>
-        <path d="m22 2-11 11" stroke="hsl(var(--primary-foreground))" />
-    </svg>
-);
-
-const InfoIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--muted-foreground))" {...props}>
-        <circle cx="12" cy="12" r="10" />
-        <line x1="12" y1="16" x2="12" y2="12" stroke="#fff" strokeWidth="2" />
-        <line x1="12" y1="8" x2="12.01" y2="8" stroke="#fff" strokeWidth="2" />
-    </svg>
-);
+import { 
+    UsersIcon, 
+    BellIconAccent as BellIcon, 
+    MessageSquareIconAccent as MessageSquareIcon, 
+    SendIcon, 
+    InfoIcon 
+} from '@/components/shared/icons';
 
 function TeamManagementCard({ teamMembers }: { teamMembers: TeamMember[] }) {
     const { t } = useTranslation();

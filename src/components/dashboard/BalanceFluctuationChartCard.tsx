@@ -8,15 +8,7 @@ import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { mockChartData } from '@/data/mocks';
 import { format } from 'date-fns';
-
-// Solid SVG Icon
-const BarChartIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
-        <path d="M3 3v18h18" stroke="#fff" strokeWidth="2" fill="none" />
-        <path d="M7 12h4v6H7z" />
-    </svg>
-);
-
+import { BarChartIcon } from '@/components/shared/icons';
 
 type ChartPeriod = '3M' | '6M' | '12M';
 

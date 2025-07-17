@@ -25,48 +25,7 @@ import { Progress } from '@/components/ui/progress';
 import { MOCK_DONATION_GOAL, MOCK_CURRENT_DONATIONS } from '@/data/mocks';
 import { RecentSupporters } from '@/components/dashboard/donate/RecentSupporters';
 import { addTransaction, addNotification } from '@/services/piService';
-
-// Solid SVG Icons
-const GiftIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M20 12v10H4V12" stroke="hsl(var(--accent))" strokeWidth="1.5" />
-    <path d="M2 7h20v5H2z" stroke="hsl(var(--accent))" strokeWidth="1.5" fill="hsl(var(--accent))" />
-    <path d="M12 22V7" stroke="hsl(var(--accent))" strokeWidth="1.5" />
-    <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" stroke="hsl(var(--accent))" strokeWidth="1.5" fill="hsl(var(--accent))"/>
-    <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" stroke="hsl(var(--accent))" strokeWidth="1.5" fill="hsl(var(--accent))"/>
-  </svg>
-);
-
-const SendIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <path d="m22 2-7 20-4-9-9-4Z" fill="hsl(var(--primary-foreground))"/>
-    <path d="m22 2-11 11" stroke="hsl(var(--primary-foreground))" />
-  </svg>
-);
-
-const RocketIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--accent))" {...props}>
-        <path d="M13.29,12.71,11.29,14.71,2,5,9.29,2,19,11.71,17.29,13.41,20,16.12,22,14,13.29,12.71ZM9.29,4.12,4,9.41l7.29,2.88,2.88,7.29,5.29-5.29L9.29,4.12Z" />
-        <path d="M21.41,17.83,19,15.41l-2.59,2.59,2.41,2.41a2,2,0,0,0,2.83,0h0a2,2,0,0,0,0-2.83Z" />
-    </svg>
-);
-
-const ServerIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--accent))" {...props}>
-        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
-        <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
-        <line x1="6" y1="6" x2="6.01" y2="6" stroke="#fff" strokeWidth="2" />
-        <line x1="6" y1="18" x2="6.01" y2="18" stroke="#fff" strokeWidth="2" />
-    </svg>
-);
-
-const PaintbrushIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--accent))" {...props}>
-        <path d="M18.37,3.63a2.12,2.12,0,0,0-3,0L13,6,6,13l-3,3,7,7,3-3,7-7,2.37-2.37a2.12,2.12,0,0,0,0-3Z"/>
-        <path d="M6,13l3,3-4,4H17l-4-4,3-3-4.29-4.29-3.42,3.42Z"/>
-    </svg>
-);
-
+import { GiftIcon, SendIcon, RocketIcon, ServerIconAccent as ServerIcon, PaintbrushIcon } from '@/components/shared/icons';
 
 const presetAmounts = ["1", "5", "10", "20"];
 

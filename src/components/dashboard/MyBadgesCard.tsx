@@ -9,22 +9,7 @@ import { Skeleton } from '../ui/skeleton';
 import type { Badge } from '@/data/schemas';
 import { format, parseISO } from 'date-fns';
 import { BadgeIcon } from './badge/BadgeIcon';
-
-// Solid SVG Icons
-const AwardIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
-        <circle cx="12" cy="8" r="7"/>
-        <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88"/>
-    </svg>
-);
-
-const CheckCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#22c55e" {...props}>
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-        <polyline points="22 4 12 14.01 9 11.01" stroke="#fff" strokeWidth="2" />
-    </svg>
-);
-
+import { AwardIcon, CheckCircleIconSolid as CheckCircleIcon } from '@/components/shared/icons';
 
 function BadgeItem({ badge }: { badge: Badge }) {
   const earnedDate = badge.earnedDate ? format(parseISO(badge.earnedDate), "MMMM dd, yyyy") : '';
