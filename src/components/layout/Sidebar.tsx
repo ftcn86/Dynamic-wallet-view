@@ -136,10 +136,9 @@ export function Sidebar() {
                     </AlertDialog>
                 </SidebarMenuItem>
                  <SidebarMenuItem>
-                    <SidebarMenuButton tooltip="Help Center" className="w-full justify-start" onClick={() => router.push('/legal/help')}>
-                        <HelpCircle />
-                        <span className={cn(state === 'collapsed' && 'hidden')}>Help Center</span>
-                    </SidebarMenuButton>
+                    <SidebarNavLink href="/legal/help" icon={<HelpCircle />}>
+                        Help Center
+                    </SidebarNavLink>
                 </SidebarMenuItem>
             </SidebarMenu>
         </SidebarContent>
