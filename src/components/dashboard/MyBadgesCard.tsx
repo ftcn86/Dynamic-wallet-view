@@ -9,7 +9,7 @@ import { Skeleton } from '../ui/skeleton';
 import type { Badge } from '@/data/schemas';
 import { format, parseISO } from 'date-fns';
 import { BadgeIcon } from './badge/BadgeIcon';
-import { AwardIcon, CheckCircleIconSolid as CheckCircleIcon } from '@/components/shared/icons';
+import { AwardIcon, CheckCircleIcon } from '@/components/shared/icons';
 
 function BadgeItem({ badge }: { badge: Badge }) {
   const earnedDate = badge.earnedDate ? format(parseISO(badge.earnedDate), "MMMM dd, yyyy") : '';

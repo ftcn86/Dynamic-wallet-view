@@ -27,11 +27,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { 
     ArrowDownLeftIcon,
     ArrowUpRightIcon,
-    AwardIconYellow as AwardIcon,
-    ServerIconBlue as ServerIcon,
-    CheckCircleIconSolid as CheckCircleIcon,
-    ClockIconSolid as ClockIcon,
-    XCircleIconSolid as XCircleIcon,
+    AwardIcon,
+    ServerIcon,
+    CheckCircleIcon,
+    ClockIcon,
+    ZapIcon,
     CoinsIcon,
     ExternalLinkIconSmall as ExternalLinkIcon
 } from '@/components/shared/icons';
@@ -39,16 +39,16 @@ import {
 type SortableKeys = 'date' | 'type' | 'amount' | 'status' | 'description';
 
 const transactionTypeConfig = {
-    sent: { icon: ArrowUpRightIcon, colorClass: 'bg-red-500/10 text-red-500', label: "Sent" },
-    received: { icon: ArrowDownLeftIcon, colorClass: 'bg-green-500/10 text-green-500', label: "Received" },
-    mining_reward: { icon: AwardIcon, colorClass: 'bg-yellow-500/10 text-yellow-500', label: "Mining Reward" },
-    node_bonus: { icon: ServerIcon, colorClass: 'bg-blue-500/10 text-blue-500', label: "Node Bonus" }
+    sent: { icon: ArrowUpRightIcon, colorClass: 'text-red-500', label: "Sent" },
+    received: { icon: ArrowDownLeftIcon, colorClass: 'text-green-500', label: "Received" },
+    mining_reward: { icon: AwardIcon, colorClass: 'text-yellow-500', label: "Mining Reward" },
+    node_bonus: { icon: ServerIcon, colorClass: 'text-blue-500', label: "Node Bonus" }
 }
 
 const statusConfig = {
     completed: { variant: 'success', icon: CheckCircleIcon, text: "Completed" },
     pending: { variant: 'warning', icon: ClockIcon, text: "Pending" },
-    failed: { variant: 'destructive', icon: XCircleIcon, text: "Failed" }
+    failed: { variant: 'destructive', icon: ZapIcon, text: "Failed" }
 }
 
 function TransactionRow({ tx }: { tx: Transaction }) {
@@ -70,7 +70,7 @@ function TransactionRow({ tx }: { tx: Transaction }) {
               <Tooltip>
                   <TooltipTrigger asChild>
                     <AlertDialogTrigger asChild>
-                        <div className={cn("flex items-center justify-center h-8 w-8 rounded-full cursor-pointer", typeInfo.colorClass)}>
+                        <div className={cn("flex items-center justify-center h-8 w-8 rounded-full cursor-pointer bg-muted")}>
                             <TypeIcon className="h-4 w-4" />
                         </div>
                     </AlertDialogTrigger>

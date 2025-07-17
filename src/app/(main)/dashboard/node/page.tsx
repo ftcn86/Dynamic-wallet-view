@@ -17,7 +17,7 @@ import { NodeStatusBadge } from '@/components/dashboard/node/NodeStatusBadge';
 import { NodeStatCard } from '@/components/dashboard/node/NodeStatCard';
 import { 
     ExternalLinkIcon,
-    ShieldCheckIconGreen as ShieldCheckIcon,
+    ShieldCheckIcon,
     ZapIcon,
     AwardIcon,
     ServerIcon,

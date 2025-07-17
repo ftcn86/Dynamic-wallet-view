@@ -5,7 +5,7 @@ import React from 'react';
 import { Badge as UiBadge } from '@/components/ui/badge';
 import type { NodeStatus } from '@/data/schemas';
 import { cn } from '@/lib/utils';
-import { CheckCircleIconSolid as CheckCircleIcon, ClockIconSolid as ClockIcon, ZapIcon } from '@/components/shared/icons';
+import { CheckCircleIcon, ClockIcon, ZapIcon } from '@/components/shared/icons';
 
 interface NodeStatusBadgeProps {
   status: NodeStatus | undefined;

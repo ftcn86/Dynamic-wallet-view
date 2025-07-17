@@ -5,7 +5,7 @@ import React from 'react';
 import { Badge as UiBadge } from '@/components/ui/badge';
 import type { KycStatus } from '@/data/schemas';
 import { cn } from '@/lib/utils';
-import { ShieldCheckIconSolid as ShieldCheckIcon, ShieldAlertIcon, ShieldXIcon } from '@/components/shared/icons';
+import { ShieldCheckIcon, ShieldAlertIcon, ShieldXIcon } from '@/components/shared/icons';
 
 interface KycStatusBadgeProps {
   status: KycStatus | undefined;

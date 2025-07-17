@@ -19,7 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { FileTextIcon, ShieldCheckIconSolid, LogOutIcon, CheckCircleIcon } from '@/components/shared/icons';
+import { FileTextIcon, ShieldCheckIcon, LogOutIcon, CheckCircleIcon } from '@/components/shared/icons';
 
 export default function AcceptTermsPage() {
   const { user, setUser, logout, isLoading } = useAuth(); 
@@ -79,7 +79,7 @@ export default function AcceptTermsPage() {
             </Button>
             <Button variant="link" asChild className="justify-start sm:justify-center">
               <Link href="/legal/privacy">
-                <ShieldCheckIconSolid className="mr-2 h-4 w-4" /> Privacy Policy
+                <ShieldCheckIcon className="mr-2 h-4 w-4" /> Privacy Policy
               </Link>
             </Button>
           </div>

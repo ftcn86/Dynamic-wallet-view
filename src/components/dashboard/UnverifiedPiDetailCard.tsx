@@ -8,9 +8,9 @@ import { Skeleton } from '../ui/skeleton';
 import { 
     UsersIcon, 
     ShieldIcon, 
-    GiftIconYellow as GiftIcon, 
+    GiftIcon, 
     ListTreeIcon, 
-    ServerIconBlueSolid as ServerIcon 
+    ServerIcon
 } from '@/components/shared/icons';
 
 
