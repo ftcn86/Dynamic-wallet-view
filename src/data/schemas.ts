@@ -54,10 +54,19 @@ export interface TeamMember {
   kycStatus?: KycStatus;
 }
 
+export type NodeStatus = 'online' | 'offline' | 'synchronizing';
+
 export interface NodeData {
   nodeId: string;
+  status: NodeStatus;
+  lastSeen: string; // ISO 8601 string
+  nodeSoftwareVersion: string;
+  latestSoftwareVersion: string;
+  country: string;
+  countryFlag: string; // Emoji
   uptimePercentage: number;
   performanceScore: number;
+  blocksProcessed: number;
   performanceHistory: Array<{ date: string; score: number }>;
 }
 

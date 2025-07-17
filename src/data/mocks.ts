@@ -23,8 +23,15 @@ const daysInPreviousMonth = getDaysInMonth(previousMonth);
 
 export const mockNodeData: NodeData = {
   nodeId: 'nodeXYZ789',
+  status: 'online',
+  lastSeen: subDays(today, 0.01).toISOString(),
+  nodeSoftwareVersion: '0.4.7',
+  latestSoftwareVersion: '0.4.9',
+  country: 'United States',
+  countryFlag: '🇺🇸',
   uptimePercentage: 99.85,
   performanceScore: 920,
+  blocksProcessed: 12850345,
   performanceHistory: [
     { date: '2024-03-01', score: 880 },
     { date: '2024-04-01', score: 900 },
