@@ -114,7 +114,7 @@ export async function getNotifications(): Promise<Notification[]> {
 /**
  * Simulates sending a broadcast message by adding a new notification to the mock data.
  */
-export async function sendBroadcastNotification(message: string): Promise<void> {
+export async function sendBroadcastNotification(message: string): Promise<{ success: boolean }> {
     const newNotification: Notification = {
         id: `notif_${Date.now()}`,
         type: 'team_message',
@@ -129,17 +129,19 @@ export async function sendBroadcastNotification(message: string): Promise<void> 
     // Here, we just add it to our mock data array to simulate the effect.
     mockNotifications.unshift(newNotification);
     
-    return mockApiCall({ data: undefined });
+    // Return a success object to prevent the mock API call from failing.
+    return mockApiCall({ data: { success: true } });
 }
 
 /**
  * Adds a new transaction to the mock data array.
  */
-export async function addTransaction(transaction: Omit<Transaction, 'id' | 'date'>): Promise<Transaction> {
+export async function addTransaction(transaction: Omit<Transaction, 'id' | 'date' | 'blockExplorerUrl'>): Promise<Transaction> {
     const newTransaction: Transaction = {
         ...transaction,
         id: `tx_${Date.now()}`,
         date: new Date().toISOString(),
+        blockExplorerUrl: '#'
     };
     mockTransactions.unshift(newTransaction);
     return mockApiCall({ data: newTransaction });
