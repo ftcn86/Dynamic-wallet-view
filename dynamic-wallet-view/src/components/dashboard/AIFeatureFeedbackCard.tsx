@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
+import { submitFeedback } from '@/services/piService';
 
 const LightbulbIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -43,32 +44,37 @@ export function AIFeatureFeedbackCard() {
     }
 
     setIsSubmitting(true);
-    // Simulate an API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    console.log("AI Feature Feedback Submitted:", {
-        userId: user?.id,
-        feedback: feedback
-    });
-
-    toast({
-        title: "Thank You!",
-        description: "Your feedback has been submitted. We appreciate you helping shape the future of this app.",
-    });
-
-    setFeedback("");
-    setIsSubmitting(false);
+    try {
+        await submitFeedback({
+            type: 'ai_feature',
+            message: feedback,
+            userId: user?.id
+        });
+        toast({
+            title: "Thank You!",
+            description: "Your feedback has been submitted. We appreciate you helping shape the future of this app.",
+        });
+        setFeedback("");
+    } catch (error) {
+        toast({
+            title: "Submission Failed",
+            description: "Could not submit your feedback. Please try again later.",
+            variant: "destructive"
+        });
+    } finally {
+        setIsSubmitting(false);
+    }
   };
 
   return (
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
+    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
         <CardHeader>
             <CardTitle className="flex items-center gap-2">
                 <LightbulbIcon className="w-6 h-6" />
-                Future AI Feature: Get Your Opinion!
+                Shape the Future: AI-Powered Insights?
             </CardTitle>
             <CardDescription>
-                We're considering an AI-powered feature to give you personalized strategies for boosting your mining rate. Would this be useful to you?
+                Imagine an AI that analyzes your mining habits and lockup potential to create personalized strategies for maximizing your rewards. Is this a feature you would find valuable?
             </CardDescription>
         </CardHeader>
         <CardContent className="flex-grow">
@@ -76,7 +82,7 @@ export function AIFeatureFeedbackCard() {
                 <div className="flex-grow">
                     <Textarea
                         id="feedback-textarea"
-                        placeholder="e.g., 'Yes, I'd love to know how lockups affect my rate!' or 'No, I prefer simpler tools.'"
+                        placeholder="Tell us what you think! For example: 'This sounds amazing, I'd love to see a forecast of my earnings!' or 'I'm not sure, I'd need to know more about how it works.'"
                         value={feedback}
                         onChange={(e) => setFeedback(e.target.value)}
                         rows={5}
@@ -89,7 +95,7 @@ export function AIFeatureFeedbackCard() {
          <CardFooter>
             <Button onClick={handleSubmit} className="w-full" disabled={isSubmitting || !feedback.trim()}>
                 {isSubmitting ? <LoadingSpinner className="mr-2" /> : <SendIcon className="mr-2 h-4 w-4" />}
-                {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
+                {isSubmitting ? 'Submitting...' : 'Submit My Opinion'}
             </Button>
         </CardFooter>
     </Card>
