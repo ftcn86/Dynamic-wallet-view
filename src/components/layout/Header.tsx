@@ -3,10 +3,10 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { getNodeData } from '@/services/piService';
-import type { NodeData } from '@/data/schemas';
+import { getNotifications } from '@/services/piService';
+import type { Notification, NotificationType } from '@/data/schemas';
 import { Button } from '@/components/ui/button';
-import { Bell, LogOut, RefreshCw, UserCircle, AlertTriangle } from 'lucide-react';
+import { Bell, LogOut, RefreshCw, UserCircle, AlertTriangle, Award, Users, Megaphone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import {
   DropdownMenu,
@@ -29,52 +29,103 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Skeleton } from '../ui/skeleton';
+import { formatDistanceToNowStrict } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { Badge } from '../ui/badge';
+
+const notificationIcons: Record<NotificationType, React.ElementType> = {
+    node_update: AlertTriangle,
+    badge_earned: Award,
+    team_update: Users,
+    announcement: Megaphone,
+};
+
+const notificationColors: Record<NotificationType, string> = {
+    node_update: 'text-yellow-500',
+    badge_earned: 'text-blue-500',
+    team_update: 'text-green-500',
+    announcement: 'text-primary',
+};
+
 
 function NotificationsDropdown() {
     const { user } = useAuth();
-    const [nodeData, setNodeData] = useState<NodeData | null>(null);
+    const router = useRouter();
+    const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (user?.isNodeOperator) {
-            getNodeData().then(setNodeData);
+        async function fetchNotifications() {
+            if (user) {
+                setIsLoading(true);
+                const fetchedNotifications = await getNotifications();
+                setNotifications(fetchedNotifications);
+                setIsLoading(false);
+            }
         }
-    }, [user?.isNodeOperator]);
+        fetchNotifications();
+    }, [user]);
 
-    const needsUpdate = useMemo(() => {
-        if (!user?.isNodeOperator || !nodeData) return false;
-        return nodeData.nodeSoftwareVersion < nodeData.latestSoftwareVersion;
-    }, [user, nodeData]);
-
-    const hasNotifications = needsUpdate;
+    const unreadCount = useMemo(() => notifications.filter(n => !n.read).length, [notifications]);
+    
+    const handleNotificationClick = (notification: Notification) => {
+        // Mark as read locally
+        setNotifications(notifications.map(n => n.id === notification.id ? {...n, read: true} : n));
+        if (notification.link) {
+            router.push(notification.link);
+        }
+    }
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full">
                     <Bell className="h-5 w-5" />
-                    {hasNotifications && (
-                        <span className="absolute top-2 right-2.5 block h-2 w-2 rounded-full bg-destructive ring-2 ring-background" />
+                    {unreadCount > 0 && (
+                        <Badge variant="destructive" className="absolute top-1.5 right-1.5 h-5 w-5 p-0 flex items-center justify-center text-xs">
+                           {unreadCount}
+                        </Badge>
                     )}
                     <span className="sr-only">Notifications</span>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-80" align="end">
-                <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+            <DropdownMenuContent className="w-80 md:w-96" align="end">
+                <DropdownMenuLabel className="flex justify-between items-center">
+                    <span>Notifications</span>
+                    {unreadCount > 0 && <Badge variant="secondary">{unreadCount} New</Badge>}
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {hasNotifications ? (
-                    <>
-                        {needsUpdate && (
-                             <DropdownMenuItem className="flex items-start gap-3" onSelect={(e) => { e.preventDefault(); router.push('/dashboard/node')}}>
-                                <AlertTriangle className="h-5 w-5 text-yellow-500 mt-1" />
+                {isLoading ? (
+                    <div className="p-2 space-y-2">
+                        <Skeleton className="h-12 w-full" />
+                        <Skeleton className="h-12 w-full" />
+                    </div>
+                ) : notifications.length > 0 ? (
+                    <div className="max-h-80 overflow-y-auto">
+                    {notifications.map(notification => {
+                        const Icon = notificationIcons[notification.type];
+                        const iconColor = notificationColors[notification.type];
+                        return (
+                             <DropdownMenuItem
+                                key={notification.id}
+                                className="flex items-start gap-3 cursor-pointer"
+                                onSelect={() => handleNotificationClick(notification)}
+                             >
+                                {!notification.read && <span className="h-2 w-2 rounded-full bg-primary mt-2.5 shrink-0" />}
+                                <div className={cn("mt-1.5 shrink-0", notification.read && "ml-4")}>
+                                    <Icon className={cn("h-5 w-5", iconColor)} />
+                                </div>
                                 <div className="flex-1">
-                                    <p className="font-semibold">Software Update Available</p>
-                                    <p className="text-xs text-muted-foreground">
-                                        Your node needs an update. Click to view details.
+                                    <p className="font-semibold text-sm">{notification.title}</p>
+                                    <p className="text-xs text-muted-foreground">{notification.description}</p>
+                                    <p className="text-xs text-muted-foreground/80 mt-1">
+                                        {formatDistanceToNowStrict(new Date(notification.date), { addSuffix: true })}
                                     </p>
                                 </div>
                             </DropdownMenuItem>
-                        )}
-                    </>
+                        )
+                    })}
+                    </div>
                 ) : (
                     <div className="p-4 text-center text-sm text-muted-foreground">
                         You're all caught up!

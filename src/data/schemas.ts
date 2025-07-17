@@ -99,3 +99,15 @@ export interface Transaction {
     to?: string;
     description: string;
 }
+
+export type NotificationType = 'badge_earned' | 'team_update' | 'node_update' | 'announcement';
+
+export interface Notification {
+  id: string;
+  type: NotificationType;
+  title: string;
+  description: string;
+  date: string; // ISO 8601 string
+  read: boolean;
+  link?: string;
+}

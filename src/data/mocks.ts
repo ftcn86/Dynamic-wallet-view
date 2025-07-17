@@ -1,6 +1,6 @@
 
-import type { User, TeamMember, NodeData, MockChartData, Badge, KycStatus, BalanceChartDataPoint, Transaction } from './schemas';
-import { getDaysInMonth, subMonths, subDays } from 'date-fns';
+import type { User, TeamMember, NodeData, MockChartData, Badge, KycStatus, BalanceChartDataPoint, Transaction, Notification } from './schemas';
+import { getDaysInMonth, subMonths, subDays, subHours } from 'date-fns';
 
 const gamificationBadges: Badge[] = [
   { id: 'b_wmara', name: 'Weekly Mining Marathoner', description: 'You were a true marathoner, mining consistently last week!', iconUrl: 'https://placehold.co/128x128.png', earned: false, dataAiHint: 'runner clock', earnedDate: '2024-06-20T10:00:00Z' },
@@ -146,4 +146,43 @@ export const GAMIFICATION_BADGE_IDS = gamificationBadges.map(b => b.id);
 export const ALL_MOCK_BADGES = [
   ...mockUser.badges.filter(b => !GAMIFICATION_BADGE_IDS.includes(b.id)),
   ...gamificationBadges
+];
+
+export const mockNotifications: Notification[] = [
+    {
+        id: 'notif_001',
+        type: 'node_update',
+        title: 'Software Update Available',
+        description: `Your node is running v${mockNodeData.nodeSoftwareVersion}, but v${mockNodeData.latestSoftwareVersion} is available.`,
+        date: subHours(today, 2).toISOString(),
+        read: false,
+        link: '/dashboard/node'
+    },
+    {
+        id: 'notif_002',
+        type: 'badge_earned',
+        title: 'New Badge Earned!',
+        description: 'You\'ve earned the "Weekly Mining Marathoner" badge. Great job!',
+        date: subDays(today, 1).toISOString(),
+        read: false,
+        link: '/dashboard'
+    },
+    {
+        id: 'notif_003',
+        type: 'team_update',
+        title: 'Team Member KYC Verified',
+        description: 'Your team member, Bob Miner, has completed their KYC verification.',
+        date: subDays(today, 3).toISOString(),
+        read: true,
+        link: '/dashboard/team'
+    },
+     {
+        id: 'notif_004',
+        type: 'announcement',
+        title: 'Community Donation Goal Met!',
+        description: 'Thanks to your support, we\'ve reached our monthly server cost goal.',
+        date: subDays(today, 5).toISOString(),
+        read: true,
+        link: '/dashboard/donate'
+    },
 ];

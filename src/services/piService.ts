@@ -2,8 +2,8 @@
 "use client";
 
 import { mockApiCall } from '@/lib/api';
-import { mockUser, mockTeam, mockNodeData, mockTransactions } from '@/data/mocks';
-import type { User, TeamMember, NodeData, Transaction } from '@/data/schemas';
+import { mockUser, mockTeam, mockNodeData, mockTransactions, mockNotifications } from '@/data/mocks';
+import type { User, TeamMember, NodeData, Transaction, Notification } from '@/data/schemas';
 
 // --- SERVICE WRAPPER ---
 // This service layer abstracts the data source.
@@ -95,5 +95,18 @@ export async function getTransactions(): Promise<Transaction[]> {
     } else {
         console.log("Dev Browser: Returning mock transactions.");
         return mockApiCall({ data: mockTransactions });
+    }
+}
+
+/**
+ * Fetches notifications for the current user.
+ */
+export async function getNotifications(): Promise<Notification[]> {
+    if (isPiBrowser()) {
+        console.log("Pi Browser: Simulating fetch for notifications.");
+        return mockApiCall({ data: mockNotifications });
+    } else {
+        console.log("Dev Browser: Returning mock notifications.");
+        return mockApiCall({ data: mockNotifications });
     }
 }

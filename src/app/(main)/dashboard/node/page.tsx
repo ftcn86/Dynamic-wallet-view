@@ -7,14 +7,13 @@ import { getNodeData } from '@/services/piService';
 import type { NodeData } from '@/data/schemas';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, ShieldCheck, Zap, Award, Server, TrendingUp, AlertTriangle, ArrowRight, Gauge, Clock, Globe, Blocks, GitBranch } from 'lucide-react';
+import { ExternalLink, ShieldCheck, Zap, Award, Server, TrendingUp, Gauge, Clock, Globe, Blocks, GitBranch } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AreaChart, Area } from 'recharts';
 import { ChartTooltip, ChartTooltipContent, ChartContainer } from '@/components/ui/chart';
 import { format, formatDistanceToNowStrict, parseISO } from 'date-fns';
 import { PI_NODE_INFO_URL } from '@/lib/constants';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { NodeStatusBadge } from '@/components/dashboard/node/NodeStatusBadge';
 import { NodeStatCard } from '@/components/dashboard/node/NodeStatCard';
 
