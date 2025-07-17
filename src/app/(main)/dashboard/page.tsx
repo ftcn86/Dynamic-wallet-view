@@ -2,7 +2,7 @@
 "use client"
 
 import Link from 'next/link';
-import { Banknote, Gauge, Users as UsersIcon, Server } from 'lucide-react';
+import { Banknote, Gauge, Users as UsersIcon, Server, BarChart2, ShieldCheck, PieChart, Trophy } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { KPICard } from '@/components/shared/KPICard';
 import {
@@ -16,11 +16,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PI_APP_MINING_URL } from '@/lib/constants';
 import { BalanceBreakdownCard } from '@/components/dashboard/BalanceBreakdownCard';
 import { UnverifiedPiDetailCard } from '@/components/dashboard/UnverifiedPiDetailCard';
 import { MiningFocusCard } from '@/components/dashboard/MiningFocusCard';
 import { TeamActivityCard } from '@/components/dashboard/TeamActivityCard';
+import { BalanceFluctuationChartCard } from '@/components/dashboard/BalanceFluctuationChartCard';
+import { MyBadgesCard } from '@/components/dashboard/MyBadgesCard';
 import { mockTeam } from '@/data/mocks';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 
@@ -106,16 +109,36 @@ export default function DashboardPage() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          <BalanceBreakdownCard />
-          <TeamActivityCard />
-        </div>
-        <div className="space-y-6">
-          <UnverifiedPiDetailCard />
-          <MiningFocusCard />
-        </div>
-      </div>
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-4 max-w-2xl">
+          <TabsTrigger value="overview"><PieChart className="mr-2 h-4 w-4" />Overview</TabsTrigger>
+          <TabsTrigger value="portfolio"><BarChart2 className="mr-2 h-4 w-4" />Portfolio</TabsTrigger>
+          <TabsTrigger value="achievements"><Trophy className="mr-2 h-4 w-4" />Achievements</TabsTrigger>
+          <TabsTrigger value="analysis" disabled><ShieldCheck className="mr-2 h-4 w-4" />Analysis</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="mt-6">
+           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2 space-y-6">
+                <BalanceBreakdownCard />
+                <TeamActivityCard />
+              </div>
+              <div className="space-y-6">
+                <UnverifiedPiDetailCard />
+                <MiningFocusCard />
+              </div>
+            </div>
+        </TabsContent>
+        <TabsContent value="portfolio" className="mt-6">
+          <BalanceFluctuationChartCard />
+        </TabsContent>
+        <TabsContent value="achievements" className="mt-6">
+          <MyBadgesCard />
+        </TabsContent>
+        <TabsContent value="analysis" className="mt-6">
+          <p>Analysis section coming soon.</p>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
