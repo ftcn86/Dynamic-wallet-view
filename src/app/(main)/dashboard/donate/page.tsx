@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -71,6 +72,7 @@ const presetAmounts = ["1", "5", "10", "20"];
 
 export default function DonatePage() {
   const [amount, setAmount] = useState("5");
+  const [message, setMessage] = useState("");
   const [isCustom, setIsCustom] = useState(false);
   const [isDonating, setIsDonating] = useState(false);
   const { toast } = useToast();
@@ -99,13 +101,18 @@ export default function DonatePage() {
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1000));
         
+        let transactionDescription = "Donation";
+        if (message.trim()) {
+            transactionDescription += `: ${message.trim()}`;
+        }
+        
         // Add transaction
         await addTransaction({
             type: 'sent',
             amount: donationAmount,
             status: 'completed',
             to: 'Dynamic Pi Wallet View Project',
-            description: 'Donation'
+            description: transactionDescription
         });
 
         // Add notification
@@ -123,6 +130,7 @@ export default function DonatePage() {
 
         // Trigger a refresh of data-dependent components
         refreshData();
+        setMessage("");
 
     } catch (error) {
         toast({
@@ -153,47 +161,58 @@ export default function DonatePage() {
                 </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                <div className="space-y-2">
-                    <Label className="font-medium text-center block">Choose an amount (π)</Label>
-                    <div className="grid grid-cols-2 xs:grid-cols-3 md:grid-cols-5 gap-2">
-                    {presetAmounts.map(preset => (
+                    <div className="space-y-2">
+                        <Label className="font-medium text-center block">Choose an amount (π)</Label>
+                        <div className="grid grid-cols-2 xs:grid-cols-3 md:grid-cols-5 gap-2">
+                        {presetAmounts.map(preset => (
+                            <Button 
+                            key={preset}
+                            variant={!isCustom && amount === preset ? "default" : "outline"}
+                            onClick={() => handlePresetSelect(preset)}
+                            className="h-12 text-lg"
+                            >
+                            {preset} π
+                            </Button>
+                        ))}
                         <Button 
-                        key={preset}
-                        variant={!isCustom && amount === preset ? "default" : "outline"}
-                        onClick={() => handlePresetSelect(preset)}
-                        className="h-12 text-lg"
+                            variant={isCustom ? "default" : "outline"}
+                            onClick={handleCustomSelect}
+                            className="h-12 text-lg col-span-2 xs:col-span-1"
                         >
-                        {preset} π
+                            Custom
                         </Button>
-                    ))}
-                    <Button 
-                        variant={isCustom ? "default" : "outline"}
-                        onClick={handleCustomSelect}
-                        className="h-12 text-lg col-span-2 xs:col-span-1"
-                    >
-                        Custom
-                    </Button>
-                    </div>
-                </div>
-
-                {isCustom && (
-                    <div>
-                        <Label htmlFor="donation-amount" className="sr-only">Custom Donation Amount (Pi)</Label>
-                        <div className="relative mt-2">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-lg">π</span>
-                        <Input
-                            id="donation-amount"
-                            type="number"
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
-                            placeholder="e.g., 2.5"
-                            className="pl-9 h-14 text-xl text-center"
-                            min="0.1"
-                            step="0.1"
-                        />
                         </div>
                     </div>
-                )}
+
+                    {isCustom && (
+                        <div>
+                            <Label htmlFor="donation-amount" className="sr-only">Custom Donation Amount (Pi)</Label>
+                            <div className="relative mt-2">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-lg">π</span>
+                            <Input
+                                id="donation-amount"
+                                type="number"
+                                value={amount}
+                                onChange={(e) => setAmount(e.target.value)}
+                                placeholder="e.g., 2.5"
+                                className="pl-9 h-14 text-xl text-center"
+                                min="0.1"
+                                step="0.1"
+                            />
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="space-y-2">
+                        <Label htmlFor="donation-message">Add an optional message</Label>
+                        <Textarea 
+                            id="donation-message"
+                            placeholder="Say thanks or leave a suggestion..."
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            rows={3}
+                        />
+                    </div>
                 </CardContent>
                 <CardFooter>
                 <AlertDialog>
