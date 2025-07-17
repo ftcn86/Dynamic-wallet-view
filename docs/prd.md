@@ -1,8 +1,8 @@
 
-# Product Requirements Document: Dynamic Pi Wallet View v2.4
+# Product Requirements Document: Dynamic Pi Wallet View
 ## Application Specification
 
-**Version:** 2.4
+**Version:** 1.0
 **Date:** (Current Date)
 **Objective:** To create a comprehensive, user-friendly, and engaging dashboard application for Pi Network users, named "Dynamic Pi Wallet View." This application will provide detailed insights into their Pi holdings, mining activity, team performance, and node operations, while fostering motivation through gamification and community support via donations. It is built with a modern, responsive UI, prioritizing clarity, performance, and a clear path to production integration.
 
