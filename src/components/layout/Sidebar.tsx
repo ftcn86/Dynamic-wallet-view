@@ -100,6 +100,11 @@ export function Sidebar() {
                         Transactions
                     </SidebarNavLink>
                 </SidebarMenuItem>
+                 <SidebarMenuItem>
+                    <SidebarNavLink href="/dashboard/settings" icon={<Settings />}>
+                        Settings
+                    </SidebarNavLink>
+                </SidebarMenuItem>
                 <SidebarMenuItem>
                     <AlertDialog>
                         <AlertDialogTrigger asChild>

@@ -2,9 +2,9 @@
 "use client"
 
 import { useTheme } from "next-themes";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Sun, Moon, Laptop, Settings, Bell, Clock } from 'lucide-react';
+import { Sun, Moon, Laptop, Settings, Bell, Clock, UserCircle, Upload } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,131 @@ import { useAuth } from "@/contexts/AuthContext";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
+import { Textarea } from '@/components/ui/textarea';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { mockApiCall } from '@/lib/api';
+
+function ProfileCard() {
+    const { user, setUser } = useAuth();
+    const { toast } = useToast();
+
+    const [displayName, setDisplayName] = useState(user?.name || '');
+    const [bio, setBio] = useState(user?.bio || '');
+    const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl || 'https://placehold.co/128x128.png');
+    const [isSaving, setIsSaving] = useState(false);
+
+    useEffect(() => {
+        if (user) {
+            setDisplayName(user.name);
+            setBio(user.bio || '');
+            setAvatarUrl(user.avatarUrl);
+        }
+    }, [user]);
+
+    if (!user) return null;
+
+    const handleSaveProfile = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsSaving(true);
+        try {
+            const updatedUserData = { ...user, name: displayName, bio, avatarUrl };
+            await mockApiCall({ data: updatedUserData }); 
+            
+            setUser(updatedUserData); 
+            
+            toast({
+                title: "Profile Saved!",
+                description: "Your profile information has been successfully updated.",
+            });
+        } catch (error) {
+            toast({
+                title: "Save failed!",
+                description: "There was an error saving your profile. Please try again.",
+                variant: 'destructive',
+            });
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setAvatarUrl(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    
+    const avatarFallback = displayName ? displayName.split(' ').map(n => n[0]).join('').toUpperCase() : '?';
+
+    return (
+        <Card className="shadow-lg">
+            <CardHeader>
+                <CardTitle className="flex items-center">
+                    <UserCircle className="mr-2 h-5 w-5 text-primary" />
+                    Profile Information
+                </CardTitle>
+                <CardDescription>Update your personal information and avatar.</CardDescription>
+            </CardHeader>
+             <form onSubmit={handleSaveProfile}>
+                <CardContent className="space-y-6">
+                    <div className="flex flex-col items-center space-y-4">
+                        <Avatar className="h-32 w-32 ring-4 ring-primary/20 ring-offset-background ring-offset-2">
+                            <AvatarImage src={avatarUrl} alt={displayName} data-ai-hint="person face" />
+                            <AvatarFallback className="text-4xl">{avatarFallback}</AvatarFallback>
+                        </Avatar>
+                        <Button asChild variant="outline">
+                            <Label htmlFor="avatar-upload" className="cursor-pointer">
+                            <Upload className="mr-2 h-4 w-4" />
+                            Upload Photo
+                            <Input 
+                                id="avatar-upload" 
+                                type="file" 
+                                className="sr-only"
+                                accept="image/*" 
+                                onChange={handleAvatarChange}
+                                disabled={isSaving}
+                            />
+                            </Label>
+                        </Button>
+                    </div>
+                    
+                    <div className="space-y-2">
+                    <Label htmlFor="displayName">Display Name</Label>
+                    <Input
+                        id="displayName"
+                        value={displayName}
+                        onChange={(e) => setDisplayName(e.target.value)}
+                        required
+                        placeholder="Your Name"
+                        disabled={isSaving}
+                    />
+                    </div>
+                    <div className="space-y-2">
+                    <Label htmlFor="bio">Bio</Label>
+                    <Textarea
+                        id="bio"
+                        value={bio}
+                        onChange={(e) => setBio(e.target.value)}
+                        rows={4}
+                        placeholder="Tell us a little about yourself"
+                        disabled={isSaving}
+                    />
+                    </div>
+                </CardContent>
+                <CardFooter>
+                    <Button type="submit" disabled={isSaving} className="w-full">
+                        {isSaving ? <LoadingSpinner className="mr-2 h-4 w-4" /> : null}
+                        {isSaving ? "Saving Profile..." : "Save Profile"}
+                    </Button>
+                </CardFooter>
+            </form>
+        </Card>
+    );
+}
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
@@ -74,8 +199,12 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-6">
-       <h1 className="text-3xl font-bold font-headline">Application Settings</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+       <h1 className="text-3xl font-bold font-headline">Settings & Profile</h1>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="lg:col-span-2">
+            <ProfileCard />
+        </div>
+        
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center">
@@ -105,6 +234,7 @@ export default function SettingsPage() {
             </div>
           </CardContent>
         </Card>
+
          <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center">

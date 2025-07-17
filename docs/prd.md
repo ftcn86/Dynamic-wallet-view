@@ -82,6 +82,10 @@
     *   Columns (all sortable): Member, Join Date, Status, KYC Status, Contribution, Activity.
     *   Table is responsive, hiding less critical columns on smaller screens.
     *   Loading, error, and empty states.
+*   **2.3.3. (New) Team Management Tools:**
+    *   A card with tools for team leaders.
+    *   **Ping Inactive Members:** A button to simulate sending a reminder notification to inactive members.
+    *   **Send Broadcast:** A textarea and button to send a message to all team members, delivered as a notification.
 
 ### 2.4. Node Analysis Page (`/dashboard/node`)
 *   **2.4.1. Title:** "Node Analysis".
@@ -96,33 +100,32 @@
     *   Columns include Type, Details, Amount, Status, and Date.
     *   Table is responsive for mobile viewing.
 
-### 2.6. User Profile Page (`/dashboard/profile`)
-*   **2.6.1. Title:** "Edit Profile".
-*   **2.6.2. Form Elements (mock save to `localStorage` user object):**
-    *   Profile Picture (with mock upload), Display Name, Bio.
-    *   Save Button with loading state and success/error Toast notifications.
-
-### 2.7. Application Settings Page (`/dashboard/settings`)
-*   **2.7.1. Title:** "Application Settings".
-*   **2.7.2. Theme Selection:** Options for Light, Dark, System. Persists choice to `localStorage` via `next-themes`.
-*   **2.7.3. (New) Mining Reminders:**
+### 2.6. Application Settings Page (`/dashboard/settings`)
+*   **2.6.1. Title:** "Settings & Profile".
+*   **2.6.2. Merged Functionality:** This page now combines profile editing and application settings.
+*   **2.6.3. Profile Information Card:**
+    *   Form elements for Profile Picture (with mock upload), Display Name, and Bio.
+    *   Saves updates to the `localStorage` user object.
+*   **2.6.4. Display Preferences Card:**
+    *   Theme Selection: Options for Light, Dark, System. Persists choice to `localStorage` via `next-themes`.
+*   **2.6.5. Notifications Card:**
     *   A toggle switch to enable/disable notifications for mining session expiry.
     *   An input field to configure reminder time (e.g., 1 hour before expiry).
     *   Saves preferences to the user object in `localStorage`.
 
-### 2.8. Donation Page (`/dashboard/donate`)
-*   **2.8.1. Title:** "Support Dynamic Pi Wallet View".
-*   **2.8.2. Donation Form:** An input field for the donation amount and preset buttons.
-*   **2.8.3. Mock Payment Flow:** An `AlertDialog` simulates the Pi payment confirmation flow.
+### 2.7. Donation Page (`/dashboard/donate`)
+*   **2.7.1. Title:** "Support Dynamic Pi Wallet View".
+*   **2.7.2. Donation Form:** An input field for the donation amount and preset buttons.
+*   **2.7.3. Mock Payment Flow:** An `AlertDialog` simulates the Pi payment confirmation flow.
 
-### 2.9. Legal & Informational Pages
-*   **2.9.1. Pages:** Terms of Service (`/legal/terms`), Privacy Policy (`/legal/privacy`), Help & Support (`/legal/help`).
-*   **2.9.2. Layout:** Use a common `LegalPageLayout.tsx` with an Accordion or Markdown display for content.
+### 2.8. Legal & Informational Pages
+*   **2.8.1. Pages:** Terms of Service (`/legal/terms`), Privacy Policy (`/legal/privacy`), Help & Support (`/legal/help`).
+*   **2.8.2. Layout:** Use a common `LegalPageLayout.tsx` with an Accordion or Markdown display for content.
 
-### 2.10. Sidebar Navigation & Header
-*   **2.10.1. Sidebar:** Collapsible design with responsive behavior for mobile.
-*   **2.10.2. Header:** Displays a welcome message and contains the user profile dropdown and a notification center.
-*   **2.10.3. Notification Center:**
+### 2.9. Sidebar Navigation & Header
+*   **2.9.1. Sidebar:** Collapsible design with responsive behavior for mobile. The "Profile" link has been removed.
+*   **2.9.2. Header:** Displays a welcome message and contains the user profile dropdown and a notification center. The dropdown now links to `/dashboard/settings`.
+*   **2.9.3. Notification Center:**
     *   Dropdown menu displaying recent, relevant user notifications (e.g., badge earned, team member KYC'd, app announcements).
     *   Notifications link directly to the relevant part of the app (e.g., Achievements tab).
 

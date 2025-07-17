@@ -206,13 +206,9 @@ export function Header({children}: {children?: React.ReactNode}) {
                   </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => router.push('/dashboard/profile')}>
-                  <UserCircle className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
-                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => router.push('/dashboard/settings')}>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
+                  <UserCircle className="mr-2 h-4 w-4" />
+                  <span>Profile & Settings</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <AlertDialogTrigger asChild>

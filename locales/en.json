@@ -6,7 +6,6 @@
     "team": "Team Insights",
     "node": "Node Analysis",
     "chat": "Team Chat",
-    "profile": "Profile",
     "settings": "Settings",
     "logout": "Logout",
     "adPlaceholder": "Your Ad Here",
@@ -143,7 +142,7 @@
       },
       {
         "title": "Contacting Support",
-        "content": "If you have questions specific to the Dynamic Pi Wallet View application, encounter bugs, or have feedback, please email us at support@example.com.\n\nFor any questions or issues regarding your actual Pi Network account, mining, KYC, or official Pi Network policies, please refer to the support channels provided by the Pi Network (e.g., in-app support in the official Pi app, official Pi Network website and community channels)."
+        "content": "If you have any questions specific to the Dynamic Pi Wallet View application, encounter bugs, or have feedback, please email us at support@example.com.\n\nFor any questions or issues regarding your actual Pi Network account, mining, KYC, or official Pi Network policies, please refer to the support channels provided by the Pi Network (e.g., in-app support in the official Pi app, official Pi Network website and community channels)."
       }
     ],
     "piosLicenseTitle": "PiOS License",
@@ -268,34 +267,40 @@
       "button": "Learn More on Pi Network Official Site"
     }
   },
-  "profile": {
-    "title": "Edit Profile",
-    "displayName": "Display Name",
-    "bio": "Bio",
-    "profilePicture": "Profile Picture",
-    "saveButton": "Save Profile",
-    "saving": "Saving...",
-    "successToast": "Profile Saved!",
-    "errorToast": "Save failed!"
-  },
   "settings": {
-    "title": "Application Settings",
+    "title": "Settings & Profile",
+    "profile": {
+      "title": "Profile Information",
+      "description": "Update your personal information and avatar.",
+      "displayName": "Display Name",
+      "bio": "Bio",
+      "avatar": "Profile Picture",
+      "saveButton": "Save Profile",
+      "saving": "Saving Profile...",
+      "successToast": "Profile Saved!",
+      "errorToast": "Profile save failed!"
+    },
+    "display": {
+        "title": "Display Preferences",
+        "description": "Manage your application theme to suit your style."
+    },
     "theme": {
       "label": "Theme",
       "light": "Light",
       "dark": "Dark",
       "system": "System"
     },
-    "language": {
-      "label": "Language",
-      "en": "English",
-      "es": "Español",
-      "fr": "French",
-      "ru": "Russian",
-      "pt": "Portuguese",
-      "ja": "Japanese",
-      "zh": "Chinese"
-    }
+    "notifications": {
+        "title": "Notifications",
+        "description": "Control how you receive important updates."
+    },
+    "reminders": {
+        "label": "Mining Session Reminders",
+        "description": "Get a notification before your session expires.",
+        "timeLabel": "Remind Me Before Session End"
+    },
+    "saveButton": "Save Notification Settings",
+    "saving": "Saving..."
   },
   "shared": {
     "loading": "Loading...",
