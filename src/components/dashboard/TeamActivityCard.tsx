@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Trophy, ChevronRight, Award } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const MAX_LEADERBOARD_ENTRIES = 10;
 const DISPLAY_RECENT_BADGES_COUNT = 3;
@@ -52,7 +53,7 @@ export function TeamActivityCard() {
 
 
   return (
-    <Card className="shadow-lg">
+    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1")}>
       <CardHeader>
         <CardTitle className="font-headline flex items-center">
           <Trophy className="mr-2 h-6 w-6 text-primary" />

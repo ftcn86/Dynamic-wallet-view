@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Target, Users, CalendarDays } from 'lucide-react';
 import { getDaysInMonth, subMonths, isValid } from 'date-fns';
 import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 export function MiningFocusCard() {
   const { user } = useAuth();
@@ -40,7 +41,7 @@ export function MiningFocusCard() {
 
 
   return (
-    <Card className="shadow-lg">
+    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1")}>
       <CardHeader>
         <CardTitle className="font-headline flex items-center">
           <Target className="mr-2 h-6 w-6 text-primary" />

@@ -1,4 +1,3 @@
-
 import React, { type ReactNode } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -14,7 +13,7 @@ interface KPICardProps {
 
 export function KPICard({ title, value, icon, change, changeColor, className }: KPICardProps) {
   return (
-    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow", className)}>
+    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1", className)}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
         {/* Clone the icon, but only enforce size. Color is controlled by the passed icon's className. */}

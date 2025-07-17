@@ -1,4 +1,5 @@
 import type {Config} from 'tailwindcss';
+const { fontFamily } = require("tailwindcss/defaultTheme")
 
 export default {
   darkMode: ['class'],
@@ -10,11 +11,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        // Per PRD: "MUST use the Geist Sans font". Fallback to Inter if direct CDN linking is an issue per guidelines.
-        // For now, setting to Inter as per existing layout.tsx and Google Fonts guideline.
-        body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
-        code: ['monospace'],
+        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        mono: ["var(--font-geist-mono)", ...fontFamily.mono],
+        headline: ["var(--font-geist-sans)", ...fontFamily.sans],
+        body: ["var(--font-geist-sans)", ...fontFamily.sans],
       },
       colors: {
         background: 'hsl(var(--background))',

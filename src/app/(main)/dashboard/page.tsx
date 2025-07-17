@@ -1,7 +1,8 @@
+
 "use client"
 
 import Link from 'next/link';
-import { Banknote, Gauge, Users as UsersIcon, Server } from 'lucide-react';
+import { Banknote, Gauge, Users as UsersIcon, Server, CalendarIcon } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { KPICard } from '@/components/shared/KPICard';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -38,6 +39,23 @@ import { MiningFocusCard } from '@/components/dashboard/MiningFocusCard';
 import { TeamActivityCard } from '@/components/dashboard/TeamActivityCard';
 import { UnverifiedPiDetailCard } from '@/components/dashboard/UnverifiedPiDetailCard';
 import * as RechartsPrimitive from "recharts";
+import { cn } from '@/lib/utils';
+
+
+function WelcomeHeader({ name }: { name: string }) {
+  return (
+    <div className="mb-6">
+      <h1 className="text-3xl font-bold font-headline">
+        Welcome back, <span className="text-primary">{name}!</span>
+      </h1>
+      <p className="flex items-center text-muted-foreground mt-1">
+        <CalendarIcon className="mr-2 h-4 w-4" />
+        {format(new Date(), "EEEE, MMMM d, yyyy")}
+      </p>
+    </div>
+  );
+}
+
 
 function BalanceBreakdownCard() {
   const { user } = useAuth();
@@ -51,7 +69,7 @@ function BalanceBreakdownCard() {
   ];
 
   return (
-    <Card className="shadow-lg">
+    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1")}>
       <CardHeader>
         <CardTitle className="font-headline">Balance Breakdown</CardTitle>
       </CardHeader>
@@ -87,7 +105,7 @@ function UnverifiedBalanceChart() {
   } satisfies ChartConfig;
   
   return (
-    <Card className="shadow-lg">
+    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1")}>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="font-headline">Balance Fluctuation</CardTitle>
         <Select value={timePeriod} onValueChange={(value: keyof typeof mockChartData) => setTimePeriod(value)}>
@@ -148,7 +166,7 @@ function MyBadges() {
   if (!user || !user.badges) return null;
 
   return (
-    <Card className="shadow-lg">
+    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1")}>
       <CardHeader>
         <CardTitle className="font-headline">My Badges</CardTitle>
       </CardHeader>
@@ -198,8 +216,9 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold font-headline">Dashboard</h1>
+      <WelcomeHeader name={user.name} />
       
+      {/* KPIs Section */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <KPICard
           title="Total Pi Balance"
@@ -252,16 +271,30 @@ export default function DashboardPage() {
         </Link>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <BalanceBreakdownCard />
-        <UnverifiedPiDetailCard />
-      </div>
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* Left Column */}
+        <div className="lg:col-span-2 space-y-6">
+          <BalanceBreakdownCard />
+          <UnverifiedPiDetailCard />
+          <UnverifiedBalanceChart />
+        </div>
+
+        {/* Right Column */}
+        <div className="lg:col-span-1 space-y-6">
+          <MiningFocusCard />
+          <TeamActivityCard />
+        </div>
       
-      <UnverifiedBalanceChart />
-      <MiningFocusCard />
-      <TeamActivityCard />
-      <MyBadges />
+      </div>
+
+      {/* Full-width cards at the bottom */}
+      <div className="space-y-6">
+        <MyBadges />
+      </div>
 
     </div>
   );
 }
+

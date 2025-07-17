@@ -105,6 +105,21 @@ export function Sidebar() {
         <SidebarNavLink href="/dashboard/donate" icon={<Heart className="text-pink-500" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
           Donate
         </SidebarNavLink>
+        <SidebarNavLink href="/dashboard/profile" icon={<UserCircle className="text-primary/90" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
+          Profile
+        </SidebarNavLink>
+        <SidebarNavLink href="/dashboard/settings" icon={<Settings className="text-primary/90" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
+          Settings
+        </SidebarNavLink>
+ <SidebarNavLink href="/legal/help" icon={<HelpCircle className="text-accent" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
+ Help & Support
+ </SidebarNavLink>
+ <SidebarNavLink href="/legal/terms" icon={<FileText className="text-accent" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
+ Terms of Service
+ </SidebarNavLink>
+ <SidebarNavLink href="/legal/privacy" icon={<ShieldCheck className="text-accent" />} isCollapsed={isCollapsed} onNavigate={handleNavigation}>
+ Privacy Policy
+ </SidebarNavLink>
         
         <AlertDialog>
           <AlertDialogTrigger asChild>
@@ -162,47 +177,13 @@ export function Sidebar() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="top" align={isCollapsed ? "center" : "end"} className="w-56">
-            <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href="/dashboard/profile" className="flex items-center gap-2" onClick={handleNavigation}>
-                <UserCircle className="h-4 w-4 text-primary" />
-                <span>Profile</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/dashboard/settings" className="flex items-center gap-2" onClick={handleNavigation}>
-                <Settings className="h-4 w-4 text-primary" />
-                <span>Settings</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href="/legal/help" className="flex items-center gap-2" onClick={handleNavigation}>
-                <HelpCircle className="h-4 w-4 text-accent" />
-                <span>Help & Support</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/legal/terms" className="flex items-center gap-2" onClick={handleNavigation}>
-                <FileText className="h-4 w-4 text-accent" />
-                <span>Terms of Service</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/legal/privacy" className="flex items-center gap-2" onClick={handleNavigation}>
-                <ShieldCheck className="h-4 w-4 text-accent" />
-                <span>Privacy Policy</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <button className="w-full flex items-center gap-2 px-2 py-1.5 text-sm rounded-sm text-destructive focus:bg-destructive/10 hover:bg-destructive/10 outline-none relative select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                  <LogOut className="h-4 w-4 text-destructive" />
-                  <span>Logout</span>
-                </button>
-              </AlertDialogTrigger>
+ <AlertDialog>
+ <AlertDialogTrigger asChild>
+ <button className="w-full flex items-center gap-2 px-2 py-1.5 text-sm rounded-sm text-destructive focus:bg-destructive/10 hover:bg-destructive/10 outline-none relative select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+ <LogOut className="h-4 w-4 text-destructive" />
+ <span>Logout</span>
+ </button>
+ </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>Confirm Logout</AlertDialogTitle>

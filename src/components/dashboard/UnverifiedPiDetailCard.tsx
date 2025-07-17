@@ -3,6 +3,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Shield, Gift, ListTree, Server } from 'lucide-react'; 
+import { cn } from '@/lib/utils';
 
 interface UnverifiedPiSource {
   key: keyof NonNullable<ReturnType<typeof useAuth>['user']>['unverifiedPiDetails'];
@@ -46,7 +47,7 @@ export function UnverifiedPiDetailCard() {
   ];
 
   return (
-    <Card className="shadow-lg">
+    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1")}>
       <CardHeader>
         <CardTitle className="font-headline flex items-center">
           <ListTree className="mr-2 h-6 w-6 text-primary" />
