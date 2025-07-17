@@ -3,19 +3,98 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { getTeamMembers } from '@/services/piService';
 import type { TeamMember } from '@/data/schemas';
 import { format } from 'date-fns';
-import { Info, Users } from 'lucide-react';
+import { Info, Users, Bell, MessageSquare, Send } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { KycStatusBadge } from '@/components/shared/KycStatusBadge'; 
 import { Badge as UiBadge } from '@/components/ui/badge';
-import { SortableTableHead, type SortConfig } from '@/components/shared/SortableTableHead';
+import { SortableTableHead } from '@/components/shared/SortableTableHead';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
+import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 
-type SortableKeys = keyof Pick<TeamMember, 'name' | 'joinDate' | 'status' | 'unverifiedPiContribution' | 'teamMemberActiveMiningHours_LastWeek' | 'kycStatus'>;
+function TeamManagementCard({ teamMembers }: { teamMembers: TeamMember[] }) {
+    const { toast } = useToast();
+    const [broadcastMessage, setBroadcastMessage] = useState("");
+    const [isPinging, setIsPinging] = useState(false);
+    const [isBroadcasting, setIsBroadcasting] = useState(false);
+
+    const inactiveMembersCount = useMemo(() => teamMembers.filter(m => m.status === 'inactive').length, [teamMembers]);
+
+    const handlePingInactive = () => {
+        setIsPinging(true);
+        setTimeout(() => {
+            toast({
+                title: "Inactive Members Pinged",
+                description: `A reminder notification has been sent to ${inactiveMembersCount} inactive members.`,
+            });
+            setIsPinging(false);
+        }, 1000);
+    };
+
+    const handleBroadcast = () => {
+        if (!broadcastMessage.trim()) {
+            toast({ title: "Message is empty", variant: "destructive" });
+            return;
+        }
+        setIsBroadcasting(true);
+        setTimeout(() => {
+            toast({
+                title: "Broadcast Sent",
+                description: "Your message has been sent to all team members.",
+            });
+            setBroadcastMessage("");
+            setIsBroadcasting(false);
+        }, 1500);
+    };
+
+    return (
+        <Card className="shadow-lg">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2"><Users className="h-6 w-6 text-primary"/> Team Management Tools</CardTitle>
+                <CardDescription>Engage with your team to boost overall activity and cooperation.</CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col space-y-4 rounded-lg border p-4">
+                    <div className="flex items-center gap-2 font-medium">
+                        <Bell className="h-5 w-5 text-accent"/>
+                        <h3>Ping Inactive Members</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground flex-grow">
+                        Gently remind your {inactiveMembersCount} inactive team member(s) to start their mining session.
+                    </p>
+                    <Button onClick={handlePingInactive} disabled={isPinging || inactiveMembersCount === 0}>
+                        {isPinging ? <LoadingSpinner className="mr-2"/> : <Bell className="mr-2 h-4 w-4"/>}
+                        {isPinging ? "Pinging..." : `Ping ${inactiveMembersCount} Members`}
+                    </Button>
+                </div>
+                <div className="flex flex-col space-y-4 rounded-lg border p-4">
+                     <div className="flex items-center gap-2 font-medium">
+                        <MessageSquare className="h-5 w-5 text-accent"/>
+                        <h3>Send a Broadcast</h3>
+                    </div>
+                    <Textarea 
+                        placeholder="Type your message to the team..."
+                        value={broadcastMessage}
+                        onChange={(e) => setBroadcastMessage(e.target.value)}
+                        className="flex-grow"
+                        disabled={isBroadcasting}
+                    />
+                    <Button onClick={handleBroadcast} disabled={isBroadcasting || !broadcastMessage.trim()}>
+                       {isBroadcasting ? <LoadingSpinner className="mr-2"/> : <Send className="mr-2 h-4 w-4"/>}
+                       {isBroadcasting ? "Sending..." : "Send Broadcast"}
+                    </Button>
+                </div>
+            </CardContent>
+        </Card>
+    );
+}
 
 const statusVariantMap = {
   active: 'success',
@@ -36,7 +115,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           <span className="font-medium">{member.name}</span>
         </div>
       </TableCell>
-      <TableCell className="hidden md:table-cell">{format(new Date(member.joinDate), 'MMM dd, yyyy')}</TableCell>
+      <TableCell className="hidden lg:table-cell">{format(new Date(member.joinDate), 'MMM dd, yyyy')}</TableCell>
       <TableCell>
         <UiBadge
           variant={statusVariantMap[member.status]}
@@ -45,7 +124,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           {member.status}
         </UiBadge>
       </TableCell>
-      <TableCell className="hidden sm:table-cell">
+      <TableCell className="hidden md:table-cell">
         <KycStatusBadge status={member.kycStatus} />
       </TableCell>
       <TableCell className="text-right">
@@ -82,7 +161,7 @@ export default function TeamInsightsPage() {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [sortConfig, setSortConfig] = useState<SortConfig<TeamMember>>({ key: 'teamMemberActiveMiningHours_LastWeek', direction: 'descending' });
+  const [sortConfig, setSortConfig] = useState<React.SortConfig<TeamMember>>({ key: 'teamMemberActiveMiningHours_LastWeek', direction: 'descending' });
 
   useEffect(() => {
     async function fetchTeamMembers() {
@@ -100,7 +179,7 @@ export default function TeamInsightsPage() {
     fetchTeamMembers();
   }, []);
 
-  const requestSort = (key: SortableKeys) => {
+  const requestSort = (key: keyof TeamMember) => {
     let direction: 'ascending' | 'descending' = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
       direction = 'descending';
@@ -139,9 +218,11 @@ export default function TeamInsightsPage() {
       <div className="space-y-2">
         <h1 className="text-3xl font-bold font-headline">Security & Team Insights</h1>
         <p className="text-muted-foreground max-w-3xl">
-          Your Security Circle is a group of 3-5 trusted people you build from your broader Earning Team. While your full Earning Team increases your mining rate, your Security Circle provides a significant boost and is crucial for the security of the network. This table displays all members of your Earning Team.
+          Engage with your team, monitor their activity, and understand the importance of your Security Circle—a group of 3-5 trusted people from your Earning Team who boost your mining rate and network security.
         </p>
       </div>
+
+      <TeamManagementCard teamMembers={teamMembers} />
 
       <Card className="shadow-lg">
         <CardHeader>
@@ -150,7 +231,7 @@ export default function TeamInsightsPage() {
             Your Earning Team
           </CardTitle>
           <CardDescription>
-            Manage and view insights about your team members.
+            View insights about your team members. Members marked inactive can be pinged using the tools above.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -164,22 +245,22 @@ export default function TeamInsightsPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <SortableTableHead<TeamMember> sortKey="name" sortConfig={sortConfig} onClick={() => requestSort('name')}>
+                    <SortableTableHead sortKey="name" sortConfig={sortConfig} onClick={() => requestSort('name')}>
                       Member
                     </SortableTableHead>
-                    <SortableTableHead<TeamMember> sortKey="joinDate" sortConfig={sortConfig} onClick={() => requestSort('joinDate')} className="hidden md:table-cell">
+                    <SortableTableHead sortKey="joinDate" sortConfig={sortConfig} onClick={() => requestSort('joinDate')} className="hidden lg:table-cell">
                       Join Date
                     </SortableTableHead>
-                    <SortableTableHead<TeamMember> sortKey="status" sortConfig={sortConfig} onClick={() => requestSort('status')}>
+                    <SortableTableHead sortKey="status" sortConfig={sortConfig} onClick={() => requestSort('status')}>
                       Status
                     </SortableTableHead>
-                    <SortableTableHead<TeamMember> sortKey="kycStatus" sortConfig={sortConfig} onClick={() => requestSort('kycStatus')} className="hidden sm:table-cell">
+                    <SortableTableHead sortKey="kycStatus" sortConfig={sortConfig} onClick={() => requestSort('kycStatus')} className="hidden md:table-cell">
                       KYC Status
                     </SortableTableHead>
-                    <SortableTableHead<TeamMember> sortKey="unverifiedPiContribution" sortConfig={sortConfig} onClick={() => requestSort('unverifiedPiContribution')} isNumeric={true}>
+                    <SortableTableHead sortKey="unverifiedPiContribution" sortConfig={sortConfig} onClick={() => requestSort('unverifiedPiContribution')} isNumeric={true}>
                       Contribution
                     </SortableTableHead>
-                    <SortableTableHead<TeamMember> sortKey="teamMemberActiveMiningHours_LastWeek" sortConfig={sortConfig} onClick={() => requestSort('teamMemberActiveMiningHours_LastWeek')} isNumeric={true}>
+                    <SortableTableHead sortKey="teamMemberActiveMiningHours_LastWeek" sortConfig={sortConfig} onClick={() => requestSort('teamMemberActiveMiningHours_LastWeek')} isNumeric={true}>
                       Activity (wk)
                     </SortableTableHead>
                   </TableRow>

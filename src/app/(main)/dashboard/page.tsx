@@ -26,7 +26,7 @@ import { MiningFocusCard } from '@/components/dashboard/MiningFocusCard';
 import { TeamActivityCard } from '@/components/dashboard/TeamActivityCard';
 import { BalanceFluctuationChartCard } from '@/components/dashboard/BalanceFluctuationChartCard';
 import { MyBadgesCard } from '@/components/dashboard/MyBadgesCard';
-import { LockupAnalysisCard } from '@/components/dashboard/LockupAnalysisCard';
+import { AnalysisCard } from '@/components/dashboard/AnalysisCard';
 import { mockTeam } from '@/data/mocks';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
@@ -58,7 +58,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4 md:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4 md:gap-6">
         <KPICard
           title="Total Pi Balance"
           value={user.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}) + ' π'}
@@ -121,7 +121,7 @@ export default function DashboardPage() {
 
       <Tabs value={activeTab as string} onValueChange={setActiveTab} className="w-full">
         <ScrollArea className="w-full whitespace-nowrap">
-            <TabsList className="grid w-full grid-cols-4 max-w-2xl min-w-[500px]">
+            <TabsList className="min-w-0 flex-nowrap w-auto sm:w-full sm:grid sm:grid-cols-4 max-w-2xl">
               <TabsTrigger value="overview"><PieChart className="mr-2 h-4 w-4" />Overview</TabsTrigger>
               <TabsTrigger value="portfolio"><BarChart2 className="mr-2 h-4 w-4" />Portfolio</TabsTrigger>
               <TabsTrigger value="achievements"><Trophy className="mr-2 h-4 w-4" />Achievements</TabsTrigger>
@@ -149,7 +149,7 @@ export default function DashboardPage() {
           <MyBadgesCard />
         </TabsContent>
         <TabsContent value="analysis" className="mt-6">
-          <LockupAnalysisCard />
+          <AnalysisCard />
         </TabsContent>
       </Tabs>
     </div>

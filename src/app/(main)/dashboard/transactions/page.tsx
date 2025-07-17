@@ -12,7 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { SortableTableHead, type SortConfig } from '@/components/shared/SortableTableHead';
+import { SortableTableHead } from '@/components/shared/SortableTableHead';
 
 type SortableKeys = 'date' | 'type' | 'amount' | 'status' | 'description';
 
@@ -53,7 +53,7 @@ function TransactionRow({ tx }: { tx: Transaction }) {
       </TableCell>
       <TableCell>
         <div className="font-medium">{tx.description}</div>
-        <div className="text-xs text-muted-foreground truncate">{tx.from || tx.to || 'Network'}</div>
+        <div className="text-xs text-muted-foreground truncate hidden md:block">{tx.from || tx.to || 'Network'}</div>
       </TableCell>
       <TableCell className="text-right">
         <span className={cn("font-mono", tx.type === 'sent' || tx.type === 'received' ? typeInfo.color : 'text-foreground')}>
@@ -89,7 +89,7 @@ export default function TransactionsPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [sortConfig, setSortConfig] = useState<SortConfig<Transaction>>({ key: 'date', direction: 'descending' });
+  const [sortConfig, setSortConfig] = useState<React.SortConfig<Transaction>>({ key: 'date', direction: 'descending' });
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -119,8 +119,8 @@ export default function TransactionsPage() {
     let sortableItems = [...transactions];
     if (sortConfig.key !== null) {
       sortableItems.sort((a, b) => {
-        const valA = a[sortConfig.key!];
-        const valB = b[sortConfig.key!];
+        const valA = a[sortConfig.key as keyof Transaction];
+        const valB = b[sortConfig.key as keyof Transaction];
         
         let comparison = 0;
         if (typeof valA === 'number' && typeof valB === 'number') {
@@ -162,16 +162,16 @@ export default function TransactionsPage() {
                     <TableHeader>
                         <TableRow>
                             <TableCell className="w-16 hidden sm:table-cell">Type</TableCell>
-                            <SortableTableHead<Transaction> sortKey="description" sortConfig={sortConfig} onClick={() => requestSort('description')}>
+                            <SortableTableHead sortKey="description" sortConfig={sortConfig} onClick={() => requestSort('description')}>
                                 Details
                             </SortableTableHead>
-                            <SortableTableHead<Transaction> sortKey="amount" sortConfig={sortConfig} onClick={() => requestSort('amount')} isNumeric>
+                            <SortableTableHead sortKey="amount" sortConfig={sortConfig} onClick={() => requestSort('amount')} isNumeric>
                                 Amount
                             </SortableTableHead>
-                            <SortableTableHead<Transaction> sortKey="status" sortConfig={sortConfig} onClick={() => requestSort('status')} className="hidden md:table-cell">
+                            <SortableTableHead sortKey="status" sortConfig={sortConfig} onClick={() => requestSort('status')} className="hidden md:table-cell">
                                 Status
                             </SortableTableHead>
-                            <SortableTableHead<Transaction> sortKey="date" sortConfig={sortConfig} onClick={() => requestSort('date')} isNumeric className="hidden sm:table-cell">
+                            <SortableTableHead sortKey="date" sortConfig={sortConfig} onClick={() => requestSort('date')} isNumeric className="hidden sm:table-cell">
                                 Date
                             </SortableTableHead>
                         </TableRow>
