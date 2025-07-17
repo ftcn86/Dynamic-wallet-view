@@ -19,27 +19,27 @@ import { NodeStatCard } from '@/components/dashboard/node/NodeStatCard';
 // Solid SVG Icons
 const ExternalLinkIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-        <polyline points="15 3 21 3 21 9"/>
-        <line x1="10" y1="14" x2="21" y2="3"/>
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="hsl(var(--primary))"/>
+        <polyline points="15 3 21 3 21 9" stroke="hsl(var(--primary))"/>
+        <line x1="10" y1="14" x2="21" y2="3" stroke="hsl(var(--primary))"/>
     </svg>
 );
 
 const ShieldCheckIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="#22c55e" />
-        <path d="m9 12 2 2 4-4" stroke="#fff" strokeWidth="1.5" />
+        <path d="m9 12 2 2 4-4" stroke="#fff" strokeWidth="2" />
     </svg>
 );
 
 const ZapIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="#3b82f6"/>
     </svg>
 );
 
 const AwardIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
         <circle cx="12" cy="8" r="7" fill="#f59e0b"/>
         <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88" fill="#f59e0b"/>
     </svg>
@@ -49,8 +49,8 @@ const ServerIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
         <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
-        <line x1="6" y1="6" x2="6.01" y2="6" stroke="#fff" strokeWidth="2"/>
-        <line x1="6" y1="18" x2="6.01" y2="18" stroke="#fff" strokeWidth="2"/>
+        <line x1="6" y1="6" x2="6.01" y2="6" stroke="hsl(var(--primary-foreground))" strokeWidth="2"/>
+        <line x1="6" y1="18" x2="6.01" y2="18" stroke="hsl(var(--primary-foreground))" strokeWidth="2"/>
     </svg>
 );
 
@@ -73,26 +73,26 @@ const GaugeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 const GlobeIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <circle cx="12" cy="12" r="10" />
-        <line x1="2" y1="12" x2="22" y2="12" stroke="#fff" strokeWidth="1.5"/>
-        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="#fff" strokeWidth="1.5"/>
+        <line x1="2" y1="12" x2="22" y2="12" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5"/>
     </svg>
 );
 
 const BlocksIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <rect x="7" y="7" width="10" height="10" rx="2" ry="2"/>
-        <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
-        <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
-        <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
-        <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+        <path d="M3 7V5a2 2 0 0 1 2-2h2" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5"/>
+        <path d="M17 3h2a2 2 0 0 1 2 2v2" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5"/>
+        <path d="M21 17v2a2 2 0 0 1-2 2h-2" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5"/>
+        <path d="M7 21H5a2 2 0 0 1-2-2v-2" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5"/>
     </svg>
 );
 
 const GitBranchIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
         <line x1="6" y1="3" x2="6" y2="15" stroke="hsl(var(--primary))"/>
-        <circle cx="18" cy="6" r="3" fill="hsl(var(--primary))" stroke="none"/>
-        <circle cx="6" cy="18" r="3" fill="hsl(var(--primary))" stroke="none"/>
+        <circle cx="18" cy="6" r="3" fill="hsl(var(--primary))" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5"/>
+        <circle cx="6" cy="18" r="3" fill="hsl(var(--primary))" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5"/>
         <path d="M18 9a9 9 0 0 1-9 9" stroke="hsl(var(--primary))"/>
     </svg>
 );
@@ -212,7 +212,7 @@ function BecomeANodeOperatorPrompt() {
     <Card className="shadow-lg text-center max-w-2xl mx-auto">
       <CardHeader>
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-          <ServerIcon size={40} />
+          <ServerIcon/>
         </div>
         <CardTitle className="font-headline text-2xl">Become a Node Operator</CardTitle>
         <CardDescription>Help secure the Pi Network and earn rewards by running a node on your computer.</CardDescription>

@@ -34,15 +34,15 @@ const FileTextIcon = (props: React.SVGProps<SVGSVGElement>) => (
 const ShieldCheckIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="hsl(var(--primary))"/>
-    <path d="m9 12 2 2 4-4" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5"/>
+    <path d="m9 12 2 2 4-4" stroke="hsl(var(--primary-foreground))" strokeWidth="2"/>
   </svg>
 );
 
 const LogOutIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" fill="hsl(var(--destructive))" stroke="hsl(var(--destructive))"/>
-    <polyline points="16 17 21 12 16 7" stroke="hsl(var(--destructive))" fill="none"/>
-    <line x1="21" y1="12" x2="9" y2="12" stroke="hsl(var(--destructive))" fill="none"/>
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" fill="hsl(var(--destructive))" stroke="hsl(var(--destructive-foreground))"/>
+    <polyline points="16 17 21 12 16 7" stroke="hsl(var(--destructive))"/>
+    <line x1="21" y1="12" x2="9" y2="12" stroke="hsl(var(--destructive))"/>
   </svg>
 );
 
@@ -95,7 +95,7 @@ export default function AcceptTermsPage() {
       <Card className="w-full max-w-lg shadow-xl">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-            <FileTextIcon size={36} />
+            <FileTextIcon/>
           </div>
           <CardTitle className="text-2xl font-headline">Review Our Terms</CardTitle>
           <CardDescription>Before you continue, please review and accept our Terms of Service and Privacy Policy.</CardDescription>

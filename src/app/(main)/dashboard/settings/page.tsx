@@ -17,7 +17,7 @@ import { mockApiCall } from '@/lib/api';
 
 // Solid SVG Icons
 const SunIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
         <circle cx="12" cy="12" r="5" fill="#f59e0b" />
         <path d="M12 1v2" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" />
         <path d="M12 21v2" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" />
@@ -37,8 +37,8 @@ const MoonIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const LaptopIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
-        <path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9h16z" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+        <path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9h16z" fill="hsl(var(--primary))"/>
         <path d="M12 19h.01" stroke="hsl(var(--primary))" strokeWidth="2" />
         <path d="M2 19h20" stroke="hsl(var(--primary))" strokeWidth="2" />
     </svg>
@@ -46,8 +46,8 @@ const LaptopIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 const SettingsIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
-        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-        <circle cx="12" cy="12" r="3" fill="#fff" />
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l-.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+        <circle cx="12" cy="12" r="3" fill="hsl(var(--primary-foreground))" />
     </svg>
 );
 
@@ -59,17 +59,17 @@ const BellIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const ClockIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" stroke="#fff" strokeWidth="1.5" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+        <circle cx="12" cy="12" r="10" fill="hsl(var(--primary))"/>
+        <polyline points="12 6 12 12 16 14" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5" />
     </svg>
 );
 
 const UserCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
-        <circle cx="12" cy="12" r="10" />
-        <circle cx="12" cy="10" r="3" fill="#fff" />
-        <path d="M7 18.662V19a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-.338a4 4 0 0 0-3.12-3.953h-1.76a4 4 0 0 0-3.12 3.953Z" fill="#fff" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+        <circle cx="12" cy="12" r="10" fill="hsl(var(--primary))"/>
+        <circle cx="12" cy="10" r="3" fill="hsl(var(--primary-foreground))" />
+        <path d="M7 18.662V19a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-.338a4 4 0 0 0-3.12-3.953h-1.76a4 4 0 0 0-3.12 3.953Z" fill="hsl(var(--primary-foreground))" />
     </svg>
 );
 

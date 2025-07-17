@@ -29,38 +29,38 @@ const ArrowUpRightIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const AwardIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f59e0b" {...props}>
-        <circle cx="12" cy="8" r="7"/>
-        <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88"/>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+        <circle cx="12" cy="8" r="7" fill="#f59e0b"/>
+        <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88" fill="#f59e0b"/>
     </svg>
 );
 
 const ServerIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#3b82f6" {...props}>
-        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
-        <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" fill="#3b82f6"/>
+        <rect x="2" y="14" width="20" height="8" rx="2" ry="2" fill="#3b82f6"/>
         <line x1="6" y1="6" x2="6.01" y2="6" stroke="#fff" strokeWidth="2"/>
         <line x1="6" y1="18" x2="6.01" y2="18" stroke="#fff" strokeWidth="2"/>
     </svg>
 );
 
 const CheckCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" fill="currentColor"/>
       <polyline points="22 4 12 14.01 9 11.01" stroke="#fff" strokeWidth="2"/>
     </svg>
 );
 
 const ClockIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
-        <circle cx="12" cy="12" r="10" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+        <circle cx="12" cy="12" r="10" fill="currentColor"/>
         <polyline points="12 6 12 12 16 14" stroke="#fff" strokeWidth="2" />
     </svg>
 );
 
 const XCircleIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
-        <circle cx="12" cy="12" r="10" />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+        <circle cx="12" cy="12" r="10" fill="currentColor"/>
         <line x1="15" y1="9" x2="9" y2="15" stroke="#fff" strokeWidth="2" />
         <line x1="9" y1="9" x2="15" y2="15" stroke="#fff" strokeWidth="2" />
     </svg>
@@ -70,10 +70,10 @@ const CoinsIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="hsl(var(--primary))" {...props}>
         <circle cx="8" cy="8" r="6" />
         <path d="M18.09 10.72A6 6 0 1 1 10.72 18.09" />
-        <path d="m14 6-3.1 3.1" stroke="#fff" strokeWidth="1.5" />
-        <path d="m6 14 3.1-3.1" stroke="#fff" strokeWidth="1.5" />
-        <path d="M14 14.8V18" stroke="#fff" strokeWidth="1.5" />
-        <path d="M6 10.2V6" stroke="#fff" strokeWidth="1.5" />
+        <path d="m14 6-3.1 3.1" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5" />
+        <path d="m6 14 3.1-3.1" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5" />
+        <path d="M14 14.8V18" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5" />
+        <path d="M6 10.2V6" stroke="hsl(var(--primary-foreground))" strokeWidth="1.5" />
     </svg>
 );
 
