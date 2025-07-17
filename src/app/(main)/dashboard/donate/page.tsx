@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,7 +22,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { Progress } from '@/components/ui/progress';
-import { MOCK_DONATION_GOAL, MOCK_CURRENT_DONATIONS } from '@/data/mocks';
+import { MOCK_DONATION_GOAL, MOCK_CURRENT_DONATIONS, MOCK_RECENT_DONATIONS } from '@/data/mocks';
 import { RecentSupporters } from '@/components/dashboard/donate/RecentSupporters';
 import { addTransaction, addNotification } from '@/services/piService';
 import { GiftIcon, SendIcon, RocketIcon, ServerIconAccent as ServerIcon, PaintbrushIcon } from '@/components/shared/icons';
@@ -34,6 +34,11 @@ export default function DonatePage() {
   const [message, setMessage] = useState("");
   const [isCustom, setIsCustom] = useState(false);
   const [isDonating, setIsDonating] = useState(false);
+  
+  // State for reactive donation data
+  const [currentDonations, setCurrentDonations] = useState(MOCK_CURRENT_DONATIONS);
+  const [recentSupporters, setRecentSupporters] = useState(MOCK_RECENT_DONATIONS);
+
   const { toast } = useToast();
   const { user, refreshData } = useAuth();
 
@@ -49,6 +54,7 @@ export default function DonatePage() {
   }
 
   const handleDonate = async () => {
+    if (!user) return;
     setIsDonating(true);
     try {
         const donationAmount = parseFloat(amount);
@@ -57,15 +63,13 @@ export default function DonatePage() {
             return;
         }
 
-        // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1000));
         
-        let transactionDescription = "Donation";
+        let transactionDescription = "Donation to Dynamic Pi Wallet View";
         if (message.trim()) {
-            transactionDescription += `: ${message.trim()}`;
+            transactionDescription = message.trim();
         }
         
-        // Add transaction
         await addTransaction({
             type: 'sent',
             amount: donationAmount,
@@ -74,7 +78,6 @@ export default function DonatePage() {
             description: transactionDescription
         });
 
-        // Add notification
         await addNotification({
             type: 'announcement',
             title: "Thank you for your support!",
@@ -82,12 +85,18 @@ export default function DonatePage() {
             link: '/dashboard/transactions'
         });
 
+        // Update local state to trigger re-render
+        const newTotal = currentDonations + donationAmount;
+        setCurrentDonations(newTotal);
+
+        const newSupporter = { name: user.name, amount: donationAmount };
+        setRecentSupporters(prev => [newSupporter, ...prev.slice(0, 9)]);
+
         toast({
             title: "Thank you for your support!",
             description: `Your donation of ${donationAmount} π has been recorded.`,
         });
-
-        // Trigger a refresh of data-dependent components
+        
         refreshData();
         setMessage("");
 
@@ -102,7 +111,7 @@ export default function DonatePage() {
     }
   };
 
-  const donationProgress = (MOCK_CURRENT_DONATIONS / MOCK_DONATION_GOAL) * 100;
+  const donationProgress = (currentDonations / MOCK_DONATION_GOAL) * 100;
 
   return (
     <div className="space-y-6">
@@ -209,12 +218,12 @@ export default function DonatePage() {
                 <CardContent className="space-y-4">
                     <Progress value={donationProgress} aria-label="Donation goal progress" />
                     <div className="flex justify-between text-sm font-medium">
-                        <span className="text-muted-foreground">{MOCK_CURRENT_DONATIONS.toFixed(2)}π Raised</span>
+                        <span className="text-muted-foreground">{currentDonations.toFixed(2)}π Raised</span>
                         <span className="text-primary">{MOCK_DONATION_GOAL}π Goal</span>
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <RecentSupporters />
+                    <RecentSupporters supporters={recentSupporters} />
                 </CardFooter>
             </Card>
             <Card>
