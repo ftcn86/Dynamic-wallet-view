@@ -155,6 +155,7 @@ The frontend UI components are "dumb." They receive data and display it. All com
 *   **Endpoint:** `POST /api/v1/feedback`
     *   **Logic:** This is a general-purpose endpoint for collecting user feedback from various parts of the application (e.g., the AI feature feedback card and the help page feedback form). It should receive the feedback and route it to an appropriate service, such as an email delivery service or a database for later review.
     *   **Payload:** Expects a JSON object with `{ type: string, message: string, userId: string (optional) }`.
+    *   **Frontend Implementation Note:** The frontend calls this endpoint via a dedicated `submitFeedback` function located in `src/services/feedbackService.ts`.
 
 ---
 
@@ -263,3 +264,4 @@ When you encounter bugs, don't just say "it's broken." Provide a structured bug 
 4.  **Provide the Code and Error:** Add the relevant component file(s) (e.g., `ProfilePage.tsx`, `AuthContext.tsx`) and the exact error message to the chat context.
 
 **Action:** Treat the AI like a pair programmer. Give it a clear, concise bug report with the error message and relevant code so it can effectively debug the issue.
+
