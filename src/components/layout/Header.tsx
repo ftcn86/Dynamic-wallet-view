@@ -42,10 +42,10 @@ const BellIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const LogOutIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" fill="hsl(var(--destructive))" stroke="hsl(var(--destructive-foreground))"/>
-        <polyline points="16 17 21 12 16 7" stroke="hsl(var(--destructive))"/>
-        <line x1="21" y1="12" x2="9" y2="12" stroke="hsl(var(--destructive))"/>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" fill="hsl(var(--destructive))" />
+        <polyline points="16 17 21 12 16 7" stroke="hsl(var(--destructive))" strokeWidth="2"/>
+        <line x1="21" y1="12" x2="9" y2="12" stroke="hsl(var(--destructive))" strokeWidth="2"/>
     </svg>
 );
 
@@ -120,7 +120,7 @@ const notificationColors: Record<NotificationType, string> = {
 
 
 function NotificationsDropdown() {
-    const { user } = useAuth();
+    const { user, dataVersion } = useAuth(); // Listen for data changes
     const router = useRouter();
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -135,7 +135,7 @@ function NotificationsDropdown() {
             }
         }
         fetchNotifications();
-    }, [user]);
+    }, [user, dataVersion]); // Re-fetch when dataVersion changes
 
     const unreadCount = useMemo(() => notifications.filter(n => !n.read).length, [notifications]);
     
@@ -208,7 +208,7 @@ function NotificationsDropdown() {
 }
 
 export function Header({children}: {children?: React.ReactNode}) {
-  const { user, logout } = useAuth();
+  const { user, logout, refreshData } = useAuth();
   const router = useRouter();
 
   const handleLogout = () => {
@@ -217,6 +217,7 @@ export function Header({children}: {children?: React.ReactNode}) {
   };
 
   const handleRefresh = () => {
+    refreshData();
     window.location.reload();
   };
 

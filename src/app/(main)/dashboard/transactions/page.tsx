@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { SortableTableHead } from '@/components/shared/SortableTableHead';
+import { useAuth } from '@/contexts/AuthContext';
 
 // Solid SVG Icons
 const ArrowDownLeftIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -158,6 +159,7 @@ export default function TransactionsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sortConfig, setSortConfig] = useState<React.SortConfig<Transaction>>({ key: 'date', direction: 'descending' });
+  const { dataVersion } = useAuth(); // Listen to data changes
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -173,7 +175,7 @@ export default function TransactionsPage() {
       }
     }
     fetchTransactions();
-  }, []);
+  }, [dataVersion]); // Re-fetch when dataVersion changes
 
   const requestSort = (key: SortableKeys) => {
     let direction: 'ascending' | 'descending' = 'ascending';

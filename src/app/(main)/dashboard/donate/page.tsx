@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,11 +18,12 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { Progress } from '@/components/ui/progress';
 import { MOCK_DONATION_GOAL, MOCK_CURRENT_DONATIONS } from '@/data/mocks';
 import { RecentSupporters } from '@/components/dashboard/donate/RecentSupporters';
-
+import { addTransaction, addNotification } from '@/services/piService';
 
 // Solid SVG Icons
 const GiftIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -73,6 +74,8 @@ export default function DonatePage() {
   const [isCustom, setIsCustom] = useState(false);
   const [isDonating, setIsDonating] = useState(false);
   const { toast } = useToast();
+  const { user, refreshData } = useAuth();
+
 
   const handlePresetSelect = (presetAmount: string) => {
     setAmount(presetAmount);
@@ -84,24 +87,52 @@ export default function DonatePage() {
     setAmount("");
   }
 
-  const handleDonate = () => {
+  const handleDonate = async () => {
     setIsDonating(true);
-    setTimeout(() => {
-        const success = Math.random() > 0.1; // 90% success rate
-        if (success) {
-            toast({
-                title: "Thank you for your support!",
-                description: `Your donation of ${amount} π is greatly appreciated.`,
-            });
-        } else {
-            toast({
-                title: "Donation Failed",
-                description: "There was an issue processing your donation. Please try again.",
-                variant: "destructive",
-            });
+    try {
+        const donationAmount = parseFloat(amount);
+        if (isNaN(donationAmount) || donationAmount <= 0) {
+            toast({ title: "Invalid amount", variant: "destructive" });
+            return;
         }
+
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Add transaction
+        await addTransaction({
+            type: 'sent',
+            amount: donationAmount,
+            status: 'completed',
+            to: 'Dynamic Pi Wallet View Project',
+            description: 'Donation'
+        });
+
+        // Add notification
+        await addNotification({
+            type: 'announcement',
+            title: "Thank you for your support!",
+            description: `Your donation of ${donationAmount}π is greatly appreciated.`,
+            link: '/dashboard/donate'
+        });
+
+        toast({
+            title: "Thank you for your support!",
+            description: `Your donation of ${donationAmount} π has been recorded.`,
+        });
+
+        // Trigger a refresh of data-dependent components
+        refreshData();
+
+    } catch (error) {
+        toast({
+            title: "Donation Failed",
+            description: "There was an issue processing your donation. Please try again.",
+            variant: "destructive",
+        });
+    } finally {
         setIsDonating(false);
-    }, 1500);
+    }
   };
 
   const donationProgress = (MOCK_CURRENT_DONATIONS / MOCK_DONATION_GOAL) * 100;

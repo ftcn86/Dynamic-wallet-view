@@ -131,3 +131,30 @@ export async function sendBroadcastNotification(message: string): Promise<void> 
     
     return mockApiCall({ data: undefined });
 }
+
+/**
+ * Adds a new transaction to the mock data array.
+ */
+export async function addTransaction(transaction: Omit<Transaction, 'id' | 'date'>): Promise<Transaction> {
+    const newTransaction: Transaction = {
+        ...transaction,
+        id: `tx_${Date.now()}`,
+        date: new Date().toISOString(),
+    };
+    mockTransactions.unshift(newTransaction);
+    return mockApiCall({ data: newTransaction });
+}
+
+/**
+ * Adds a new notification to the mock data array.
+ */
+export async function addNotification(notification: Omit<Notification, 'id' | 'date' | 'read'>): Promise<Notification> {
+    const newNotification: Notification = {
+        ...notification,
+        id: `notif_${Date.now()}`,
+        date: new Date().toISOString(),
+        read: false,
+    };
+    mockNotifications.unshift(newNotification);
+    return mockApiCall({ data: newNotification });
+}

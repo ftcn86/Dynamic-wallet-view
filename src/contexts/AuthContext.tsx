@@ -2,10 +2,10 @@
 "use client"
 
 import type { Dispatch, ReactNode, SetStateAction} from 'react';
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { User, UserSettings } from '@/data/schemas';
 import { getAuthenticatedUser } from '@/services/piService';
-import { mockUser } from '@/data/mocks';
 
 interface AuthContextType {
   user: User | null;
@@ -13,6 +13,9 @@ interface AuthContextType {
   isLoading: boolean;
   login: () => Promise<User | null>;
   logout: () => void;
+  // A simple mechanism to trigger data refetches in components
+  dataVersion: number;
+  refreshData: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,6 +36,12 @@ const areUsersEqual = (userA: User | null, userB: User | null): boolean => {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, _setUserInternal] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [dataVersion, setDataVersion] = useState(0);
+
+  const refreshData = useCallback(() => {
+    setDataVersion(v => v + 1);
+  }, []);
+
 
   useEffect(() => {
     try {
@@ -124,7 +133,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, isLoading, login, logout, dataVersion, refreshData }}>
       {children}
     </AuthContext.Provider>
   );
