@@ -38,7 +38,20 @@ export async function POST(request: NextRequest) {
           );
         }
 
-        const newPayment = await createPiPayment(paymentData as PiPaymentData);
+        const newPayment = await createPiPayment(paymentData as PiPaymentData, {
+          onReadyForServerApproval: (paymentId: string) => {
+            console.log('Payment ready for server approval:', paymentId);
+          },
+          onReadyForServerCompletion: (paymentId: string, txid: string) => {
+            console.log('Payment ready for server completion:', paymentId, txid);
+          },
+          onCancel: (paymentId: string) => {
+            console.log('Payment cancelled:', paymentId);
+          },
+          onError: (error: Error, payment: any) => {
+            console.error('Payment error:', error, payment);
+          },
+        });
         return NextResponse.json({
           success: true,
           payment: newPayment,

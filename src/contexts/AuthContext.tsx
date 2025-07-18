@@ -116,7 +116,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (): Promise<User | null> => {
     setIsLoading(true);
     try {
-      // Check if Pi Network SDK is available
+      // In development mode, always use mock data for testing
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Development mode: Using mock authentication');
+        const mockUser: User = {
+          id: 'test-user-123',
+          username: 'testuser',
+          name: 'Test User',
+          email: 'test@example.com',
+          avatarUrl: '',
+          bio: 'Test user for development',
+          totalBalance: 12345.6789,
+          miningRate: 0.2512,
+          isNodeOperator: true,
+          balanceBreakdown: {
+            transferableToMainnet: 5678.1234,
+            totalUnverifiedPi: 4206.7890,
+            currentlyInLockups: 3210.7665,
+          },
+          unverifiedPiDetails: {
+            fromReferralTeam: 2000.50,
+            fromSecurityCircle: 1000.2890,
+            fromNodeRewards: 750.00,
+            fromOtherBonuses: 456.0000,
+          },
+          badges: [],
+          termsAccepted: false,
+          settings: {
+            remindersEnabled: true,
+            reminderHoursBefore: 1,
+          },
+          accessToken: 'mock-token',
+          refreshToken: 'mock-refresh',
+          tokenExpiresAt: Date.now() + 3600000,
+        };
+
+        // Preserve existing settings if available
+        const storedUserItem = localStorage.getItem(DYNAMIC_WALLET_USER_KEY);
+        if (storedUserItem) {
+          const storedUser = JSON.parse(storedUserItem) as User;
+          mockUser.termsAccepted = storedUser.termsAccepted || mockUser.termsAccepted;
+          mockUser.settings = { ...mockUser.settings, ...storedUser.settings };
+        }
+
+        setUser(mockUser);
+        return mockUser;
+      }
+
+      // Production mode: Check if Pi Network SDK is available
       if (typeof window === 'undefined' || !(window as any).Pi) {
         throw new Error('Pi Network SDK not available. Please open this app in the Pi Browser to authenticate.');
       }

@@ -148,16 +148,21 @@ export default function LoginPage() {
             }
           </CardDescription>
 
-          {/* Sandbox toggle for development */}
+          {/* Test Mode for development */}
           {process.env.NODE_ENV === 'development' && (
             <div className="pt-2 border-t">
+              <p className="text-xs text-muted-foreground text-center mb-2">
+                For local testing:
+              </p>
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={handleSandboxToggle}
+                onClick={handleLogin}
+                disabled={isLoggingIn}
                 className="w-full text-xs"
               >
-                {isSandbox ? 'Switch to Production' : 'Switch to Sandbox'}
+                {isLoggingIn && <LoadingSpinner className="mr-2 h-3 w-3" />}
+                🧪 Test Mode (Mock Data)
               </Button>
             </div>
           )}
