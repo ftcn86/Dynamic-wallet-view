@@ -14,9 +14,12 @@ export function PiSDKInitializer() {
     const initializePiSDK = () => {
       if (typeof window !== 'undefined' && (window as any).Pi) {
         try {
-          // Initialize Pi SDK with version 2.0
-          (window as any).Pi.init({ version: "2.0" });
-          console.log('✅ Pi Network SDK initialized successfully');
+          // Initialize Pi SDK with version 2.0 and sandbox flag
+          (window as any).Pi.init({ 
+            version: "2.0",
+            sandbox: true  // Enable sandbox/testnet mode
+          });
+          console.log('✅ Pi Network SDK initialized successfully with sandbox mode');
           
           // Check if we're in sandbox mode
           const urlParams = new URLSearchParams(window.location.search);

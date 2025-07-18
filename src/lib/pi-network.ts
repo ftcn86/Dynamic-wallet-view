@@ -101,9 +101,12 @@ class PiNetworkSDK {
       // Debug: Log available methods
       console.log('Available Pi SDK methods:', Object.keys(this.pi));
       
-      // Ensure SDK is initialized
+      // Ensure SDK is initialized with sandbox mode
       if (this.pi.init) {
-        this.pi.init({ version: "2.0" });
+        this.pi.init({ 
+          version: "2.0",
+          sandbox: true  // Enable sandbox/testnet mode
+        });
       }
     }
   }
