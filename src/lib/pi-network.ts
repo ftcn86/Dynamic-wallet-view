@@ -429,9 +429,9 @@ export function isValidPiAddress(address: string): boolean {
 
 // Default configuration (should be overridden in production)
 export const DEFAULT_PI_CONFIG: PiNetworkConfig = {
-  appId: 'dynamic-wallet-view',
-  apiKey: process.env.NEXT_PUBLIC_PI_API_KEY || '',
-  sandbox: process.env.NODE_ENV === 'development',
+  appId: process.env.PI_APP_ID || 'dynamic-wallet-view',
+  apiKey: process.env.PI_API_KEY || '',
+  sandbox: process.env.PI_SANDBOX === 'true' || process.env.NODE_ENV === 'development',
 };
 
 // Initialize with default config
@@ -448,6 +448,11 @@ import type { User } from '@/data/schemas';
  */
 export async function authenticateWithPi(): Promise<User | null> {
   try {
+    // First, check if we're in Pi Browser environment
+    if (typeof window === 'undefined' || !(window as any).Pi) {
+      throw new Error('Pi Network SDK not available. Please use Pi Browser.');
+    }
+
     const sdk = getPiSDK();
     
     // Authenticate with Pi Network using official SDK
@@ -458,6 +463,26 @@ export async function authenticateWithPi(): Promise<User | null> {
 
     if (!authResult || !authResult.user) {
       throw new Error('Authentication failed - no user returned');
+    }
+
+    // Validate token with our secure API
+    try {
+      const validationResponse = await fetch('/api/pi-network/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'validate-token',
+          accessToken: authResult.auth.accessToken,
+        }),
+      });
+
+      if (!validationResponse.ok) {
+        console.warn('Token validation failed, but continuing with authentication');
+      }
+    } catch (validationError) {
+      console.warn('Could not validate token with server:', validationError);
     }
 
     // Map Pi Network user to our app's User format
