@@ -27,7 +27,10 @@ export interface PiUser {
   uid: string;
   username: string;
   roles: string[];
-  profile: {
+  credentials?: string;
+  app_id?: string;
+  receiving_email?: boolean;
+  profile?: {
     firstname: string;
     lastname: string;
     email: string;
@@ -512,6 +515,13 @@ export async function authenticateWithPi(): Promise<User | null> {
       console.log('🔍 Profile keys:', Object.keys(authResult.user.profile));
     }
 
+    // Debug: Log all available user data from Pi Network
+    console.log('🔍 Full Pi Network user data:', JSON.stringify(authResult.user, null, 2));
+    console.log('🔍 User roles:', authResult.user.roles);
+    console.log('🔍 User credentials:', authResult.user.credentials);
+    console.log('🔍 User app_id:', authResult.user.app_id);
+    console.log('🔍 User receiving_email:', authResult.user.receiving_email);
+
     const user: User = {
       id: authResult.user.uid,
       username: authResult.user.username,
@@ -521,7 +531,7 @@ export async function authenticateWithPi(): Promise<User | null> {
       bio: '',
       totalBalance: 0, // Will be fetched separately
       miningRate: 0,
-      isNodeOperator: false,
+      isNodeOperator: false, // We'll determine this based on roles/credentials
       balanceBreakdown: {
         transferableToMainnet: 0,
         totalUnverifiedPi: 0,
@@ -576,8 +586,8 @@ export async function getCurrentUser(): Promise<User | null> {
     const user: User = {
       id: piUser.uid,
       username: piUser.username,
-      name: `${piUser.profile.firstname} ${piUser.profile.lastname}`,
-      email: piUser.profile.email,
+      name: `${piUser.profile?.firstname || ''} ${piUser.profile?.lastname || ''}`,
+      email: piUser.profile?.email || '',
       avatarUrl: '', // Will be set from Pi Network or default
       bio: '',
       totalBalance: 0, // Will be fetched separately
