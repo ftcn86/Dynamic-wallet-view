@@ -14,7 +14,9 @@
 export interface PiAuthResult {
   user: PiUser;
   accessToken: string;
-  auth: {
+  refreshToken?: string;
+  expiresAt?: number;
+  auth?: {
     accessToken: string;
     refreshToken: string;
     expiresAt: number;
@@ -489,7 +491,7 @@ export async function authenticateWithPi(): Promise<User | null> {
         },
         body: JSON.stringify({
           action: 'validate-token',
-          accessToken: authResult.auth.accessToken,
+          accessToken: authResult.accessToken || authResult.auth?.accessToken || '',
         }),
       });
 
@@ -537,10 +539,10 @@ export async function authenticateWithPi(): Promise<User | null> {
         remindersEnabled: true,
         reminderHoursBefore: 1,
       },
-      // Pi Network specific fields
-      accessToken: authResult.auth?.accessToken || '',
-      refreshToken: authResult.auth?.refreshToken || '',
-      tokenExpiresAt: authResult.auth?.expiresAt || Date.now() + 3600000,
+      // Pi Network specific fields - handle both sandbox and production response structures
+      accessToken: authResult.accessToken || (authResult.auth?.accessToken || ''),
+      refreshToken: authResult.refreshToken || (authResult.auth?.refreshToken || ''),
+      tokenExpiresAt: authResult.expiresAt || (authResult.auth?.expiresAt || Date.now() + 3600000),
     };
 
     return user;
