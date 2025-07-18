@@ -459,12 +459,24 @@ export async function authenticateWithPi(): Promise<User | null> {
     const sdk = getPiSDK();
     
     // Authenticate with Pi Network using official SDK
+    console.log('🔍 Starting Pi Network authentication...');
     const authResult = await sdk.authenticate(
       ['username', 'payments', 'roles'],
       handleIncompletePayment
     );
 
-    if (!authResult || !authResult.user) {
+    console.log('🔍 Pi Network authentication response:', authResult);
+    console.log('🔍 Response type:', typeof authResult);
+    console.log('🔍 Response keys:', authResult ? Object.keys(authResult) : 'null');
+
+    if (!authResult) {
+      console.error('❌ Authentication failed - authResult is null/undefined');
+      throw new Error('Authentication failed - no response returned');
+    }
+
+    if (!authResult.user) {
+      console.error('❌ Authentication failed - no user in response');
+      console.log('🔍 Full authResult structure:', JSON.stringify(authResult, null, 2));
       throw new Error('Authentication failed - no user returned');
     }
 
@@ -489,11 +501,20 @@ export async function authenticateWithPi(): Promise<User | null> {
     }
 
     // Map Pi Network user to our app's User format
+    console.log('🔍 Mapping user data...');
+    console.log('🔍 User object:', authResult.user);
+    console.log('🔍 User keys:', Object.keys(authResult.user));
+    
+    if (authResult.user.profile) {
+      console.log('🔍 Profile object:', authResult.user.profile);
+      console.log('🔍 Profile keys:', Object.keys(authResult.user.profile));
+    }
+
     const user: User = {
       id: authResult.user.uid,
       username: authResult.user.username,
-      name: `${authResult.user.profile.firstname} ${authResult.user.profile.lastname}`,
-      email: authResult.user.profile.email,
+      name: `${authResult.user.profile?.firstname || ''} ${authResult.user.profile?.lastname || ''}`,
+      email: authResult.user.profile?.email || '',
       avatarUrl: '', // Will be set from Pi Network or default
       bio: '',
       totalBalance: 0, // Will be fetched separately
@@ -517,9 +538,9 @@ export async function authenticateWithPi(): Promise<User | null> {
         reminderHoursBefore: 1,
       },
       // Pi Network specific fields
-      accessToken: authResult.auth.accessToken,
-      refreshToken: authResult.auth.refreshToken,
-      tokenExpiresAt: authResult.auth.expiresAt,
+      accessToken: authResult.auth?.accessToken || '',
+      refreshToken: authResult.auth?.refreshToken || '',
+      tokenExpiresAt: authResult.auth?.expiresAt || Date.now() + 3600000,
     };
 
     return user;
