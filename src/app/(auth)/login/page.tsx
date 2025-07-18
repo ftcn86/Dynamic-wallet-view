@@ -117,7 +117,7 @@ export default function LoginPage() {
             <div className="space-y-4">
               <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-md">
                 <p className="text-sm text-blue-800 dark:text-blue-200 text-center">
-                  🔗 Please open this app in the Pi Browser to authenticate with your Pi Network account.
+                  🔗 For real Pi Network authentication, please open this app in the Pi Browser mobile app.
                 </p>
               </div>
               <Button
@@ -128,6 +128,23 @@ export default function LoginPage() {
               >
                 Download Pi Browser
               </Button>
+              
+              {/* Test Mode for all non-Pi Browser environments */}
+              <div className="pt-2 border-t">
+                <p className="text-xs text-muted-foreground text-center mb-2">
+                  For testing and development:
+                </p>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLogin} // This now triggers mock login
+                  disabled={isLoggingIn}
+                  className="w-full text-xs"
+                >
+                  {isLoggingIn && <LoadingSpinner className="mr-2 h-3 w-3" />}
+                  🧪 Test Mode (Mock Data)
+                </Button>
+              </div>
             </div>
           ) : (
             <Button
@@ -137,35 +154,16 @@ export default function LoginPage() {
               size="lg"
             >
               {isLoggingIn && <LoadingSpinner className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />}
-              {isSandbox ? 'Login with Pi (Sandbox)' : 'Login with Pi'}
+              Login with Pi Network
             </Button>
           )}
           
           <CardDescription className="text-xs text-center px-2">
-            {isSandbox 
-              ? 'This will authenticate you using Pi Network sandbox environment for testing.'
-              : 'This will authenticate you using your Pi Network account.'
+            {isPiBrowserAvailable 
+              ? 'This will authenticate you using your Pi Network account.'
+              : 'Use Test Mode to explore the app with mock data.'
             }
           </CardDescription>
-
-          {/* Test Mode for development */}
-          {process.env.NODE_ENV === 'development' && (
-            <div className="pt-2 border-t">
-              <p className="text-xs text-muted-foreground text-center mb-2">
-                For local testing:
-              </p>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleLogin}
-                disabled={isLoggingIn}
-                className="w-full text-xs"
-              >
-                {isLoggingIn && <LoadingSpinner className="mr-2 h-3 w-3" />}
-                🧪 Test Mode (Mock Data)
-              </Button>
-            </div>
-          )}
         </CardContent>
         <CardFooter>
           <div className="text-center text-xs sm:text-sm w-full">

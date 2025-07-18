@@ -116,9 +116,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (): Promise<User | null> => {
     setIsLoading(true);
     try {
-      // In development mode, always use mock data for testing
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Development mode: Using mock authentication');
+      // Check if we're in Pi Browser environment (the only place where real Pi SDK works)
+      const isInPiBrowser = typeof window !== 'undefined' && 
+        (window as any).Pi && 
+        (window as any).Pi.authenticate && 
+        typeof (window as any).Pi.authenticate === 'function';
+
+      // Use mock data for all environments except Pi Browser
+      if (!isInPiBrowser) {
+        console.log('Not in Pi Browser environment: Using mock authentication');
         const mockUser: User = {
           id: 'test-user-123',
           username: 'testuser',
@@ -163,12 +169,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return mockUser;
       }
 
-      // Production mode: Check if Pi Network SDK is available
-      if (typeof window === 'undefined' || !(window as any).Pi) {
-        throw new Error('Pi Network SDK not available. Please open this app in the Pi Browser to authenticate.');
-      }
-
-      // Use official Pi Network SDK authentication
+      // Only use real Pi Network SDK if we're actually in Pi Browser
+      console.log('Pi Browser detected: Using real Pi Network authentication');
       const authenticatedUser = await authenticateWithPi();
       
       if (!authenticatedUser) {
