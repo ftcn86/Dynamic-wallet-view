@@ -1,204 +1,457 @@
 
 "use client";
 
-import { mockApiCall } from '@/lib/api';
-import { mockUser, mockTeam, mockNodeData, mockTransactions, mockNotifications } from '@/data/mocks';
 import type { User, TeamMember, NodeData, Transaction, Notification } from '@/data/schemas';
+import { getPiSDK, getPiAPI, type PiPayment, type PiPaymentData, isPiBrowser, handleIncompletePayment } from '@/lib/pi-network';
 
-// --- SERVICE WRAPPER ---
-// This service layer abstracts the data source.
-// It checks if the Pi SDK is available and would use it in a real app.
-// For our prototype, it provides a clear structure and falls back to mock data.
+// Mock data for development (fallback when Pi Network is not available)
+import { mockUser, mockTransactions, mockTeam, mockNodeData, mockNotifications } from '@/data/mocks';
 
-/**
- * Checks if the code is running within the Pi Browser.
- * In a real app, this would be more robust.
- */
-const isPiBrowser = (): boolean => {
-  // For the prototype, we can assume if window.Pi is available, we're in the right environment.
-  return typeof window !== 'undefined' && !!(window as any).Pi;
+// Mock API call function for development
+const mockApiCall = async <T>({ data, delay = 1000 }: { data: T; delay?: number }): Promise<T> => {
+  await new Promise(resolve => setTimeout(resolve, delay));
+  return data;
 };
 
+// Payment callback handlers
+interface PaymentCallbacks {
+  onReadyForServerApproval: (paymentId: string) => void;
+  onReadyForServerCompletion: (paymentId: string, txid: string) => void;
+  onCancel: (paymentId: string) => void;
+  onError: (error: Error, payment: PiPayment) => void;
+}
+
+// Payment status tracking
+interface PaymentStatus {
+  paymentId: string;
+  status: 'pending' | 'approved' | 'completed' | 'cancelled' | 'failed';
+  amount: number;
+  memo: string;
+  createdAt: string;
+  completedAt?: string;
+  txid?: string;
+}
+
+// In-memory payment tracking (in production, this would be in a database)
+const activePayments = new Map<string, PaymentStatus>();
+
 /**
- * A mock representation of the Pi SDK User object after authentication.
+ * Convert Pi Network user to our app's User format
  */
-interface PiAuthData {
-  uid: string;
-  username: string;
-  accessToken: string;
+function convertPiUserToAppUser(piUser: any, authResult: any): User {
+  return {
+    id: piUser.uid,
+    username: piUser.username,
+    name: `${piUser.profile.firstname} ${piUser.profile.lastname}`,
+    email: piUser.profile.email,
+    avatarUrl: '',
+    bio: '',
+    totalBalance: 0,
+    miningRate: 0,
+    isNodeOperator: false,
+    balanceBreakdown: {
+      transferableToMainnet: 0,
+      totalUnverifiedPi: 0,
+      currentlyInLockups: 0,
+    },
+    unverifiedPiDetails: {
+      fromReferralTeam: 0,
+      fromSecurityCircle: 0,
+      fromNodeRewards: 0,
+      fromOtherBonuses: 0,
+    },
+    badges: [],
+    termsAccepted: false,
+    settings: {
+      remindersEnabled: true,
+      reminderHoursBefore: 1,
+    },
+    accessToken: authResult.auth.accessToken,
+    refreshToken: authResult.auth.refreshToken,
+    tokenExpiresAt: authResult.auth.expiresAt,
+  };
 }
 
 /**
- * Simulates authenticating with the Pi Network SDK.
- * In a real app, this would make the `window.Pi.authenticate` call.
- * For the prototype, it immediately resolves with mock user data to continue the flow.
+ * Convert Pi Network payment to our app's Transaction format
+ */
+function convertPiPaymentToTransaction(piPayment: PiPayment): Transaction {
+  return {
+    id: piPayment.identifier,
+    type: piPayment.amount > 0 ? 'received' : 'sent',
+    amount: Math.abs(piPayment.amount),
+    status: piPayment.status === 'completed' ? 'completed' : 
+            piPayment.status === 'pending' ? 'pending' : 'failed',
+    from: piPayment.user_uid,
+    to: piPayment.to_address || 'Network',
+    description: piPayment.memo,
+    date: piPayment.created_at,
+    blockExplorerUrl: piPayment.transaction?._link || '#',
+  };
+}
+
+/**
+ * Authenticate user with Pi Network (Official SDK 2.0)
+ * In a real app, this would make the actual Pi SDK call
+ * For development, it falls back to mock data
  */
 export async function getAuthenticatedUser(): Promise<User> {
-  console.log("Attempting to authenticate...");
+  console.log("Attempting to authenticate with Pi Network...");
+
   if (isPiBrowser()) {
-    // REAL SCENARIO: This is where you would call the actual Pi SDK
-    // const scopes = ['username'];
-    // const authResult = await (window as any).Pi.authenticate(scopes, onIncompletePaymentFound);
-    // const piUser: PiAuthData = authResult.user;
-    //
-    // Then you would fetch your app's user profile from your own backend using the accessToken.
-    // For now, we'll return the mock user to simulate a successful login.
-    console.log("Pi Browser environment detected. Simulating real auth by returning mock user.");
-    return mockApiCall({ data: mockUser });
+    try {
+      const piSDK = getPiSDK();
+      const authResult = await piSDK.authenticate(['username', 'payments'], handleIncompletePayment);
+      return convertPiUserToAppUser(authResult.user, authResult);
+    } catch (error) {
+      console.error("Pi Network authentication failed, falling back to mock data:", error);
+      return mockApiCall({ data: mockUser });
+    }
   } else {
-    // MOCK SCENARIO: Running in a regular browser
-    console.log("Not in Pi Browser. Returning mock user for development.");
+    console.log("Not in Pi Browser, using mock data");
     return mockApiCall({ data: mockUser });
   }
 }
 
 /**
- * Fetches the team members.
- * In a real app, this would be an authenticated API call to your backend.
+ * Create a Pi Network payment
+ * @param paymentData - Payment details
+ * @param callbacks - Payment callbacks
+ * @returns Promise<PiPayment>
+ */
+export async function createPiPayment(
+  paymentData: PiPaymentData,
+  callbacks: PaymentCallbacks
+): Promise<PiPayment> {
+  try {
+    const sdk = getPiSDK();
+    
+    // Create payment using Pi Network SDK
+    const payment = await sdk.createPayment(paymentData, {
+      onReadyForServerApproval: (paymentId: string) => {
+        console.log('Payment ready for server approval:', paymentId);
+        
+        // Track payment status
+        activePayments.set(paymentId, {
+          paymentId,
+          status: 'pending',
+          amount: paymentData.amount,
+          memo: paymentData.memo,
+          createdAt: new Date().toISOString(),
+        });
+        
+        callbacks.onReadyForServerApproval(paymentId);
+      },
+      onReadyForServerCompletion: (paymentId: string, txid: string) => {
+        console.log('Payment ready for server completion:', paymentId, txid);
+        
+        // Update payment status
+        const paymentStatus = activePayments.get(paymentId);
+        if (paymentStatus) {
+          paymentStatus.status = 'approved';
+          paymentStatus.txid = txid;
+        }
+        
+        callbacks.onReadyForServerCompletion(paymentId, txid);
+      },
+      onCancel: (paymentId: string) => {
+        console.log('Payment cancelled:', paymentId);
+        
+        // Update payment status
+        const paymentStatus = activePayments.get(paymentId);
+        if (paymentStatus) {
+          paymentStatus.status = 'cancelled';
+        }
+        
+        callbacks.onCancel(paymentId);
+      },
+      onError: (error: Error, payment: PiPayment) => {
+        console.error('Payment error:', error, payment);
+        
+        // Update payment status
+        const paymentStatus = activePayments.get(payment.identifier);
+        if (paymentStatus) {
+          paymentStatus.status = 'failed';
+        }
+        
+        callbacks.onError(error, payment);
+      },
+    });
+    
+    return payment;
+  } catch (error) {
+    console.error('Failed to create Pi payment:', error);
+    throw new Error(`Payment creation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+/**
+ * Complete a Pi Network payment
+ * @param payment - Payment object from createPayment
+ * @returns Promise<PiPayment>
+ */
+export async function completePiPayment(payment: PiPayment): Promise<PiPayment> {
+  try {
+    const sdk = getPiSDK();
+    
+    // Complete payment using Pi Network SDK
+    const completedPayment = await sdk.completePayment(payment);
+    
+    // Update payment status
+    const paymentStatus = activePayments.get(payment.identifier);
+    if (paymentStatus) {
+      paymentStatus.status = 'completed';
+      paymentStatus.completedAt = new Date().toISOString();
+    }
+    
+    return completedPayment;
+  } catch (error) {
+    console.error('Failed to complete Pi payment:', error);
+    throw new Error(`Payment completion failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+/**
+ * Cancel a Pi Network payment
+ * @param payment - Payment object to cancel
+ * @returns Promise<PiPayment>
+ */
+export async function cancelPiPayment(payment: PiPayment): Promise<PiPayment> {
+  try {
+    const sdk = getPiSDK();
+    
+    // Cancel payment using Pi Network SDK
+    const cancelledPayment = await sdk.cancelPayment(payment);
+    
+    // Update payment status
+    const paymentStatus = activePayments.get(payment.identifier);
+    if (paymentStatus) {
+      paymentStatus.status = 'cancelled';
+    }
+    
+    return cancelledPayment;
+  } catch (error) {
+    console.error('Failed to cancel Pi payment:', error);
+    throw new Error(`Payment cancellation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+/**
+ * Get payment status
+ * @param paymentId - Payment identifier
+ * @returns PaymentStatus | null
+ */
+export function getPaymentStatus(paymentId: string): PaymentStatus | null {
+  return activePayments.get(paymentId) || null;
+}
+
+/**
+ * Get all active payments
+ * @returns PaymentStatus[]
+ */
+export function getActivePayments(): PaymentStatus[] {
+  return Array.from(activePayments.values());
+}
+
+/**
+ * Create a donation payment
+ * @param amount - Donation amount in Pi
+ * @param message - Optional donation message
+ * @param callbacks - Payment callbacks
+ * @returns Promise<PiPayment>
+ */
+export async function createDonationPayment(
+  amount: number,
+  message?: string,
+  callbacks?: Partial<PaymentCallbacks>
+): Promise<PiPayment> {
+  const defaultCallbacks: PaymentCallbacks = {
+    onReadyForServerApproval: (paymentId: string) => {
+      console.log('Donation ready for approval:', paymentId);
+    },
+    onReadyForServerCompletion: (paymentId: string, txid: string) => {
+      console.log('Donation ready for completion:', paymentId, txid);
+    },
+    onCancel: (paymentId: string) => {
+      console.log('Donation cancelled:', paymentId);
+    },
+    onError: (error: Error, payment: PiPayment) => {
+      console.error('Donation error:', error, payment);
+    },
+  };
+
+  const paymentData: PiPaymentData = {
+    amount,
+    memo: message || `Support Dynamic Wallet View - ${amount}π donation`,
+    metadata: {
+      type: 'donation',
+      app: 'dynamic-wallet-view',
+      timestamp: new Date().toISOString(),
+    },
+  };
+
+  return createPiPayment(paymentData, { ...defaultCallbacks, ...callbacks });
+}
+
+/**
+ * Get user's Pi balance from Pi Network
+ */
+export async function getUserPiBalance(accessToken: string): Promise<number> {
+  if (isPiBrowser()) {
+    try {
+      const piAPI = getPiAPI();
+      const balance = await piAPI.getUserBalance(accessToken);
+      console.log("Pi Network balance fetched:", balance);
+      return balance;
+    } catch (error) {
+      console.error("Pi Network balance fetch failed:", error);
+      return 0;
+    }
+  } else {
+    // Mock balance for development
+    console.log("Mock balance fetch for development");
+    return mockApiCall({ data: 150.5 });
+  }
+}
+
+/**
+ * Get user's payment history from Pi Network
+ */
+export async function getUserPaymentHistory(accessToken: string): Promise<Transaction[]> {
+  if (isPiBrowser()) {
+    try {
+      const piAPI = getPiAPI();
+      const payments = await piAPI.getPaymentHistory(accessToken);
+      console.log("Pi Network payment history fetched:", payments);
+      
+      // Convert Pi payments to our app's transaction format
+      return payments.map(convertPiPaymentToTransaction);
+    } catch (error) {
+      console.error("Pi Network payment history fetch failed:", error);
+      return [];
+    }
+  } else {
+    // Mock payment history for development
+    console.log("Mock payment history fetch for development");
+    return mockApiCall({ data: mockTransactions });
+  }
+}
+
+/**
+ * Validate Pi Network access token
+ */
+export async function validatePiToken(accessToken: string): Promise<boolean> {
+  if (isPiBrowser()) {
+    try {
+      const piAPI = getPiAPI();
+      const isValid = await piAPI.validateToken(accessToken);
+      console.log("Pi Network token validation result:", isValid);
+      return isValid;
+    } catch (error) {
+      console.error("Pi Network token validation failed:", error);
+      return false;
+    }
+  } else {
+    // Mock token validation for development
+    console.log("Mock token validation for development");
+    return mockApiCall({ data: true });
+  }
+}
+
+/**
+ * Get team members (mock data for now)
  */
 export async function getTeamMembers(): Promise<TeamMember[]> {
-  if (isPiBrowser()) {
-    // REAL SCENARIO: Fetch from your backend API
-    console.log("Pi Browser: Simulating fetch for team members.");
-    return mockApiCall({ data: mockTeam });
-  } else {
-    // MOCK SCENARIO:
-    console.log("Dev Browser: Returning mock team members.");
-    return mockApiCall({ data: mockTeam });
-  }
+  return mockApiCall({ data: mockTeam });
 }
 
 /**
- * Fetches the node data for the current user.
- * In a real app, this would be an authenticated API call to your backend.
+ * Get node data (mock data for now)
  */
 export async function getNodeData(): Promise<NodeData> {
-  if (isPiBrowser()) {
-    // REAL SCENARIO: Fetch from your backend API
-    console.log("Pi Browser: Simulating fetch for node data.");
-    return mockApiCall({ data: mockNodeData });
-  } else {
-    // MOCK SCENARIO:
-    console.log("Dev Browser: Returning mock node data.");
-    return mockApiCall({ data: mockNodeData });
-  }
+  return mockApiCall({ data: mockNodeData });
 }
 
 /**
- * Fetches the transaction history for the current user.
- * In a real app, this would be an authenticated API call to your backend.
+ * Get transactions (mock data for now)
  */
 export async function getTransactions(): Promise<Transaction[]> {
-    if (isPiBrowser()) {
-        console.log("Pi Browser: Simulating fetch for transactions.");
-        return mockApiCall({ data: mockTransactions });
-    } else {
-        console.log("Dev Browser: Returning mock transactions.");
-        return mockApiCall({ data: mockTransactions });
-    }
+  return mockApiCall({ data: mockTransactions });
 }
 
 /**
- * Fetches notifications for the current user.
+ * Get notifications (mock data for now)
  */
 export async function getNotifications(): Promise<Notification[]> {
-    if (isPiBrowser()) {
-        console.log("Pi Browser: Simulating fetch for notifications.");
-        return mockApiCall({ data: mockNotifications });
-    } else {
-        console.log("Dev Browser: Returning mock notifications.");
-        return mockApiCall({ data: mockNotifications });
-    }
+  return mockApiCall({ data: mockNotifications });
 }
 
 /**
- * Simulates sending a broadcast message by adding a new notification to the mock data.
+ * Send broadcast notification (mock implementation)
  */
 export async function sendBroadcastNotification(message: string): Promise<{ success: boolean }> {
-    const newNotification: Notification = {
-        id: `notif_${Date.now()}`,
-        type: 'team_message',
-        title: 'Message from your Team Leader',
-        description: message,
-        date: new Date().toISOString(),
-        read: false,
-        link: '/dashboard/team',
-    };
-
-    // In a real app, this would be a POST request to your backend.
-    // Here, we just add it to our mock data array to simulate the effect.
-    mockNotifications.unshift(newNotification);
-    
-    // Return a success object to prevent the mock API call from failing.
-    return mockApiCall({ data: { success: true } });
+  console.log("Mock broadcast notification sent:", message);
+  return mockApiCall({ data: { success: true } });
 }
 
 /**
- * Adds a new transaction to the mock data array.
+ * Add transaction (mock implementation)
  */
 export async function addTransaction(transaction: Omit<Transaction, 'id' | 'date' | 'blockExplorerUrl'>): Promise<Transaction> {
-    const newTransaction: Transaction = {
-        ...transaction,
-        id: `tx_${Date.now()}`,
-        date: new Date().toISOString(),
-        blockExplorerUrl: '#'
-    };
-    mockTransactions.unshift(newTransaction);
-    return mockApiCall({ data: newTransaction });
+  const newTransaction: Transaction = {
+    ...transaction,
+    id: `tx_${Date.now()}`,
+    date: new Date().toISOString(),
+    blockExplorerUrl: '#',
+  };
+  
+  console.log("Mock transaction added:", newTransaction);
+  return mockApiCall({ data: newTransaction });
 }
 
 /**
- * Adds a new notification to the mock data array.
+ * Add notification (mock implementation)
  */
 export async function addNotification(notification: Omit<Notification, 'id' | 'date' | 'read'>): Promise<Notification> {
-    const newNotification: Notification = {
-        ...notification,
-        id: `notif_${Date.now()}`,
-        date: new Date().toISOString(),
-        read: false,
-    };
-    mockNotifications.unshift(newNotification);
-    return mockApiCall({ data: newNotification });
+  const newNotification: Notification = {
+    ...notification,
+    id: `notif_${Date.now()}`,
+    date: new Date().toISOString(),
+    read: false,
+  };
+  
+  console.log("Mock notification added:", newNotification);
+  return mockApiCall({ data: newNotification });
 }
 
 /**
- * Marks a single notification as read.
+ * Mark notification as read (mock implementation)
  */
 export async function markNotificationAsRead(notificationId: string): Promise<{ success: boolean }> {
-  const notification = mockNotifications.find(n => n.id === notificationId);
-  if (notification) {
-    notification.read = true;
-  }
+  console.log("Mock notification marked as read:", notificationId);
   return mockApiCall({ data: { success: true } });
 }
 
 /**
- * Marks all notifications as read in the mock data.
+ * Mark all notifications as read (mock implementation)
  */
 export async function markAllNotificationsAsRead(): Promise<{ success: boolean }> {
-  mockNotifications.forEach(notification => {
-    notification.read = true;
-  });
+  console.log("Mock all notifications marked as read");
   return mockApiCall({ data: { success: true } });
 }
 
 /**
- * Simulates a team member completing KYC and triggers a notification.
- * This is a placeholder to show how the system would react to backend events.
+ * Submit feedback (mock implementation)
+ */
+export async function submitFeedback(feedback: string): Promise<{ success: boolean }> {
+  console.log("Mock feedback submitted:", feedback);
+  return mockApiCall({ data: { success: true } });
+}
+
+/**
+ * Simulate KYC completion (mock implementation)
  */
 export async function simulateKycCompletion(teamMemberId: string): Promise<{ success: boolean }> {
-    const member = mockTeam.find(m => m.id === teamMemberId);
-    if (member && member.kycStatus !== 'completed') {
-        member.kycStatus = 'completed';
-        
-        await addNotification({
-            type: 'team_update',
-            title: 'Team Member KYC Verified',
-            description: `Your team member, ${member.name}, has completed their KYC verification.`,
-            link: '/dashboard/team'
-        });
-
-        return mockApiCall({ data: { success: true } });
-    }
-    return mockApiCall({ data: { success: false } });
+  console.log("Mock KYC completion for team member:", teamMemberId);
+  return mockApiCall({ data: { success: true } });
 }

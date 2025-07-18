@@ -70,27 +70,27 @@ export function TeamActivityCard() {
 
 
   return (
-    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300")}>
-      <CardHeader>
-        <CardTitle className="font-headline flex items-center">
-          <TrophyIcon className="mr-2 h-6 w-6" />
+    <Card className={cn("shadow-lg hover:shadow-xl transition-all duration-300 min-h-[300px] flex flex-col")}>
+      <CardHeader className="flex-shrink-0">
+        <CardTitle className="font-headline text-lg sm:text-xl flex items-center">
+          <TrophyIcon className="mr-2 h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0" />
           Team Mining Rally
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-xs sm:text-sm">
           See how your team is performing and celebrate recent achievements.
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="flex-1 space-y-4 sm:space-y-6">
         <div>
-          <h3 className="text-md font-semibold mb-2">
+          <h3 className="text-sm sm:text-base font-semibold mb-2">
             Weekly Team Rally (Top 5)
           </h3>
           {displayLeaderboard.length > 0 ? (
             <div className="overflow-x-auto rounded-md border">
-              <Table className="text-sm">
+              <Table className="text-xs sm:text-sm">
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[50px] text-center">Rank</TableHead>
+                    <TableHead className="w-[40px] sm:w-[50px] text-center">Rank</TableHead>
                     <TableHead>Member</TableHead>
                     <TableHead className="text-right">Hours</TableHead>
                   </TableRow>
@@ -100,12 +100,12 @@ export function TeamActivityCard() {
                     <TableRow key={member.id} className={member.id === user.id ? 'bg-primary/10' : ''}>
                       <TableCell className="font-medium text-center">{index + 1}</TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-2">
-                          <Avatar className="h-7 w-7">
+                        <div className="flex items-center gap-1 sm:gap-2">
+                          <Avatar className="h-6 w-6 sm:h-7 sm:w-7 flex-shrink-0">
                             <AvatarImage src={member.avatarUrl} alt={member.name} data-ai-hint={member.dataAiHint} />
-                            <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                            <AvatarFallback className="text-xs">{member.name.charAt(0)}</AvatarFallback>
                           </Avatar>
-                          <span className="truncate">{member.name}</span>
+                          <span className="truncate text-xs sm:text-sm">{member.name}</span>
                         </div>
                       </TableCell>
                       <TableCell className="text-right font-mono">{member.activity} hrs</TableCell>
@@ -122,7 +122,7 @@ export function TeamActivityCard() {
              </div>
           )}
           {leaderboard.length > MAX_LEADERBOARD_ENTRIES && userRankInFullList > MAX_LEADERBOARD_ENTRIES && (
-            <p className="text-sm text-muted-foreground mt-2 text-center">
+            <p className="text-xs sm:text-sm text-muted-foreground mt-2 text-center">
               Your Rank: #{userRankInFullList} ({userWeeklyActivity} hrs)
             </p>
           )}
@@ -130,11 +130,11 @@ export function TeamActivityCard() {
 
         {earnedGamificationBadges.length > 0 && (
           <div>
-            <h3 className="text-md font-semibold mb-3 flex items-center">
-              <AwardIcon className="mr-2 h-5 w-5" />
+            <h3 className="text-sm sm:text-base font-semibold mb-3 flex items-center">
+              <AwardIcon className="mr-2 h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
               Recent Achievements
             </h3>
-            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
               {earnedGamificationBadges.map(badge => (
                 <div key={badge.id} className="flex flex-col items-center text-center p-2 rounded-lg border bg-card hover:bg-muted/50 transition-colors">
                   <BadgeIcon badgeId={badge.id} earned={badge.earned} size="md" className="mb-1" />
@@ -146,11 +146,11 @@ export function TeamActivityCard() {
         )}
 
       </CardContent>
-      <CardFooter>
-        <Button asChild variant="outline" className="w-full">
+      <CardFooter className="flex-shrink-0">
+        <Button asChild variant="outline" className="w-full text-xs sm:text-sm">
           <Link href="/dashboard/team">
             View Full Team Report
-            <ChevronRightIcon className="ml-2 h-4 w-4" />
+            <ChevronRightIcon className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
           </Link>
         </Button>
       </CardFooter>

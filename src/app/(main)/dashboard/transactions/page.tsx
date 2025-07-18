@@ -46,9 +46,9 @@ const transactionTypeConfig = {
 }
 
 const statusConfig = {
-    completed: { variant: 'success', icon: CheckCircleIcon, text: "Completed" },
-    pending: { variant: 'warning', icon: ClockIcon, text: "Pending" },
-    failed: { variant: 'destructive', icon: ZapIcon, text: "Failed" }
+    completed: { variant: 'success' as const, icon: CheckCircleIcon, text: "Completed" },
+    pending: { variant: 'warning' as const, icon: ClockIcon, text: "Pending" },
+    failed: { variant: 'destructive' as const, icon: ZapIcon, text: "Failed" }
 }
 
 function TransactionRow({ tx }: { tx: Transaction }) {
@@ -169,7 +169,7 @@ export default function TransactionsPage() {
   };
 
   const sortedTransactions = useMemo(() => {
-    let sortableItems = [...transactions];
+    const sortableItems = [...transactions];
     if (sortConfig.key !== null) {
       sortableItems.sort((a, b) => {
         const valA = a[sortConfig.key as keyof Transaction];
@@ -191,12 +191,12 @@ export default function TransactionsPage() {
   }, [transactions, sortConfig]);
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold font-headline">Transaction History</h1>
+    <div className="space-y-4 sm:space-y-6">
+      <h1 className="text-2xl sm:text-3xl font-bold font-headline">Transaction History</h1>
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <CoinsIcon className="h-6 w-6" />
+          <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+            <CoinsIcon className="h-5 w-5 sm:h-6 sm:w-6" />
             Your Ledger
           </CardTitle>
           <CardDescription>

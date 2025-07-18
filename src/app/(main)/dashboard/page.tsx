@@ -49,7 +49,7 @@ export default function DashboardPage() {
   const searchParams = useSearchParams();
   
   const initialTab = searchParams.get('tab');
-  const [activeTab, setActiveTab] = useState(TABS.includes(initialTab as string) ? initialTab : 'overview');
+  const [activeTab, setActiveTab] = useState(TABS.includes(initialTab as string) ? initialTab as string : 'overview');
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
@@ -74,7 +74,9 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4 md:gap-6">
+      <div className="grid grid-cols-1 gap-3 sm:gap-4 md:gap-6 auto-rows-fr" style={{
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))'
+      }}>
         <KPICard
           title="Total Pi Balance"
           value={user.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}) + ' π'}
@@ -137,22 +139,36 @@ export default function DashboardPage() {
 
       <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
         <ScrollArea className="w-full whitespace-nowrap">
-            <TabsList className="min-w-0 flex-nowrap w-auto sm:w-full sm:grid sm:grid-cols-4 max-w-2xl">
-              <TabsTrigger value="overview"><PieChartIcon className="mr-2 h-4 w-4" />Overview</TabsTrigger>
-              <TabsTrigger value="portfolio"><BarChartIcon className="mr-2 h-4 w-4" />Portfolio</TabsTrigger>
-              <TabsTrigger value="achievements"><TrophyIcon className="mr-2 h-4 w-4" />Achievements</TabsTrigger>
-              <TabsTrigger value="analysis"><SettingsIcon className="mr-2 h-4 w-4" />Analysis</TabsTrigger>
+            <TabsList className="min-w-0 flex-nowrap w-auto sm:w-full sm:grid sm:grid-cols-4 max-w-2xl h-auto">
+              <TabsTrigger value="overview" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 py-2">
+                <PieChartIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="truncate">Overview</span>
+              </TabsTrigger>
+              <TabsTrigger value="portfolio" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 py-2">
+                <BarChartIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="truncate">Portfolio</span>
+              </TabsTrigger>
+              <TabsTrigger value="achievements" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 py-2">
+                <TrophyIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="truncate">Achievements</span>
+              </TabsTrigger>
+              <TabsTrigger value="analysis" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 py-2">
+                <SettingsIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="truncate">Analysis</span>
+              </TabsTrigger>
             </TabsList>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
 
         <TabsContent value="overview" className="mt-6">
-           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 space-y-6">
+           <div className="grid grid-cols-1 gap-4 sm:gap-6" style={{
+             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))'
+           }}>
+              <div className="space-y-4 sm:space-y-6">
                 <BalanceBreakdownCard />
                 <TeamActivityCard />
               </div>
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 <UnverifiedPiDetailCard />
                 <MiningFocusCard />
               </div>
@@ -165,7 +181,9 @@ export default function DashboardPage() {
           <MyBadgesCard />
         </TabsContent>
         <TabsContent value="analysis" className="mt-6">
-           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
+           <div className="grid grid-cols-1 gap-4 sm:gap-6 max-w-6xl mx-auto" style={{
+             gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))'
+           }}>
               <LockupCalculatorCard />
               <AIFeatureFeedbackCard />
            </div>

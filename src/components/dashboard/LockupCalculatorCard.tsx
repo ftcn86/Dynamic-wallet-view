@@ -72,16 +72,16 @@ export function LockupCalculatorCard() {
     return (
         <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader>
-                <CardTitle className="font-headline flex items-center">
-                    <ZapIcon className="mr-2 h-6 w-6" />
+                <CardTitle className="font-headline flex items-center text-lg sm:text-xl">
+                    <ZapIcon className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
                     Lockup & Bonus Calculator
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-sm sm:text-base">
                     Use this tool to estimate the mining rate boost you could get from locking up your Pi.
                 </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4 p-6">
-                <div className="grid md:grid-cols-2 gap-6">
+            <CardContent className="space-y-4 p-4 sm:p-6">
+                <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
                     <div className="space-y-6">
                         <div>
                             <div className="flex justify-between items-center mb-2">
@@ -98,15 +98,15 @@ export function LockupCalculatorCard() {
                             <Slider min={0} max={3} step={1} value={lockupDurationIndex} onValueChange={setLockupDurationIndex} />
                         </div>
                     </div>
-                    <div className="bg-primary/5 border border-primary/10 rounded-lg p-4 flex flex-col items-center justify-center text-center min-h-[140px]">
+                    <div className="bg-primary/5 border border-primary/10 rounded-lg p-3 sm:p-4 flex flex-col items-center justify-center text-center min-h-[120px] sm:min-h-[140px]">
                         {isCalculatingRate ? (
                             <LoadingSpinner size={32} />
                         ) : estimatedRate !== null ? (
                             <>
                                 <p className="text-sm font-medium text-muted-foreground">Estimated Total Mining Rate</p>
                                 <div className="flex items-baseline text-primary my-1">
-                                    <p className="text-4xl font-bold tracking-tighter">{estimatedRate.toFixed(4)}</p>
-                                    <p className="font-medium text-lg ml-1">π/hr</p>
+                                    <p className="text-2xl sm:text-4xl font-bold tracking-tighter">{estimatedRate.toFixed(4)}</p>
+                                    <p className="font-medium text-base sm:text-lg ml-1">π/hr</p>
                                 </div>
                                 <Badge variant="success" className="gap-1.5"><TrendingUpIcon className="h-4 w-4" />~{percentageIncrease.toFixed(1)}% Increase</Badge>
                             </>

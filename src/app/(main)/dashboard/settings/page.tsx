@@ -207,31 +207,31 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="space-y-6">
-       <h1 className="text-3xl font-bold font-headline">Settings & Profile</h1>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+    <div className="space-y-4 sm:space-y-6">
+       <h1 className="text-2xl sm:text-3xl font-bold font-headline">Settings & Profile</h1>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 max-w-4xl mx-auto">
         <div className="lg:col-span-2">
             <ProfileCard />
         </div>
         
         <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="flex items-center">
-              <SettingsIcon className="mr-2 h-5 w-5" />
+            <CardTitle className="flex items-center text-lg sm:text-xl">
+              <SettingsIcon className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
               Display Preferences
               </CardTitle>
-            <CardDescription>Manage your application theme to suit your style.</CardDescription>
+            <CardDescription className="text-sm sm:text-base">Manage your application theme to suit your style.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-8 pt-6">
+          <CardContent className="space-y-6 sm:space-y-8 pt-6">
             <div className="space-y-3">
-              <Label className="text-lg font-medium">Theme</Label>
+              <Label className="text-base sm:text-lg font-medium">Theme</Label>
               <div className="flex space-x-2 rounded-md bg-muted p-1">
                 {themeOptions.map((option) => (
                   <Button
                     key={option.value}
                     variant={theme === option.value ? "default" : "ghost"}
                     onClick={() => setTheme(option.value)}
-                    className="w-full flex items-center justify-center gap-2"
+                    className="w-full flex items-center justify-center gap-2 text-xs sm:text-sm"
                     aria-pressed={theme === option.value}
                   >
                     {option.icon}
@@ -239,24 +239,24 @@ export default function SettingsPage() {
                   </Button>
                 ))}
               </div>
-               <p className="text-sm text-muted-foreground">Choose between light, dark, or your system's default theme.</p>
+               <p className="text-xs sm:text-sm text-muted-foreground">Choose between light, dark, or your system's default theme.</p>
             </div>
           </CardContent>
         </Card>
 
          <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="flex items-center">
-              <BellIcon className="mr-2 h-5 w-5" />
+            <CardTitle className="flex items-center text-lg sm:text-xl">
+              <BellIcon className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
               Notifications
               </CardTitle>
-            <CardDescription>Control how you receive important updates.</CardDescription>
+            <CardDescription className="text-sm sm:text-base">Control how you receive important updates.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6 pt-6">
-            <div className="flex items-center justify-between space-x-2 rounded-lg border p-4">
+          <CardContent className="space-y-4 sm:space-y-6 pt-6">
+            <div className="flex items-center justify-between space-x-2 rounded-lg border p-3 sm:p-4">
               <Label htmlFor="reminders-enabled" className="flex flex-col space-y-1">
-                <span>Mining Session Reminders</span>
-                <span className="font-normal leading-snug text-muted-foreground">
+                <span className="text-sm sm:text-base">Mining Session Reminders</span>
+                <span className="font-normal leading-snug text-muted-foreground text-xs sm:text-sm">
                   Get a notification before your session expires.
                 </span>
               </Label>
@@ -268,8 +268,8 @@ export default function SettingsPage() {
             </div>
             {remindersEnabled && (
                <div className="space-y-2">
-                <Label htmlFor="reminder-time" className="flex items-center gap-2">
-                  <ClockIcon className="h-4 w-4"/>
+                <Label htmlFor="reminder-time" className="flex items-center gap-2 text-sm sm:text-base">
+                  <ClockIcon className="h-3 w-3 sm:h-4 sm:w-4"/>
                   Remind Me Before Session End
                 </Label>
                 <div className="relative">
@@ -278,17 +278,17 @@ export default function SettingsPage() {
                     type="number"
                     value={reminderHours}
                     onChange={handleReminderTimeChange}
-                    className="pr-16"
+                    className="pr-16 text-xs sm:text-sm"
                     min="0.5"
                     max="23.5"
                     step="0.5"
                   />
-                  <span className="absolute inset-y-0 right-4 flex items-center text-sm text-muted-foreground">hours</span>
+                  <span className="absolute inset-y-0 right-4 flex items-center text-xs sm:text-sm text-muted-foreground">hours</span>
                 </div>
                </div>
             )}
-             <Button onClick={handleSaveSettings} disabled={isSaving} className="w-full">
-                {isSaving && <LoadingSpinner className="mr-2"/>}
+             <Button onClick={handleSaveSettings} disabled={isSaving} className="w-full text-xs sm:text-sm">
+                {isSaving && <LoadingSpinner className="mr-2 h-3 w-3 sm:h-4 sm:w-4"/>}
                 {isSaving ? "Saving..." : "Save Notification Settings"}
             </Button>
           </CardContent>

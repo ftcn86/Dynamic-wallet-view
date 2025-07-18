@@ -12,7 +12,7 @@ import { submitFeedback } from '@/services/feedbackService';
 import { SendIcon } from '@/components/shared/icons';
 
 const LightbulbIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M15.09 16.09a7 7 0 0 1-5.59-8.59l.39-2.02.39-2.02A1 1 0 0 1 11 2h2a1 1 0 0 1 .9.56l.39 2.02.39 2.02a7 7 0 0 1-5.59 8.59Z" fill="hsl(var(--primary))"/>
     <path d="M18.81 19.92a4 4 0 0 1-5.66 5.66" />
     <path d="M12 22v-2" />
@@ -63,11 +63,11 @@ export function AIFeatureFeedbackCard() {
   return (
     <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
         <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-                <LightbulbIcon className="w-6 h-6" />
+            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <LightbulbIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                 Future AI Tool: Mining Rate Forecaster
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-sm sm:text-base">
                 We're developing an AI tool to help forecast your potential mining rate based on different lockup scenarios. Is this a feature you would use?
             </CardDescription>
         </CardHeader>
@@ -81,14 +81,14 @@ export function AIFeatureFeedbackCard() {
                         onChange={(e) => setFeedback(e.target.value)}
                         rows={5}
                         disabled={isSubmitting}
-                        className="h-full"
+                        className="h-full text-xs sm:text-sm"
                     />
                 </div>
             </form>
         </CardContent>
          <CardFooter>
-            <Button onClick={handleSubmit} className="w-full" disabled={isSubmitting || !feedback.trim()}>
-                {isSubmitting ? <LoadingSpinner className="mr-2" /> : <SendIcon className="mr-2 h-4 w-4" />}
+            <Button onClick={handleSubmit} className="w-full text-xs sm:text-sm" disabled={isSubmitting || !feedback.trim()}>
+                {isSubmitting ? <LoadingSpinner className="mr-2 h-3 w-3 sm:h-4 sm:w-4" /> : <SendIcon className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />}
                 {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
             </Button>
         </CardFooter>

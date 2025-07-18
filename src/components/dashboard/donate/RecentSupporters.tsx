@@ -16,7 +16,7 @@ interface RecentSupportersProps {
 }
 
 const SparklesIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="currentColor" {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
       <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z" fill="#fde047" />
       <path d="M20 3L18.5 6L16 7.5l2.5 1.5L20 11l1.5-2.5L24 7.5l-2.5-1.5L20 3z" fill="#fde047"/>
       <path d="M5 3L3.5 6L1 7.5l2.5 1.5L5 11l1.5-2.5L9 7.5l-2.5-1.5L5 3z" fill="#fde047"/>

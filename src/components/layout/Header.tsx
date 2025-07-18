@@ -190,7 +190,7 @@ export function Header({children}: {children?: React.ReactNode}) {
   const avatarFallback = user ? (user.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase() : '?') : '';
 
   return (
-    <header className="flex h-20 items-center justify-between border-b bg-card px-4 sm:px-6 md:px-8">
+    <header className="flex h-16 sm:h-20 items-center justify-between border-b bg-card px-3 sm:px-4 md:px-6 lg:px-8">
       <div className="flex items-center gap-4">
         {children}
         {!user ? (

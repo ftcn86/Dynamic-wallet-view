@@ -8,6 +8,7 @@ export interface User {
   id: string;
   username: string;
   name: string;
+  email?: string; // Pi Network user email
   avatarUrl: string;
   bio: string;
   totalBalance: number;
@@ -34,6 +35,10 @@ export interface User {
   monthlyMiningDaysTarget?: number;
   termsAccepted?: boolean;
   settings: UserSettings;
+  // Pi Network authentication fields
+  accessToken?: string;
+  refreshToken?: string;
+  tokenExpiresAt?: number;
 }
 
 export interface Badge {

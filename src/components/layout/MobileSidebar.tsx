@@ -23,10 +23,10 @@ export function MobileSidebar({
   children: React.ReactNode;
   className?: string;
 }) {
-  const { setOpenMobile } = useSidebar();
+  const { setOpenMobile, openMobile } = useSidebar();
 
   return (
-    <Sheet onOpenChange={setOpenMobile}>
+    <Sheet open={openMobile} onOpenChange={setOpenMobile}>
       <SheetTrigger asChild className="md:hidden">
         <Button variant="ghost" size="icon">
           <MenuIcon className="h-6 w-6" />
@@ -35,8 +35,8 @@ export function MobileSidebar({
       </SheetTrigger>
       <SheetContent side="left" className={cn("w-72 p-0", className)}>
         <SheetHeader className="sr-only">
-          <SheetTitle>Main Navigation</SheetTitle>
-          <SheetDescription>A list of links to navigate the application.</SheetDescription>
+          <SheetTitle>Dynamic Wallet Navigation</SheetTitle>
+          <SheetDescription>Main navigation menu for Pi Network wallet features and settings.</SheetDescription>
         </SheetHeader>
         {children}
       </SheetContent>

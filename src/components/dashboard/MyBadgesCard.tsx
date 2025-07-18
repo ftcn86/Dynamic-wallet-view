@@ -17,9 +17,9 @@ function BadgeItem({ badge }: { badge: Badge }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="group relative flex cursor-pointer flex-col items-center space-y-2 rounded-lg border bg-card p-4 text-center transition-all hover:bg-muted/50 hover:shadow-md">
+        <div className="group relative flex cursor-pointer flex-col items-center space-y-2 rounded-lg border bg-card p-3 sm:p-4 text-center transition-all hover:bg-muted/50 hover:shadow-md">
           <BadgeIcon badgeId={badge.id} earned={badge.earned} size="lg" />
-          <p className="w-full truncate text-sm font-medium">{badge.name}</p>
+          <p className="w-full truncate text-xs sm:text-sm font-medium">{badge.name}</p>
           {!badge.earned && <div className="absolute inset-0 rounded-lg bg-black/20" />}
         </div>
       </DialogTrigger>
@@ -72,16 +72,16 @@ export function MyBadgesCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-headline">
-          <AwardIcon className="h-6 w-6" />
+        <CardTitle className="flex items-center gap-2 font-headline text-lg sm:text-xl">
+          <AwardIcon className="h-5 w-5 sm:h-6 sm:w-6" />
           My Badges
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-sm sm:text-base">
           View your earned badges and discover new ones to unlock.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
           {sortedBadges.map((badge) => (
             <BadgeItem key={badge.id} badge={badge} />
           ))}

@@ -16,6 +16,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { SidebarNavLink } from './SidebarNavLink';
 import { cn } from '@/lib/utils';
 import { PI_TEAM_CHAT_URL } from '@/lib/constants';
+import { useMobileFocus } from '@/hooks/use-mobile-focus';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,7 +28,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useTranslation } from '@/hooks/useTranslation';
+import Image from 'next/image';
 import {
     HomeIcon,
     UsersIcon,
@@ -37,17 +38,22 @@ import {
     HelpCircleIcon,
     CoinsIcon,
     NetworkIcon,
-    BlocksIcon,
 } from '@/components/shared/icons';
 
 
 export function Sidebar() {
   const { user } = useAuth();
-  const { state } = useSidebar();
-  const { t } = useTranslation();
+  const { state, setOpenMobile, isMobile } = useSidebar();
+  const { handleMobileAction } = useMobileFocus();
 
   const handleOpenChat = () => {
     window.open(PI_TEAM_CHAT_URL, '_blank');
+    // Close mobile sidebar when team chat is opened
+    if (isMobile) {
+      handleMobileAction(() => {
+        setOpenMobile(false);
+      });
+    }
   };
 
   if (!user) return null;
@@ -55,14 +61,22 @@ export function Sidebar() {
   return (
     <RootSidebar>
         <SidebarHeader>
-            <Link href="/dashboard" className="flex items-center gap-3">
-                <BlocksIcon className="h-8 w-8 shrink-0" />
-                <span className={cn(
-                    "text-lg font-bold text-foreground font-headline transition-opacity duration-200",
-                    state === 'collapsed' ? 'opacity-0' : 'opacity-100'
-                )}>
-                    {t('appName')}
-                </span>
+            <Link 
+                href="/dashboard" 
+                className={cn(
+                    "flex items-center justify-center",
+                    state === 'collapsed' ? 'justify-center' : 'justify-start'
+                )}
+                onClick={() => isMobile && setOpenMobile(false)}
+            >
+                <Image
+                    src="/logo.png"
+                    alt="Dynamic Wallet View"
+                    width={32}
+                    height={32}
+                    className="h-8 w-8 shrink-0 rounded-lg"
+                    data-ai-hint="logo brand"
+                />
             </Link>
         </SidebarHeader>
 
@@ -139,7 +153,22 @@ export function Sidebar() {
                 "text-xs text-muted-foreground space-y-1 transition-opacity duration-200",
                 state === 'collapsed' ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100'
             )}>
-                <p><Link href="/legal/terms" className="hover:text-primary">Terms</Link> · <Link href="/legal/privacy" className="hover:text-primary">Privacy</Link></p>
+                <p>
+                    <Link 
+                        href="/legal/terms" 
+                        className="hover:text-primary"
+                        onClick={() => isMobile && setOpenMobile(false)}
+                    >
+                        Terms
+                    </Link> · 
+                    <Link 
+                        href="/legal/privacy" 
+                        className="hover:text-primary"
+                        onClick={() => isMobile && setOpenMobile(false)}
+                    >
+                        Privacy
+                    </Link>
+                </p>
                 <p>Licensed under PIOS · Not an official Pi App</p>
             </div>
         </SidebarFooter>

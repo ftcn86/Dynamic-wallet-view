@@ -159,7 +159,7 @@ export const mockNotifications: Notification[] = [
         title: 'Software Update Available',
         description: `Your node is running v${mockNodeData.nodeSoftwareVersion}, but v${mockNodeData.latestSoftwareVersion} is available.`,
         date: subHours(today, 2).toISOString(),
-        read: false,
+        read: true,
         link: '/dashboard/node'
     },
     {
@@ -168,7 +168,7 @@ export const mockNotifications: Notification[] = [
         title: 'New Badge Earned!',
         description: 'You\'ve earned the "Active Team Leader" badge. Great leadership!',
         date: subDays(today, 1).toISOString(),
-        read: false,
+        read: true,
         link: '/dashboard?tab=achievements'
     },
     {

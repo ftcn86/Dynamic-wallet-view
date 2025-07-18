@@ -1,64 +1,52 @@
 
-"use client"
+"use client";
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { useToast } from '@/hooks/use-toast';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
-import { Progress } from '@/components/ui/progress';
-import { MOCK_DONATION_GOAL, MOCK_CURRENT_DONATIONS, MOCK_RECENT_DONATIONS } from '@/data/mocks';
+import { SendIcon, HeartIcon, UsersIcon, TrendingUpIcon } from '@/components/shared/icons';
 import { RecentSupporters } from '@/components/dashboard/donate/RecentSupporters';
-import { addTransaction, addNotification } from '@/services/piService';
-import { GiftIcon, SendIcon, RocketIcon, ServerIcon, PaintbrushIcon } from '@/components/shared/icons';
-
-const presetAmounts = ["1", "5", "10", "20"];
+import { 
+  addTransaction, 
+  addNotification, 
+  createDonationPayment
+} from '@/services/piService';
+import { isPiBrowser } from '@/lib/pi-network';
+import type { PiPayment } from '@/lib/pi-network';
 
 export default function DonatePage() {
-  const [amount, setAmount] = useState("5");
-  const [message, setMessage] = useState("");
-  const [isCustom, setIsCustom] = useState(false);
-  const [isDonating, setIsDonating] = useState(false);
-  
-  const [currentDonations, setCurrentDonations] = useState(MOCK_CURRENT_DONATIONS);
-  const [recentSupporters, setRecentSupporters] = useState(MOCK_RECENT_DONATIONS);
-  const [donationProgress, setDonationProgress] = useState(0);
-
-  const { toast } = useToast();
   const { user, refreshData } = useAuth();
+  const { toast } = useToast();
+  const [amount, setAmount] = useState('');
+  const [message, setMessage] = useState('');
+  const [isDonating, setIsDonating] = useState(false);
+  const [currentDonations, setCurrentDonations] = useState(0);
+  const [recentSupporters, setRecentSupporters] = useState<Array<{ name: string; amount: number }>>([
+    { name: "Pi Pioneer", amount: 5.0 },
+    { name: "Crypto Enthusiast", amount: 2.5 },
+    { name: "Blockchain Developer", amount: 10.0 },
+    { name: "Pi Miner", amount: 1.0 },
+    { name: "Community Member", amount: 3.0 },
+  ]);
 
-  useEffect(() => {
-    setDonationProgress((currentDonations / MOCK_DONATION_GOAL) * 100);
-  }, [currentDonations]);
+  const presetAmounts = [1, 2.5, 5, 10, 25];
 
-  const handlePresetSelect = (presetAmount: string) => {
-    setAmount(presetAmount);
-    setIsCustom(false);
-  }
-
-  const handleCustomSelect = () => {
-    setIsCustom(true);
-    setAmount("");
-  }
+  const handlePresetAmount = (presetAmount: number) => {
+    setAmount(presetAmount.toString());
+  };
 
   const handleDonate = async () => {
     if (!user) return;
     setIsDonating(true);
+    
     try {
         const donationAmount = parseFloat(amount);
         if (isNaN(donationAmount) || donationAmount <= 0) {
@@ -66,27 +54,95 @@ export default function DonatePage() {
             return;
         }
 
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
         let transactionDescription = "Donation to Dynamic Wallet View";
         if (message.trim()) {
             transactionDescription = message.trim();
         }
-        
-        await addTransaction({
-            type: 'sent',
-            amount: donationAmount,
-            status: 'completed',
-            to: 'Dynamic Wallet View Project',
-            description: transactionDescription
-        });
 
-        await addNotification({
-            type: 'announcement',
-            title: "Thank you for your support!",
-            description: `Your donation of ${donationAmount}π has been recorded.`,
-            link: '/dashboard/transactions'
-        });
+        // Create Pi Network payment
+        const paymentData = {
+            amount: donationAmount,
+            memo: transactionDescription,
+            metadata: {
+                type: 'donation',
+                app: 'dynamic-wallet-view',
+                user_id: user.id,
+                message: message.trim() || undefined,
+            },
+        };
+
+        if (isPiBrowser()) {
+            // Real Pi Network payment flow
+            const payment = await createDonationPayment(donationAmount, message.trim(), {
+                onReadyForServerApproval: (paymentId: string) => {
+                    console.log('Donation ready for approval:', paymentId);
+                },
+                onReadyForServerCompletion: (paymentId: string, txid: string) => {
+                    console.log('Donation completed:', paymentId, txid);
+                    
+                    // Add transaction to our app's history
+                    addTransaction({
+                        type: 'sent',
+                        amount: donationAmount,
+                        status: 'completed',
+                        to: 'Dynamic Wallet View Project',
+                        description: transactionDescription
+                    });
+
+                    // Add notification
+                    addNotification({
+                        type: 'announcement',
+                        title: "Thank you for your support!",
+                        description: `Your donation of ${donationAmount}π has been processed successfully.`,
+                        link: '/dashboard/transactions'
+                    });
+
+                    toast({
+                        title: "Thank you for your support!",
+                        description: `Your donation of ${donationAmount} π has been processed successfully.`,
+                    });
+                },
+                onCancel: (paymentId: string) => {
+                    console.log('Donation cancelled:', paymentId);
+                    toast({
+                        title: "Donation Cancelled",
+                        description: "Your donation was cancelled.",
+                        variant: "destructive",
+                    });
+                },
+                onError: (error: Error, payment: PiPayment) => {
+                    console.error('Donation error:', error);
+                    toast({
+                        title: "Donation Failed",
+                        description: error.message,
+                        variant: "destructive",
+                    });
+                },
+            });
+        } else {
+            // Mock payment flow for development
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await addTransaction({
+                type: 'sent',
+                amount: donationAmount,
+                status: 'completed',
+                to: 'Dynamic Wallet View Project',
+                description: transactionDescription
+            });
+
+            await addNotification({
+                type: 'announcement',
+                title: "Thank you for your support!",
+                description: `Your donation of ${donationAmount}π has been recorded.`,
+                link: '/dashboard/transactions'
+            });
+
+            toast({
+                title: "Thank you for your support!",
+                description: `Your donation of ${donationAmount} π has been recorded.`,
+            });
+        }
 
         const newTotal = currentDonations + donationAmount;
         setCurrentDonations(newTotal);
@@ -94,18 +150,14 @@ export default function DonatePage() {
         const newSupporter = { name: user.name, amount: donationAmount };
         setRecentSupporters(prev => [newSupporter, ...prev.slice(0, 9)]);
 
-        toast({
-            title: "Thank you for your support!",
-            description: `Your donation of ${donationAmount} π has been recorded.`,
-        });
-        
         refreshData();
         setMessage("");
 
     } catch (error) {
+        console.error('Donation error:', error);
         toast({
             title: "Donation Failed",
-            description: "There was an issue processing your donation. Please try again.",
+            description: error instanceof Error ? error.message : "There was an issue processing your donation. Please try again.",
             variant: "destructive",
         });
     } finally {
@@ -113,139 +165,179 @@ export default function DonatePage() {
     }
   };
 
-
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold font-headline">Support Our Project</h1>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-            <Card className="shadow-lg border-primary/20 hover:shadow-xl transition-shadow duration-300">
-                <CardHeader className="items-center text-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-accent/10 mb-4">
-                    <GiftIcon className="h-8 w-8" />
-                </div>
-                <CardTitle className="text-2xl font-headline">Join Us in Building the Future</CardTitle>
-                <CardDescription className="max-w-md">
-                    Your contributions are vital for maintaining and enhancing this app for the entire Pi community. Every bit of support makes a huge difference!
-                </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                    <div className="space-y-2">
-                        <Label className="font-medium text-center block">Choose an amount (π)</Label>
-                        <div className="grid grid-cols-2 xs:grid-cols-3 md:grid-cols-5 gap-2">
-                        {presetAmounts.map(preset => (
-                            <Button 
-                            key={preset}
-                            variant={!isCustom && amount === preset ? "default" : "outline"}
-                            onClick={() => handlePresetSelect(preset)}
-                            className="h-12 text-lg"
-                            >
-                            {preset} π
-                            </Button>
-                        ))}
-                        <Button 
-                            variant={isCustom ? "default" : "outline"}
-                            onClick={handleCustomSelect}
-                            className="h-12 text-lg col-span-2 xs:col-span-1"
-                        >
-                            Custom
-                        </Button>
-                        </div>
-                    </div>
+    <div className="container mx-auto p-4 space-y-6">
+      <div className="text-center space-y-2">
+        <h1 className="text-3xl sm:text-4xl font-bold">Support Dynamic Wallet View</h1>
+        <p className="text-muted-foreground text-sm sm:text-base">
+          Help us continue building amazing tools for the Pi Network community
+        </p>
+      </div>
 
-                    {isCustom && (
-                        <div>
-                            <Label htmlFor="donation-amount" className="sr-only">Custom Donation Amount (Pi)</Label>
-                            <div className="relative mt-2">
-                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-lg">π</span>
-                            <Input
-                                id="donation-amount"
-                                type="number"
-                                value={amount}
-                                onChange={(e) => setAmount(e.target.value)}
-                                placeholder="e.g., 2.5"
-                                className="pl-9 h-14 text-xl text-center"
-                                min="0.1"
-                                step="0.1"
-                            />
-                            </div>
-                        </div>
-                    )}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Donation Form */}
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl">
+              <HeartIcon className="h-5 w-5 sm:h-6 sm:w-6 text-red-500" />
+              Make a Donation
+            </CardTitle>
+            <CardDescription className="text-sm sm:text-base">
+              Your support helps us maintain and improve Dynamic Wallet View for the entire Pi Network community.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="amount" className="text-sm font-medium">Amount (π)</label>
+              <Input
+                id="amount"
+                type="number"
+                placeholder="Enter amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                min="0.1"
+                step="0.1"
+                className="text-sm sm:text-base"
+              />
+            </div>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="donation-message">Add an optional message</Label>
-                        <Textarea 
-                            id="donation-message"
-                            placeholder="Say thanks or leave a suggestion..."
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            rows={3}
-                        />
-                    </div>
-                </CardContent>
-                <CardFooter>
-                <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <Button className="w-full" size="lg" disabled={!amount || parseFloat(amount) <= 0 || isDonating}>
-                            <SendIcon className="mr-2 h-4 w-4" />
-                            Support with {amount && parseFloat(amount) > 0 ? amount : ''} π
-                        </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                        <AlertDialogTitle>Confirm Your Support</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            You are about to contribute {amount} π to support Dynamic Wallet View. This will be processed through the Pi Network. Are you sure?
-                        </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDonate} disabled={isDonating}>
-                            {isDonating ? <LoadingSpinner className="mr-2" /> : null}
-                            {isDonating ? 'Processing...' : `Confirm ${amount} π Support`}
-                        </AlertDialogAction>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
-                </CardFooter>
-            </Card>
-        </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Quick Amounts</label>
+              <div className="flex flex-wrap gap-2">
+                {presetAmounts.map((presetAmount) => (
+                  <Button
+                    key={presetAmount}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePresetAmount(presetAmount)}
+                    className="text-xs sm:text-sm"
+                  >
+                    {presetAmount} π
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="message" className="text-sm font-medium">Message (Optional)</label>
+              <Textarea
+                id="message"
+                placeholder="Leave a message of support..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="text-sm sm:text-base"
+                rows={3}
+              />
+            </div>
+
+            <div className="bg-muted/50 rounded-lg p-3 space-y-2">
+              <div className="flex items-center gap-2 text-sm">
+                <UsersIcon className="h-4 w-4" />
+                <span className="font-medium">Community Impact</span>
+              </div>
+              <ul className="text-xs sm:text-sm space-y-1 text-muted-foreground">
+                <li>• Server costs and infrastructure</li>
+                <li>• Feature development and improvements</li>
+                <li>• Community support and documentation</li>
+                <li>• Security audits and maintenance</li>
+              </ul>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button className="w-full text-sm sm:text-base" size="lg" disabled={!amount || parseFloat(amount) <= 0 || isDonating}>
+                  <SendIcon className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                  {isPiBrowser() ? `Support with ${amount && parseFloat(amount) > 0 ? amount : ''} π` : `Support with ${amount && parseFloat(amount) > 0 ? amount : ''} π (Mock)`}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Confirm Your Support</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {isPiBrowser() 
+                      ? `You are about to contribute ${amount} π to support Dynamic Wallet View. This will be processed through the Pi Network. Are you sure?`
+                      : `You are about to contribute ${amount} π to support Dynamic Wallet View. This is a mock transaction for development purposes. Are you sure?`
+                    }
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDonate} disabled={isDonating}>
+                    {isDonating ? <LoadingSpinner className="mr-2" /> : null}
+                    {isDonating ? 'Processing...' : `Confirm ${amount} π Support`}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </CardFooter>
+        </Card>
+
+        {/* Community Stats */}
         <div className="space-y-6">
-            <Card>
-                 <CardHeader>
-                    <CardTitle>Community Goal</CardTitle>
-                    <CardDescription>Help us reach our monthly target to cover server costs and development.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <Progress value={donationProgress} aria-label="Donation goal progress" />
-                    <div className="flex justify-between text-sm font-medium">
-                        <span className="text-muted-foreground">{currentDonations.toFixed(2)}π Raised</span>
-                        <span className="text-primary">{MOCK_DONATION_GOAL}π Goal</span>
-                    </div>
-                </CardContent>
-                <CardFooter>
-                    <RecentSupporters supporters={recentSupporters} />
-                </CardFooter>
-            </Card>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Why Your Support Matters</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4 text-sm text-muted-foreground">
-                    <div className="flex items-start gap-3">
-                        <RocketIcon className="h-5 w-5 mt-0.5 shrink-0" />
-                        <p><strong>New Features:</strong> We are constantly working on new tools and insights to make your Pi experience better.</p>
-                    </div>
-                     <div className="flex items-start gap-3">
-                        <ServerIcon className="h-5 w-5 mt-0.5 shrink-0" />
-                        <p><strong>Server Costs:</strong> Your support helps keep the app fast, reliable, and available 24/7.</p>
-                    </div>
-                     <div className="flex items-start gap-3">
-                        <PaintbrushIcon className="h-5 w-5 mt-0.5 shrink-0" />
-                        <p><strong>Design & Polish:</strong> We're dedicated to creating the most beautiful and user-friendly Pi app.</p>
-                    </div>
-                </CardContent>
-            </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl">
+                <TrendingUpIcon className="h-5 w-5 sm:h-6 sm:w-6 text-green-500" />
+                Community Support
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-primary">
+                    {currentDonations.toFixed(1)} π
+                  </div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">Total Raised</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-primary">
+                    {recentSupporters.length}
+                  </div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">Supporters</div>
+                </div>
+              </div>
+              
+              <Separator />
+              
+              <div className="space-y-2">
+                <h4 className="font-medium text-sm sm:text-base">Recent Supporters</h4>
+                <RecentSupporters supporters={recentSupporters} />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg sm:text-xl">Why Support Us?</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                <div className="text-sm sm:text-base">
+                  <span className="font-medium">Free & Open Source:</span> We believe in keeping our tools accessible to everyone in the Pi Network community.
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                <div className="text-sm sm:text-base">
+                  <span className="font-medium">Community Driven:</span> Your feedback and suggestions directly influence our development roadmap.
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                <div className="text-sm sm:text-base">
+                  <span className="font-medium">Privacy First:</span> We never collect or store your personal Pi Network data.
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                <div className="text-sm sm:text-base">
+                  <span className="font-medium">Continuous Improvement:</span> Regular updates with new features and improvements based on community needs.
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

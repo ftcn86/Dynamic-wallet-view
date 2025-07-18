@@ -37,22 +37,22 @@ export function BalanceBreakdownCard() {
   ];
 
   return (
-    <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300")}>
-      <CardHeader>
-        <CardTitle className="font-headline">Balance Breakdown</CardTitle>
+    <Card className={cn("shadow-lg hover:shadow-xl transition-all duration-300 min-h-[200px] flex flex-col")}>
+      <CardHeader className="flex-shrink-0">
+        <CardTitle className="font-headline text-lg sm:text-xl">Balance Breakdown</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ul className="space-y-4">
+      <CardContent className="flex-1">
+        <ul className="space-y-3 sm:space-y-4">
           {breakdownItems.map(item => (
-            <li key={item.label} className="flex justify-between items-center text-sm">
-              <span className="text-muted-foreground">{item.label}</span>
-              <span className="font-mono font-medium">{item.value.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 4 })} π</span>
+            <li key={item.label} className="flex justify-between items-center text-xs sm:text-sm">
+              <span className="text-muted-foreground truncate pr-2">{item.label}</span>
+              <span className="font-mono font-medium flex-shrink-0">{item.value.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 4 })} π</span>
             </li>
           ))}
         </ul>
       </CardContent>
-      <CardFooter>
-        <p className="text-xs text-muted-foreground">Note: Unverified Pi requires associated members to complete KYC to become transferable.</p>
+      <CardFooter className="flex-shrink-0">
+        <p className="text-xs text-muted-foreground leading-relaxed">Note: Unverified Pi requires associated members to complete KYC to become transferable.</p>
       </CardFooter>
     </Card>
   );

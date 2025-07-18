@@ -73,37 +73,37 @@ function TeamManagementCard({ teamMembers }: { teamMembers: TeamMember[] }) {
     return (
         <Card className="shadow-lg">
             <CardHeader>
-                <CardTitle className="flex items-center gap-2"><UsersIcon className="h-6 w-6"/> {t('teamInsights.managementTools.title')}</CardTitle>
-                <CardDescription>{t('teamInsights.managementTools.description')}</CardDescription>
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl"><UsersIcon className="h-5 w-5 sm:h-6 sm:w-6"/> {t('teamInsights.managementTools.title')}</CardTitle>
+                <CardDescription className="text-sm sm:text-base">{t('teamInsights.managementTools.description')}</CardDescription>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex flex-col space-y-4 rounded-lg border p-4">
+            <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                <div className="flex flex-col space-y-4 rounded-lg border p-3 sm:p-4">
                     <div className="flex items-center gap-2 font-medium">
-                        <BellIcon className="h-5 w-5"/>
-                        <h3>{t('teamInsights.managementTools.pingInactive.title')}</h3>
+                        <BellIcon className="h-4 w-4 sm:h-5 sm:w-5"/>
+                        <h3 className="text-sm sm:text-base">{t('teamInsights.managementTools.pingInactive.title')}</h3>
                     </div>
-                    <p className="text-sm text-muted-foreground flex-grow">
+                    <p className="text-xs sm:text-sm text-muted-foreground flex-grow">
                         {t('teamInsights.managementTools.pingInactive.description', {count: inactiveMembersCount})}
                     </p>
-                    <Button onClick={handlePingInactive} disabled={isPinging || inactiveMembersCount === 0}>
-                        {isPinging ? <LoadingSpinner className="mr-2"/> : <BellIcon className="mr-2 h-4 w-4"/>}
+                    <Button onClick={handlePingInactive} disabled={isPinging || inactiveMembersCount === 0} className="text-xs sm:text-sm">
+                        {isPinging ? <LoadingSpinner className="mr-2 h-3 w-3 sm:h-4 sm:w-4"/> : <BellIcon className="mr-2 h-3 w-3 sm:h-4 sm:w-4"/>}
                         {isPinging ? t('teamInsights.managementTools.pingInactive.buttonPinging') : t('teamInsights.managementTools.pingInactive.button', {count: inactiveMembersCount})}
                     </Button>
                 </div>
-                <div className="flex flex-col space-y-4 rounded-lg border p-4">
+                <div className="flex flex-col space-y-4 rounded-lg border p-3 sm:p-4">
                      <div className="flex items-center gap-2 font-medium">
-                        <MessageSquareIcon className="h-5 w-5"/>
-                        <h3>{t('teamInsights.managementTools.broadcast.title')}</h3>
+                        <MessageSquareIcon className="h-4 w-4 sm:h-5 sm:w-5"/>
+                        <h3 className="text-sm sm:text-base">{t('teamInsights.managementTools.broadcast.title')}</h3>
                     </div>
                     <Textarea 
                         placeholder={t('teamInsights.managementTools.broadcast.placeholder')}
                         value={broadcastMessage}
                         onChange={(e) => setBroadcastMessage(e.target.value)}
-                        className="flex-grow"
+                        className="flex-grow text-xs sm:text-sm"
                         disabled={isBroadcasting}
                     />
-                    <Button onClick={handleBroadcast} disabled={isBroadcasting || !broadcastMessage.trim()}>
-                       {isBroadcasting ? <LoadingSpinner className="mr-2"/> : <SendIcon className="mr-2 h-4 w-4"/>}
+                    <Button onClick={handleBroadcast} disabled={isBroadcasting || !broadcastMessage.trim()} className="text-xs sm:text-sm">
+                       {isBroadcasting ? <LoadingSpinner className="mr-2 h-3 w-3 sm:h-4 sm:w-4"/> : <SendIcon className="mr-2 h-3 w-3 sm:h-4 sm:w-4"/>}
                        {isBroadcasting ? t('teamInsights.managementTools.broadcast.buttonSending') : t('teamInsights.managementTools.broadcast.button')}
                     </Button>
                 </div>
@@ -124,19 +124,19 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
   return (
     <TableRow>
       <TableCell>
-        <div className="flex items-center gap-3">
-          <Avatar className="h-9 w-9">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Avatar className="h-8 w-8 sm:h-9 sm:w-9">
             <AvatarImage src={member.avatarUrl} alt={member.name} data-ai-hint={member.dataAiHint} />
-            <AvatarFallback>{avatarFallback}</AvatarFallback>
+            <AvatarFallback className="text-xs sm:text-sm">{avatarFallback}</AvatarFallback>
           </Avatar>
-          <span className="font-medium">{member.name}</span>
+          <span className="font-medium text-sm sm:text-base">{member.name}</span>
         </div>
       </TableCell>
-      <TableCell className="hidden lg:table-cell">{format(new Date(member.joinDate), 'MMM dd, yyyy')}</TableCell>
+      <TableCell className="hidden lg:table-cell text-sm">{format(new Date(member.joinDate), 'MMM dd, yyyy')}</TableCell>
       <TableCell>
         <UiBadge
           variant={statusVariantMap[member.status]}
-          className="capitalize"
+          className="capitalize text-xs sm:text-sm"
         >
           {t(`teamInsights.statusValues.${member.status}`)}
         </UiBadge>
@@ -146,11 +146,11 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
       </TableCell>
       <TableCell className="text-right">
         <div className="flex items-center justify-end gap-1 font-mono">
-          {member.unverifiedPiContribution.toFixed(2)} π
+          <span className="text-xs sm:text-sm">{member.unverifiedPiContribution.toFixed(2)} π</span>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <InfoIcon className="h-4 w-4 cursor-help" />
+                <InfoIcon className="h-3 w-3 sm:h-4 sm:w-4 cursor-help" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>{t('teamInsights.contributionTooltip')}</p>
@@ -159,7 +159,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           </TooltipProvider>
         </div>
       </TableCell>
-      <TableCell className="text-right font-mono">{member.teamMemberActiveMiningHours_LastWeek ?? 0} {t('dashboard.teamActivity.hoursSuffix')}</TableCell>
+      <TableCell className="text-right font-mono text-xs sm:text-sm">{member.teamMemberActiveMiningHours_LastWeek ?? 0} {t('dashboard.teamActivity.hoursSuffix')}</TableCell>
     </TableRow>
   );
 }
@@ -206,7 +206,7 @@ export default function TeamInsightsPage() {
   };
 
   const sortedTeamMembers = useMemo(() => {
-    let sortableItems = [...teamMembers];
+    const sortableItems = [...teamMembers];
     if (sortConfig.key !== null) {
       sortableItems.sort((a, b) => {
         const valA = a[sortConfig.key! as keyof TeamMember];
@@ -232,10 +232,10 @@ export default function TeamInsightsPage() {
 
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold font-headline">{t('teamInsights.title')}</h1>
-        <p className="text-muted-foreground max-w-3xl">
+        <h1 className="text-2xl sm:text-3xl font-bold font-headline">{t('teamInsights.title')}</h1>
+        <p className="text-sm sm:text-base text-muted-foreground max-w-3xl">
           {t('teamInsights.description')}
         </p>
       </div>
@@ -244,11 +244,11 @@ export default function TeamInsightsPage() {
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <UsersIcon className="h-6 w-6" />
+          <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+            <UsersIcon className="h-5 w-5 sm:h-6 sm:w-6" />
             {t('teamInsights.tableTitle')}
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-sm sm:text-base">
             {t('teamInsights.tableDescription')}
           </CardDescription>
         </CardHeader>
