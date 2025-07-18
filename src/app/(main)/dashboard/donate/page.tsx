@@ -74,8 +74,32 @@ export default function DonatePage() {
         if (isPiBrowser()) {
             // Real Pi Network payment flow
             const payment = await createDonationPayment(donationAmount, message.trim(), {
-                onReadyForServerApproval: (paymentId: string) => {
+                onReadyForServerApproval: async (paymentId: string) => {
                     console.log('Donation ready for approval:', paymentId);
+                    
+                    // Call server API to approve the payment
+                    try {
+                        const response = await fetch('/api/payments', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${user.accessToken || 'mock-token'}`,
+                            },
+                            body: JSON.stringify({
+                                action: 'complete',
+                                payment: payment,
+                            }),
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Failed to approve payment on server');
+                        }
+
+                        console.log('Payment approved on server:', paymentId);
+                    } catch (error) {
+                        console.error('Server approval failed:', error);
+                        // Continue with payment flow even if server approval fails
+                    }
                 },
                 onReadyForServerCompletion: (paymentId: string, txid: string) => {
                     console.log('Donation completed:', paymentId, txid);
