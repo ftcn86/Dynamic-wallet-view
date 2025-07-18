@@ -522,16 +522,30 @@ export async function authenticateWithPi(): Promise<User | null> {
     console.log('🔍 User app_id:', authResult.user.app_id);
     console.log('🔍 User receiving_email:', authResult.user.receiving_email);
 
+    // Determine if user is a node operator based on roles
+    // In Pi Network, node operators typically have specific roles
+    const isNodeOperator = authResult.user.roles.includes('node_operator') || 
+                          authResult.user.roles.includes('validator') ||
+                          authResult.user.roles.includes('super_node') ||
+                          authResult.user.roles.includes('node');
+
+    console.log('🔍 Node operator detection:', {
+      roles: authResult.user.roles,
+      isNodeOperator,
+      hasEmailVerified: authResult.user.roles.includes('email_verified'),
+      hasKycAccepted: authResult.user.roles.includes('kyc_accepted')
+    });
+
     const user: User = {
       id: authResult.user.uid,
       username: authResult.user.username,
-      name: `${authResult.user.profile?.firstname || ''} ${authResult.user.profile?.lastname || ''}`,
-      email: authResult.user.profile?.email || '',
+      name: authResult.user.username, // Use username since profile is not available in sandbox
+      email: '', // Email not available in sandbox response
       avatarUrl: '', // Will be set from Pi Network or default
       bio: '',
       totalBalance: 0, // Will be fetched separately
       miningRate: 0,
-      isNodeOperator: false, // We'll determine this based on roles/credentials
+      isNodeOperator, // Now properly determined from roles
       balanceBreakdown: {
         transferableToMainnet: 0,
         totalUnverifiedPi: 0,

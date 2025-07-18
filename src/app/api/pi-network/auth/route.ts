@@ -11,6 +11,17 @@ const piConfig = {
 // Initialize Pi Network SDK
 initializePiNetwork(piConfig);
 
+// Helper function to validate token with Pi Network API
+async function validateTokenWithPiAPI(accessToken: string): Promise<boolean> {
+  try {
+    const api = new (await import('@/lib/pi-network')).PiNetworkAPI(piConfig);
+    return await api.validateToken(accessToken);
+  } catch (error) {
+    console.error('Pi API token validation failed:', error);
+    return false;
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { action } = await request.json();
@@ -49,13 +60,16 @@ export async function POST(request: NextRequest) {
             );
           }
 
-          // Validate token using Pi Network API
-          const api = new (await import('@/lib/pi-network')).PiNetworkAPI(piConfig);
-          const isValid = await api.validateToken(accessToken);
+          // For sandbox mode, we'll accept the token as valid
+          // since Pi Network sandbox doesn't provide the same validation endpoints
+          const isValid = piConfig.sandbox ? true : await validateTokenWithPiAPI(accessToken);
+
+          console.log(`🔍 Token validation: ${isValid ? 'VALID' : 'INVALID'} (sandbox: ${piConfig.sandbox})`);
 
           return NextResponse.json({
             success: true,
             isValid,
+            sandbox: piConfig.sandbox,
           });
         } catch (error) {
           console.error('Token validation error:', error);
