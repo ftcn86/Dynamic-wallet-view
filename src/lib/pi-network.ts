@@ -485,24 +485,28 @@ export async function authenticateWithPi(): Promise<User | null> {
       throw new Error('Authentication failed - no user returned');
     }
 
-    // Validate token with our secure API
-    try {
-      const validationResponse = await fetch('/api/pi-network/auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          action: 'validate-token',
-          accessToken: authResult.accessToken || authResult.auth?.accessToken || '',
-        }),
-      });
+    // Validate token with our secure API (only in production)
+    if (process.env.NODE_ENV === 'production' && !process.env.PI_SANDBOX) {
+      try {
+        const validationResponse = await fetch('/api/pi-network/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            action: 'validate-token',
+            accessToken: authResult.accessToken || authResult.auth?.accessToken || '',
+          }),
+        });
 
-      if (!validationResponse.ok) {
-        console.warn('Token validation failed, but continuing with authentication');
+        if (!validationResponse.ok) {
+          console.warn('Token validation failed, but continuing with authentication');
+        }
+      } catch (validationError) {
+        console.warn('Could not validate token with server:', validationError);
       }
-    } catch (validationError) {
-      console.warn('Could not validate token with server:', validationError);
+    } else {
+      console.log('🔍 Skipping token validation in sandbox/development mode');
     }
 
     // Map Pi Network user to our app's User format
