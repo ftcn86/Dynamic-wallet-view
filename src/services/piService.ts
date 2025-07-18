@@ -123,6 +123,42 @@ export async function createPiPayment(
   paymentData: PiPaymentData,
   callbacks: PaymentCallbacks
 ): Promise<PiPayment> {
+  // Check if we're in Pi Browser environment
+  if (!isPiBrowser()) {
+    console.log('Not in Pi Browser - using mock payment flow');
+    
+    // Create mock payment for development
+    const mockPayment: PiPayment = {
+      identifier: `mock_${Date.now()}`,
+      user_uid: 'mock_user',
+      amount: paymentData.amount,
+      memo: paymentData.memo,
+      metadata: paymentData.metadata || {},
+      to_address: paymentData.to_address || 'mock_address',
+      created_at: new Date().toISOString(),
+      status: 'pending',
+      transaction: null,
+    };
+
+    // Simulate payment flow with delays
+    setTimeout(() => {
+      callbacks.onReadyForServerApproval(mockPayment.identifier);
+    }, 1000);
+
+    setTimeout(() => {
+      const txid = `mock_tx_${Date.now()}`;
+      mockPayment.status = 'completed';
+      mockPayment.transaction = {
+        txid,
+        verified: true,
+        _link: `https://explorer.minepi.com/tx/${txid}`,
+      };
+      callbacks.onReadyForServerCompletion(mockPayment.identifier, txid);
+    }, 3000);
+
+    return mockPayment;
+  }
+
   try {
     const sdk = getPiSDK();
     
@@ -191,6 +227,24 @@ export async function createPiPayment(
  * @returns Promise<PiPayment>
  */
 export async function completePiPayment(payment: PiPayment): Promise<PiPayment> {
+  // Check if we're in Pi Browser environment
+  if (!isPiBrowser()) {
+    console.log('Not in Pi Browser - using mock payment completion');
+    
+    // Return mock completed payment
+    const completedPayment = { ...payment };
+    completedPayment.status = 'completed';
+    
+    // Update payment status
+    const paymentStatus = activePayments.get(payment.identifier);
+    if (paymentStatus) {
+      paymentStatus.status = 'completed';
+      paymentStatus.completedAt = new Date().toISOString();
+    }
+    
+    return completedPayment;
+  }
+
   try {
     const sdk = getPiSDK();
     
@@ -217,6 +271,23 @@ export async function completePiPayment(payment: PiPayment): Promise<PiPayment> 
  * @returns Promise<PiPayment>
  */
 export async function cancelPiPayment(payment: PiPayment): Promise<PiPayment> {
+  // Check if we're in Pi Browser environment
+  if (!isPiBrowser()) {
+    console.log('Not in Pi Browser - using mock payment cancellation');
+    
+    // Return mock cancelled payment
+    const cancelledPayment = { ...payment };
+    cancelledPayment.status = 'cancelled';
+    
+    // Update payment status
+    const paymentStatus = activePayments.get(payment.identifier);
+    if (paymentStatus) {
+      paymentStatus.status = 'cancelled';
+    }
+    
+    return cancelledPayment;
+  }
+
   try {
     const sdk = getPiSDK();
     
