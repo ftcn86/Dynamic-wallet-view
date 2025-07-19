@@ -162,6 +162,11 @@ export async function createPiPayment(
   try {
     const sdk = getPiSDK();
     
+    // Check if SDK is properly initialized
+    if (!sdk || !(sdk as any).pi) {
+      throw new Error('Pi Network SDK not available. Please ensure you are running in the Pi Browser and the SDK is properly loaded.');
+    }
+    
     // Create payment using Pi Network SDK
     const payment = await sdk.createPayment(paymentData, {
       onReadyForServerApproval: (paymentId: string) => {
@@ -217,7 +222,19 @@ export async function createPiPayment(
     return payment;
   } catch (error) {
     console.error('Failed to create Pi payment:', error);
-    throw new Error(`Payment creation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    
+    // Provide more specific error messages
+    if (error instanceof Error) {
+      if (error.message.includes('SDK not available')) {
+        throw new Error('Pi Network SDK not available. Please ensure you are running in the Pi Browser.');
+      } else if (error.message.includes('not authenticated')) {
+        throw new Error('Please authenticate with Pi Network first.');
+      } else {
+        throw new Error(`Payment creation failed: ${error.message}`);
+      }
+    } else {
+      throw new Error(`Payment creation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
   }
 }
 

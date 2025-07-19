@@ -88,16 +88,21 @@ function TeamManagementCard({ teamMembers }: { teamMembers: TeamMember[] }) {
     return (
         <Card className="shadow-lg w-full max-w-full">
             <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl"><UsersIcon className="h-5 w-5 sm:h-6 sm:w-6"/> {t('teamInsights.managementTools.title')}</CardTitle>
-                <CardDescription className="text-sm sm:text-base">{t('teamInsights.managementTools.description')}</CardDescription>
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl break-words">
+                    <UsersIcon className="h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0"/> 
+                    {t('teamInsights.managementTools.title')}
+                </CardTitle>
+                <CardDescription className="text-sm sm:text-base break-words">
+                    {t('teamInsights.managementTools.description')}
+                </CardDescription>
             </CardHeader>
             <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 w-full max-w-full">
                 <div className="flex flex-col space-y-4 rounded-lg border p-3 sm:p-4 w-full">
                     <div className="flex items-center gap-2 font-medium">
-                        <BellIcon className="h-4 w-4 sm:h-5 sm:w-5"/>
-                        <h3 className="text-sm sm:text-base">{t('teamInsights.managementTools.pingInactive.title')}</h3>
+                        <BellIcon className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0"/>
+                        <h3 className="text-sm sm:text-base break-words">{t('teamInsights.managementTools.pingInactive.title')}</h3>
                     </div>
-                    <p className="text-xs sm:text-sm text-muted-foreground flex-grow">
+                    <p className="text-xs sm:text-sm text-muted-foreground flex-grow break-words">
                         {t('teamInsights.managementTools.pingInactive.description', {count: inactiveMembersCount})}
                     </p>
                     <Button onClick={handlePingInactive} disabled={isPinging || inactiveMembersCount === 0} className="text-xs sm:text-sm min-h-[44px] sm:min-h-[40px]">
@@ -107,8 +112,8 @@ function TeamManagementCard({ teamMembers }: { teamMembers: TeamMember[] }) {
                 </div>
                 <div className="flex flex-col space-y-4 rounded-lg border p-3 sm:p-4 w-full">
                      <div className="flex items-center gap-2 font-medium">
-                        <MessageSquareIcon className="h-4 w-4 sm:h-5 sm:w-5"/>
-                        <h3 className="text-sm sm:text-base">{t('teamInsights.managementTools.broadcast.title')}</h3>
+                        <MessageSquareIcon className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0"/>
+                        <h3 className="text-sm sm:text-base break-words">{t('teamInsights.managementTools.broadcast.title')}</h3>
                     </div>
                     <Textarea 
                         placeholder={t('teamInsights.managementTools.broadcast.placeholder')}
@@ -259,11 +264,11 @@ export default function TeamInsightsPage() {
 
       <Card className="shadow-lg w-full max-w-full">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
-            <UsersIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+          <CardTitle className="flex items-center gap-2 text-lg sm:text-xl break-words">
+            <UsersIcon className="h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0" />
             {t('teamInsights.tableTitle')}
           </CardTitle>
-          <CardDescription className="text-sm sm:text-base">
+          <CardDescription className="text-sm sm:text-base break-words">
             {t('teamInsights.tableDescription')}
           </CardDescription>
         </CardHeader>
@@ -279,22 +284,22 @@ export default function TeamInsightsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <SortableTableHead sortKey="name" sortConfig={sortConfig} onClick={() => requestSort('name')}>
+                      <SortableTableHead sortKey="name" sortConfig={sortConfig} onClick={() => requestSort('name')} className="min-w-[200px]">
                         {t('teamInsights.columns.member')}
                       </SortableTableHead>
-                      <SortableTableHead sortKey="joinDate" sortConfig={sortConfig} onClick={() => requestSort('joinDate')} className="hidden lg:table-cell">
+                      <SortableTableHead sortKey="joinDate" sortConfig={sortConfig} onClick={() => requestSort('joinDate')} className="hidden lg:table-cell min-w-[120px]">
                         {t('teamInsights.columns.joinDate')}
                       </SortableTableHead>
-                      <SortableTableHead sortKey="status" sortConfig={sortConfig} onClick={() => requestSort('status')}>
+                      <SortableTableHead sortKey="status" sortConfig={sortConfig} onClick={() => requestSort('status')} className="min-w-[100px]">
                         {t('teamInsights.columns.status')}
                       </SortableTableHead>
-                      <SortableTableHead sortKey="kycStatus" sortConfig={sortConfig} onClick={() => requestSort('kycStatus')} className="hidden md:table-cell">
+                      <SortableTableHead sortKey="kycStatus" sortConfig={sortConfig} onClick={() => requestSort('kycStatus')} className="hidden md:table-cell min-w-[120px]">
                         {t('teamInsights.columns.kycStatus')}
                       </SortableTableHead>
-                      <SortableTableHead sortKey="unverifiedPiContribution" sortConfig={sortConfig} onClick={() => requestSort('unverifiedPiContribution')} isNumeric={true}>
+                      <SortableTableHead sortKey="unverifiedPiContribution" sortConfig={sortConfig} onClick={() => requestSort('unverifiedPiContribution')} isNumeric={true} className="min-w-[120px]">
                         {t('teamInsights.columns.contribution')}
                       </SortableTableHead>
-                      <SortableTableHead sortKey="teamMemberActiveMiningHours_LastWeek" sortConfig={sortConfig} onClick={() => requestSort('teamMemberActiveMiningHours_LastWeek')} isNumeric={true}>
+                      <SortableTableHead sortKey="teamMemberActiveMiningHours_LastWeek" sortConfig={sortConfig} onClick={() => requestSort('teamMemberActiveMiningHours_LastWeek')} isNumeric={true} className="min-w-[100px]">
                         {t('teamInsights.columns.activityLastWeek')}
                       </SortableTableHead>
                     </TableRow>

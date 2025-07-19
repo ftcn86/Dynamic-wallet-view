@@ -70,7 +70,22 @@ export interface PiNetworkConfig {
 // Environment detection
 export const isPiBrowser = (): boolean => {
   if (typeof window === 'undefined') return false;
-  return !!(window as any).Pi;
+  
+  // Check for Pi SDK
+  if ((window as any).Pi) return true;
+  
+  // Check for Pi Browser user agent
+  const userAgent = navigator.userAgent.toLowerCase();
+  if (userAgent.includes('pi browser') || userAgent.includes('pi-browser')) return true;
+  
+  // Check for Pi-specific environment variables
+  if ((window as any).__PI_BROWSER__) return true;
+  
+  // Check URL for Pi Browser indicators
+  const url = window.location.href.toLowerCase();
+  if (url.includes('pi.app') || url.includes('minepi.com')) return true;
+  
+  return false;
 };
 
 export const isSandboxMode = (): boolean => {
@@ -100,19 +115,34 @@ class PiNetworkSDK {
   }
 
   private initializeSDK(): void {
-    if (typeof window !== 'undefined' && (window as any).Pi) {
-      this.pi = (window as any).Pi;
+    if (typeof window !== 'undefined') {
+      // Wait for Pi SDK to be available
+      const checkForPiSDK = () => {
+        if ((window as any).Pi) {
+          this.pi = (window as any).Pi;
+          
+          // Debug: Log available methods
+          console.log('Available Pi SDK methods:', Object.keys(this.pi));
+          
+          // Initialize SDK - let Pi Browser determine environment automatically
+          if (this.pi.init) {
+            try {
+              this.pi.init({ 
+                version: "2.0"
+                // Remove forced sandbox - let Pi Browser handle environment detection
+              });
+              console.log('✅ Pi Network SDK initialized successfully');
+            } catch (error) {
+              console.error('Failed to initialize Pi SDK:', error);
+            }
+          }
+        } else {
+          // Retry after a short delay
+          setTimeout(checkForPiSDK, 100);
+        }
+      };
       
-      // Debug: Log available methods
-      console.log('Available Pi SDK methods:', Object.keys(this.pi));
-      
-      // Initialize SDK - let Pi Browser determine environment automatically
-      if (this.pi.init) {
-        this.pi.init({ 
-          version: "2.0"
-          // Remove forced sandbox - let Pi Browser handle environment detection
-        });
-      }
+      checkForPiSDK();
     }
   }
 
