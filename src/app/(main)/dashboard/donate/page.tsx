@@ -196,28 +196,28 @@ export default function DonatePage() {
   };
 
   return (
-    <div className="container mx-auto p-4 space-y-6">
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl sm:text-4xl font-bold">Support Dynamic Wallet View</h1>
-        <p className="text-muted-foreground text-sm sm:text-base">
+    <div className="w-full max-w-full space-y-4 sm:space-y-6 overflow-hidden">
+      <div className="text-center space-y-2 w-full max-w-full">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold break-words">Support Dynamic Wallet View</h1>
+        <p className="text-muted-foreground text-sm sm:text-base break-words">
           Help us continue building amazing tools for the Pi Network community
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 w-full max-w-full">
         {/* Donation Form */}
-        <Card className="w-full">
+        <Card className="w-full max-w-full">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl">
-              <HeartIcon className="h-5 w-5 sm:h-6 sm:w-6 text-red-500" />
+            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl lg:text-2xl break-words">
+              <HeartIcon className="h-5 w-5 sm:h-6 sm:w-6 text-red-500 flex-shrink-0" />
               Make a Donation
             </CardTitle>
-            <CardDescription className="text-sm sm:text-base">
+            <CardDescription className="text-sm sm:text-base break-words">
               Your support helps us maintain and improve Dynamic Wallet View for the entire Pi Network community.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
+          <CardContent className="space-y-4 w-full">
+            <div className="space-y-2 w-full">
               <label htmlFor="amount" className="text-sm font-medium">Amount (π)</label>
               <Input
                 id="amount"
@@ -227,11 +227,11 @@ export default function DonatePage() {
                 onChange={(e) => setAmount(e.target.value)}
                 min="0.1"
                 step="0.1"
-                className="text-sm sm:text-base"
+                className="text-sm sm:text-base min-h-[44px] sm:min-h-[40px]"
               />
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 w-full">
               <label className="text-sm font-medium">Quick Amounts</label>
               <div className="flex flex-wrap gap-2">
                 {presetAmounts.map((presetAmount) => (
@@ -240,7 +240,7 @@ export default function DonatePage() {
                     variant="outline"
                     size="sm"
                     onClick={() => handlePresetAmount(presetAmount)}
-                    className="text-xs sm:text-sm"
+                    className="text-xs sm:text-sm min-h-[44px] sm:min-h-[40px]"
                   >
                     {presetAmount} π
                   </Button>
@@ -248,22 +248,22 @@ export default function DonatePage() {
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 w-full">
               <label htmlFor="message" className="text-sm font-medium">Message (Optional)</label>
               <Textarea
                 id="message"
                 placeholder="Leave a message of support..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="text-sm sm:text-base"
+                className="text-sm sm:text-base min-h-[80px]"
                 rows={3}
               />
             </div>
 
-            <div className="bg-muted/50 rounded-lg p-3 space-y-2">
+            <div className="bg-muted/50 rounded-lg p-3 space-y-2 w-full">
               <div className="flex items-center gap-2 text-sm">
-                <UsersIcon className="h-4 w-4" />
-                <span className="font-medium">Community Impact</span>
+                <UsersIcon className="h-4 w-4 flex-shrink-0" />
+                <span className="font-medium break-words">Community Impact</span>
               </div>
               <ul className="text-xs sm:text-sm space-y-1 text-muted-foreground">
                 <li>• Server costs and infrastructure</li>
@@ -273,10 +273,10 @@ export default function DonatePage() {
               </ul>
             </div>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="w-full">
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button className="w-full text-sm sm:text-base" size="lg" disabled={!amount || parseFloat(amount) <= 0 || isDonating}>
+                <Button className="w-full text-sm sm:text-base min-h-[44px] sm:min-h-[40px]" size="lg" disabled={!amount || parseFloat(amount) <= 0 || isDonating}>
                   <SendIcon className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                   {isPiBrowser() && !isSandboxMode() 
                     ? `Support with ${amount && parseFloat(amount) > 0 ? amount : ''} π` 
@@ -284,10 +284,10 @@ export default function DonatePage() {
                   }
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent>
+              <AlertDialogContent className="w-[95vw] max-w-md sm:max-w-lg md:max-w-xl">
                 <AlertDialogHeader>
                   <AlertDialogTitle>Confirm Your Support</AlertDialogTitle>
-                  <AlertDialogDescription>
+                  <AlertDialogDescription className="break-words">
                     {isPiBrowser() 
                       ? `You are about to contribute ${amount} π to support Dynamic Wallet View. This will be processed through the Pi Network. Are you sure?`
                       : `You are about to contribute ${amount} π to support Dynamic Wallet View. This is a mock transaction for development purposes. Are you sure?`
@@ -296,7 +296,7 @@ export default function DonatePage() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDonate} disabled={isDonating}>
+                  <AlertDialogAction onClick={handleDonate} disabled={isDonating} className="min-h-[44px] sm:min-h-[40px]">
                     {isDonating ? <LoadingSpinner className="mr-2" /> : null}
                     {isDonating ? 'Processing...' : `Confirm ${amount} π Support`}
                   </AlertDialogAction>
@@ -307,65 +307,65 @@ export default function DonatePage() {
         </Card>
 
         {/* Community Stats */}
-        <div className="space-y-6">
-          <Card>
+        <div className="space-y-4 sm:space-y-6 w-full max-w-full">
+          <Card className="w-full max-w-full">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl">
-                <TrendingUpIcon className="h-5 w-5 sm:h-6 sm:w-6 text-green-500" />
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl lg:text-2xl break-words">
+                <TrendingUpIcon className="h-5 w-5 sm:h-6 sm:w-6 text-green-500 flex-shrink-0" />
                 Community Support
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 w-full">
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center">
-                  <div className="text-2xl sm:text-3xl font-bold text-primary">
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary break-words">
                     {currentDonations.toFixed(1)} π
                   </div>
-                  <div className="text-xs sm:text-sm text-muted-foreground">Total Raised</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground break-words">Total Raised</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl sm:text-3xl font-bold text-primary">
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary break-words">
                     {recentSupporters.length}
                   </div>
-                  <div className="text-xs sm:text-sm text-muted-foreground">Supporters</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground break-words">Supporters</div>
                 </div>
               </div>
               
               <Separator />
               
-              <div className="space-y-2">
-                <h4 className="font-medium text-sm sm:text-base">Recent Supporters</h4>
+              <div className="space-y-2 w-full">
+                <h4 className="font-medium text-sm sm:text-base break-words">Recent Supporters</h4>
                 <RecentSupporters supporters={recentSupporters} />
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="w-full max-w-full">
             <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">Why Support Us?</CardTitle>
+              <CardTitle className="text-base sm:text-lg lg:text-xl break-words">Why Support Us?</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-3 w-full">
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                <div className="text-sm sm:text-base">
+                <div className="text-sm sm:text-base min-w-0 flex-1">
                   <span className="font-medium">Free & Open Source:</span> We believe in keeping our tools accessible to everyone in the Pi Network community.
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                <div className="text-sm sm:text-base">
+                <div className="text-sm sm:text-base min-w-0 flex-1">
                   <span className="font-medium">Community Driven:</span> Your feedback and suggestions directly influence our development roadmap.
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                <div className="text-sm sm:text-base">
+                <div className="text-sm sm:text-base min-w-0 flex-1">
                   <span className="font-medium">Privacy First:</span> We never collect or store your personal Pi Network data.
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                <div className="text-sm sm:text-base">
+                <div className="text-sm sm:text-base min-w-0 flex-1">
                   <span className="font-medium">Continuous Improvement:</span> Regular updates with new features and improvements based on community needs.
                 </div>
               </div>

@@ -24,6 +24,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { SortableTableHead } from '@/components/shared/SortableTableHead';
 import { useAuth } from '@/contexts/AuthContext';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { 
     ArrowDownLeftIcon,
     ArrowUpRightIcon,
@@ -64,7 +65,7 @@ function TransactionRow({ tx }: { tx: Transaction }) {
 
   return (
     <TableRow>
-      <TableCell className="hidden sm:table-cell">
+      <TableCell className="hidden sm:table-cell min-w-[60px]">
         <AlertDialog>
           <TooltipProvider>
               <Tooltip>
@@ -80,18 +81,18 @@ function TransactionRow({ tx }: { tx: Transaction }) {
                   </TooltipContent>
               </Tooltip>
           </TooltipProvider>
-          <AlertDialogContent>
+          <AlertDialogContent className="w-[95vw] max-w-md sm:max-w-lg md:max-w-xl">
             <AlertDialogHeader>
               <AlertDialogTitle>View on Pi Block Explorer?</AlertDialogTitle>
               <AlertDialogDescription>
                 You are about to be redirected to an external block explorer to view the details of this transaction. Do you want to continue?
                 <br /><br />
-                <span className="text-xs text-muted-foreground truncate">Transaction ID: {tx.id}</span>
+                <span className="text-xs text-muted-foreground break-all">Transaction ID: {tx.id}</span>
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleExplorerRedirect}>
+              <AlertDialogAction onClick={handleExplorerRedirect} className="min-h-[44px] sm:min-h-[40px]">
                 <ExternalLinkIcon className="mr-2 h-4 w-4" />
                 Continue
               </AlertDialogAction>
@@ -99,12 +100,12 @@ function TransactionRow({ tx }: { tx: Transaction }) {
           </AlertDialogContent>
         </AlertDialog>
       </TableCell>
-      <TableCell>
-        <div className="font-medium">{tx.description}</div>
+      <TableCell className="min-w-[200px]">
+        <div className="font-medium break-words">{tx.description}</div>
         <div className="text-xs text-muted-foreground truncate hidden md:block">{tx.from || tx.to || 'Network'}</div>
       </TableCell>
-      <TableCell className="text-right">
-        <span className={cn("font-mono", {
+      <TableCell className="text-right min-w-[120px]">
+        <span className={cn("font-mono text-sm", {
           'text-red-600 dark:text-red-400': tx.type === 'sent',
           'text-green-600 dark:text-green-400': tx.type === 'received',
           'text-foreground': tx.type !== 'sent' && tx.type !== 'received'
@@ -112,13 +113,13 @@ function TransactionRow({ tx }: { tx: Transaction }) {
             {tx.type === 'sent' ? '-' : '+'}{tx.amount.toFixed(4)} π
         </span>
       </TableCell>
-      <TableCell className="hidden md:table-cell">
+      <TableCell className="hidden md:table-cell min-w-[120px]">
         <Badge variant={statusInfo.variant} className="gap-1.5">
             <StatusIcon className="h-3.5 w-3.5" />
             {statusInfo.text}
         </Badge>
       </TableCell>
-      <TableCell className="text-right text-muted-foreground hidden sm:table-cell">
+      <TableCell className="text-right text-muted-foreground hidden sm:table-cell min-w-[120px]">
         {format(new Date(tx.date), 'MMM dd, yyyy')}
       </TableCell>
     </TableRow>
@@ -191,50 +192,53 @@ export default function TransactionsPage() {
   }, [transactions, sortConfig]);
 
   return (
-    <div className="space-y-4 sm:space-y-6">
-      <h1 className="text-2xl sm:text-3xl font-bold font-headline">Transaction History</h1>
-      <Card className="shadow-lg">
+    <div className="w-full max-w-full space-y-4 sm:space-y-6 overflow-hidden">
+      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold font-headline break-words">Transaction History</h1>
+      <Card className="shadow-lg w-full max-w-full">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
             <CoinsIcon className="h-5 w-5 sm:h-6 sm:w-6" />
             Your Ledger
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="break-words">
             A complete history of all your transactions on the Pi Network.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="w-full max-w-full">
           {isLoading && <TransactionsTableSkeleton />}
           {!isLoading && error && <p className="text-destructive text-center py-8">{error}</p>}
           {!isLoading && !error && sortedTransactions.length === 0 && (
             <p className="text-muted-foreground text-center py-8">You have no transactions yet.</p>
           )}
           {!isLoading && !error && sortedTransactions.length > 0 && (
-             <div className="border rounded-md">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableCell className="w-16 hidden sm:table-cell">Type</TableCell>
-                            <SortableTableHead sortKey="description" sortConfig={sortConfig} onClick={() => requestSort('description')}>
-                                Details
-                            </SortableTableHead>
-                            <SortableTableHead sortKey="amount" sortConfig={sortConfig} onClick={() => requestSort('amount')} isNumeric>
-                                Amount
-                            </SortableTableHead>
-                            <SortableTableHead sortKey="status" sortConfig={sortConfig} onClick={() => requestSort('status')} className="hidden md:table-cell">
-                                Status
-                            </SortableTableHead>
-                            <SortableTableHead sortKey="date" sortConfig={sortConfig} onClick={() => requestSort('date')} isNumeric className="hidden sm:table-cell">
-                                Date
-                            </SortableTableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {sortedTransactions.map((tx) => (
-                            <TransactionRow key={tx.id} tx={tx} />
-                        ))}
-                    </TableBody>
-                </Table>
+             <div className="border rounded-md w-full max-w-full overflow-hidden">
+                <ScrollArea className="w-full max-w-full">
+                  <Table>
+                      <TableHeader>
+                          <TableRow>
+                              <TableCell className="w-16 hidden sm:table-cell min-w-[60px]">Type</TableCell>
+                              <SortableTableHead sortKey="description" sortConfig={sortConfig} onClick={() => requestSort('description')} className="min-w-[200px]">
+                                  Details
+                              </SortableTableHead>
+                              <SortableTableHead sortKey="amount" sortConfig={sortConfig} onClick={() => requestSort('amount')} isNumeric className="min-w-[120px]">
+                                  Amount
+                              </SortableTableHead>
+                              <SortableTableHead sortKey="status" sortConfig={sortConfig} onClick={() => requestSort('status')} className="hidden md:table-cell min-w-[120px]">
+                                  Status
+                              </SortableTableHead>
+                              <SortableTableHead sortKey="date" sortConfig={sortConfig} onClick={() => requestSort('date')} isNumeric className="hidden sm:table-cell min-w-[120px]">
+                                  Date
+                              </SortableTableHead>
+                          </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                          {sortedTransactions.map((tx) => (
+                              <TransactionRow key={tx.id} tx={tx} />
+                          ))}
+                      </TableBody>
+                  </Table>
+                  <ScrollBar orientation="horizontal" />
+                </ScrollArea>
             </div>
           )}
         </CardContent>

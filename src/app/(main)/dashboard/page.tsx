@@ -72,11 +72,10 @@ export default function DashboardPage() {
   const totalTeamMembers = mockTeam.length;
 
   return (
-    <div className="space-y-6">
+    <div className="w-full max-w-full space-y-4 sm:space-y-6 overflow-hidden">
       
-      <div className="grid grid-cols-1 gap-3 sm:gap-4 md:gap-6 auto-rows-fr" style={{
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))'
-      }}>
+      {/* KPI Cards Grid - Responsive and Overflow Safe */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 auto-rows-fr">
         <KPICard
           title="Total Pi Balance"
           value={user.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}) + ' π'}
@@ -98,7 +97,7 @@ export default function DashboardPage() {
               />
             </div>
           </AlertDialogTrigger>
-          <AlertDialogContent>
+          <AlertDialogContent className="w-[95vw] max-w-md sm:max-w-lg md:max-w-xl">
             <AlertDialogHeader>
               <AlertDialogTitle>Redirect to Pi App?</AlertDialogTitle>
               <AlertDialogDescription>
@@ -137,56 +136,81 @@ export default function DashboardPage() {
         )}
       </div>
 
-      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-        <ScrollArea className="w-full whitespace-nowrap">
-            <TabsList className="min-w-0 flex-nowrap w-auto sm:w-full sm:grid sm:grid-cols-4 max-w-2xl h-auto">
-              <TabsTrigger value="overview" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 py-2">
-                <PieChartIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span className="truncate">Overview</span>
-              </TabsTrigger>
-              <TabsTrigger value="portfolio" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 py-2">
-                <BarChartIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span className="truncate">Portfolio</span>
-              </TabsTrigger>
-              <TabsTrigger value="achievements" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 py-2">
-                <TrophyIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span className="truncate">Achievements</span>
-              </TabsTrigger>
-              <TabsTrigger value="analysis" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 py-2">
-                <SettingsIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span className="truncate">Analysis</span>
-              </TabsTrigger>
-            </TabsList>
+      {/* Tabs Container - Responsive and Overflow Safe */}
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full max-w-full">
+        <ScrollArea className="w-full max-w-full">
+          <TabsList className="grid w-full grid-cols-4 h-auto min-h-[44px] sm:min-h-[48px]">
+            <TabsTrigger 
+              value="overview" 
+              className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 py-2 min-h-[44px] sm:min-h-[48px]"
+            >
+              <PieChartIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+              <span className="truncate hidden xs:inline">Overview</span>
+              <span className="xs:hidden">Overview</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="portfolio" 
+              className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 py-2 min-h-[44px] sm:min-h-[48px]"
+            >
+              <BarChartIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+              <span className="truncate hidden xs:inline">Portfolio</span>
+              <span className="xs:hidden">Portfolio</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="achievements" 
+              className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 py-2 min-h-[44px] sm:min-h-[48px]"
+            >
+              <TrophyIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+              <span className="truncate hidden xs:inline">Achievements</span>
+              <span className="xs:hidden">Achievements</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="analysis" 
+              className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3 py-2 min-h-[44px] sm:min-h-[48px]"
+            >
+              <SettingsIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+              <span className="truncate hidden xs:inline">Analysis</span>
+              <span className="xs:hidden">Analysis</span>
+            </TabsTrigger>
+          </TabsList>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
 
-        <TabsContent value="overview" className="mt-6">
-           <div className="grid grid-cols-1 gap-4 sm:gap-6" style={{
-             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))'
-           }}>
-              <div className="space-y-4 sm:space-y-6">
-                <BalanceBreakdownCard />
-                <TeamActivityCard />
-              </div>
-              <div className="space-y-4 sm:space-y-6">
-                <UnverifiedPiDetailCard />
-                <MiningFocusCard />
-              </div>
+        {/* Tab Content - Responsive Grid Layouts */}
+        <TabsContent value="overview" className="mt-4 sm:mt-6 w-full max-w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 w-full max-w-full">
+            <div className="space-y-4 sm:space-y-6 w-full">
+              <BalanceBreakdownCard />
+              <TeamActivityCard />
             </div>
+            <div className="space-y-4 sm:space-y-6 w-full">
+              <UnverifiedPiDetailCard />
+              <MiningFocusCard />
+            </div>
+          </div>
         </TabsContent>
-        <TabsContent value="portfolio" className="mt-6">
-          <BalanceFluctuationChartCard />
+        
+        <TabsContent value="portfolio" className="mt-4 sm:mt-6 w-full max-w-full">
+          <div className="w-full max-w-full">
+            <BalanceFluctuationChartCard />
+          </div>
         </TabsContent>
-        <TabsContent value="achievements" className="mt-6">
-          <MyBadgesCard />
+        
+        <TabsContent value="achievements" className="mt-4 sm:mt-6 w-full max-w-full">
+          <div className="w-full max-w-full">
+            <MyBadgesCard />
+          </div>
         </TabsContent>
-        <TabsContent value="analysis" className="mt-6">
-           <div className="grid grid-cols-1 gap-4 sm:gap-6 max-w-6xl mx-auto" style={{
-             gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))'
-           }}>
+        
+        <TabsContent value="analysis" className="mt-4 sm:mt-6 w-full max-w-full">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 w-full max-w-full">
+            <div className="w-full">
               <LockupCalculatorCard />
+            </div>
+            <div className="w-full">
               <AIFeatureFeedbackCard />
-           </div>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
