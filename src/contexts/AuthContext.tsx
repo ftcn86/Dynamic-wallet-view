@@ -5,7 +5,7 @@ import type { Dispatch, ReactNode, SetStateAction} from 'react';
 import React from 'react';
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { User, UserSettings } from '@/data/schemas';
-import { authenticateWithPi, getCurrentUser } from '@/lib/pi-network';
+import { authenticateWithPi, getCurrentUser, getPiSDK, handleIncompletePayment } from '@/lib/pi-network';
 
 interface AuthContextType {
   user: User | null;
@@ -48,69 +48,107 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         // First check localStorage for cached user
         const storedUserItem = localStorage.getItem(DYNAMIC_WALLET_USER_KEY);
-        if (storedUserItem) {
-          const storedUser = JSON.parse(storedUserItem) as User;
-          
-          // Check if the stored user has valid authentication tokens
-          const hasValidTokens = storedUser.accessToken && 
-            storedUser.accessToken !== 'mock-token' && 
-            storedUser.tokenExpiresAt && 
-            storedUser.tokenExpiresAt > Date.now();
-            
-          if (hasValidTokens) {
-            console.log('Found valid cached user session');
-            _setUserInternal(storedUser);
-          } else {
-            console.log('Cached user session expired or invalid, clearing...');
-            localStorage.removeItem(DYNAMIC_WALLET_USER_KEY);
-            _setUserInternal(null);
-          }
-        }
-
+        
         // Then verify with Pi Network SDK if we have a current session
         // Only try this if we're in a Pi Browser environment
         if (typeof window !== 'undefined' && (window as any).Pi) {
           try {
-            const currentUser = await getCurrentUser();
-            if (currentUser) {
+            const sdk = getPiSDK();
+            
+            // Check if Pi Network session is actually valid
+            const isAuthenticated = await sdk.isAuthenticated();
+            
+            if (isAuthenticated) {
               console.log('Found active Pi Network session');
+              const currentUser = await getCurrentUser();
               
-              // Load preserved settings if available
-              const preservedSettings = localStorage.getItem('dynamic-wallet-settings');
-              const defaultSettings: UserSettings = {
-                remindersEnabled: true,
-                reminderHoursBefore: 1,
-              };
+              if (currentUser) {
+                // Load preserved settings if available
+                const preservedSettings = localStorage.getItem('dynamic-wallet-settings');
+                const defaultSettings: UserSettings = {
+                  remindersEnabled: true,
+                  reminderHoursBefore: 1,
+                };
 
-              if (preservedSettings) {
-                try {
-                  const settings = JSON.parse(preservedSettings);
-                  currentUser.settings = { ...defaultSettings, ...settings };
-                } catch (error) {
-                  console.warn('Failed to parse preserved settings:', error);
+                if (preservedSettings) {
+                  try {
+                    const settings = JSON.parse(preservedSettings);
+                    currentUser.settings = { ...defaultSettings, ...settings };
+                  } catch (error) {
+                    console.warn('Failed to parse preserved settings:', error);
+                    currentUser.settings = defaultSettings;
+                  }
+                } else {
                   currentUser.settings = defaultSettings;
                 }
+
+                // Preserve terms acceptance from stored user if available
+                if (storedUserItem) {
+                  const storedUser = JSON.parse(storedUserItem) as User;
+                  currentUser.termsAccepted = storedUser.termsAccepted || currentUser.termsAccepted;
+                }
+
+                // IMPORTANT: Get fresh authentication tokens for this session
+                try {
+                  const authResult = await sdk.authenticate(['username', 'payments'], handleIncompletePayment);
+                  if (authResult && authResult.accessToken) {
+                    currentUser.accessToken = authResult.accessToken;
+                    currentUser.refreshToken = authResult.refreshToken;
+                    currentUser.tokenExpiresAt = authResult.expiresAt || (Date.now() + 3600000);
+                    console.log('✅ Refreshed authentication tokens for existing session');
+                  }
+                } catch (authError) {
+                  console.warn('Could not refresh tokens, but session is valid:', authError);
+                  // Session is valid but we couldn't get fresh tokens
+                  // This might happen if user doesn't want to re-authenticate
+                  // We'll still allow the session but payments might fail
+                }
+
+                _setUserInternal(currentUser);
+                localStorage.setItem(DYNAMIC_WALLET_USER_KEY, JSON.stringify(currentUser));
               } else {
-                currentUser.settings = defaultSettings;
+                console.log('No current user found despite valid Pi session');
+                // Clear invalid session data
+                localStorage.removeItem(DYNAMIC_WALLET_USER_KEY);
+                _setUserInternal(null);
               }
-
-              // Preserve terms acceptance from stored user if available
-              if (storedUserItem) {
-                const storedUser = JSON.parse(storedUserItem) as User;
-                currentUser.termsAccepted = storedUser.termsAccepted || currentUser.termsAccepted;
-              }
-
-              _setUserInternal(currentUser);
-              localStorage.setItem(DYNAMIC_WALLET_USER_KEY, JSON.stringify(currentUser));
             } else {
               console.log('No active Pi Network session found');
+              // Clear any stored session data since Pi Network session is invalid
+              if (storedUserItem) {
+                console.log('Clearing stored session - Pi Network session expired');
+                localStorage.removeItem(DYNAMIC_WALLET_USER_KEY);
+              }
+              _setUserInternal(null);
             }
           } catch (error) {
             console.error('Error checking Pi Network session:', error);
-            // Don't clear stored user on error, just log it
+            // Clear stored user on error to be safe
+            localStorage.removeItem(DYNAMIC_WALLET_USER_KEY);
+            _setUserInternal(null);
           }
         } else {
           console.log('Pi Network SDK not available - running in development mode');
+          
+          // For development mode, restore stored user if available
+          if (storedUserItem) {
+            const storedUser = JSON.parse(storedUserItem) as User;
+            
+            // Check if the stored user has valid mock tokens
+            const hasValidMockTokens = storedUser.accessToken && 
+              storedUser.accessToken === 'mock-token' && 
+              storedUser.tokenExpiresAt && 
+              storedUser.tokenExpiresAt > Date.now();
+              
+            if (hasValidMockTokens) {
+              console.log('Found valid cached mock user session');
+              _setUserInternal(storedUser);
+            } else {
+              console.log('Cached mock user session expired, clearing...');
+              localStorage.removeItem(DYNAMIC_WALLET_USER_KEY);
+              _setUserInternal(null);
+            }
+          }
         }
       } catch (error) {
         console.error("Error checking existing session:", error);
