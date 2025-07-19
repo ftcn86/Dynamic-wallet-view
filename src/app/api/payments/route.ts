@@ -68,7 +68,22 @@ export async function POST(request: NextRequest) {
         console.log('Server: Completing payment:', JSON.stringify(payment, null, 2));
 
         try {
-          const completedPayment = await completePiPayment(payment);
+          // Ensure payment object has required fields
+          const paymentToComplete = {
+            identifier: payment.identifier || payment.paymentId || `payment_${Date.now()}`,
+            user_uid: payment.user_uid || payment.userUid || 'unknown',
+            amount: payment.amount || 0,
+            memo: payment.memo || '',
+            metadata: payment.metadata || {},
+            to_address: payment.to_address || payment.toAddress || '',
+            created_at: payment.created_at || payment.createdAt || new Date().toISOString(),
+            status: payment.status || 'pending',
+            transaction: payment.transaction || null,
+          };
+
+          console.log('Server: Normalized payment object:', JSON.stringify(paymentToComplete, null, 2));
+
+          const completedPayment = await completePiPayment(paymentToComplete);
           console.log('Server: Payment completed successfully:', completedPayment.identifier);
           
           return NextResponse.json({

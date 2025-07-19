@@ -76,6 +76,7 @@ export default function DonatePage() {
             const payment = await createDonationPayment(donationAmount, message.trim(), {
                 onReadyForServerApproval: async (paymentId: string) => {
                     console.log('Donation ready for approval:', paymentId);
+                    console.log('Payment object being sent to server:', JSON.stringify(payment, null, 2));
                     
                     // Call server API to approve the payment
                     try {
@@ -92,10 +93,13 @@ export default function DonatePage() {
                         });
 
                         if (!response.ok) {
-                            throw new Error('Failed to approve payment on server');
+                            const errorText = await response.text();
+                            console.error('Server response error:', response.status, errorText);
+                            throw new Error(`Failed to approve payment on server: ${response.status} ${errorText}`);
                         }
 
-                        console.log('Payment approved on server:', paymentId);
+                        const result = await response.json();
+                        console.log('Payment approved on server:', paymentId, result);
                     } catch (error) {
                         console.error('Server approval failed:', error);
                         // Continue with payment flow even if server approval fails
