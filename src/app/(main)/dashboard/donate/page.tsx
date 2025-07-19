@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,19 +13,20 @@ import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
-import { SendIcon, HeartIcon, UsersIcon, TrendingUpIcon } from '@/components/shared/icons';
+import { SendIcon, HeartIcon, UsersIcon, TrendingUpIcon, AlertTriangleIcon } from '@/components/shared/icons';
 import { RecentSupporters } from '@/components/dashboard/donate/RecentSupporters';
 import { 
   addTransaction, 
   addNotification, 
   createDonationPayment
 } from '@/services/piService';
-import { isPiBrowser, isSandboxMode } from '@/lib/pi-network';
+import { isPiBrowser, isSandboxMode, getPiSDK } from '@/lib/pi-network';
 import type { PiPayment } from '@/lib/pi-network';
 
 export default function DonatePage() {
   const { user, refreshData } = useAuth();
   const { toast } = useToast();
+  const router = useRouter();
   const [amount, setAmount] = useState('');
   const [message, setMessage] = useState('');
   const [isDonating, setIsDonating] = useState(false);
@@ -54,6 +56,41 @@ export default function DonatePage() {
             return;
         }
 
+        // Check if user is authenticated with Pi Network (for Pi Browser)
+        if (isPiBrowser()) {
+            // Check if user has a valid access token
+            if (!user.accessToken || user.accessToken === 'mock-token') {
+                toast({
+                    title: "Authentication Required",
+                    description: "Please login with Pi Network first to make payments.",
+                    variant: "destructive",
+                });
+                return;
+            }
+
+            // Additional check: verify the user is actually authenticated with Pi Network
+            try {
+                const sdk = getPiSDK();
+                const isAuthenticated = await sdk.isAuthenticated();
+                if (!isAuthenticated) {
+                    toast({
+                        title: "Authentication Required",
+                        description: "Your Pi Network session has expired. Please login again.",
+                        variant: "destructive",
+                    });
+                    return;
+                }
+            } catch (authError) {
+                console.error('Authentication check failed:', authError);
+                toast({
+                    title: "Authentication Error",
+                    description: "Unable to verify your Pi Network authentication. Please try logging in again.",
+                    variant: "destructive",
+                });
+                return;
+            }
+        }
+
         let transactionDescription = "Donation to Dynamic Wallet View";
         if (message.trim()) {
             transactionDescription = message.trim();
@@ -74,6 +111,8 @@ export default function DonatePage() {
         if (isPiBrowser()) {
             // Real Pi Network payment flow (Sandbox or Production)
             console.log('🔍 Pi Browser environment - using real Pi Network payments');
+            console.log('🔍 User authenticated with token:', user.accessToken ? 'Present' : 'Missing');
+            
             const payment = await createDonationPayment(donationAmount, message.trim(), {
                 onReadyForServerApproval: async (paymentId: string) => {
                     console.log('Donation ready for approval:', paymentId);
@@ -217,6 +256,28 @@ export default function DonatePage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 w-full">
+            {/* Authentication Notice for Pi Browser */}
+            {isPiBrowser() && user && (!user.accessToken || user.accessToken === 'mock-token') && (
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 space-y-2">
+                <div className="flex items-center gap-2 text-yellow-800 dark:text-yellow-200">
+                  <AlertTriangleIcon className="h-4 w-4 flex-shrink-0" />
+                  <span className="font-medium text-sm">Authentication Required</span>
+                </div>
+                <p className="text-xs text-yellow-700 dark:text-yellow-300 break-words">
+                  To make real Pi Network payments, you need to authenticate with your Pi Network account first. 
+                  Please go to the login page and click "Login with Pi Network".
+                </p>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => router.push('/login')}
+                  className="text-xs h-8"
+                >
+                  Go to Login
+                </Button>
+              </div>
+            )}
+            
             <div className="space-y-2 w-full">
               <label htmlFor="amount" className="text-sm font-medium">Amount (π)</label>
               <Input
