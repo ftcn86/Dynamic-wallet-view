@@ -50,30 +50,64 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const storedUserItem = localStorage.getItem(DYNAMIC_WALLET_USER_KEY);
         if (storedUserItem) {
           const storedUser = JSON.parse(storedUserItem) as User;
-          _setUserInternal(storedUser);
+          
+          // Check if the stored user has valid authentication tokens
+          const hasValidTokens = storedUser.accessToken && 
+            storedUser.accessToken !== 'mock-token' && 
+            storedUser.tokenExpiresAt && 
+            storedUser.tokenExpiresAt > Date.now();
+            
+          if (hasValidTokens) {
+            console.log('Found valid cached user session');
+            _setUserInternal(storedUser);
+          } else {
+            console.log('Cached user session expired or invalid, clearing...');
+            localStorage.removeItem(DYNAMIC_WALLET_USER_KEY);
+            _setUserInternal(null);
+          }
         }
 
         // Then verify with Pi Network SDK if we have a current session
         // Only try this if we're in a Pi Browser environment
         if (typeof window !== 'undefined' && (window as any).Pi) {
-          const currentUser = await getCurrentUser();
-          if (currentUser) {
-            const defaultSettings: UserSettings = {
-              remindersEnabled: true,
-              reminderHoursBefore: 1,
-            };
+          try {
+            const currentUser = await getCurrentUser();
+            if (currentUser) {
+              console.log('Found active Pi Network session');
+              
+              // Load preserved settings if available
+              const preservedSettings = localStorage.getItem('dynamic-wallet-settings');
+              const defaultSettings: UserSettings = {
+                remindersEnabled: true,
+                reminderHoursBefore: 1,
+              };
 
-            // Merge with stored settings if available
-            if (storedUserItem) {
-              const storedUser = JSON.parse(storedUserItem) as User;
-              currentUser.settings = { ...defaultSettings, ...storedUser.settings };
-              currentUser.termsAccepted = storedUser.termsAccepted || currentUser.termsAccepted;
+              if (preservedSettings) {
+                try {
+                  const settings = JSON.parse(preservedSettings);
+                  currentUser.settings = { ...defaultSettings, ...settings };
+                } catch (error) {
+                  console.warn('Failed to parse preserved settings:', error);
+                  currentUser.settings = defaultSettings;
+                }
+              } else {
+                currentUser.settings = defaultSettings;
+              }
+
+              // Preserve terms acceptance from stored user if available
+              if (storedUserItem) {
+                const storedUser = JSON.parse(storedUserItem) as User;
+                currentUser.termsAccepted = storedUser.termsAccepted || currentUser.termsAccepted;
+              }
+
+              _setUserInternal(currentUser);
+              localStorage.setItem(DYNAMIC_WALLET_USER_KEY, JSON.stringify(currentUser));
             } else {
-              currentUser.settings = defaultSettings;
+              console.log('No active Pi Network session found');
             }
-
-            _setUserInternal(currentUser);
-            localStorage.setItem(DYNAMIC_WALLET_USER_KEY, JSON.stringify(currentUser));
+          } catch (error) {
+            console.error('Error checking Pi Network session:', error);
+            // Don't clear stored user on error, just log it
           }
         } else {
           console.log('Pi Network SDK not available - running in development mode');
@@ -165,6 +199,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           mockUser.settings = { ...mockUser.settings, ...storedUser.settings };
         }
 
+        // Load preserved settings if available
+        const preservedSettings = localStorage.getItem('dynamic-wallet-settings');
+        if (preservedSettings) {
+          try {
+            const settings = JSON.parse(preservedSettings);
+            mockUser.settings = { ...mockUser.settings, ...settings };
+            console.log('Restored preserved settings for mock user');
+          } catch (error) {
+            console.warn('Failed to parse preserved settings for mock user:', error);
+          }
+        }
+
         setUser(mockUser);
         return mockUser;
       }
@@ -184,6 +230,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       // Ensure authenticatedUser always has a settings object
       authenticatedUser.settings = { ...defaultSettings, ...authenticatedUser.settings };
+
+      // Load preserved settings if available
+      const preservedSettings = localStorage.getItem('dynamic-wallet-settings');
+      if (preservedSettings) {
+        try {
+          const settings = JSON.parse(preservedSettings);
+          authenticatedUser.settings = { ...authenticatedUser.settings, ...settings };
+          console.log('Restored preserved settings');
+        } catch (error) {
+          console.warn('Failed to parse preserved settings:', error);
+        }
+      }
 
       // Preserve existing settings and terms acceptance if user is the same
       const storedUserItem = localStorage.getItem(DYNAMIC_WALLET_USER_KEY);
@@ -209,17 +267,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(() => {
     try {
-      // Keep user settings but clear session-specific data
+      // Preserve only settings in a separate storage
       const storedUserItem = localStorage.getItem(DYNAMIC_WALLET_USER_KEY);
       if(storedUserItem) {
         const storedUser = JSON.parse(storedUserItem) as User;
-        const settingsToKeep = storedUser.settings;
-        const userWithSettings = { ...storedUser, settings: settingsToKeep, termsAccepted: false };
-        localStorage.setItem(DYNAMIC_WALLET_USER_KEY, JSON.stringify(userWithSettings));
+        if (storedUser.settings) {
+          // Store settings separately for future use
+          localStorage.setItem('dynamic-wallet-settings', JSON.stringify(storedUser.settings));
+        }
+      }
+      
+      // Clear all user session data
+      localStorage.removeItem(DYNAMIC_WALLET_USER_KEY);
+      
+      // Clear any Pi Network session data
+      if (typeof window !== 'undefined' && (window as any).Pi) {
+        try {
+          // Note: Pi Network SDK doesn't have a logout method, 
+          // but we can clear our local session
+          console.log('Clearing Pi Network session data');
+        } catch (error) {
+          console.warn('Could not clear Pi Network session:', error);
+        }
       }
     } catch (error) {
-       console.error("Error preserving settings on logout:", error);
+       console.error("Error during logout:", error);
+       // Force clear everything on error
        localStorage.removeItem(DYNAMIC_WALLET_USER_KEY);
+       localStorage.removeItem('dynamic-wallet-settings');
     }
     _setUserInternal(null);
   }, []);
