@@ -65,11 +65,23 @@ export async function POST(request: NextRequest) {
           );
         }
 
-        const completedPayment = await completePiPayment(payment);
-        return NextResponse.json({
-          success: true,
-          payment: completedPayment,
-        });
+        console.log('Server: Completing payment:', JSON.stringify(payment, null, 2));
+
+        try {
+          const completedPayment = await completePiPayment(payment);
+          console.log('Server: Payment completed successfully:', completedPayment.identifier);
+          
+          return NextResponse.json({
+            success: true,
+            payment: completedPayment,
+          });
+        } catch (completionError) {
+          console.error('Server: Payment completion failed:', completionError);
+          return NextResponse.json(
+            { error: `Payment completion failed: ${completionError instanceof Error ? completionError.message : 'Unknown error'}` },
+            { status: 500 }
+          );
+        }
 
       case 'cancel':
         if (!payment) {
@@ -93,8 +105,12 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.error('Payment operation error:', error);
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return NextResponse.json(
-      { error: 'Payment operation failed' },
+      { error: `Payment operation failed: ${error instanceof Error ? error.message : 'Unknown error'}` },
       { status: 500 }
     );
   }
