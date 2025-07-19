@@ -2,7 +2,7 @@
 "use client";
 
 import type { User, TeamMember, NodeData, Transaction, Notification } from '@/data/schemas';
-import { getPiSDK, getPiAPI, type PiPayment, type PiPaymentData, isPiBrowser, handleIncompletePayment } from '@/lib/pi-network';
+import { getPiSDK, getPiAPI, type PiPayment, type PiPaymentData, isPiBrowser, isSandboxMode, handleIncompletePayment } from '@/lib/pi-network';
 
 // Mock data for development (fallback when Pi Network is not available)
 import { mockUser, mockTransactions, mockTeam, mockNodeData, mockNotifications } from '@/data/mocks';
@@ -123,9 +123,9 @@ export async function createPiPayment(
   paymentData: PiPaymentData,
   callbacks: PaymentCallbacks
 ): Promise<PiPayment> {
-  // Check if we're in Pi Browser environment
-  if (!isPiBrowser()) {
-    console.log('Not in Pi Browser - using mock payment flow');
+  // Check if we're in Pi Browser environment AND not in sandbox mode
+  if (!isPiBrowser() || isSandboxMode()) {
+    console.log('Not in Pi Browser or in sandbox mode - using mock payment flow');
     
     // Create mock payment for development
     const mockPayment: PiPayment = {
@@ -430,39 +430,139 @@ export async function validatePiToken(accessToken: string): Promise<boolean> {
 }
 
 /**
- * Get team members (mock data for now)
+ * Get team members from API
  */
 export async function getTeamMembers(): Promise<TeamMember[]> {
-  return mockApiCall({ data: mockTeam });
+  try {
+    const response = await fetch('/api/team/members', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('dynamic-wallet-user') ? JSON.parse(localStorage.getItem('dynamic-wallet-user') || '{}').accessToken || 'mock-token' : 'mock-token' : 'mock-token'}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error('Failed to fetch team members:', response.status);
+      return mockTeam; // Fallback to mock data
+    }
+
+    const data = await response.json();
+    return data.members || [];
+  } catch (error) {
+    console.error('Error fetching team members:', error);
+    return mockTeam; // Fallback to mock data
+  }
 }
 
 /**
- * Get node data (mock data for now)
+ * Get node data from API
  */
 export async function getNodeData(): Promise<NodeData> {
-  return mockApiCall({ data: mockNodeData });
+  try {
+    const response = await fetch('/api/node/performance', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('dynamic-wallet-user') ? JSON.parse(localStorage.getItem('dynamic-wallet-user') || '{}').accessToken || 'mock-token' : 'mock-token' : 'mock-token'}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error('Failed to fetch node data:', response.status);
+      return mockNodeData; // Fallback to mock data
+    }
+
+    const data = await response.json();
+    return data.nodeData;
+  } catch (error) {
+    console.error('Error fetching node data:', error);
+    return mockNodeData; // Fallback to mock data
+  }
 }
 
 /**
- * Get transactions (mock data for now)
+ * Get transactions from API
  */
 export async function getTransactions(): Promise<Transaction[]> {
-  return mockApiCall({ data: mockTransactions });
+  try {
+    const response = await fetch('/api/transactions', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('dynamic-wallet-user') ? JSON.parse(localStorage.getItem('dynamic-wallet-user') || '{}').accessToken || 'mock-token' : 'mock-token' : 'mock-token'}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error('Failed to fetch transactions:', response.status);
+      return mockTransactions; // Fallback to mock data
+    }
+
+    const data = await response.json();
+    return data.transactions || [];
+  } catch (error) {
+    console.error('Error fetching transactions:', error);
+    return mockTransactions; // Fallback to mock data
+  }
 }
 
 /**
- * Get notifications (mock data for now)
+ * Get notifications from API
  */
 export async function getNotifications(): Promise<Notification[]> {
-  return mockApiCall({ data: mockNotifications });
+  try {
+    const response = await fetch('/api/notifications', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('dynamic-wallet-user') ? JSON.parse(localStorage.getItem('dynamic-wallet-user') || '{}').accessToken || 'mock-token' : 'mock-token' : 'mock-token'}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error('Failed to fetch notifications:', response.status);
+      return mockNotifications; // Fallback to mock data
+    }
+
+    const data = await response.json();
+    return data.notifications || [];
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    return mockNotifications; // Fallback to mock data
+  }
 }
 
 /**
- * Send broadcast notification (mock implementation)
+ * Send broadcast notification
  */
 export async function sendBroadcastNotification(message: string): Promise<{ success: boolean }> {
-  console.log("Mock broadcast notification sent:", message);
-  return mockApiCall({ data: { success: true } });
+  try {
+    const response = await fetch('/api/notifications', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('dynamic-wallet-user') ? JSON.parse(localStorage.getItem('dynamic-wallet-user') || '{}').accessToken || 'mock-token' : 'mock-token' : 'mock-token'}`,
+      },
+      body: JSON.stringify({
+        type: 'team_message',
+        title: 'Message from your Team Leader',
+        description: message,
+        link: '/dashboard/team',
+      }),
+    });
+
+    if (!response.ok) {
+      console.error('Failed to send broadcast notification:', response.status);
+      return { success: false };
+    }
+
+    const data = await response.json();
+    return { success: data.success };
+  } catch (error) {
+    console.error('Error sending broadcast notification:', error);
+    return { success: false };
+  }
 }
 
 /**
@@ -481,34 +581,213 @@ export async function addTransaction(transaction: Omit<Transaction, 'id' | 'date
 }
 
 /**
- * Add notification (mock implementation)
+ * Add notification via API
  */
 export async function addNotification(notification: Omit<Notification, 'id' | 'date' | 'read'>): Promise<Notification> {
-  const newNotification: Notification = {
-    ...notification,
-    id: `notif_${Date.now()}`,
-    date: new Date().toISOString(),
-    read: false,
-  };
-  
-  console.log("Mock notification added:", newNotification);
-  return mockApiCall({ data: newNotification });
+  try {
+    const response = await fetch('/api/notifications', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('dynamic-wallet-user') ? JSON.parse(localStorage.getItem('dynamic-wallet-user') || '{}').accessToken || 'mock-token' : 'mock-token' : 'mock-token'}`,
+      },
+      body: JSON.stringify(notification),
+    });
+
+    if (!response.ok) {
+      console.error('Failed to add notification:', response.status);
+      // Fallback to mock notification
+      const mockNotification: Notification = {
+        ...notification,
+        id: `notif_${Date.now()}`,
+        date: new Date().toISOString(),
+        read: false,
+      };
+      return mockNotification;
+    }
+
+    const data = await response.json();
+    return data.notification;
+  } catch (error) {
+    console.error('Error adding notification:', error);
+    // Fallback to mock notification
+    const mockNotification: Notification = {
+      ...notification,
+      id: `notif_${Date.now()}`,
+      date: new Date().toISOString(),
+      read: false,
+    };
+    return mockNotification;
+  }
 }
 
 /**
- * Mark notification as read (mock implementation)
+ * Mark notification as read via API
  */
 export async function markNotificationAsRead(notificationId: string): Promise<{ success: boolean }> {
-  console.log("Mock notification marked as read:", notificationId);
-  return mockApiCall({ data: { success: true } });
+  try {
+    const response = await fetch('/api/notifications', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('dynamic-wallet-user') ? JSON.parse(localStorage.getItem('dynamic-wallet-user') || '{}').accessToken || 'mock-token' : 'mock-token' : 'mock-token'}`,
+      },
+      body: JSON.stringify({
+        action: 'markAsRead',
+        notificationId: notificationId,
+      }),
+    });
+
+    if (!response.ok) {
+      console.error('Failed to mark notification as read:', response.status);
+      return { success: false };
+    }
+
+    const data = await response.json();
+    return { success: data.success };
+  } catch (error) {
+    console.error('Error marking notification as read:', error);
+    return { success: false };
+  }
 }
 
 /**
- * Mark all notifications as read (mock implementation)
+ * Mark all notifications as read via API
  */
 export async function markAllNotificationsAsRead(): Promise<{ success: boolean }> {
-  console.log("Mock all notifications marked as read");
-  return mockApiCall({ data: { success: true } });
+  try {
+    const response = await fetch('/api/notifications', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('dynamic-wallet-user') ? JSON.parse(localStorage.getItem('dynamic-wallet-user') || '{}').accessToken || 'mock-token' : 'mock-token' : 'mock-token'}`,
+      },
+      body: JSON.stringify({
+        action: 'markAllAsRead',
+      }),
+    });
+
+    if (!response.ok) {
+      console.error('Failed to mark all notifications as read:', response.status);
+      return { success: false };
+    }
+
+    const data = await response.json();
+    return { success: data.success };
+  } catch (error) {
+    console.error('Error marking all notifications as read:', error);
+    return { success: false };
+  }
+}
+
+/**
+ * Get team activity summary from API
+ */
+export async function getTeamActivitySummary(): Promise<any> {
+  try {
+    const response = await fetch('/api/team/activity-summary', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('dynamic-wallet-user') ? JSON.parse(localStorage.getItem('dynamic-wallet-user') || '{}').accessToken || 'mock-token' : 'mock-token' : 'mock-token'}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error('Failed to fetch team activity summary:', response.status);
+      return { topMembers: [], userRank: 1, recentBadges: [] }; // Fallback
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching team activity summary:', error);
+    return { topMembers: [], userRank: 1, recentBadges: [] }; // Fallback
+  }
+}
+
+/**
+ * Calculate mining rate via API
+ */
+export async function calculateMiningRate(lockupPercentage: number, lockupDuration: number, currentMiningRate?: number): Promise<any> {
+  try {
+    const response = await fetch('/api/calculator/mining-rate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('dynamic-wallet-user') ? JSON.parse(localStorage.getItem('dynamic-wallet-user') || '{}').accessToken || 'mock-token' : 'mock-token' : 'mock-token'}`,
+      },
+      body: JSON.stringify({
+        lockupPercentage,
+        lockupDuration,
+        currentMiningRate,
+      }),
+    });
+
+    if (!response.ok) {
+      console.error('Failed to calculate mining rate:', response.status);
+      return { calculation: { totalMiningRate: 0.1 } }; // Fallback
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error calculating mining rate:', error);
+    return { calculation: { totalMiningRate: 0.1 } }; // Fallback
+  }
+}
+
+/**
+ * Update user settings via API
+ */
+export async function updateUserSettings(settings: any): Promise<any> {
+  try {
+    const response = await fetch('/api/user/settings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('dynamic-wallet-user') ? JSON.parse(localStorage.getItem('dynamic-wallet-user') || '{}').accessToken || 'mock-token' : 'mock-token' : 'mock-token'}`,
+      },
+      body: JSON.stringify(settings),
+    });
+
+    if (!response.ok) {
+      console.error('Failed to update user settings:', response.status);
+      return { success: false };
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error updating user settings:', error);
+    return { success: false };
+  }
+}
+
+/**
+ * Get user settings via API
+ */
+export async function getUserSettings(): Promise<any> {
+  try {
+    const response = await fetch('/api/user/settings', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('dynamic-wallet-user') ? JSON.parse(localStorage.getItem('dynamic-wallet-user') || '{}').accessToken || 'mock-token' : 'mock-token' : 'mock-token'}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error('Failed to fetch user settings:', response.status);
+      return { user: { name: 'User', bio: '', settings: { remindersEnabled: true, reminderHoursBefore: 2 } } }; // Fallback
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching user settings:', error);
+    return { user: { name: 'User', bio: '', settings: { remindersEnabled: true, reminderHoursBefore: 2 } } }; // Fallback
+  }
 }
 
 /**

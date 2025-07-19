@@ -19,7 +19,7 @@ import {
   addNotification, 
   createDonationPayment
 } from '@/services/piService';
-import { isPiBrowser } from '@/lib/pi-network';
+import { isPiBrowser, isSandboxMode } from '@/lib/pi-network';
 import type { PiPayment } from '@/lib/pi-network';
 
 export default function DonatePage() {
@@ -71,8 +71,9 @@ export default function DonatePage() {
             },
         };
 
-        if (isPiBrowser()) {
-            // Real Pi Network payment flow
+        if (isPiBrowser() && !isSandboxMode()) {
+            // Real Pi Network payment flow (Production only)
+            console.log('🔍 Production environment - using real Pi Network payments');
             const payment = await createDonationPayment(donationAmount, message.trim(), {
                 onReadyForServerApproval: async (paymentId: string) => {
                     console.log('Donation ready for approval:', paymentId);
@@ -148,7 +149,8 @@ export default function DonatePage() {
                 },
             });
         } else {
-            // Mock payment flow for development
+            // Mock payment flow for development and sandbox
+            console.log('🔍 Sandbox/Development environment - using mock payment flow');
             await new Promise(resolve => setTimeout(resolve, 1000));
             
             await addTransaction({
@@ -276,7 +278,10 @@ export default function DonatePage() {
               <AlertDialogTrigger asChild>
                 <Button className="w-full text-sm sm:text-base" size="lg" disabled={!amount || parseFloat(amount) <= 0 || isDonating}>
                   <SendIcon className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-                  {isPiBrowser() ? `Support with ${amount && parseFloat(amount) > 0 ? amount : ''} π` : `Support with ${amount && parseFloat(amount) > 0 ? amount : ''} π (Mock)`}
+                  {isPiBrowser() && !isSandboxMode() 
+                    ? `Support with ${amount && parseFloat(amount) > 0 ? amount : ''} π` 
+                    : `Support with ${amount && parseFloat(amount) > 0 ? amount : ''} π (Mock)`
+                  }
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
