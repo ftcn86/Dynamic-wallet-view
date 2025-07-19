@@ -123,9 +123,9 @@ export async function createPiPayment(
   paymentData: PiPaymentData,
   callbacks: PaymentCallbacks
 ): Promise<PiPayment> {
-  // Check if we're in Pi Browser environment AND not in sandbox mode
-  if (!isPiBrowser() || isSandboxMode()) {
-    console.log('Not in Pi Browser or in sandbox mode - using mock payment flow');
+  // Check if we're in Pi Browser environment
+  if (!isPiBrowser()) {
+    console.log('Not in Pi Browser - using mock payment flow');
     
     // Create mock payment for development
     const mockPayment: PiPayment = {

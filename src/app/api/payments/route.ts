@@ -82,15 +82,16 @@ export async function POST(request: NextRequest) {
 
           console.log('Server: Normalized payment object:', JSON.stringify(paymentToComplete, null, 2));
 
-          // Server-side payment completion - don't use client-side SDK
-          // Instead, just mark the payment as approved and return success
+          // Server-side payment completion using Pi Network API pattern
+          // In a real implementation, this would call Pi Network's official API
+          // For now, we simulate the completion process
           const completedPayment = {
             ...paymentToComplete,
             status: 'completed',
             transaction: {
-              txid: `server_tx_${Date.now()}`,
+              txid: `pi_tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
               verified: true,
-              _link: `https://explorer.minepi.com/tx/server_tx_${Date.now()}`,
+              _link: `https://explorer.minepi.com/tx/pi_tx_${Date.now()}`,
             },
           };
 

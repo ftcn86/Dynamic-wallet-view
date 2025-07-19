@@ -106,11 +106,11 @@ class PiNetworkSDK {
       // Debug: Log available methods
       console.log('Available Pi SDK methods:', Object.keys(this.pi));
       
-      // Ensure SDK is initialized with sandbox mode
+      // Initialize SDK - let Pi Browser determine environment automatically
       if (this.pi.init) {
         this.pi.init({ 
-          version: "2.0",
-          sandbox: true  // Enable sandbox/testnet mode
+          version: "2.0"
+          // Remove forced sandbox - let Pi Browser handle environment detection
         });
       }
     }
@@ -466,7 +466,7 @@ export async function authenticateWithPi(): Promise<User | null> {
     // Authenticate with Pi Network using official SDK
     console.log('🔍 Starting Pi Network authentication...');
     const authResult = await sdk.authenticate(
-      ['username', 'payments', 'roles'],
+      ['username', 'payments'],
       handleIncompletePayment
     );
 
@@ -528,16 +528,19 @@ export async function authenticateWithPi(): Promise<User | null> {
 
     // Determine if user is a node operator based on roles
     // In Pi Network, node operators typically have specific roles
-    const isNodeOperator = authResult.user.roles.includes('node_operator') || 
-                          authResult.user.roles.includes('validator') ||
-                          authResult.user.roles.includes('super_node') ||
-                          authResult.user.roles.includes('node');
+    // Since we're not requesting 'roles' scope, default to false for now
+    const isNodeOperator = authResult.user.roles ? (
+      authResult.user.roles.includes('node_operator') || 
+      authResult.user.roles.includes('validator') ||
+      authResult.user.roles.includes('super_node') ||
+      authResult.user.roles.includes('node')
+    ) : false;
 
     console.log('🔍 Node operator detection:', {
-      roles: authResult.user.roles,
+      roles: authResult.user.roles || [],
       isNodeOperator,
-      hasEmailVerified: authResult.user.roles.includes('email_verified'),
-      hasKycAccepted: authResult.user.roles.includes('kyc_accepted')
+      hasEmailVerified: authResult.user.roles ? authResult.user.roles.includes('email_verified') : false,
+      hasKycAccepted: authResult.user.roles ? authResult.user.roles.includes('kyc_accepted') : false
     });
 
     const user: User = {

@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from 'next/server';
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization');
@@ -21,7 +21,7 @@ export async function POST(
       );
     }
 
-    const notificationId = params.id;
+    const { id: notificationId } = await params;
 
     // In a real implementation, this would update the notification in the database
     // For now, we'll simulate the behavior

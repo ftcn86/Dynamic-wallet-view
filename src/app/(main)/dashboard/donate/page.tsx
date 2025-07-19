@@ -71,9 +71,9 @@ export default function DonatePage() {
             },
         };
 
-        if (isPiBrowser() && !isSandboxMode()) {
-            // Real Pi Network payment flow (Production only)
-            console.log('🔍 Production environment - using real Pi Network payments');
+        if (isPiBrowser()) {
+            // Real Pi Network payment flow (Sandbox or Production)
+            console.log('🔍 Pi Browser environment - using real Pi Network payments');
             const payment = await createDonationPayment(donationAmount, message.trim(), {
                 onReadyForServerApproval: async (paymentId: string) => {
                     console.log('Donation ready for approval:', paymentId);
@@ -149,8 +149,8 @@ export default function DonatePage() {
                 },
             });
         } else {
-            // Mock payment flow for development and sandbox
-            console.log('🔍 Sandbox/Development environment - using mock payment flow');
+            // Mock payment flow for development (non-Pi Browser)
+            console.log('🔍 Development environment - using mock payment flow');
             await new Promise(resolve => setTimeout(resolve, 1000));
             
             await addTransaction({
